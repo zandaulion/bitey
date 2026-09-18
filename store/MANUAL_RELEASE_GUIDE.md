@@ -9,9 +9,15 @@ go into GitHub.
 
 - The submitted closed-test bundle is **1.0.0** (`versionCode` 1). It contains
   the local diary, barcode lookup, import/export, translations, and tablet UI.
-- The current source includes the Play Billing foundation, but no updated signed
-  bundle has been uploaded yet. The billing test release must be **1.0.1** with
-  `versionCode` **2** or higher.
+  It predates the billing code and does **not** declare the
+  `com.android.vending.BILLING` permission.
+- The current source is **1.0.2** (`versionCode` 3) and includes the Play
+  Billing foundation, but no updated signed bundle has been uploaded yet.
+- **Play Console will not let you create the `bitey_ai` subscription until a
+  build declaring `com.android.vending.BILLING` has been uploaded to a track.**
+  That is why the Subscriptions page still says the app has no subscriptions
+  and offers only "Upload a new APK". Build and upload 1.0.2 first, then
+  step 5 below becomes available.
 - The app expects one subscription product, `bitey_ai`, with two auto-renewing
   base plans: `monthly` and `yearly`.
 - Gemini/Firebase is **not wired in yet**. Do not sell Bitey AI to real users
@@ -136,8 +142,14 @@ to be declared when Bitey never accesses that information.
 
 ## 5. Configure the subscription in Play Console
 
-Do this before building the billing test release. Product and activated base
-plan IDs cannot be renamed or reused later, so enter them exactly.
+Do this **after** uploading the 1.0.2 bundle from step 6 to a track, not
+before. Play Console only enables the Subscriptions page once it has seen a
+build that declares `com.android.vending.BILLING`; until then it reports that
+the app has no subscriptions and offers only "Upload a new APK". The upload
+does not have to be reviewed or released — it only has to exist on a track.
+
+Product and activated base plan IDs cannot be renamed or reused later, so
+enter them exactly.
 
 1. Ensure the developer payments profile is complete.
 2. Go to **Monetize with Play → Products → Subscriptions** and create a
@@ -170,8 +182,8 @@ converted local prices in the store listing or in app text.
 
 ## 6. Make and test the billing release
 
-The source is already version **1.0.1** with `versionCode` **2**. Before asking
-Codex to build the next signed bundle, restore signing locally on the laptop:
+The source is already version **1.0.2** with `versionCode` **3**. Before
+building the next signed bundle, restore signing locally on the laptop:
 
 1. Copy `android/keystore.properties.example` to the ignored local file
    `android/keystore.properties`.
@@ -179,10 +191,12 @@ Codex to build the next signed bundle, restore signing locally on the laptop:
    `REPLACE_*` values with the local keystore password, alias, and key
    password. Do this in the file itself; never paste those values into chat or
    GitHub.
-3. Tell Codex the local file is complete. The release build will use it, verify
-   the signed AAB, and copy the upload-ready file to `C:\Users\danie\APKs`.
-   The build now refuses to finish if signing is absent, so an unsigned bundle
-   cannot be confused with an upload-ready one.
+3. Run `gradlew :app:bundleRelease` from `android/` (or Build → Generate
+   Signed Bundle in Android Studio). The signed bundle is written to
+   `android/app/build/outputs/bundle/release/app-release.aab`; copy it out to
+   the local APK folder under its release name. The build refuses to finish if
+   signing is absent, so an unsigned bundle cannot be confused with an
+   upload-ready one.
 4. Upload that AAB to the closed test track, create a release, and wait for it
    to become available.
 5. In Play Console, add only test-account email addresses under **License
