@@ -62,6 +62,16 @@ instead of creating an unsigned AAB when those private inputs are absent.
 The interface assets are synchronised automatically by the Gradle
 `syncPlateAssets` task, so UI tuning in `web/` remains the source of truth.
 
-The machine currently has Android Studio's bundled JDK, but no configured
-Android SDK on the command line. Open `android/` in Android Studio, install the
-requested API 36 SDK if prompted, then sync and run the `app` configuration.
+## Toolchain
+
+The Gradle wrapper in `android/gradle/wrapper/` pins **Gradle 9.5.0**, which is
+the distribution AGP 9.3.3 expects. Build with `gradlew` rather than a system
+Gradle so the pairing is the same everywhere; the two versions are declared
+together in `android/build.gradle.kts` and neither moves alone.
+
+`settings.gradle.kts` applies the Foojay toolchain resolver, so Gradle fetches a
+matching JDK instead of failing when the machine has none.
+
+An Android SDK is still required and is not part of the wrapper. Open `android/`
+in Android Studio and install the requested API 36 SDK if prompted, or point
+`android/local.properties` at an existing SDK for command-line builds.
