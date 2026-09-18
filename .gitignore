@@ -10,7 +10,10 @@ docs/
 tools/
 
 # Android Studio and Gradle outputs for the native, local-first client.
+# The wrapper under android/gradle/ is deliberately not here: it pins the
+# Gradle version and has to travel with the repository.
 android/.gradle/
+android/.idea/
 android/build/
 android/app/build/
 android/local.properties
