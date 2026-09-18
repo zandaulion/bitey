@@ -186,11 +186,19 @@ The source is already version **1.0.2** with `versionCode` **3**. Before
 building the next signed bundle, restore signing locally on the laptop:
 
 1. Copy `android/keystore.properties.example` to the ignored local file
-   `android/keystore.properties`.
-2. Keep `storeFile=../../globe-release.jks`, then replace the three
-   `REPLACE_*` values with the local keystore password, alias, and key
+   `android/keystore.properties`. It must sit beside
+   `android/settings.gradle.kts` — that folder is the Gradle build root, and a
+   copy in the repository root is not read. On Windows, confirm the name is
+   not `keystore.properties.txt`.
+2. Point `storeFile` at the keystore. The relative default resolves against
+   `android/`; an absolute path with forward slashes is surer. Then replace the
+   three `REPLACE_*` values with the local keystore password, alias, and key
    password. Do this in the file itself; never paste those values into chat or
    GitHub.
+
+   If the build stops at `preReleaseBuild`, the failure now names the exact
+   inputs that are missing and the absolute path it read, or the keystore path
+   it could not find. It never prints their values.
 3. Run `gradlew :app:bundleRelease` from `android/` (or Build → Generate
    Signed Bundle in Android Studio). The signed bundle is written to
    `android/app/build/outputs/bundle/release/app-release.aab`; copy it out to

@@ -11,9 +11,9 @@ plugins {
  * android/keystore.properties file or from the process environment, which is
  * how the existing Zandaulion keystore is used for a one-off release build.
  */
+val signingPropertiesFile = rootProject.file("keystore.properties")
 val localSigningProperties = Properties().apply {
-    val file = rootProject.file("keystore.properties")
-    if (file.isFile) file.inputStream().use(::load)
+    if (signingPropertiesFile.isFile) signingPropertiesFile.inputStream().use(::load)
 }
 
 fun signingValue(property: String, environment: String): String? =
@@ -24,12 +24,22 @@ val releaseStoreFile = signingValue("storeFile", "BITEY_STORE_FILE")
 val releaseStorePassword = signingValue("storePassword", "BITEY_STORE_PASSWORD")
 val releaseKeyAlias = signingValue("keyAlias", "BITEY_KEY_ALIAS")
 val releaseKeyPassword = signingValue("keyPassword", "BITEY_KEY_PASSWORD")
-val releaseSigningReady = listOf(
-    releaseStoreFile,
-    releaseStorePassword,
-    releaseKeyAlias,
-    releaseKeyPassword,
-).all { !it.isNullOrBlank() }
+
+// Names only. A build log is pasted into chats and issues, so the diagnosis
+// says which input is absent and never what any of them contain.
+val missingSigningInputs = listOf(
+    "storeFile" to releaseStoreFile,
+    "storePassword" to releaseStorePassword,
+    "keyAlias" to releaseKeyAlias,
+    "keyPassword" to releaseKeyPassword,
+).filter { (_, value) -> value.isNullOrBlank() }.map { (name, _) -> name }
+
+val releaseSigningReady = missingSigningInputs.isEmpty()
+
+// storeFile is resolved against android/, the root of this Gradle build, so a
+// relative path in keystore.properties reads from there rather than from the
+// directory the build happened to be started in.
+val resolvedStoreFile = releaseStoreFile?.let(rootProject::file)
 
 android {
     namespace = "com.zandaulion.bitey"
@@ -88,12 +98,36 @@ tasks.named("preBuild") {
 // Never leave an unsigned upload bundle in the build directory where it could
 // be mistaken for a Play-ready release. The values live only in the ignored
 // keystore.properties file (or the local process environment).
+//
+// Both failures below name the absolute path they looked at. "Not configured"
+// on its own sends you hunting for a file that is usually present but in the
+// wrong directory, or saved by Windows as keystore.properties.txt.
 tasks.configureEach {
     if (name == "preReleaseBuild") {
         doFirst {
             check(releaseSigningReady) {
-                "Release signing is not configured. Add the local ignored " +
-                    "android/keystore.properties file or BITEY_* environment values."
+                buildString {
+                    append("Release signing is not configured. Missing: ")
+                    append(missingSigningInputs.joinToString(", "))
+                    append(".\n")
+                    if (signingPropertiesFile.isFile) {
+                        append("Read: ${signingPropertiesFile.absolutePath}\n")
+                        append("Add the missing key(s) to that file, or set the ")
+                        append("matching BITEY_* environment values.")
+                    } else {
+                        append("No such file: ${signingPropertiesFile.absolutePath}\n")
+                        append("Copy android/keystore.properties.example to exactly ")
+                        append("that path, or set the BITEY_* environment values.")
+                    }
+                }
+            }
+            val store = resolvedStoreFile
+            check(store != null && store.isFile) {
+                "The release keystore was not found at:\n" +
+                    "  ${store?.absolutePath}\n" +
+                    "storeFile in ${signingPropertiesFile.absolutePath} is resolved " +
+                    "against ${rootProject.projectDir.absolutePath}. Point it at the " +
+                    "keystore's real location, or give it an absolute path."
             }
         }
     }
