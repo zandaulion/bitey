@@ -25,6 +25,12 @@ android/app/*.keystore
 # for Play Console upload, but never publish a signed binary by accident.
 store/releases/*.aab
 store/releases/*.apks
+# Android Studio's Generate Signed Bundle wizard writes here by default.
+android/app/release/
+
+# A Gradle distribution unpacked by a wrapper run with GRADLE_USER_HOME pointed
+# at android/. Only android/gradle/wrapper/ travels with the repository.
+android/wrapper/
 
 # Locally copied APKs can contain release artefacts and are not source or
 # Play listing material. Keep them on the machine, outside the public repo.

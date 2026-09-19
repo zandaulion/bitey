@@ -7,23 +7,25 @@ plugins {
 }
 
 /**
- * Release credentials must remain local. They may come from the ignored
- * android/keystore.properties file or from the process environment, which is
- * how the existing Zandaulion keystore is used for a one-off release build.
+ * Release credentials must remain local. They may come from Android Studio's
+ * Generate Signed App Bundle wizard (the android.injected.signing.* properties
+ * it passes, which is how the existing Zandaulion keystore is normally used),
+ * from the process environment, or from the ignored android/keystore.properties.
  */
 val signingPropertiesFile = rootProject.file("keystore.properties")
 val localSigningProperties = Properties().apply {
     if (signingPropertiesFile.isFile) signingPropertiesFile.inputStream().use(::load)
 }
 
-fun signingValue(property: String, environment: String): String? =
-    System.getenv(environment)?.takeIf { it.isNotBlank() }
+fun signingValue(property: String, injected: String, environment: String): String? =
+    providers.gradleProperty("android.injected.signing.$injected").orNull?.takeIf { it.isNotBlank() }
+        ?: System.getenv(environment)?.takeIf { it.isNotBlank() }
         ?: localSigningProperties.getProperty(property)?.takeIf { it.isNotBlank() }
 
-val releaseStoreFile = signingValue("storeFile", "BITEY_STORE_FILE")
-val releaseStorePassword = signingValue("storePassword", "BITEY_STORE_PASSWORD")
-val releaseKeyAlias = signingValue("keyAlias", "BITEY_KEY_ALIAS")
-val releaseKeyPassword = signingValue("keyPassword", "BITEY_KEY_PASSWORD")
+val releaseStoreFile = signingValue("storeFile", "store.file", "BITEY_STORE_FILE")
+val releaseStorePassword = signingValue("storePassword", "store.password", "BITEY_STORE_PASSWORD")
+val releaseKeyAlias = signingValue("keyAlias", "key.alias", "BITEY_KEY_ALIAS")
+val releaseKeyPassword = signingValue("keyPassword", "key.password", "BITEY_KEY_PASSWORD")
 
 // Names only. A build log is pasted into chats and issues, so the diagnosis
 // says which input is absent and never what any of them contain.
@@ -116,7 +118,8 @@ tasks.configureEach {
                         append("matching BITEY_* environment values.")
                     } else {
                         append("No such file: ${signingPropertiesFile.absolutePath}\n")
-                        append("Copy android/keystore.properties.example to exactly ")
+                        append("Use Build > Generate Signed App Bundle in Android Studio, ")
+                        append("copy android/keystore.properties.example to exactly ")
                         append("that path, or set the BITEY_* environment values.")
                     }
                 }
