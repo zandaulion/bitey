@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -169,6 +170,7 @@ class PlateWebView(
     onAiOfferPurchaseRequested: (String, String) -> Unit,
     onAiPurchaseRefreshRequested: () -> Unit,
     onAiSubscriptionManagementRequested: () -> Unit,
+    private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
     private val networkExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val barcodeFoods by lazy { PlateDatabase.get(context).barcodeFoods() }
@@ -187,7 +189,17 @@ class PlateWebView(
         settings.mediaPlaybackRequiresUserGesture = true
 
         CookieManager.getInstance().setAcceptCookie(false)
-        webChromeClient = WebChromeClient()
+        // Without this the base implementation answers "no chooser available"
+        // and every <input type="file"> click is dropped in silence, which is
+        // how the photo routes end. capture="environment" is the camera; the
+        // gallery input deliberately omits it.
+        webChromeClient = object : WebChromeClient() {
+            override fun onShowFileChooser(
+                webView: WebView,
+                filePathCallback: ValueCallback<Array<Uri>>,
+                fileChooserParams: FileChooserParams,
+            ): Boolean = onFileChooserRequested(filePathCallback, fileChooserParams.isCaptureEnabled)
+        }
         webViewClient = PlateAssetClient(context, photoStore)
         addJavascriptInterface(
             PlateNativeBridge(
@@ -240,19 +252,29 @@ class PlateWebView(
     }
 
     /** [payload] is a compact native-owned JSON response. It can contain plan
-     * labels and prices, but never a Play offer token or purchase token. */
+     * labels and prices, but never a Play offer token or purchase token.
+     *
+     * The Play Billing library answers on its own background thread, so this
+     * hops back to the WebView's thread like every other delivery here. A
+     * WebView silently discards an off-thread call, which left the page waiting
+     * for an entitlement result that never arrived and made the photo button
+     * look dead. */
     fun deliverAiAccessResult(requestId: String, payload: String) {
-        evaluateJavascript(
-            "window.__plateNativeAiAccessResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
-            null,
-        )
+        post {
+            evaluateJavascript(
+                "window.__plateNativeAiAccessResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
     }
 
     fun deliverAiPurchaseRefreshResult(status: String) {
-        evaluateJavascript(
-            "window.__plateNativeAiRestoreResult?.(${JSONObject.quote(status)})",
-            null,
-        )
+        post {
+            evaluateJavascript(
+                "window.__plateNativeAiRestoreResult?.(${JSONObject.quote(status)})",
+                null,
+            )
+        }
     }
 
     /**
