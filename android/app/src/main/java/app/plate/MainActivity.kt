@@ -1,17 +1,24 @@
 package com.zandaulion.bitey
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.webkit.ValueCallback
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import java.io.File
 
 /**
  * Hosts the locally packaged Plate interface. The WebView is a presentation
@@ -48,6 +55,76 @@ class MainActivity : ComponentActivity() {
     ) { uri ->
         if (uri == null) plateWebView.deliverBackupCancelled("import")
         else plateWebView.importBackup(uri)
+    }
+
+    /**
+     * A WebView file chooser must always be answered, including on refusal: a
+     * callback left unresolved jams that <input> for the rest of the session,
+     * so every path below ends in [settleFileChooser].
+     */
+    private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
+    private var pendingCameraOutput: Uri? = null
+
+    private val photoCapture = registerForActivityResult(
+        ActivityResultContracts.TakePicture(),
+    ) { taken ->
+        settleFileChooser(if (taken) pendingCameraOutput else null)
+        pendingCameraOutput = null
+    }
+
+    private val photoPicker = registerForActivityResult(
+        ActivityResultContracts.GetContent(),
+    ) { uri -> settleFileChooser(uri) }
+
+    private val cameraPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        if (granted) launchCamera() else settleFileChooser(null)
+    }
+
+    private fun settleFileChooser(uri: Uri?) {
+        val callback = fileChooserCallback ?: return
+        fileChooserCallback = null
+        callback.onReceiveValue(if (uri == null) null else arrayOf(uri))
+    }
+
+    /** True once the chooser has been taken over; the WebView then waits for
+     * [settleFileChooser] rather than showing its own (absent) picker. */
+    private fun showFileChooser(callback: ValueCallback<Array<Uri>>, wantsCamera: Boolean): Boolean {
+        // A second request supersedes the first, which must still be answered.
+        settleFileChooser(null)
+        fileChooserCallback = callback
+        if (!wantsCamera) {
+            photoPicker.launch("image/*")
+            return true
+        }
+        // The manifest declares CAMERA, so the capture intent is refused unless
+        // the permission has actually been granted.
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            launchCamera()
+        } else {
+            cameraPermission.launch(Manifest.permission.CAMERA)
+        }
+        return true
+    }
+
+    /** The photograph is written into app-private cache storage and handed to
+     * the camera through a FileProvider grant, so no broad media permission is
+     * involved and the file never lands in the shared gallery. */
+    private fun launchCamera() {
+        val directory = File(cacheDir, "camera").apply { mkdirs() }
+        val target = File(directory, "capture-${System.currentTimeMillis()}.jpg")
+        val uri = runCatching {
+            FileProvider.getUriForFile(this, "$packageName.fileprovider", target)
+        }.getOrNull()
+        if (uri == null) {
+            settleFileChooser(null)
+            return
+        }
+        pendingCameraOutput = uri
+        photoCapture.launch(uri)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +171,7 @@ class MainActivity : ComponentActivity() {
             onAiSubscriptionManagementRequested = {
                 runOnUiThread { playBilling.manageSubscription(this) }
             },
+            onFileChooserRequested = ::showFileChooser,
         )
         val root = FrameLayout(this)
         root.addView(plateWebView, FrameLayout.LayoutParams(

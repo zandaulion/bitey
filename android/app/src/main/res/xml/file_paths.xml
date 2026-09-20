@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the single cache folder the camera writes its capture into. The
+     diary database and stored photographs are deliberately not reachable
+     through this provider. -->
+<paths>
+    <cache-path name="camera" path="camera/" />
+</paths>
