@@ -7,19 +7,19 @@ go into GitHub.
 
 ## Current status
 
-- The submitted closed-test bundle is **1.0.0** (`versionCode` 1). It contains
-  the local diary, barcode lookup, import/export, translations, and tablet UI.
-  It predates the billing code and does **not** declare the
-  `com.android.vending.BILLING` permission.
-- The current source is **1.0.2** (`versionCode` 3) and includes the Play
-  Billing foundation, but no updated signed bundle has been uploaded yet.
-- **Play Console will not let you create the `bitey_ai` subscription until a
-  build declaring `com.android.vending.BILLING` has been uploaded to a track.**
-  That is why the Subscriptions page still says the app has no subscriptions
-  and offers only "Upload a new APK". Build and upload 1.0.2 first, then
-  step 5 below becomes available.
-- The app expects one subscription product, `bitey_ai`, with two auto-renewing
-  base plans: `monthly` and `yearly`.
+- **1.0.2** (`versionCode` 3) is released to closed testing. It carries the Play
+  Billing foundation and unblocked the Subscriptions page, but its photo button
+  does nothing at all: entitlement results were delivered on Google Play's own
+  thread, which a WebView discards, and the WebView had no file chooser, so the
+  camera and gallery could not open either. Do not hand 1.0.2 to a tester as a
+  working billing build.
+- The current source is **1.0.3** (`versionCode` 4). It fixes both faults; the
+  plan picker has been confirmed on a device, showing Play's localised monthly
+  and yearly prices. No signed 1.0.3 bundle has been uploaded yet. Its Play
+  release notes, in all twelve launch languages, are in
+  `RELEASE_NOTES_1.0.3.md`.
+- `bitey_ai` is **created and active** in Play Console with both auto-renewing
+  base plans, `monthly` (€5.99) and `yearly` (€49.99), in 174 countries.
 - Gemini/Firebase is **not wired in yet**. Do not sell Bitey AI to real users
   until its server-side entitlement check and 20-call daily limit exist.
 
@@ -142,14 +142,14 @@ to be declared when Bitey never accesses that information.
 
 ## 5. Configure the subscription in Play Console
 
-Do this **after** uploading the 1.0.2 bundle from step 6 to a track, not
-before. Play Console only enables the Subscriptions page once it has seen a
-build that declares `com.android.vending.BILLING`; until then it reports that
-the app has no subscriptions and offers only "Upload a new APK". The upload
-does not have to be reviewed or released — it only has to exist on a track.
+**Done on 20 September 2026**, once the 1.0.2 upload unlocked the page. Play
+Console only enables the Subscriptions page after it has seen a build that
+declares `com.android.vending.BILLING`; until then it reports that the app has
+no subscriptions and offers only "Upload a new APK". The upload does not have
+to be reviewed or released — it only has to exist on a track.
 
-Product and activated base plan IDs cannot be renamed or reused later, so
-enter them exactly.
+What was configured, recorded here because product and activated base plan IDs
+can never be renamed or reused:
 
 1. Ensure the developer payments profile is complete.
 2. Go to **Monetize with Play → Products → Subscriptions** and create a
@@ -182,29 +182,36 @@ converted local prices in the store listing or in app text.
 
 ## 6. Make and test the billing release
 
-The source is already version **1.0.2** with `versionCode` **3**. Before
-building the next signed bundle, restore signing locally on the laptop:
+The source is already version **1.0.3** with `versionCode` **4**. Signing may
+come from any of three places, in this order:
 
-1. Copy `android/keystore.properties.example` to the ignored local file
-   `android/keystore.properties`. It must sit beside
+1. **Android Studio's wizard, which is the normal route.** Build → Generate
+   Signed App Bundle → Android App Bundle, then choose the keystore and enter
+   its passwords there. The wizard passes them to Gradle as the
+   `android.injected.signing.*` properties, which the build reads first. Android
+   Studio remembers the last keystore and alias, so this is one dialog.
+2. The ignored local file `android/keystore.properties`, copied from
+   `android/keystore.properties.example`. It must sit beside
    `android/settings.gradle.kts` — that folder is the Gradle build root, and a
-   copy in the repository root is not read. On Windows, confirm the name is
-   not `keystore.properties.txt`.
-2. Point `storeFile` at the keystore. The relative default resolves against
-   `android/`; an absolute path with forward slashes is surer. Then replace the
-   three `REPLACE_*` values with the local keystore password, alias, and key
-   password. Do this in the file itself; never paste those values into chat or
-   GitHub.
+   copy in the repository root is not read. On Windows, confirm the name is not
+   `keystore.properties.txt`. `storeFile` resolves against `android/`; an
+   absolute path with forward slashes is surer. Never paste those values into
+   chat or GitHub.
+3. The `BITEY_*` environment variables, for a machine where neither of the
+   above fits.
 
-   If the build stops at `preReleaseBuild`, the failure now names the exact
-   inputs that are missing and the absolute path it read, or the keystore path
-   it could not find. It never prints their values.
-3. Run `gradlew :app:bundleRelease` from `android/` (or Build → Generate
-   Signed Bundle in Android Studio). The signed bundle is written to
-   `android/app/build/outputs/bundle/release/app-release.aab`; copy it out to
-   the local APK folder under its release name. The build refuses to finish if
-   signing is absent, so an unsigned bundle cannot be confused with an
-   upload-ready one.
+If the build stops at `preReleaseBuild`, the failure names the exact inputs
+that are missing and the absolute path it read, or the keystore path it could
+not find. It never prints their values.
+
+The signed bundle is written to
+`android/app/build/outputs/bundle/release/app-release.aab`; copy it out to the
+local APK folder under its release name. The build refuses to finish if signing
+is absent, so an unsigned bundle cannot be confused with an upload-ready one.
+
+A command-line `gradle :app:bundleRelease` from `android/` works too, but note
+there is no `gradlew` script in the repository: the wrapper properties pin
+Gradle 9.6.0 for AGP 9.4.1, and Android Studio supplies the distribution.
 4. Upload that AAB to the closed test track, create a release, and wait for it
    to become available.
 5. In Play Console, add only test-account email addresses under **License
