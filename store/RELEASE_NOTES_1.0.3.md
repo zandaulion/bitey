@@ -1,7 +1,13 @@
 # Bitey 1.0.3 (`versionCode` 4) — Play release notes
 
-Paste each locale into Play Console's "What's new" field for that language.
-Play allows 500 characters per locale; every entry below is within it.
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.0.3.xml` beside this file is that paste-ready form. Play
+allows 500 characters per locale and every entry below is within it.
+
+The headings use Play's own locale codes, which are not the Android resource
+codes: a language with one main variant is bare (`ar`, `ro`, `uk`) while one
+with several carries the region (`en-US`, `pt-BR`, `zh-CN`, `es-ES`). Play
+rejects the whole box over a single wrong code, naming one at a time.
 
 1.0.3 exists because 1.0.2 shipped a photo button that did nothing at all. Two
 faults sat behind it: entitlement results were delivered on Google Play's own
@@ -94,7 +100,7 @@ Correções nas entradas com foto.
 - Os preços dos planos vêm do Google Play, na sua moeda
 - Restaurar e gerenciar a assinatura agora responde corretamente
 
-## Romanian (ro-RO)
+## Romanian (ro)
 
 Remedieri pentru intrările cu fotografie.
 
@@ -112,7 +118,7 @@ Correcciones en las entradas con foto.
 - Los precios de los planes llegan desde Google Play, en tu moneda
 - Restaurar y gestionar la suscripción ya responde correctamente
 
-## Ukrainian (uk-UA)
+## Ukrainian (uk)
 
 Виправлення для записів із фото.
 

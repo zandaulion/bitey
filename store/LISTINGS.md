@@ -296,7 +296,7 @@ Boas-vindas ao Bitey — Diário alimentar privado.
 - Mantenha o diário e os alimentos em cache no dispositivo
 - Faça cópias de segurança e restaure os dados
 
-## Romanian (ro-RO)
+## Romanian (ro)
 
 **App name:** Bitey — Jurnal alimentar privat
 
@@ -364,7 +364,7 @@ Te damos la bienvenida a Bitey — Diario de comida privado.
 - Mantén tu diario y los alimentos en caché en el dispositivo
 - Haz copias de seguridad y restaura tus datos
 
-## Ukrainian (uk-UA)
+## Ukrainian (uk)
 
 **App name:** Bitey — Приватний щоденник харчування
 
