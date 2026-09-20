@@ -21,13 +21,15 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload bundle is version **1.0.2** (`versionCode` 3), the first build
-that declares `com.android.vending.BILLING`. Play Console keeps the
-Subscriptions page locked until such a build has been uploaded to a track, so
-this is the bundle that unblocks creating `bitey_ai`. Build it locally and
-record its hash here once it exists; signed bundles are Git-ignored.
+The next upload bundle is version **1.0.3** (`versionCode` 4). It fixes the
+photo button, which did nothing at all in 1.0.2, and is the first build in
+which a tester can reach the Bitey AI plans. Build it locally and record its
+hash here once it exists; signed bundles are Git-ignored. Its Play release
+notes, in all twelve launch languages, are in `RELEASE_NOTES_1.0.3.md`.
 
-Previously uploaded: version 1.0.0 (`versionCode` 1), closed testing.
+Previously uploaded: 1.0.2 (`versionCode` 3) and 1.0.0 (`versionCode` 1), both
+closed testing. 1.0.2 declared `com.android.vending.BILLING`, which is what
+unlocked Play Console's Subscriptions page and let `bitey_ai` be created.
 
 - 1.0.0 file SHA-256: `25D7FA1A970F215EA02EB3CAEEF2ACA22CA1F9272F016AC4D6B217C0425FF42F`
 - Upload certificate SHA-256:
@@ -40,8 +42,8 @@ Previously uploaded: version 1.0.0 (`versionCode` 1), closed testing.
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.2** (`versionCode` 3)
-- Next upload artifact: `bitey-private-food-log-1.0.2.aab`
+- Current source version: **1.0.3** (`versionCode` 4)
+- Next upload artifact: `bitey-private-food-log-1.0.3.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
