@@ -413,7 +413,7 @@ app.get('/api/foods/recent', requireDevice, (req, res) => {
     SELECT je.value AS item_json, e.created_at
     FROM entries e, json_each(e.items_json) je
     WHERE e.account_id = ?
-    ORDER BY e.created_at DESC
+    ORDER BY e.created_at DESC, e.rowid DESC
     LIMIT 400
   `).all(req.device.account_id);
 
@@ -541,8 +541,14 @@ app.get('/api/entries', requireDevice, (req, res) => {
   // Newest first. A day is read while it is still being lived: the meal just
   // logged is the one being looked at, and on a full day the evening ones
   // would otherwise sit below the fold behind breakfast.
+  //
+  // created_at is only millisecond-precise, so two entries logged in quick
+  // succession -- a plate and the drink beside it, or a handful of quick bites
+  // -- can share a timestamp exactly. Without a tiebreaker SQLite may return
+  // those in either order, and the day would reshuffle between reads. rowid
+  // ascends with insertion, so it stands in for "which was logged first".
   const rows = db.prepare(
-    'SELECT * FROM entries WHERE account_id = ? AND day = ? ORDER BY created_at DESC'
+    'SELECT * FROM entries WHERE account_id = ? AND day = ? ORDER BY created_at DESC, rowid DESC'
   ).all(req.device.account_id, day).map(rowToEntry);
 
   // The day is compared against measured expenditure when there is enough
@@ -602,7 +608,7 @@ app.get('/api/entries/recent', requireDevice, (req, res) => {
     SELECT id, day, meal, photo_id, items_json, totals_json
     FROM entries
     WHERE account_id = ? AND day < ? AND day >= ?
-    ORDER BY day DESC, created_at DESC
+    ORDER BY day DESC, created_at DESC, rowid DESC
   `).all(req.device.account_id, before, from).map((r) => ({
     id: r.id,
     day: r.day,
@@ -1165,7 +1171,7 @@ app.get('/api/history', requireDevice, (req, res) => {
  */
 function exportPayload(accountId) {
   const entries = db.prepare(
-    'SELECT * FROM entries WHERE account_id = ? ORDER BY day, created_at'
+    'SELECT * FROM entries WHERE account_id = ? ORDER BY day, created_at, rowid'
   ).all(accountId).map(rowToEntry);
 
   const account = db.prepare('SELECT created_at FROM accounts WHERE id = ?').get(accountId);

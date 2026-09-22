@@ -20,12 +20,17 @@ process.env.COOKIE_INSECURE = '1';
 
 const { app } = await import('../server/index.js');
 const { createInvite } = await import('../server/auth.js');
+const { db } = await import('../server/db.js');
 
 const server = app.listen(0);
 const base = `http://127.0.0.1:${server.address().port}`;
 test.after(() => {
   server.close();
-  fs.rmSync(process.env.DATA_DIR, { recursive: true, force: true });
+  // Windows refuses to delete a file that is still open, so the database is
+  // closed before the directory goes. Without this the whole file reports a
+  // failure on an otherwise green run, from the teardown rather than a test.
+  db.close();
+  fs.rmSync(process.env.DATA_DIR, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
 });
 
 const api = (p, opts = {}) => fetch(base + p, {
