@@ -2202,15 +2202,67 @@ $('ai-plan-picker').addEventListener('click', (ev) => {
   if (ev.target === $('ai-plan-picker')) closeAiPlanPicker();
 });
 
-function continueAiAction(action) {
-  if (action === 'camera') return $('file-input').click();
-  if (action === 'gallery') return $('gallery-input').click();
+const nativeCaptureWaiters = new Map();
+let nativeCaptureSequence = 0;
+
+window.__plateNativeCaptureResult = (requestId, payload) => {
+  const resolve = nativeCaptureWaiters.get(requestId);
+  if (!resolve) return;
+  nativeCaptureWaiters.delete(requestId);
+  let response;
+  try { response = JSON.parse(payload); } catch { response = null; }
+  resolve(response);
+};
+
+/**
+ * Asks Android for a photograph.
+ *
+ * A hidden <input type="file"> cannot be used here: a WebView opens a file
+ * chooser only for a click carrying a user gesture, and the Play entitlement
+ * check that must come first spends it -- the native action bar never had one
+ * to give. Native code opens the camera or the picker itself and answers with
+ * a path this page fetches, so the bytes never cross the bridge.
+ */
+async function nativeCapture(source) {
+  if (typeof window.PlateNative?.capturePhoto !== 'function') {
+    toast(t('This build cannot open the camera.'));
+    return null;
+  }
+  const requestId = `cap-${++nativeCaptureSequence}`;
+  const response = await new Promise((resolve) => {
+    nativeCaptureWaiters.set(requestId, resolve);
+    window.PlateNative.capturePhoto(source, requestId);
+  });
+  // A cancelled camera is an ordinary outcome and says nothing.
+  if (!response || response.status !== 'ok' || typeof response.id !== 'string') return null;
+  try {
+    const res = await fetch(`/local-capture/${encodeURIComponent(response.id)}`);
+    if (!res.ok) throw new Error(`capture ${res.status}`);
+    const blob = await res.blob();
+    const type = blob.type || 'image/jpeg';
+    return new File([blob], type === 'image/png' ? 'photo.png' : 'photo.jpg', { type });
+  } catch {
+    toast(t('Could not read that photo.'));
+    return null;
+  }
+}
+
+async function continueAiAction(action) {
   if (action === 'correction') return submitCorrection();
-  if (action === 'leftovers') return $('file-leftovers').click();
+  if (!window.__PLATE_NATIVE__) {
+    if (action === 'camera') return $('file-input').click();
+    if (action === 'gallery') return $('gallery-input').click();
+    if (action === 'leftovers') return $('file-leftovers').click();
+    return;
+  }
+  const file = await nativeCapture(action === 'gallery' ? 'gallery' : 'camera');
+  if (!file) return;
+  if (action === 'leftovers') return useLeftoversPhoto(file);
+  return startPhotoEntry(file);
 }
 
 async function beginAiAction(action) {
-  if (await requestAiAccess(action)) continueAiAction(action);
+  if (await requestAiAccess(action)) await continueAiAction(action);
 }
 
 // The stable native action rail calls this rather than clicking the page's
@@ -2792,6 +2844,12 @@ $('leftovers-shoot')?.addEventListener('click', () => { void beginAiAction('left
 $('file-leftovers')?.addEventListener('change', async (ev) => {
   const file = ev.target.files?.[0];
   ev.target.value = '';
+  await useLeftoversPhoto(file);
+});
+
+/** Shared by the browser's file input and Android's native capture, so the
+ * two cannot drift into two slightly different readings of the same plate. */
+async function useLeftoversPhoto(file) {
   if (!file || !state.editingId) return;
 
   const btn = $('leftovers-shoot');
@@ -2813,7 +2871,7 @@ $('file-leftovers')?.addEventListener('change', async (ev) => {
     btn.disabled = false;
     btn.textContent = was;
   }
-});
+}
 
 function renderGrazingCatchup() {
   const panel = $('grazing-panel');

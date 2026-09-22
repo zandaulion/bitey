@@ -27,7 +27,11 @@ private const val PLATE_ORIGIN = "https://$PLATE_HOST/index.html"
  * rather than file:// keeps modern WebView facilities (module imports, storage
  * and camera permissions) available without turning on unsafe file access.
  */
-private class PlateAssetClient(context: Context, private val photos: LocalPhotoStore) : WebViewClient() {
+private class PlateAssetClient(
+    context: Context,
+    private val photos: LocalPhotoStore,
+    private val captures: PlateCaptureStore,
+) : WebViewClient() {
     private val assets = WebViewAssetLoader.Builder()
         .setDomain(PLATE_HOST)
         .addPathHandler("/", WebViewAssetLoader.AssetsPathHandler(context))
@@ -43,6 +47,15 @@ private class PlateAssetClient(context: Context, private val photos: LocalPhotoS
         if (photoId != null && request.method == "GET") {
             val opened = runCatching { photos.open(photoId) }.getOrNull()
             if (opened != null) return WebResourceResponse(opened.first.mimeType, null, opened.second)
+        }
+        // A photograph native code has just taken or picked, which the page
+        // fetches once and turns into an ordinary File.
+        val captureId = request.url.encodedPath
+            ?.takeIf { it.startsWith("/local-capture/") }
+            ?.removePrefix("/local-capture/")
+        if (captureId != null && request.method == "GET") {
+            val opened = runCatching { captures.open(captureId) }.getOrNull()
+            if (opened != null) return WebResourceResponse(opened.first, null, opened.second)
         }
         return assets.shouldInterceptRequest(request.url)
     }
@@ -75,6 +88,7 @@ private class PlateNativeBridge(
     private val onAiOfferPurchaseRequested: (String, String) -> Unit,
     private val onAiPurchaseRefreshRequested: () -> Unit,
     private val onAiSubscriptionManagementRequested: () -> Unit,
+    private val onCaptureRequested: (String, String) -> Unit,
 ) {
     @JavascriptInterface
     fun platform(): String = "android"
@@ -152,6 +166,18 @@ private class PlateNativeBridge(
         onAiOfferPurchaseRequested(basePlanId, requestId)
     }
 
+    /** The camera and the gallery are opened by native code, not by a hidden
+     * <input type="file">: a WebView only shows a file chooser for a click
+     * carrying a user gesture, and the entitlement check that must precede a
+     * capture consumes it. The native action bar has no gesture to give. */
+    @JavascriptInterface
+    fun capturePhoto(source: String, requestId: String) {
+        if (source !in setOf("camera", "gallery") ||
+            !requestId.matches(Regex("[A-Za-z0-9_-]{1,80}"))
+        ) return
+        onCaptureRequested(source, requestId)
+    }
+
     @JavascriptInterface
     fun refreshAiPurchase() = onAiPurchaseRefreshRequested()
 
@@ -170,8 +196,10 @@ class PlateWebView(
     onAiOfferPurchaseRequested: (String, String) -> Unit,
     onAiPurchaseRefreshRequested: () -> Unit,
     onAiSubscriptionManagementRequested: () -> Unit,
+    onCaptureRequested: (String, String) -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
+    val captures = PlateCaptureStore(context)
     private val networkExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val barcodeFoods by lazy { PlateDatabase.get(context).barcodeFoods() }
     private val profileStore by lazy { PlateDatabase.get(context).profile() }
@@ -200,7 +228,7 @@ class PlateWebView(
                 fileChooserParams: FileChooserParams,
             ): Boolean = onFileChooserRequested(filePathCallback, fileChooserParams.isCaptureEnabled)
         }
-        webViewClient = PlateAssetClient(context, photoStore)
+        webViewClient = PlateAssetClient(context, photoStore, captures)
         addJavascriptInterface(
             PlateNativeBridge(
                 onBarcodeScanRequested,
@@ -217,6 +245,7 @@ class PlateWebView(
                 onAiOfferPurchaseRequested,
                 onAiPurchaseRefreshRequested,
                 onAiSubscriptionManagementRequested,
+                onCaptureRequested,
             ),
             "PlateNative",
         )
@@ -263,6 +292,17 @@ class PlateWebView(
         post {
             evaluateJavascript(
                 "window.__plateNativeAiAccessResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
+    }
+
+    /** [payload] names a plate.local path the page fetches, never the bytes
+     * themselves and never a content:// URI it could not open anyway. */
+    fun deliverCaptureResult(requestId: String, payload: String) {
+        post {
+            evaluateJavascript(
+                "window.__plateNativeCaptureResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
                 null,
             )
         }
