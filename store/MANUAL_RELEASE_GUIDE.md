@@ -13,13 +13,20 @@ go into GitHub.
   thread, which a WebView discards, and the WebView had no file chooser, so the
   camera and gallery could not open either. Do not hand 1.0.2 to a tester as a
   working billing build.
-- **1.0.3** (`versionCode` 4) fixes both faults; the plan picker has been
-  confirmed on a device, showing Play's localised monthly and yearly prices. It
-  was uploaded to closed testing on 20 September 2026 and is in review. Its
-  release notes are in `RELEASE_NOTES_1.0.3.md`, with the paste-ready tagged
-  form in `release-notes-1.0.3.xml`.
-- Still untested end to end: completing a purchase, and the camera opening
-  behind it. Nobody has bought either plan yet.
+- **1.0.3** (`versionCode` 4) was uploaded to closed testing on 20 September
+  2026. It made the plans reachable and a purchase completes, but a photograph
+  still could not be taken: a WebView opens a file chooser only for a click
+  carrying a user gesture, and neither the native action bar nor a click issued
+  after the Play check has one. Do not treat 1.0.3 as a working photo build.
+- The current source is **1.0.4** (`versionCode` 5), where native code opens
+  the camera and the gallery itself. Confirmed on a device, both routes: the
+  photograph reaches the review sheet. No signed 1.0.4 bundle has been uploaded
+  yet. Its release notes are in `RELEASE_NOTES_1.0.4.md`, with the paste-ready
+  tagged form in `release-notes-1.0.4.xml`.
+- A purchase has been made and acknowledged on a licence-test account, so the
+  billing round trip is proven. Note that test subscriptions run on accelerated
+  periods and lapse within the hour, after which the plan picker appears again;
+  that is Play's test behaviour, not a regression.
 - `bitey_ai` is **created and active** in Play Console with both auto-renewing
   base plans, `monthly` (€5.99) and `yearly` (€49.99), in 174 countries.
 - Gemini/Firebase is **not wired in yet**. Do not sell Bitey AI to real users
