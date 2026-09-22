@@ -18,7 +18,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import org.json.JSONObject
 import java.io.File
+import java.io.InputStream
 
 /**
  * Hosts the locally packaged Plate interface. The WebView is a presentation
@@ -64,28 +66,93 @@ class MainActivity : ComponentActivity() {
      */
     private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
     private var pendingCameraOutput: Uri? = null
+    private var pendingCameraFile: File? = null
+
+    /**
+     * Set while the page, rather than a file input, is waiting for a
+     * photograph. The two routes cannot overlap, because either way Android is
+     * showing another activity until the result arrives.
+     */
+    private var captureRequestId: String? = null
 
     private val photoCapture = registerForActivityResult(
         ActivityResultContracts.TakePicture(),
     ) { taken ->
-        settleFileChooser(if (taken) pendingCameraOutput else null)
+        val output = pendingCameraOutput
+        val file = pendingCameraFile
         pendingCameraOutput = null
+        pendingCameraFile = null
+        if (captureRequestId != null) {
+            deliverCapture(if (taken && file != null) file.inputStream() else null, "image/jpeg")
+            file?.delete()
+        } else {
+            settleFileChooser(if (taken) output else null)
+        }
     }
 
     private val photoPicker = registerForActivityResult(
         ActivityResultContracts.GetContent(),
-    ) { uri -> settleFileChooser(uri) }
+    ) { uri ->
+        if (captureRequestId == null) {
+            settleFileChooser(uri)
+            return@registerForActivityResult
+        }
+        val stream = uri?.let { contentResolver.openInputStream(it) }
+        deliverCapture(stream, uri?.let(contentResolver::getType) ?: "image/jpeg")
+    }
 
     private val cameraPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) { granted ->
-        if (granted) launchCamera() else settleFileChooser(null)
+        if (granted) launchCamera()
+        else if (captureRequestId != null) deliverCapture(null, "image/jpeg")
+        else settleFileChooser(null)
     }
 
     private fun settleFileChooser(uri: Uri?) {
         val callback = fileChooserCallback ?: return
         fileChooserCallback = null
         callback.onReceiveValue(if (uri == null) null else arrayOf(uri))
+    }
+
+    /** The page is told a path to fetch, or that nothing arrived. Every route
+     * out of a capture answers exactly once: an unanswered request would leave
+     * the photo button dead until the app restarted. */
+    private fun deliverCapture(source: InputStream?, mimeType: String?) {
+        val requestId = captureRequestId ?: return
+        captureRequestId = null
+        val id = source?.let {
+            runCatching {
+                plateWebView.captures.stage(it, mimeType.orEmpty().substringBefore(';'))
+            }.getOrNull()
+        }
+        val payload = JSONObject()
+            .put("status", if (id == null) "cancelled" else "ok")
+            .apply { if (id != null) put("id", id) }
+            .toString()
+        plateWebView.deliverCaptureResult(requestId, payload)
+    }
+
+    /** Opened by native code because a WebView file chooser needs a user
+     * gesture the entitlement check has already spent. */
+    private fun startCapture(source: String, requestId: String) {
+        runOnUiThread {
+            // A request already waiting is answered before it is replaced.
+            deliverCapture(null, null)
+            settleFileChooser(null)
+            captureRequestId = requestId
+            if (source == "gallery") {
+                photoPicker.launch("image/*")
+                return@runOnUiThread
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                launchCamera()
+            } else {
+                cameraPermission.launch(Manifest.permission.CAMERA)
+            }
+        }
     }
 
     /** True once the chooser has been taken over; the WebView then waits for
@@ -120,10 +187,11 @@ class MainActivity : ComponentActivity() {
             FileProvider.getUriForFile(this, "$packageName.fileprovider", target)
         }.getOrNull()
         if (uri == null) {
-            settleFileChooser(null)
+            if (captureRequestId != null) deliverCapture(null, null) else settleFileChooser(null)
             return
         }
         pendingCameraOutput = uri
+        pendingCameraFile = target
         photoCapture.launch(uri)
     }
 
@@ -171,6 +239,7 @@ class MainActivity : ComponentActivity() {
             onAiSubscriptionManagementRequested = {
                 runOnUiThread { playBilling.manageSubscription(this) }
             },
+            onCaptureRequested = ::startCapture,
             onFileChooserRequested = ::showFileChooser,
         )
         val root = FrameLayout(this)

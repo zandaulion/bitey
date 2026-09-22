@@ -1011,6 +1011,13 @@ input[type="range"] { padding: 0; border: 0; background: none; }
      that overlay outside WebView is what lets the PWA retain 3D day cards. */
   display: none;
 }
+/* The native rail is a sibling view drawn over the WebView, so the page knows
+   nothing about it and will happily end underneath it. Without this, the last
+   thing on the page -- "Already have a photo?" -- sits behind the rail and
+   cannot be tapped at all: the touch lands on the native Barcode button. */
+:root[data-host="android"] body {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+}
 .action {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
   padding: 10px 4px 8px; border: 1px solid var(--line); border-radius: 16px;
