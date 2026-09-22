@@ -62,7 +62,12 @@ process.env.NODE_ENV = 'test';
 
 // Importing this runs the migration.
 const { db } = await import('../server/db.js');
-test.after(() => fs.rmSync(DATA_DIR, { recursive: true, force: true }));
+// The migrated database is closed first: Windows will not delete a file that
+// is still open, and the failure surfaces as the whole file failing.
+test.after(() => {
+  db.close();
+  fs.rmSync(DATA_DIR, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+});
 
 test('every pre-existing device gets its own account', () => {
   const devices = db.prepare('SELECT id, account_id FROM devices ORDER BY id').all();
