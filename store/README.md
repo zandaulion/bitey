@@ -21,15 +21,17 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload bundle is version **1.0.3** (`versionCode` 4). It fixes the
-photo button, which did nothing at all in 1.0.2, and is the first build in
-which a tester can reach the Bitey AI plans. Build it locally and record its
-hash here once it exists; signed bundles are Git-ignored. Its Play release
-notes, in all twelve launch languages, are in `RELEASE_NOTES_1.0.3.md`.
+The next upload bundle is version **1.0.4** (`versionCode` 5). It is the first
+build in which a photograph can actually be taken: native code opens the camera
+and the gallery, because a WebView file chooser needs a user gesture the Play
+entitlement check has already spent. Build it locally and record its hash here
+once it exists; signed bundles are Git-ignored. Its Play release notes, in all
+twelve launch languages, are in `RELEASE_NOTES_1.0.4.md`.
 
-Previously uploaded: 1.0.2 (`versionCode` 3) and 1.0.0 (`versionCode` 1), both
-closed testing. 1.0.2 declared `com.android.vending.BILLING`, which is what
-unlocked Play Console's Subscriptions page and let `bitey_ai` be created.
+Previously uploaded, all closed testing: 1.0.3 (`versionCode` 4), which made
+the Bitey AI plans reachable; 1.0.2 (`versionCode` 3), which declared
+`com.android.vending.BILLING` and so unlocked Play Console's Subscriptions page
+and let `bitey_ai` be created; and 1.0.0 (`versionCode` 1).
 
 - 1.0.0 file SHA-256: `25D7FA1A970F215EA02EB3CAEEF2ACA22CA1F9272F016AC4D6B217C0425FF42F`
 - Upload certificate SHA-256:
@@ -42,8 +44,8 @@ unlocked Play Console's Subscriptions page and let `bitey_ai` be created.
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.3** (`versionCode` 4)
-- Next upload artifact: `bitey-private-food-log-1.0.3.aab`
+- Current source version: **1.0.4** (`versionCode` 5)
+- Next upload artifact: `bitey-private-food-log-1.0.4.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
