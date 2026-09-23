@@ -1,0 +1,19 @@
+{
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "bitey-ai",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "*.local"
+      ],
+      "predeploy": [
+        "node scripts/sync-functions-core.mjs"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

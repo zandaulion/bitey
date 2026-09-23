@@ -44,3 +44,7 @@ android/app/google-services.json
 firebase-service-account*.json
 service-account*.json
 functions/.env*
+# The Firebase CLI's deploy cache and emulator state.
+.firebase/
+firebase-debug*.log
+firestore-debug*.log
