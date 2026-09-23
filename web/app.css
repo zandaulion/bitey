@@ -103,6 +103,12 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   display: grid; grid-template-columns: 40px 1fr 40px 46px 46px;
   align-items: center; gap: 4px;
   padding: max(8px, env(safe-area-inset-top)) 10px 8px;
+  /* On a screen wider than the day's 560px column but too short for the
+     tablet layout -- a phone on its side -- the controls line up over the
+     column instead of flying out to the far edges. The bar's background still
+     runs full width. In portrait this is the 10px it always was. */
+  padding-left: max(10px, calc((100vw - 560px) / 2));
+  padding-right: max(10px, calc((100vw - 560px) / 2));
   background: color-mix(in srgb, var(--ground) 88%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -191,8 +197,15 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 
 /* Tablets deserve more than a stretched phone column. Keep the same generous
    touch targets, let the header and sheets breathe, then turn the day into a
-   calm two-column overview only when there is genuinely room for it. */
-@media (min-width: 720px) {
+   calm two-column overview only when there is genuinely room for it.
+
+   Width alone does not make a tablet: a phone turned sideways is 730 or more
+   wide and barely 400 tall. By width it got this layout, stretched the column
+   across the whole screen and ran every line edge to edge, in a strip too
+   short to hold a card. The height condition keeps it on the centred phone
+   column, which already fits; any real tablet clears 520 in either
+   orientation. */
+@media (min-width: 720px) and (min-height: 520px) {
   .topbar {
     grid-template-columns: 48px 1fr 48px 52px 52px;
     gap: 8px;
@@ -218,7 +231,7 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   .wait-card { max-width: 420px; }
 }
 
-@media (min-width: 840px) {
+@media (min-width: 840px) and (min-height: 520px) {
   #day-cards {
     display: grid;
     grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
