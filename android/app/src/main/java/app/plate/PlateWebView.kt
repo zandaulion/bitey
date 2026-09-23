@@ -89,6 +89,7 @@ private class PlateNativeBridge(
     private val onAiPurchaseRefreshRequested: () -> Unit,
     private val onAiSubscriptionManagementRequested: () -> Unit,
     private val onCaptureRequested: (String, String) -> Unit,
+    private val onAnalysisRequested: (String, String) -> Unit,
 ) {
     @JavascriptInterface
     fun platform(): String = "android"
@@ -178,6 +179,18 @@ private class PlateNativeBridge(
         onCaptureRequested(source, requestId)
     }
 
+    /** The page hands over a photograph to be read; native code adds the
+     * purchase token the page never sees and sends it to the analysis server.
+     * The payload is size-checked here so a runaway string is refused before
+     * it is parsed. */
+    @JavascriptInterface
+    fun analysePhoto(payload: String, requestId: String) {
+        if (payload.length > BiteyAnalysis.MAX_IMAGE_CHARS + 4096 ||
+            !requestId.matches(Regex("[A-Za-z0-9_-]{1,80}"))
+        ) return
+        onAnalysisRequested(payload, requestId)
+    }
+
     @JavascriptInterface
     fun refreshAiPurchase() = onAiPurchaseRefreshRequested()
 
@@ -197,6 +210,7 @@ class PlateWebView(
     onAiPurchaseRefreshRequested: () -> Unit,
     onAiSubscriptionManagementRequested: () -> Unit,
     onCaptureRequested: (String, String) -> Unit,
+    onAnalysisRequested: (String, String) -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
     val captures = PlateCaptureStore(context)
@@ -246,6 +260,7 @@ class PlateWebView(
                 onAiPurchaseRefreshRequested,
                 onAiSubscriptionManagementRequested,
                 onCaptureRequested,
+                onAnalysisRequested,
             ),
             "PlateNative",
         )
@@ -303,6 +318,17 @@ class PlateWebView(
         post {
             evaluateJavascript(
                 "window.__plateNativeCaptureResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
+    }
+
+    /** [payload] is the server's answer as JSON plus its HTTP status. It never
+     * contains the purchase token: that went out in the request only. */
+    fun deliverAnalysisResult(requestId: String, payload: String) {
+        post {
+            evaluateJavascript(
+                "window.__plateNativeAnalysisResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
                 null,
             )
         }
