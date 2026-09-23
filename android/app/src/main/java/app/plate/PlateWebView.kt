@@ -18,9 +18,31 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.math.roundToInt
 
 private const val PLATE_HOST = "plate.local"
 private const val PLATE_ORIGIN = "https://$PLATE_HOST/index.html"
+
+/** Text size at ordinary system font sizes, as a percentage of the page's own
+ * CSS. A little under the browser's 100%: the app shares the screen with a
+ * native action bar the PWA does not have, and reads denser for it. */
+private const val BASE_TEXT_ZOOM = 95
+
+/**
+ * How large WebView draws text, given the system font size.
+ *
+ * WebView scales text by the system font size on its own, while Chrome, where
+ * the PWA runs, does not by default -- so at a modest 1.1 the same page read
+ * ten per cent larger here than in the browser. Pinning the size would fix
+ * that and also ignore everyone who raised the font size because they need
+ * to, which is an accessibility setting and not a preference.
+ *
+ * So ordinary sizes, up to about 1.1, all land on [BASE_TEXT_ZOOM], and larger
+ * accessibility sizes still grow with the setting, one point per point, from
+ * there: 1.3 gives 115%, 1.5 gives 135%.
+ */
+internal fun textZoomFor(fontScale: Float): Int =
+    maxOf(BASE_TEXT_ZOOM, (fontScale * 100).roundToInt() - 15)
 
 /**
  * Serves files copied into the APK under a synthetic HTTPS origin. Using HTTPS
@@ -229,6 +251,9 @@ class PlateWebView(
         settings.allowFileAccess = false
         settings.allowContentAccess = false
         settings.mediaPlaybackRequiresUserGesture = true
+        // Changing the system font size recreates the activity, so reading it
+        // once here is enough to follow the setting.
+        settings.textZoom = textZoomFor(context.resources.configuration.fontScale)
 
         CookieManager.getInstance().setAcceptCookie(false)
         // Without this the base implementation answers "no chooser available"
