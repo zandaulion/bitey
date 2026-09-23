@@ -85,6 +85,21 @@ class PlayBilling(
     private var purchaseFlowInFlight = false
     private var entitlement = Status.INACTIVE
 
+    /**
+     * The token of the purchase that makes [entitlement] active, or null.
+     *
+     * It is what the analysis server verifies with Google Play, so it is a
+     * bearer credential for the paid feature: it is held here, handed to the
+     * native HTTP client, and never delivered to the WebView. Page code sees a
+     * status word and nothing else, as before.
+     *
+     * Written from Play's callback thread and read from the analysis thread.
+     */
+    @Volatile
+    private var activePurchaseToken: String? = null
+
+    fun activePurchaseToken(): String? = activePurchaseToken
+
     private val billingClient: BillingClient = BillingClient.newBuilder(context)
         .setListener(this)
         // Required by current Billing Library releases. Bitey presently sells a
@@ -317,8 +332,12 @@ class PlayBilling(
         }
         if (purchased != null) {
             acknowledgeIfNeeded(purchased)
+            activePurchaseToken = purchased.purchaseToken
             return Status.ACTIVE
         }
+        // Anything short of a completed purchase clears it: a pending payment
+        // is not yet something the server should be asked to honour.
+        activePurchaseToken = null
         if (matching.any { it.purchaseState == Purchase.PurchaseState.PENDING }) {
             return Status.PENDING
         }

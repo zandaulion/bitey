@@ -21,6 +21,8 @@ import androidx.core.content.FileProvider
 import org.json.JSONObject
 import java.io.File
 import java.io.InputStream
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * Hosts the locally packaged Plate interface. The WebView is a presentation
@@ -30,6 +32,11 @@ import java.io.InputStream
 class MainActivity : ComponentActivity() {
     private lateinit var plateWebView: PlateWebView
     private lateinit var playBilling: PlayBilling
+
+    /** A reading can take most of a minute. It gets its own thread so it
+     * never queues behind -- or blocks -- a barcode lookup. */
+    private val analysisExecutor: ExecutorService = Executors.newSingleThreadExecutor()
+    private val analysis = BiteyAnalysis()
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
     private lateinit var photoAction: Button
@@ -240,6 +247,15 @@ class MainActivity : ComponentActivity() {
                 runOnUiThread { playBilling.manageSubscription(this) }
             },
             onCaptureRequested = ::startCapture,
+            onAnalysisRequested = { payload, requestId ->
+                // The token is read at send time rather than captured when the
+                // page asked, so a subscription that lapsed in between is not
+                // presented. The server re-verifies regardless.
+                analysisExecutor.execute {
+                    val result = analysis.analyse(playBilling.activePurchaseToken(), payload)
+                    plateWebView.deliverAnalysisResult(requestId, result)
+                }
+            },
             onFileChooserRequested = ::showFileChooser,
         )
         val root = FrameLayout(this)
@@ -288,6 +304,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         if (::playBilling.isInitialized) playBilling.close()
+        analysisExecutor.shutdownNow()
         super.onDestroy()
     }
 

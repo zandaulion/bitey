@@ -35,10 +35,13 @@ const DIETARY_GOALS = [
 ];
 
 export class LocalApiError extends Error {
-  constructor(message, { code = 'local_error', status = 400 } = {}) {
+  constructor(message, { code = 'local_error', status = 400, note = null } = {}) {
     super(message);
     this.code = code;
     this.status = status;
+    // The model's own explanation, for "not food" and "nothing found": the
+    // review sheet shows it in preference to a generic message.
+    this.note = note;
   }
 }
 
@@ -210,6 +213,55 @@ async function nativeDiary(operation, payload = {}) {
     });
   }
   return result;
+}
+
+let nativeAnalysisSequence = 0;
+const nativeAnalysisWaiters = new Map();
+window.__plateNativeAnalysisResult = (requestId, payload) => {
+  const resolve = nativeAnalysisWaiters.get(requestId);
+  if (!resolve) return;
+  nativeAnalysisWaiters.delete(requestId);
+  try { resolve(JSON.parse(payload)); } catch {
+    resolve({ httpStatus: 0, body: { error: 'unreadable', message: 'The analysis could not be read. Try again.' } });
+  }
+};
+
+/**
+ * Reads a photograph through Bitey AI.
+ *
+ * The page never talks to the analysis server itself: the request has to carry
+ * the Play purchase token, and that stays in native code. This hands over the
+ * photograph and the few fields the model needs, and native code adds the
+ * token and sends it. What comes back has the same shape the PWA's own server
+ * returns, so the review sheet cannot tell the two apart.
+ */
+async function nativeAnalyse(body) {
+  if (typeof window.PlateNative?.analysePhoto !== 'function') {
+    throw new LocalApiError('Photo analysis is not available in this build.', { code: 'not_configured', status: 503 });
+  }
+  const request = {
+    image: typeof body?.image === 'string' ? body.image : '',
+    mimeType: body?.mimeType === 'image/png' ? 'image/png' : 'image/jpeg',
+    correction: typeof body?.correction === 'string' ? body.correction : '',
+    // The same signal the PWA sends as X-Plate-Locale: it decides the language
+    // the model names food in and writes its note in.
+    locale: document.documentElement.lang || 'en'
+  };
+  const requestId = `analyse-${++nativeAnalysisSequence}`;
+  const result = await new Promise((resolve) => {
+    nativeAnalysisWaiters.set(requestId, resolve);
+    window.PlateNative.analysePhoto(JSON.stringify(request), requestId);
+  });
+
+  const status = Number(result?.httpStatus) || 0;
+  const answer = result?.body || {};
+  if (status >= 200 && status < 300 && answer.estimate) return answer;
+  throw new LocalApiError(answer.message || answer.note || 'The photo could not be read. Try again.', {
+    code: answer.error || 'analysis_failed',
+    // 0 is "never reached the server"; reported as 503 like any other outage.
+    status: status || 503,
+    note: answer.note || null
+  });
 }
 
 let nativePhotoSequence = 0;
@@ -411,7 +463,9 @@ async function me() {
     diets: DIETS,
     dietaryGoals: DIETARY_GOALS,
     meals: MEALS,
-    analysisConfigured: false,
+    // Whether this build can reach Bitey AI at all. Whether this person may
+    // use it is a separate question, answered by Play and the server per call.
+    analysisConfigured: typeof window.PlateNative?.analysePhoto === 'function',
     trackingEnabled: false,
     genericSearch: true
   };
@@ -701,8 +755,8 @@ export async function localApi(path, options = {}) {
     return { food: cached, cached: false };
   }
 
-  if (url.pathname === '/api/analyse') {
-    throw new LocalApiError('Photo analysis is not connected yet.', { code: 'not_configured', status: 503 });
+  if (url.pathname === '/api/analyse' && method === 'POST') {
+    return nativeAnalyse(body);
   }
   throw new LocalApiError('This local feature has not been connected yet.', { code: 'not_implemented', status: 501 });
 }
