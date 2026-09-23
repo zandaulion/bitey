@@ -1,0 +1,15 @@
+{
+  "name": "plate-functions",
+  "description": "Bitey AI: Play-verified photo analysis",
+  "type": "module",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.2",
+    "firebase-functions": "^6.3.0",
+    "google-auth-library": "^9.15.0"
+  }
+}

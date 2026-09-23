@@ -1,0 +1,351 @@
+// GENERATED COPY of core/analysis/estimate.js -- do not edit.
+// Run: node scripts/sync-functions-core.mjs
+// The estimate a photo produces, and what happens when the user corrects it.
+//
+// Shaped directly by the measurement run of 30 Aug 2026 (145 weighed plates,
+// gemini-3.7-flash, see the macro-probe harness):
+//
+//   * Portion is the dominant error term. A weighed plate took median calorie
+//     error from 30% to 16%, and the share within 25% of truth from 44% to
+//     66%. Nothing else came close. But a follow-up run showed the benefit
+//     depends on how the weight was obtained: an eyeballed correction recovers
+//     about half of that, and a guess worse than +/-30% is no better than
+//     leaving the model's own estimate alone. See ERROR_BANDS.
+//   * Grounding the per-gram nutrition in a food database changed nothing
+//     (34.8% -> 34.0% MAPE), because the model already knows what rice
+//     contains. So the model's own per-gram figures are kept, and the editing
+//     effort is spent on grams instead.
+//   * Fat is the worst nutrient in every arm and the only one that got worse
+//     when the weight was corrected. Absorbed oil and dressing are invisible
+//     from above. It is carried at lower confidence throughout.
+//
+// Items therefore store a *per-gram rate*, not a fixed macro block: changing
+// grams has to rescale the nutrition, and that only works if the rate is what
+// is persisted.
+
+const NUTRIENTS = ['calories', 'protein', 'fat', 'carbs', 'fiber'];
+
+/**
+ * Median absolute percentage error, measured. Used to draw the range shown
+ * next to every number.
+ *
+ * Three levels, not two, because a follow-up run (30 Aug 2026, same 145
+ * plates, with the user's weight simulated at a range of error levels) showed
+ * that *how* the weight was arrived at matters as much as whether it was
+ * corrected at all:
+ *
+ *   weight source          kcal median   within 25%
+ *   model's own guess          30.0%        44%
+ *   user guessed, +/-20%       22.6%        54%
+ *   user guessed, +/-30%       28.4%        45%   <- barely better than none
+ *   user guessed, +/-40%       34.0%        38%   <- worse than none
+ *   weighed on a scale         16.0%        66%
+ *
+ * So correcting by eye helps, but only about half as much as a scale, and it
+ * stops helping once the guess is worse than about 30%. Reporting a 16% band
+ * for an eyeballed adjustment -- as this originally did -- claims an accuracy
+ * only a scale delivers.
+ */
+export const ERROR_BANDS = {
+  model:     { calories: 0.30, protein: 0.25, carbs: 0.28, fat: 0.42, fiber: 0.28 },
+  estimated: { calories: 0.23, protein: 0.23, carbs: 0.23, fat: 0.36, fiber: 0.23 },
+  weighed:   { calories: 0.16, protein: 0.15, carbs: 0.16, fat: 0.33, fiber: 0.16 }
+};
+
+/**
+ * How wrong a fraction-of-the-plate judgement is, relatively.
+ *
+ * Not measured, unlike everything else in this file, and deliberately set on
+ * the pessimistic side until it is. Judging how much of a plate remains is a
+ * comparison rather than an absolute reading -- the thing is in front of you,
+ * or it was twenty minutes ago -- and comparisons are the kind of judgement
+ * people make well, so this is likely generous. It is not claimed as better
+ * than that.
+ *
+ * The same figure is used whether the fraction was tapped in or read from a
+ * photograph of the leftovers. The photograph's advantage is resolution, not
+ * precision: it can tell that the chicken went and the rice stayed, which no
+ * single fraction can express. Claiming it is also more accurate would need a
+ * measurement run of its own.
+ */
+export const EATEN_BAND = 0.15;
+
+/** How the weight in this estimate was arrived at. */
+export const PORTION_SOURCES = ['model', 'estimated', 'weighed'];
+
+/**
+ * Reads the portion source, tolerating entries saved before this existed.
+ * Those carry only a boolean, and a boolean cannot tell an eyeballed
+ * adjustment from a weighed one -- the conservative reading is the former.
+ */
+export function portionSourceOf(estimate) {
+  const declared = estimate?.portionSource;
+  if (PORTION_SOURCES.includes(declared)) return declared;
+  return estimate?.portionConfirmed ? 'estimated' : 'model';
+}
+
+export const CONFIDENCE = { calories: 'medium', protein: 'medium', carbs: 'medium', fat: 'low', fiber: 'medium' };
+
+const round = (n, dp = 1) => {
+  const f = 10 ** dp;
+  return Math.round(n * f) / f;
+};
+
+let seq = 0;
+const nextId = () => `it${++seq}${Math.random().toString(36).slice(2, 6)}`;
+
+/**
+ * Builds an estimate from the model's raw response.
+ *
+ * Items whose weight is missing or non-positive are dropped: a zero-gram item
+ * contributes nothing but occupies a row the user has to dismiss. Items whose
+ * macros are absent are kept with zero rates rather than discarded, so the
+ * food still appears and can be corrected by hand.
+ */
+export function fromModelResponse(raw) {
+  const src = Array.isArray(raw?.items) ? raw.items : [];
+  const items = [];
+
+  for (const it of src) {
+    const grams = Number(it?.grams);
+    if (!Number.isFinite(grams) || grams <= 0) continue;
+
+    const name = String(it?.name || '').trim();
+    if (!name) continue;
+
+    // Per gram, so that editing the weight rescales the nutrition.
+    const per = {
+      calories: safeRate(it?.calories, grams),
+      protein: safeRate(it?.protein_g ?? it?.protein, grams),
+      fat: safeRate(it?.fat_g ?? it?.fat, grams),
+      carbs: safeRate(it?.carbs_g ?? it?.carbs, grams),
+      fiber: safeRate(it?.fiber_g ?? it?.fiber, grams)
+    };
+
+    items.push({ id: nextId(), name, grams: round(grams, 0), per, source: 'photo' });
+  }
+
+  return {
+    items,
+    portionSource: 'model',
+    portionConfirmed: false,
+    note: typeof raw?.note === 'string' ? raw.note.trim() : ''
+  };
+}
+
+function safeRate(value, grams) {
+  const v = Number(value);
+  if (!Number.isFinite(v) || v < 0 || !grams) return 0;
+  return v / grams;
+}
+
+/**
+ * How much of an item was actually eaten, as a fraction of what was served.
+ *
+ * Absent means all of it, which is what every entry saved before this said.
+ */
+export function ateFraction(item) {
+  const v = Number(item?.ate);
+  if (!Number.isFinite(v)) return 1;
+  return Math.min(1, Math.max(0, v));
+}
+
+/**
+ * Macros for one item, at the weight served and the share of it eaten.
+ *
+ * The served weight is kept rather than reduced. What the model read off the
+ * photograph is what was on the plate, and overwriting it with a smaller
+ * number would destroy the measurement in order to record a decision about
+ * it -- the same rule the rest of the app follows. Change your mind about how
+ * much you left and the original is still there to apply it to.
+ */
+export function itemMacros(item) {
+  const eaten = (item?.grams || 0) * ateFraction(item);
+  const out = {};
+  for (const n of NUTRIENTS) out[n] = (item?.per?.[n] || 0) * eaten;
+  return out;
+}
+
+export function totalsOf(estimate) {
+  const t = { calories: 0, protein: 0, fat: 0, carbs: 0, fiber: 0, grams: 0 };
+  for (const item of estimate?.items || []) {
+    const m = itemMacros(item);
+    for (const n of NUTRIENTS) t[n] += m[n] || 0;
+    t.grams += (item.grams || 0) * ateFraction(item);
+  }
+  for (const k of Object.keys(t)) t[k] = round(t[k], k === 'calories' || k === 'grams' ? 0 : 1);
+  return t;
+}
+
+/**
+ * Ranges to display. The band tightens as the weight becomes better known --
+ * model guess, then user estimate, then scale -- because the measurement says
+ * the estimate really is better at each step. It is not a cosmetic reward, and
+ * it deliberately does not jump straight to the tightest band on any edit.
+ *
+ * The band applies only to the part of the meal a model read off a photograph.
+ * A barcode or database item carries exact per-gram nutrition, so its only
+ * uncertainty is the weight the user typed; widening it by the photo error
+ * would claim doubt that is not there, and would make a carefully scanned
+ * yoghurt look as vague as a guessed plate of stew.
+ */
+export function rangesOf(estimate) {
+  const items = estimate?.items || [];
+  const base = ERROR_BANDS[portionSourceOf(estimate)] || ERROR_BANDS.model;
+
+  // Saying how much was left is a second estimate stacked on the first, so the
+  // uncertainty grows. Combined in quadrature, since the two are independent:
+  // misjudging the plate does not make you misjudge the half of it you left.
+  //
+  // Widening rather than leaving it alone matters because the alternative
+  // failure is silent -- an entry someone has just interacted with looks more
+  // trustworthy, and reporting an unchanged band after two estimates would
+  // claim exactly the accuracy the three-level ERROR_BANDS exist to deny.
+  const band = hasLeftovers(estimate)
+    ? Object.fromEntries(Object.entries(base)
+        .map(([k, v]) => [k, Math.sqrt(v * v + EATEN_BAND * EATEN_BAND)]))
+    : base;
+
+  const photo = { calories: 0, protein: 0, fat: 0, carbs: 0, fiber: 0 };
+  const exact = { calories: 0, protein: 0, fat: 0, carbs: 0, fiber: 0 };
+  for (const item of items) {
+    const target = item.source === 'photo' ? photo : exact;
+    const m = itemMacros(item);
+    for (const n of NUTRIENTS) target[n] += m[n] || 0;
+  }
+
+  const out = {};
+  for (const n of NUTRIENTS) {
+    const dp = n === 'calories' ? 0 : 1;
+    const value = photo[n] + exact[n];
+    out[n] = {
+      value: round(value, dp),
+      low: round(Math.max(0, exact[n] + photo[n] * (1 - band[n])), dp),
+      high: round(exact[n] + photo[n] * (1 + band[n]), dp),
+      confidence: photo[n] > 0 ? CONFIDENCE[n] : 'exact'
+    };
+  }
+  return out;
+}
+
+/** True when any part of this estimate came from a photograph. */
+export function hasPhotoItems(estimate) {
+  return (estimate?.items || []).some((i) => i.source === 'photo');
+}
+
+/**
+ * Records that the user has set the weight themselves.
+ *
+ * An edit is treated as an eyeballed estimate, never as a weighing: the app
+ * cannot tell the difference, and assuming the better of the two would report
+ * a scale's accuracy for a glance. `markWeighed` is the explicit upgrade, and
+ * a weighing survives further nudges -- someone who weighed the plate and then
+ * adjusted an item is still working from a scale.
+ */
+function withUserPortion(estimate) {
+  return portionSourceOf(estimate) === 'weighed' ? 'weighed' : 'estimated';
+}
+
+/**
+ * Record that some of the meal was left behind.
+ *
+ * `share` is either one number for the whole plate, or a map of item id to
+ * number. The per-item form exists because a single fraction is structurally
+ * wrong on a mixed plate: eating the chicken and leaving the rice is not
+ * "three quarters of dinner", and scaling both by the same factor misreports
+ * the protein and the carbohydrate in opposite directions.
+ */
+export function markEaten(estimate, share) {
+  const forItem = (item) => {
+    if (typeof share === 'number') return share;
+    const v = share?.[item.id];
+    return Number.isFinite(Number(v)) ? Number(v) : ateFraction(item);
+  };
+  return {
+    ...estimate,
+    items: (estimate?.items || []).map((item) => ({
+      ...item,
+      ate: Math.min(1, Math.max(0, Number(forItem(item)) || 0))
+    }))
+  };
+}
+
+/** True when any of this was left uneaten. */
+export function hasLeftovers(estimate) {
+  return (estimate?.items || []).some((i) => ateFraction(i) < 1);
+}
+
+/** Declare how the weight was arrived at. */
+export function markWeighed(estimate, weighed = true) {
+  return {
+    ...estimate,
+    portionSource: weighed ? 'weighed' : 'estimated',
+    portionConfirmed: true
+  };
+}
+
+/** Change one item's weight. */
+export function setItemGrams(estimate, itemId, grams) {
+  const g = Number(grams);
+  if (!Number.isFinite(g) || g < 0) return estimate;
+  return {
+    ...estimate,
+    portionSource: withUserPortion(estimate),
+    portionConfirmed: true,
+    items: estimate.items.map((it) => (it.id === itemId ? { ...it, grams: round(g, 0) } : it))
+  };
+}
+
+/**
+ * Correct the weight of the whole plate, distributing the change across items
+ * in their existing proportions.
+ *
+ * This is the interaction the measurement argues for: in the probe, rescaling
+ * the model's own answer by the true total weight recovered almost as much
+ * accuracy as re-identifying every item (median 16.0% against 13.5%), for one
+ * number from the user and no extra model call.
+ */
+export function setTotalGrams(estimate, totalGrams) {
+  const target = Number(totalGrams);
+  if (!Number.isFinite(target) || target <= 0) return estimate;
+
+  const current = (estimate.items || []).reduce((a, i) => a + (i.grams || 0), 0);
+  if (current <= 0) return estimate;
+
+  const k = target / current;
+  return {
+    ...estimate,
+    portionSource: withUserPortion(estimate),
+    portionConfirmed: true,
+    items: estimate.items.map((it) => ({ ...it, grams: round(it.grams * k, 0) }))
+  };
+}
+
+export function removeItem(estimate, itemId) {
+  return {
+    ...estimate,
+    items: (estimate.items || []).filter((it) => it.id !== itemId)
+  };
+}
+
+/**
+ * Add a food by hand. Rates are given per 100 g, which is how nutrition labels
+ * and food databases express them.
+ */
+export function addManualItem(estimate, { name, grams, per100, barcode = null }) {
+  const g = Number(grams);
+  if (!name || !Number.isFinite(g) || g <= 0) return estimate;
+  const per = {};
+  for (const n of NUTRIENTS) per[n] = (Number(per100?.[n]) || 0) / 100;
+  return {
+    ...estimate,
+    items: [...(estimate.items || []), {
+      id: nextId(), name: String(name).trim(), grams: round(g, 0), per,
+      source: 'manual',
+      // Carried so a scanned product can be shown with its picture later.
+      ...(barcode ? { barcode: String(barcode) } : {})
+    }]
+  };
+}
+
+export { NUTRIENTS };
