@@ -34,12 +34,17 @@ export function targetFor(relative) {
   return path.join(root, 'functions', relative);
 }
 
+/** Git on Windows checks files out with CRLF, and does it to the source and
+ * the copy alike. Comparing raw bytes would call every fresh checkout stale,
+ * so line endings are not part of what "the same" means here. */
+const normalised = (text) => text.replace(/\r\n/g, '\n');
+
 export function sync({ check = false } = {}) {
   const stale = [];
   for (const relative of SYNCED) {
     const target = targetFor(relative);
-    const wanted = contentFor(relative);
-    const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
+    const wanted = normalised(contentFor(relative));
+    const current = fs.existsSync(target) ? normalised(fs.readFileSync(target, 'utf8')) : null;
     if (current === wanted) continue;
     stale.push(relative);
     if (check) continue;
