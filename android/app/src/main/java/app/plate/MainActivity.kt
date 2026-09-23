@@ -29,6 +29,9 @@ import java.util.concurrent.Executors
  * layer only: native code will own persistence, camera/barcode access and the
  * narrowly-scoped network calls rather than relying on a web server.
  */
+/** The page's phone column, `.view { max-width: 560px }` in app.css. */
+private const val PHONE_COLUMN_DP = 560
+
 class MainActivity : ComponentActivity() {
     private lateinit var plateWebView: PlateWebView
     private lateinit var playBilling: PlayBilling
@@ -336,7 +339,14 @@ class MainActivity : ComponentActivity() {
         get() = resources.configuration.smallestScreenWidthDp >= 600
 
     private fun actionRailWidth(): Int {
-        if (!isTablet) return FrameLayout.LayoutParams.MATCH_PARENT
+        if (!isTablet) {
+            // A phone turned sideways keeps the page's centred 560-wide column
+            // (see the tablet media queries in app.css), so the rail matches it
+            // rather than stretching three buttons across the whole screen. In
+            // portrait a phone is narrower than this and the rail fills it.
+            val width = resources.configuration.screenWidthDp
+            return if (width > PHONE_COLUMN_DP) dp(PHONE_COLUMN_DP) else FrameLayout.LayoutParams.MATCH_PARENT
+        }
         // A 600dp portrait tablet still needs side gutters, while a wide
         // landscape display should not turn the three actions into a runway.
         return dp(minOf(960, (resources.configuration.screenWidthDp - 48).coerceAtLeast(0)))
