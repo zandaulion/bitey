@@ -11,7 +11,7 @@
 // backup. What is stored is a number per subscription per day.
 
 import { onRequest } from 'firebase-functions/v2/https';
-import { defineSecret, defineString } from 'firebase-functions/params';
+import { defineSecret } from 'firebase-functions/params';
 import { initializeApp } from 'firebase-admin/app';
 import { getAppCheck } from 'firebase-admin/app-check';
 import logger from 'firebase-functions/logger';
@@ -26,10 +26,16 @@ import { analysePhoto, AnalysisError } from './gemini.js';
 initializeApp();
 
 const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY');
-const PLAY_PACKAGE = defineString('PLAY_PACKAGE', { default: 'com.zandaulion.bitey' });
+
+// Plain environment values rather than Firebase params: neither is a secret,
+// and a param -- even one with a default -- must be confirmed interactively at
+// every deploy, which a scripted deploy cannot do. Firebase still loads
+// functions/.env.<project> into process.env, so either can be overridden
+// there without a code change.
+const PLAY_PACKAGE = (process.env.PLAY_PACKAGE || 'com.zandaulion.bitey').trim();
 // Off until the Android app is registered for App Check and shipping tokens;
 // turning it on before that would lock out every paying customer.
-const APPCHECK_ENFORCE = defineString('APPCHECK_ENFORCE', { default: 'false' });
+const APPCHECK_ENFORCE = process.env.APPCHECK_ENFORCE === 'true';
 
 const fail = (res, status, code, message, extra = {}) =>
   res.status(status).json({ error: code, message, ...extra });
@@ -50,7 +56,7 @@ export const analyse = onRequest(
   async (req, res) => {
     if (req.method !== 'POST') return fail(res, 405, 'method', 'POST only.');
 
-    if (APPCHECK_ENFORCE.value() === 'true') {
+    if (APPCHECK_ENFORCE) {
       const token = req.header('X-Firebase-AppCheck');
       if (!token) return fail(res, 401, 'no_app_check', 'This request did not come from Bitey.');
       try {
@@ -72,10 +78,10 @@ export const analyse = onRequest(
 
     let subscription;
     try {
-      subscription = await readSubscription(PLAY_PACKAGE.value(), request.purchaseToken);
+      subscription = await readSubscription(PLAY_PACKAGE, request.purchaseToken);
     } catch (err) {
       if (err instanceof PlayError) {
-        logger.error('play verification failed', { code: err.code, entitlementId });
+        logger.error('play verification failed', { code: err.code, detail: err.detail, entitlementId });
         return fail(res, err.status, err.code, err.message);
       }
       throw err;

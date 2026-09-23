@@ -18,10 +18,12 @@ const auth = new GoogleAuth({
 });
 
 export class PlayError extends Error {
-  constructor(code, message, status = 502) {
+  constructor(code, message, status = 502, detail = null) {
     super(message);
     this.code = code;
     this.status = status;
+    /** Google's explanation, for the server log only. */
+    this.detail = detail;
   }
 }
 
@@ -57,9 +59,12 @@ export async function readSubscription(packageName, purchaseToken, fetchImpl = f
 
   if (res.status === 404 || res.status === 400) return null;
   if (res.status === 401 || res.status === 403) {
-    // The service account has not been granted access in Play Console, or the
-    // grant was removed. This is a deployment fault, not the customer's.
-    throw new PlayError('play_forbidden', 'This server cannot verify Play purchases.', 502);
+    // A deployment fault, never the customer's. Two causes look identical by
+    // status -- the Android Publisher API not enabled in this project, or the
+    // service account not granted in Play Console -- so Play's own message is
+    // kept for the log, where it says which. It never reaches the client.
+    const detail = await res.json().then((j) => j?.error?.message).catch(() => null);
+    throw new PlayError('play_forbidden', 'This server cannot verify Play purchases.', 502, detail);
   }
   if (!res.ok) throw new PlayError('play_error', 'Google Play could not be asked about this purchase.');
 
