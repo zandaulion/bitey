@@ -107,6 +107,7 @@ private class PlateNativeBridge(
     private val onBackupImportRequested: () -> Unit,
     private val onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
     private val onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
+    private val aiEntitlementStatus: () -> String,
     private val onAiAccessRequested: (String, String) -> Unit,
     private val onAiOfferPurchaseRequested: (String, String) -> Unit,
     private val onAiPurchaseRefreshRequested: () -> Unit,
@@ -167,6 +168,11 @@ private class PlateNativeBridge(
     fun setPrimaryActionLabels(manual: String, barcode: String, photo: String) {
         onPrimaryActionLabelsChanged(manual, barcode, photo)
     }
+
+    /** A status word only -- never the purchase token -- so the page can draw
+     * the padlocks before its first paint. */
+    @JavascriptInterface
+    fun aiEntitlement(): String = aiEntitlementStatus()
 
     /** The page knows when a sheet is open; the native bar, drawn over the
      * WebView, would otherwise cover it. */
@@ -236,6 +242,7 @@ class PlateWebView(
     onBackupImportRequested: () -> Unit,
     onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
     onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
+    aiEntitlementStatus: () -> String,
     onAiAccessRequested: (String, String) -> Unit,
     onAiOfferPurchaseRequested: (String, String) -> Unit,
     onAiPurchaseRefreshRequested: () -> Unit,
@@ -290,6 +297,7 @@ class PlateWebView(
                 onBackupImportRequested,
                 onPrimaryActionLabelsChanged,
                 onPrimaryActionsVisibilityChanged,
+                aiEntitlementStatus,
                 onAiAccessRequested,
                 onAiOfferPurchaseRequested,
                 onAiPurchaseRefreshRequested,
@@ -353,6 +361,15 @@ class PlateWebView(
         post {
             evaluateJavascript(
                 "window.__plateNativeCaptureResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
+    }
+
+    fun deliverAiEntitlement(status: String) {
+        post {
+            evaluateJavascript(
+                "window.__plateNativeAiEntitlement?.(${JSONObject.quote(status)})",
                 null,
             )
         }

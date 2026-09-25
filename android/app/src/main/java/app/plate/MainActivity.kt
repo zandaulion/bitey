@@ -211,7 +211,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        playBilling = PlayBilling(applicationContext)
+        // Play's answer arrives on its own thread, on start, on every resume
+        // and after a purchase; the padlocks follow it.
+        playBilling = PlayBilling(applicationContext) { status ->
+            runOnUiThread { applyAiEntitlement(status) }
+        }
         plateWebView = PlateWebView(
             context = this,
             onBarcodeScanRequested = {
@@ -227,6 +231,7 @@ class MainActivity : ComponentActivity() {
                 // JavaScript-interface calls are not made on the UI thread.
                 runOnUiThread { updatePrimaryActionLabels(manual, barcode, photo) }
             },
+            aiEntitlementStatus = { playBilling.status().wireValue },
             onPrimaryActionsVisibilityChanged = { visible ->
                 runOnUiThread {
                     // GONE rather than INVISIBLE, so the WebView beneath gets
@@ -280,6 +285,8 @@ class MainActivity : ComponentActivity() {
             FrameLayout.LayoutParams.MATCH_PARENT,
         ))
         actionBar = nativeActionBar()
+        // Play may already have answered before the bar existed.
+        applyAiEntitlement(playBilling.status())
         root.addView(actionBar, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -370,6 +377,27 @@ class MainActivity : ComponentActivity() {
         marginStart = dp(if (isTablet) 6 else 4)
         marginEnd = dp(if (isTablet) 6 else 4)
     }
+
+    /**
+     * Shows or hides the padlocks for Bitey AI, natively and in the page.
+     *
+     * Only an active subscription unlocks them. Pending is still locked: the
+     * payment has not gone through, and Play may yet decline it.
+     */
+    private fun applyAiEntitlement(status: PlayBilling.Status) {
+        val locked = status != PlayBilling.Status.ACTIVE
+        if (::photoAction.isInitialized) {
+            photoAction.setCompoundDrawablesWithIntrinsicBounds(null, photoIcon(locked), null, null)
+        }
+        if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(status.wireValue)
+    }
+
+    /** The locked icon carries its own two colours (a white lock on a green
+     * cutout) and must not be tinted; the plain camera is tinted white to sit
+     * on the green primary button. */
+    private fun photoIcon(locked: Boolean) = getDrawable(
+        if (locked) R.drawable.ic_action_photo_locked else R.drawable.ic_action_photo,
+    )?.mutate()?.apply { if (!locked) setTint(Color.WHITE) }
 
     private fun actionButton(label: String, icon: Int, primary: Boolean, action: String, locked: Boolean = false): Button = Button(this).apply {
         text = label

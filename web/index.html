@@ -14,6 +14,11 @@
   // install has no such object and keeps using the existing HTTP API.
   window.__PLATE_NATIVE__ = Boolean(window.PlateNative?.isLocalBuild?.());
   if (window.__PLATE_NATIVE__) document.documentElement.dataset.host = 'android';
+  // Read before first paint, so a subscriber never sees the padlocks flash
+  // up and vanish. Later changes arrive via __plateNativeAiEntitlement.
+  if (window.__PLATE_NATIVE__) {
+    document.documentElement.dataset.ai = window.PlateNative?.aiEntitlement?.() || 'inactive';
+  }
 </script>
 </head>
 <body>
