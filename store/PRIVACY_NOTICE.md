@@ -89,8 +89,11 @@ correction, or the estimate. To enforce the daily limit of readings, it keeps a
 counter for each subscription and day: a one-way hash of the purchase token,
 the date, and the number of readings used. The token itself is not stored. Each
 counter is deleted automatically seven days after its day ends. The server’s
-logs record technical details — the hash, token counts, and whether a request
-succeeded — but not the photograph, your correction, or the estimate.
+own logs record technical details — the hash, token counts, and whether a
+request succeeded — but not the photograph, your correction, or the estimate.
+Separately, Google Cloud keeps standard request logs for the server, which
+record each request’s IP address, time, and outcome, for 30 days. Bitey does
+not use them to work out where you are.
 
 ## Optional Open Food Facts barcode lookups
 
@@ -144,7 +147,8 @@ you saved elsewhere; delete those files yourself if you no longer want them.
 Cached barcode foods are removed with Bitey’s app storage.
 
 For Bitey AI, the daily reading counters described above are deleted
-automatically seven days after their day ends. Your subscription itself is held
+automatically seven days after their day ends, and the server’s request logs
+after 30 days. Your subscription itself is held
 by Google Play; cancel it in Google Play’s subscription settings.
 
 ## Security

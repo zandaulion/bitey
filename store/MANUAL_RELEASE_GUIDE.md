@@ -140,6 +140,72 @@ the more conservative interpretation and update both Data Safety and the
 privacy notice. Google Play Billing's own card/payment handling does not need
 to be declared when Bitey never accesses that information.
 
+#### From 1.0.5: Bitey AI
+
+1.0.5 is the first build that sends a photograph off the device, to the
+analysis function in `plate-cc703` and on to Google's Gemini. The answers
+below are drawn from the code as it ships (`BiteyAnalysis.kt`,
+`functions/index.js`, `functions/quota.js`); re-check them against any later
+change to what that request carries. "Judgment call" marks an answer Play's
+definitions leave open, with the reasoning, so it can be revisited rather than
+defended from memory.
+
+**Overview questions**
+
+| Question | Answer |
+| --- | --- |
+| Does your app collect or share any of the required user data types? | **Yes** |
+| Is all of the user data collected by your app encrypted in transit? | **Yes.** Bitey AI and Open Food Facts are both HTTPS. |
+| Which account creation methods does your app support? | **None.** Bitey has no accounts. |
+| Do you provide a way for users to request that their data be deleted? | **Yes**, through the privacy contact. The only developer-held data is a hashed daily counter, which is deleted automatically after seven days regardless. |
+
+**Data types**
+
+| Data type | Collected | Shared | Ephemeral | Required | Purposes |
+| --- | --- | --- | --- | --- | --- |
+| Photos and videos → **Photos** | Yes | No | No | Optional | App functionality |
+| App activity → **Other user-generated content** | Yes | No | No | Optional | App functionality |
+| Financial info → **Purchase history** | Yes | No | No | Optional | App functionality; Fraud prevention, security, and compliance |
+
+- **Photos.** The photograph is sent to the developer's function. Google
+  processes it on the developer's behalf, and Play does not count a transfer to
+  a service provider acting for you as *sharing*.
+  *Judgment call, ephemeral:* the function keeps nothing, but Google may keep a
+  photograph for a limited period to detect abuse, as the paid Gemini API terms
+  describe. Answering **No** is the answer that stays true under that retention.
+- **Other user-generated content** now covers two things: the Open Food Facts
+  barcode, as before, and the correction a person types to Bitey AI ("it is
+  vegetarian"). Same answers for both.
+- **Purchase history.** The Play purchase token goes to the function, which
+  verifies it with Google Play and keeps a one-way hash of it, with the day and
+  a count, for seven days. *Judgment call, type:* the token identifies a
+  purchase rather than a device, so Purchase history fits better than *Device
+  or other IDs*. The second purpose is the daily limit, which exists to stop
+  abuse. *Shared:* the token goes back to Google Play, which issued it, only to
+  be verified.
+
+**Not declared, and why**
+
+- **Health info / Fitness info.** What leaves the device is a photograph of
+  food and an optional correction, both declared above. The diary, weight,
+  profile and nutrition totals stay on the device, as before, and the estimate
+  that comes back is not kept by the server. *Judgment call:* if Play review
+  reads a meal photograph as health data, add **Health info** with the same
+  answers as Photos; no code change is needed.
+- **Approximate location.** Cloud Run's standard request logs record the
+  caller's IP address for 30 days. Bitey never derives a location from it, and
+  the privacy notice discloses the logging. *Judgment call:* declare
+  Approximate location only if Play guidance or review treats infrastructure
+  request logs as location collection.
+- **App language.** It is sent so the answer comes back in the right language.
+  It is an app setting, not one of Play's user data types.
+
+**Check before submitting: ML Kit.** The barcode scanner uses Google's
+bundled ML Kit (`com.google.mlkit:barcode-scanning`), and has since 1.0.0.
+Google publishes a Data safety disclosure for ML Kit, covering what the
+library itself may send to Google. Read it and add whatever it lists. This
+applies to every Bitey release, not just 1.0.5.
+
 ### Other app-content tasks
 
 - Complete the content-rating questionnaire accurately; do not claim medical
