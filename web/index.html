@@ -108,7 +108,7 @@
       <section class="totals" aria-labelledby="totals-heading">
         <h2 id="totals-heading" class="sr-only" data-i18n="Day total">Day total</h2>
         <button id="open-trends" class="totals-more" type="button">
-          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none"
+          <svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 18V9M9.3 18V5M14.7 18v-6M20 18v-9"/>
           </svg>
@@ -131,8 +131,25 @@
         <div class="quick-bite-head">
           <span class="quick-bite-title" data-i18n="Grazing &amp; Quick bites">Grazing &amp; Quick bites</span>
           <span class="quick-bite-links">
-            <button id="repeat-btn" class="quick-custom-link" type="button" data-i18n="↺ Repeat">↺ Repeat</button>
-            <button id="quick-custom-btn" class="quick-custom-link" type="button" data-i18n="+ Custom">+ Custom</button>
+            <!-- Drawn icons rather than the ↺ and + characters they replace: a
+                 character is sized by the label's font and was translated
+                 with it, and on a narrow screen it wrapped onto a line of its
+                 own above the word. The label is its own span because
+                 translating the button would overwrite the icon. -->
+            <button id="repeat-btn" class="quick-custom-link" type="button">
+              <svg class="quick-link-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                   stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L3 10"/>
+              </svg>
+              <span data-i18n="Repeat">Repeat</span>
+            </button>
+            <button id="quick-custom-btn" class="quick-custom-link" type="button">
+              <svg class="quick-link-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none"
+                   stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+              <span data-i18n="Custom">Custom</span>
+            </button>
           </span>
         </div>
         <div class="quick-bite-scroll" id="quick-bite-chips"></div>

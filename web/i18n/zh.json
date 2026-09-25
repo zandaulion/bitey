@@ -60,7 +60,6 @@
   "Formula says": "公式说",
   "Fossil record confirms: you're doing fantastic today! 🦴✨": "化石记录证实：你今天做得太棒了！ 🦴✨",
   " and ": "和 ",
-  "+ Custom": "+ 定制",
   "14 days": "14天",
   "30 days": "30天",
   "90 days": "90天",
@@ -326,7 +325,6 @@
     "one": "到目前为止已称重 {0} 次。 {1} 再持续一周，就会出现一条趋势线。",
     "other": "到目前为止已称重 {0} 次。 {1} 再持续一周，就会出现一条趋势线。"
   },
-  "↺ Repeat": "↺ 重复",
   "Without them the app cannot work out what you burn, so a day's total has nothing to sit against. Real numbers, not round ones — the estimate is only as good as what it is given.": "如果没有它们，应用程序无法计算出您燃烧的内容，因此一天的总量没有什么可担心的。实数，而不是整数——估计值的好坏取决于给出的值。",
   "Worked out from your latest weigh-in, <b>{0} kg</b>.": "根据您最近的体重计算得出，<b>{0} 公斤</b>。",
   "Yesterday": "昨天",
@@ -411,5 +409,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "您拍摄或选择的照片，以及您为更正而输入的内容，会发送到 Bitey 的服务器，并由 Google 的 Gemini 读取。同时还会发送一个 Google Play 代码，用于确认您的订阅。",
   "This build cannot open the camera.": "此版本无法打开相机。",
   "Withdraw consent to send photos": "撤回发送照片的同意",
-  "You can withdraw this at any time in Settings.": "您可以随时在设置中撤回。"
+  "You can withdraw this at any time in Settings.": "您可以随时在设置中撤回。",
+  "Repeat": "重复",
+  "Custom": "定制"
 }

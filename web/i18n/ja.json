@@ -14,7 +14,6 @@
   "Bitey AI is active on this device.": "Bitey AI はこのデバイスで有効です。",
   "No Bitey AI purchase was found for this Google Play account.": "この Google Play アカウントには Bitey AI の購入が見つかりませんでした。",
   " and ": "そして ",
-  "+ Custom": "+カスタム",
   "14 days": "14日",
   "30 days": "30日",
   "90 days": "90日",
@@ -326,7 +325,6 @@
     "one": "これまでに {0} 人が計量を行っています。さらに {1} 個、1 週間にわたって広がり、傾向線が表示されます。",
     "other": "これまでに {0} 人が計量を行っています。さらに {1} 個、1 週間にわたって広がり、傾向線が表示されます。"
   },
-  "↺ Repeat": "↺ 繰り返し",
   "Without them the app cannot work out what you burn, so a day's total has nothing to sit against. Real numbers, not round ones — the estimate is only as good as what it is given.": "これらがなければ、アプリは消費量を計算できないため、1 日の合計には何の根拠もありません。四捨五入ではなく実数です。推定値は与えられた値と同じくらい正確です。",
   "Worked out from your latest weigh-in, <b>{0} kg</b>.": "最新の体重 <b>{0} kg</b> から計算されます。",
   "Yesterday": "昨日",
@@ -411,5 +409,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "撮影または選択した写真と、修正のために入力した内容は、Bitey のサーバーに送信され、Google の Gemini が読み取ります。定期購入を確認するための Google Play のコードも一緒に送信されます。",
   "This build cannot open the camera.": "このバージョンではカメラを開けません。",
   "Withdraw consent to send photos": "写真送信への同意を取り消す",
-  "You can withdraw this at any time in Settings.": "この同意は設定からいつでも取り消せます。"
+  "You can withdraw this at any time in Settings.": "この同意は設定からいつでも取り消せます。",
+  "Repeat": "繰り返し",
+  "Custom": "カスタム"
 }
