@@ -2,8 +2,7 @@
 
 **Last updated:** 25 September 2026
 **Developer:** Zandaulion
-**Privacy contact:** **Replace this line with a working privacy email address
-before publishing.**
+**Privacy contact:** **zandaulion@gmail.com**
 
 This Privacy Notice applies to the Android app **Bitey — Private Food Log**
 (“Bitey”, “the app”). Bitey is designed as an on-device food diary: it does
