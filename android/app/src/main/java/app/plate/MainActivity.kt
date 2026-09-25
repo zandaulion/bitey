@@ -387,7 +387,7 @@ class MainActivity : ComponentActivity() {
     private fun applyAiEntitlement(status: PlayBilling.Status) {
         val locked = status != PlayBilling.Status.ACTIVE
         if (::photoAction.isInitialized) {
-            photoAction.setCompoundDrawablesWithIntrinsicBounds(null, photoIcon(locked), null, null)
+            photoAction.setCompoundDrawables(null, sized(photoIcon(locked)), null, null)
         }
         if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(status.wireValue)
     }
@@ -398,6 +398,19 @@ class MainActivity : ComponentActivity() {
     private fun photoIcon(locked: Boolean) = getDrawable(
         if (locked) R.drawable.ic_action_photo_locked else R.drawable.ic_action_photo,
     )?.mutate()?.apply { if (!locked) setTint(Color.WHITE) }
+
+    /**
+     * The icons are 24dp vectors, Android's default, which left them looking
+     * lost in buttons 64dp tall. Drawn at 30dp (34 on a tablet) they fill the
+     * button in proportion, and stay sharp because they are vectors.
+     *
+     * The height budget still holds at large system font sizes: 30 + 2 gap +
+     * a 12sp label at 1.3x + 8 padding is 61, inside the 64dp button.
+     */
+    private fun sized(drawable: android.graphics.drawable.Drawable?) = drawable?.apply {
+        val size = dp(if (isTablet) 34 else 30)
+        setBounds(0, 0, size, size)
+    }
 
     private fun actionButton(label: String, icon: Int, primary: Boolean, action: String, locked: Boolean = false): Button = Button(this).apply {
         text = label
@@ -412,7 +425,7 @@ class MainActivity : ComponentActivity() {
         val image = getDrawable(icon)?.mutate()?.apply {
             if (!locked) setTint(if (primary) Color.WHITE else Color.rgb(74, 87, 76))
         }
-        setCompoundDrawablesWithIntrinsicBounds(null, image, null, null)
+        setCompoundDrawables(null, sized(image), null, null)
         background = GradientDrawable().apply {
             setColor(if (primary) Color.rgb(46, 139, 87) else Color.WHITE)
             cornerRadius = dp(if (isTablet) 18 else 16).toFloat()
