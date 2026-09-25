@@ -1,6 +1,6 @@
 # Bitey — Private Food Log: Privacy Policy
 
-**Last updated:** 10 September 2026
+**Last updated:** 25 September 2026
 **Developer:** Zandaulion
 **Privacy contact:** **Replace this line with a working privacy email address
 before publishing.**
@@ -12,10 +12,17 @@ not require an account and does not operate a server that stores your diary.
 ## The short version
 
 Your diary stays on your device. Bitey does not sell your data, show ads, or
-use third-party analytics or advertising SDKs. The only current optional
-network request is a barcode lookup that you choose to make directly with Open
-Food Facts. A lookup sends that service the barcode and the usual connection
-information, including your IP address.
+use third-party analytics or advertising SDKs. Two features send something off
+your device, and only when you use them:
+
+- **Barcode lookups** send a barcode you scanned directly to Open Food Facts.
+- **Bitey AI**, an optional paid feature, sends a food photograph you choose —
+  and any correction you type — to Bitey’s analysis server, where Google’s
+  Gemini reads it. Bitey asks for your consent before the first photograph is
+  sent.
+
+Nothing else leaves your device: not your diary, weight, profile, or other
+photos.
 
 ## Information Bitey stores on your device
 
@@ -43,12 +50,47 @@ copy of it.
 Bitey requests camera access only when you choose a feature that needs it,
 such as scanning a barcode or taking a food photograph. Barcode reading happens
 on-device. Food photographs are stored on your device when you save the
-associated diary entry; Bitey does not upload them to the developer.
+associated diary entry. A photograph leaves your device only if you send it to
+Bitey AI, as described next.
 
-In version 1.0, photo analysis is not connected to an AI provider. If a future
-version adds a cloud AI food-analysis feature, Bitey will update this notice
-and present a clear in-app disclosure and choice before sending a photograph or
-related information to that provider.
+## Bitey AI photo analysis
+
+Bitey AI is an optional paid subscription, bought and managed through Google
+Play. When you use it, Bitey estimates what is on your plate from a photograph.
+Before the first photograph is sent, Bitey shows what will be sent and asks for
+your consent. You can withdraw consent at any time in Bitey’s Settings; the
+next photograph will ask again.
+
+**What is sent.** Each time you ask Bitey AI to read a photograph, your device
+sends, over HTTPS, to Bitey’s analysis server (a Google Cloud function operated
+by the developer):
+
+- The photograph you took or chose.
+- Any correction you typed about it, such as “it is vegetarian”.
+- Your app language, so the answer comes back in it.
+- A Google Play purchase token: an opaque code that identifies your
+  subscription purchase. It is not your Google account and does not name you.
+- Standard connection information that any internet service receives, such as
+  your IP address and request time.
+
+Your diary, weight, profile, other photographs and backups are not sent.
+
+**What happens to it.** The server asks Google Play whether the purchase token
+belongs to an active Bitey AI subscription, then passes the photograph and your
+correction to Google’s Gemini, which returns an estimate of the foods and
+nutrition. Google processes the photograph on the developer’s behalf under the
+Gemini API’s terms for paid services, which do not permit Google to use it to
+improve Google’s products. Google may keep it for a limited period to detect
+abuse, as those terms describe. The estimate comes back to your device, where
+you review and save it like any other diary entry.
+
+**What is kept.** Bitey’s server does not store the photograph, your
+correction, or the estimate. To enforce the daily limit of readings, it keeps a
+counter for each subscription and day: a one-way hash of the purchase token,
+the date, and the number of readings used. The token itself is not stored. Each
+counter is deleted automatically seven days after its day ends. The server’s
+logs record technical details — the hash, token counts, and whether a request
+succeeded — but not the photograph, your correction, or the estimate.
 
 ## Optional Open Food Facts barcode lookups
 
@@ -101,11 +143,16 @@ Exported backups are separate files. Deleting the app does not delete backups
 you saved elsewhere; delete those files yourself if you no longer want them.
 Cached barcode foods are removed with Bitey’s app storage.
 
+For Bitey AI, the daily reading counters described above are deleted
+automatically seven days after their day ends. Your subscription itself is held
+by Google Play; cancel it in Google Play’s subscription settings.
+
 ## Security
 
 Bitey keeps diary data in Android app-private storage and limits its packaged
-WebView to the app’s own local interface. Optional Open Food Facts requests use
-HTTPS. No method of storage or transmission is completely secure, so protect
+WebView to the app’s own local interface. Optional Open Food Facts requests and
+Bitey AI requests use HTTPS. The Google Play purchase token is handled only by
+Bitey’s native code and is never exposed to the app’s web interface. No method of storage or transmission is completely secure, so protect
 your device and any backups with the security controls available to you.
 
 ## Children and health information
@@ -116,10 +163,10 @@ directed to children.
 
 ## Changes to this notice
 
-If Bitey’s data practices change, especially if a future version enables cloud
-AI analysis or account-based syncing, this notice will be updated before or
-when that change is released. Material new handling of sensitive data will also
-be explained in the app where required.
+If Bitey’s data practices change, for example if a future version adds
+account-based syncing, this notice will be updated before or when that change
+is released. Material new handling of sensitive data will also be explained in
+the app where required.
 
 ## Contact
 
@@ -136,8 +183,11 @@ privacy contact shown at the top of this notice.
    (not a PDF), then add that URL to Play Console and an in-app Privacy Notice
    link.
 3. Complete Play Console’s Data safety form from the released binary, not from
-   this document alone. For the current release, audit the optional Open Food
-   Facts barcode transfer and camera permission in particular.
-4. Update this notice, the Data safety form, and the in-app disclosure before
-   enabling photo AI, cloud sync, analytics, billing SDKs, or any other new
-   third-party data flow.
+   this document alone. Audit the optional Open Food Facts barcode transfer,
+   the camera permission, and — from 1.0.5 — the Bitey AI photo and purchase
+   token transfer in particular.
+4. Before 1.0.5 reaches testers: enable the Firestore TTL policy on collection
+   group `ai_usage`, field `expireAt`. The seven-day retention stated above
+   depends on it; without it the counters are never deleted.
+5. Update this notice, the Data safety form, and the in-app disclosure before
+   enabling cloud sync, analytics, or any other new third-party data flow.

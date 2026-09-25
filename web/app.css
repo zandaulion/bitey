@@ -1326,7 +1326,11 @@ input[type="range"]::-moz-range-thumb {
 .consent-card h2 { margin: 0 0 10px; font-size: 1.18rem; }
 .consent-card > p { margin: 0 0 16px; color: var(--ink-2); line-height: 1.45; }
 .consent-toggle { margin: 0; text-align: left; }
-.consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+/* The decline is always short ("Not now") and the confirmation rarely is --
+   "Zustimmen und fortfahren", "Accepter et continuer". Equal halves wrapped
+   the confirmation onto three lines in half the launch languages, so it gets
+   the larger share. */
+.consent-actions { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 10px; margin-top: 16px; }
 .consent-actions button { min-height: 46px; }
 
 /* Large, and on its own line: it carries the whole sense of "something is

@@ -555,6 +555,9 @@
             <button id="ai-restore" class="secondary" type="button" data-i18n="Restore Bitey AI purchase">Restore Bitey AI purchase</button>
             <button id="ai-manage" class="secondary" type="button" data-i18n="Manage Bitey AI subscription">Manage Bitey AI subscription</button>
           </div>
+          <p class="hint" data-i18n="Photos you send to Bitey AI are read by Google&#x27;s Gemini. Nothing else leaves your phone.">Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.</p>
+          <!-- Only shown once consent has been given, so there is something to withdraw. -->
+          <button id="ai-consent-withdraw" class="secondary" type="button" hidden data-i18n="Withdraw consent to send photos">Withdraw consent to send photos</button>
         </section>
 
         <div id="server-recovery-controls">
@@ -620,6 +623,24 @@
     <div class="consent-actions">
       <button id="barcode-consent-cancel" class="secondary" type="button" data-i18n="Not now">Not now</button>
       <button id="barcode-consent-allow" class="primary" type="button" data-i18n="Allow lookup">Allow lookup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Android-only. Shown once, before the first photograph leaves the phone
+     for Bitey AI, and again after consent is withdrawn in Settings. It says
+     what is sent, to whom, and what is not, in the words of the privacy
+     notice; declining sends nothing and leaves the rest of the diary as it
+     was. -->
+<div id="ai-consent" class="consent" hidden role="dialog" aria-modal="true" aria-labelledby="ai-consent-heading">
+  <div class="consent-card">
+    <h2 id="ai-consent-heading" data-i18n="How Bitey AI reads your photo">How Bitey AI reads your photo</h2>
+    <p data-i18n="The photo you take or choose, and anything you type to correct it, is sent to Bitey&#x27;s server and read by Google&#x27;s Gemini. A code from Google Play that confirms your subscription is sent with it.">The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.</p>
+    <p data-i18n="Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey&#x27;s server does not keep the photo.">Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.</p>
+    <p class="hint" data-i18n="You can withdraw this at any time in Settings.">You can withdraw this at any time in Settings.</p>
+    <div class="consent-actions">
+      <button id="ai-consent-cancel" class="secondary" type="button" data-i18n="Not now">Not now</button>
+      <button id="ai-consent-allow" class="primary" type="button" data-i18n="Agree and continue">Agree and continue</button>
     </div>
   </div>
 </div>

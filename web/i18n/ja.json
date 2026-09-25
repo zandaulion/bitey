@@ -401,5 +401,15 @@
     "few": "あと {0} 回の計量",
     "one": "あと {0} 回の計量",
     "other": "あと {0} 回の計量"
-  }
+  },
+  "Agree and continue": "同意して続ける",
+  "Bitey AI will ask again before sending a photo.": "写真を送る前に、Bitey AI がもう一度確認します。",
+  "Could not read that photo.": "その写真を読み取れませんでした。",
+  "How Bitey AI reads your photo": "Bitey AI が写真を読み取るしくみ",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "それ以外のものはスマートフォンから送信されません。記録、体重、プロフィール、ほかの写真も送信されません。Bitey のサーバーは写真を保存しません。",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Bitey AI に送った写真は Google の Gemini が読み取ります。それ以外のものはスマートフォンから送信されません。",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "撮影または選択した写真と、修正のために入力した内容は、Bitey のサーバーに送信され、Google の Gemini が読み取ります。定期購入を確認するための Google Play のコードも一緒に送信されます。",
+  "This build cannot open the camera.": "このバージョンではカメラを開けません。",
+  "Withdraw consent to send photos": "写真送信への同意を取り消す",
+  "You can withdraw this at any time in Settings.": "この同意は設定からいつでも取り消せます。"
 }
