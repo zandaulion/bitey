@@ -21,15 +21,17 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload bundle is version **1.0.4** (`versionCode` 5). It is the first
-build in which a photograph can actually be taken: native code opens the camera
-and the gallery, because a WebView file chooser needs a user gesture the Play
-entitlement check has already spent. Build it locally and record its hash here
-once it exists; signed bundles are Git-ignored. Its Play release notes, in all
-twelve launch languages, are in `RELEASE_NOTES_1.0.4.md`.
+The next upload bundle is version **1.0.5** (`versionCode` 6), the first in
+which Bitey AI reads a photograph end to end. Build it locally and record its
+hash here once it exists; signed bundles are Git-ignored. Its Play release
+notes, in all twelve launch languages, are in `RELEASE_NOTES_1.0.5.md`, with
+the paste-ready tagged form in `release-notes-1.0.5.xml`. Update the Data
+safety form first (see `MANUAL_RELEASE_GUIDE.md`, "From 1.0.5: Bitey AI"):
+this build sends photographs off the device.
 
-Previously uploaded, all closed testing: 1.0.3 (`versionCode` 4), which made
-the Bitey AI plans reachable; 1.0.2 (`versionCode` 3), which declared
+Previously uploaded, all closed testing: 1.0.4 (`versionCode` 5), in which the
+camera and gallery first opened; 1.0.3 (`versionCode` 4), which made the Bitey
+AI plans reachable; 1.0.2 (`versionCode` 3), which declared
 `com.android.vending.BILLING` and so unlocked Play Console's Subscriptions page
 and let `bitey_ai` be created; and 1.0.0 (`versionCode` 1).
 
@@ -44,8 +46,8 @@ and let `bitey_ai` be created; and 1.0.0 (`versionCode` 1).
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.4** (`versionCode` 5)
-- Next upload artifact: `bitey-private-food-log-1.0.4.aab`
+- Current source version: **1.0.5** (`versionCode` 6)
+- Next upload artifact: `bitey-private-food-log-1.0.5.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do

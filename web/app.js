@@ -2572,7 +2572,9 @@ function openReview(mode, entry = null) {
   state.photoDay = null;
 
   $('review-heading').textContent = t(SHEET_TITLES[mode]);
-  $('save-entry').textContent = mode === 'edit' ? 'Save changes' : 'Save';
+  // Both through t(): this was the one untranslated label on the sheet, and
+  // it is the button every entry ends on.
+  $('save-entry').textContent = mode === 'edit' ? t('Save changes') : t('Save');
   const dupBtn = $('dup-entry');
   if (dupBtn) {
     dupBtn.hidden = mode !== 'edit';

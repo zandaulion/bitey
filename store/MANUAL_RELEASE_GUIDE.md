@@ -18,19 +18,27 @@ go into GitHub.
   still could not be taken: a WebView opens a file chooser only for a click
   carrying a user gesture, and neither the native action bar nor a click issued
   after the Play check has one. Do not treat 1.0.3 as a working photo build.
-- The current source is **1.0.4** (`versionCode` 5), where native code opens
-  the camera and the gallery itself. Confirmed on a device, both routes: the
-  photograph reaches the review sheet. No signed 1.0.4 bundle has been uploaded
-  yet. Its release notes are in `RELEASE_NOTES_1.0.4.md`, with the paste-ready
-  tagged form in `release-notes-1.0.4.xml`.
-- A purchase has been made and acknowledged on a licence-test account, so the
-  billing round trip is proven. Note that test subscriptions run on accelerated
-  periods and lapse within the hour, after which the plan picker appears again;
-  that is Play's test behaviour, not a regression.
+- **1.0.4** (`versionCode` 5) is on closed testing: native code opens the
+  camera and the gallery, but analysis still answers "not connected yet".
+- The current source is **1.0.5** (`versionCode` 6), the first build in which
+  Bitey AI reads a photograph. Confirmed on a Galaxy Z Fold4 against the
+  deployed function: consent card, camera, analysis, an estimate in the review
+  sheet, Save, and the entry in the diary. No signed 1.0.5 bundle has been
+  uploaded yet. Its release notes are in `RELEASE_NOTES_1.0.5.md`, with the
+  paste-ready tagged form in `release-notes-1.0.5.xml`.
+- The analysis function `analyse` is deployed in `plate-cc703` (europe-west1),
+  running as `bitey-play@plate-cc703.iam.gserviceaccount.com`. That account is
+  Active in Play Console with View app information and View financial data for
+  Bitey only. The project's default compute account never activated through a
+  Play invite, which is why the function has an account of its own.
+- Test subscriptions run on accelerated periods (five-minute renewals) and
+  lapse within the hour, after which the plan picker and padlocks come back.
+  That is Play's test behaviour, not a regression.
 - `bitey_ai` is **created and active** in Play Console with both auto-renewing
   base plans, `monthly` (€5.99) and `yearly` (€49.99), in 174 countries.
-- Gemini/Firebase is **not wired in yet**. Do not sell Bitey AI to real users
-  until its server-side entitlement check and 20-call daily limit exist.
+- Before 1.0.5 goes beyond closed testing: the Data safety form (section 4,
+  "From 1.0.5"), the published privacy notice, the Firestore TTL policy on
+  `ai_usage.expireAt`, and App Check.
 
 ## Keep these private
 

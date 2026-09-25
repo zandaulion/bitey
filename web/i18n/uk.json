@@ -190,7 +190,7 @@
   "Repeat a meal": "Повторіть прийом їжі",
   "Replace recovery code": "Замініть код відновлення",
   "Replace the recovery code? The old one stops working immediately.": "Замінити код відновлення? Старий відразу перестає працювати.",
-  "Save": "зберегти",
+  "Save": "Зберегти",
   "Save this recovery code": "Збережіть цей код відновлення",
   "Saved": "Збережено",
   "Saved. The Cretaceous never had it this easy. 🌋": "Збережено. У крейдяний період ніколи не було так легко. 🌋",
@@ -411,5 +411,6 @@
   "Withdraw consent to send photos": "Відкликати згоду на надсилання фото",
   "You can withdraw this at any time in Settings.": "Ви можете відкликати це будь-коли в Налаштуваннях.",
   "Repeat": "Повторіть",
-  "Custom": "Спеціальний"
+  "Custom": "Спеціальний",
+  "Save changes": "Зберегти зміни"
 }
