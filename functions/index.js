@@ -43,6 +43,13 @@ const fail = (res, status, code, message, extra = {}) =>
 export const analyse = onRequest(
   {
     region: 'europe-west1',
+    // A service account of its own rather than the project's default compute
+    // account, which carries Editor on the whole project. This one holds only
+    // what the function uses: Play read access for Bitey (granted in Play
+    // Console), its one secret (granted by the deploy), Firestore and logs.
+    // It is also the identity Play Console is told about, so the grant there
+    // names exactly one piece of software.
+    serviceAccount: 'bitey-play@plate-cc703.iam.gserviceaccount.com',
     secrets: [GEMINI_API_KEY],
     // A photograph is the payload, so the default 32 MiB is not the binding
     // constraint; the request is capped in gate.js long before this.
