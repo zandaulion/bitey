@@ -60,7 +60,6 @@
   "Formula says": "Fórmula diz",
   "Fossil record confirms: you're doing fantastic today! 🦴✨": "O registro fóssil confirma: você está fantástico hoje! 🦴✨",
   " and ": "e ",
-  "+ Custom": "+ Personalizado",
   "14 days": "14 dias",
   "30 days": "30 dias",
   "90 days": "90 dias",
@@ -401,7 +400,6 @@
     "one": "{0} pesagens até agora. Mais {1}, distribuídos ao longo de uma semana, e uma linha de tendência aparece.",
     "other": "{0} pesagens até agora. Mais {1}, distribuídos ao longo de uma semana, e uma linha de tendência aparece."
   },
-  "↺ Repeat": "↺ Repetir",
   "Agree and continue": "Concordar e continuar",
   "Bitey AI will ask again before sending a photo.": "O Bitey AI vai perguntar de novo antes de enviar uma foto.",
   "Could not read that photo.": "Não foi possível ler essa foto.",
@@ -411,5 +409,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "A foto que você tira ou escolhe, e o que você digitar para corrigi-la, é enviada ao servidor do Bitey e lida pelo Gemini, do Google. Junto com ela vai um código do Google Play que confirma sua assinatura.",
   "This build cannot open the camera.": "Esta versão não consegue abrir a câmera.",
   "Withdraw consent to send photos": "Retirar o consentimento para enviar fotos",
-  "You can withdraw this at any time in Settings.": "Você pode retirar isso a qualquer momento em Configurações."
+  "You can withdraw this at any time in Settings.": "Você pode retirar isso a qualquer momento em Configurações.",
+  "Repeat": "Repetir",
+  "Custom": "Personalizado"
 }

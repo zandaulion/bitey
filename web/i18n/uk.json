@@ -14,7 +14,6 @@
   "Bitey AI is active on this device.": "Bitey AI активний на цьому пристрої.",
   "No Bitey AI purchase was found for this Google Play account.": "Для цього облікового запису Google Play не знайдено покупки Bitey AI.",
   " and ": "і ",
-  "+ Custom": "+ Спеціальний",
   "14 days": "14 днів",
   "30 days": "30 днів",
   "90 days": "90 днів",
@@ -350,7 +349,6 @@
     "one": "Наразі {0} зважувань. {1} більше, розподілених протягом тижня, і з’являється лінія тренду.",
     "other": "Наразі {0} зважувань. {1} більше, розподілених протягом тижня, і з’являється лінія тренду."
   },
-  "↺ Repeat": "↺ Повторіть",
   "Logged it before I forgot — teamwork. 🤝": "Зареєстрував, поки не забув — командна робота. 🤝",
   "Logged {0}": "Зареєстровано {0}",
   "Logged {0} ({1} kcal)": "Зареєстровано {0} ({1} ккал)",
@@ -411,5 +409,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Фото, яке ви робите або вибираєте, і все, що ви вводите для виправлення, надсилається на сервер Bitey і читається Gemini від Google. Разом із ним надсилається код від Google Play, що підтверджує вашу підписку.",
   "This build cannot open the camera.": "Ця версія не може відкрити камеру.",
   "Withdraw consent to send photos": "Відкликати згоду на надсилання фото",
-  "You can withdraw this at any time in Settings.": "Ви можете відкликати це будь-коли в Налаштуваннях."
+  "You can withdraw this at any time in Settings.": "Ви можете відкликати це будь-коли в Налаштуваннях.",
+  "Repeat": "Повторіть",
+  "Custom": "Спеціальний"
 }
