@@ -401,5 +401,15 @@
     "one": "O cântărire până acum. Încă {1}, răspândite pe o săptămână, și apare linia de tendință.",
     "other": "{0} de cântăriri până acum. Încă {1}, răspândite pe o săptămână, și apare linia de tendință."
   },
-  "↺ Repeat": "↺ Repetă"
+  "↺ Repeat": "↺ Repetă",
+  "Agree and continue": "Accept și continui",
+  "Bitey AI will ask again before sending a photo.": "Bitey AI te va întreba din nou înainte de a trimite o fotografie.",
+  "Could not read that photo.": "Fotografia nu a putut fi citită.",
+  "How Bitey AI reads your photo": "Cum citește Bitey AI fotografia ta",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Nimic altceva nu părăsește telefonul: nici jurnalul, nici greutatea, nici profilul, nici alte fotografii. Serverul Bitey nu păstrează fotografia.",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Fotografiile trimise către Bitey AI sunt citite de Gemini de la Google. Nimic altceva nu părăsește telefonul.",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Fotografia pe care o faci sau o alegi, împreună cu orice corectură pe care o scrii, este trimisă către serverul Bitey și citită de Gemini de la Google. Odată cu ea se trimite un cod de la Google Play care confirmă abonamentul.",
+  "This build cannot open the camera.": "Această versiune nu poate deschide camera.",
+  "Withdraw consent to send photos": "Retrage acordul pentru trimiterea fotografiilor",
+  "You can withdraw this at any time in Settings.": "Poți retrage acest acord oricând din Setări."
 }

@@ -11,6 +11,18 @@ import { DAILY_LIMIT, decideQuota, dayKey } from './core/ai/gate.js';
 const COLLECTION = 'ai_usage';
 
 /**
+ * How long a day's counter is kept.
+ *
+ * Only today's counter is ever read; older ones are kept briefly for support
+ * ("why was I told I had run out?") and then deleted by Firestore's TTL
+ * policy on `expireAt`. The privacy notice states this period, so change the
+ * two together.
+ */
+const RETENTION_DAYS = 7;
+
+const expiryFor = (day) => new Date(Date.parse(`${day}T00:00:00Z`) + (RETENTION_DAYS + 1) * 86400000);
+
+/**
  * A stable, non-reversible name for one subscription.
  *
  * The purchase token itself is never stored. It is a bearer credential for the
@@ -43,8 +55,10 @@ export async function claim(entitlementId, now = new Date(), db = getFirestore()
     tx.set(ref, {
       count: used + 1,
       day,
-      // Lets a scheduled cleanup drop old rows without reading the key apart.
-      updatedAt: FieldValue.serverTimestamp()
+      updatedAt: FieldValue.serverTimestamp(),
+      // Firestore deletes the document after this time, once the TTL policy
+      // on ai_usage.expireAt is enabled in the console.
+      expireAt: expiryFor(day)
     }, { merge: true });
 
     return { ...verdict, used: used + 1, remaining: verdict.remaining - 1 };
@@ -66,6 +80,8 @@ export async function refund(entitlementId, now = new Date(), db = getFirestore(
     if (!snapshot.exists) return;
     const used = Number(snapshot.data()?.count) || 0;
     if (used <= 0) return;
-    tx.set(ref, { count: used - 1, day, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+    tx.set(ref, {
+      count: used - 1, day, updatedAt: FieldValue.serverTimestamp(), expireAt: expiryFor(day)
+    }, { merge: true });
   });
 }

@@ -2188,13 +2188,68 @@ async function requestAiAccess(action) {
     nativeAiWaiters.set(requestId, resolve);
     window.PlateNative.requestAiAccess(action, requestId);
   });
-  if (status === 'active') return true;
+  // Paying for the feature is not agreeing to send photographs. Every photo
+  // route -- camera, gallery, leftovers, a correction, a shared image --
+  // passes through here, so this is the one place the consent is enforced.
+  if (status === 'active') return ensureAiPhotoConsent();
   if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
   else if (status === 'cancelled') toast(t('Your Bitey AI purchase was cancelled.'));
   else if (status === 'unavailable') toast(t('Bitey AI is not available to buy yet.'));
   else toast(t('Could not connect to Google Play. Try again.'));
   return false;
 }
+
+/**
+ * Consent to send photographs off the phone for Bitey AI.
+ *
+ * Asked once, before the first photograph leaves, and kept on this device
+ * only. Withdrawing it in Settings clears it, so the next photo asks again.
+ * Storage that cannot be read is treated as no consent: asking twice is a
+ * nuisance, sending without asking is not something to risk.
+ */
+const AI_PHOTO_CONSENT_KEY = 'bitey-ai-photo-consent';
+let aiConsentResolve = null;
+
+function aiPhotoConsentGiven() {
+  try { return localStorage.getItem(AI_PHOTO_CONSENT_KEY) === 'granted'; } catch { return false; }
+}
+
+function setAiPhotoConsent(granted) {
+  try {
+    if (granted) localStorage.setItem(AI_PHOTO_CONSENT_KEY, 'granted');
+    else localStorage.removeItem(AI_PHOTO_CONSENT_KEY);
+  } catch { /* storage unavailable: the next photo simply asks again */ }
+  syncAiConsentControls();
+}
+
+function syncAiConsentControls() {
+  const withdraw = $('ai-consent-withdraw');
+  if (withdraw) withdraw.hidden = !aiPhotoConsentGiven();
+}
+
+function finishAiConsent(allowed) {
+  if (!aiConsentResolve) return;
+  const resolve = aiConsentResolve;
+  aiConsentResolve = null;
+  $('ai-consent').hidden = true;
+  if (allowed) setAiPhotoConsent(true);
+  resolve(allowed);
+}
+
+async function ensureAiPhotoConsent() {
+  if (aiPhotoConsentGiven()) return true;
+  // A second tap while the card is already open waits on the same answer.
+  if (aiConsentResolve) return false;
+  $('ai-consent').hidden = false;
+  return new Promise((resolve) => { aiConsentResolve = resolve; });
+}
+
+$('ai-consent-cancel').addEventListener('click', () => finishAiConsent(false));
+$('ai-consent-allow').addEventListener('click', () => finishAiConsent(true));
+$('ai-consent-withdraw')?.addEventListener('click', () => {
+  setAiPhotoConsent(false);
+  toast(t('Bitey AI will ask again before sending a photo.'));
+});
 
 $('ai-plan-close').addEventListener('click', closeAiPlanPicker);
 $('ai-plan-cancel').addEventListener('click', closeAiPlanPicker);
@@ -3909,6 +3964,7 @@ if (window.__PLATE_NATIVE__) {
   $('native-backup-actions').hidden = false;
   $('native-barcode-privacy').hidden = false;
   $('native-ai-purchases').hidden = false;
+  syncAiConsentControls();
 
   window.__plateNativeAiRestoreResult = (status) => {
     if (status === 'active') toast(t('Bitey AI is active on this device.'));
