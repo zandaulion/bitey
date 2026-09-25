@@ -1,0 +1,124 @@
+# Bitey 1.0.5 (`versionCode` 6) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.0.5.xml` beside this file is that paste-ready form, and this
+copy is generated from it. Play allows 500 characters per locale; the longest
+here, German, is 417.
+
+1.0.5 is the first build in which Bitey AI reads a photograph: native code
+sends it, with the Play purchase token, to the analysis function, which
+verifies the subscription before Gemini sees the image. It asks for consent
+before the first photograph leaves the phone. It also fixes the review
+sheet's Save button, which the native action bar covered, and that button's
+label, which was never translated.
+
+The Save button is quoted in each language as the app labels it, so the note
+names the button people actually see.
+
+## English (en-US)
+
+Bitey AI now reads your meal photos.
+
+- Photograph a meal and get its foods, portions and calories to check and save
+- Bitey asks before a photo leaves your phone, and you can withdraw that in Settings
+- The Save button is no longer hidden behind the bottom bar
+- Larger icons, and a better fit on wide screens
+
+## Arabic (ar)
+
+أصبح Bitey AI يقرأ صور وجباتك.
+
+- صوّر وجبة واحصل على أطعمتها وكمياتها وسعراتها لتراجعها وتحفظها
+- يسألك Bitey قبل أن تغادر أي صورة هاتفك، ويمكنك سحب موافقتك من الإعدادات
+- لم يعد زر "حفظ" مخفيًا خلف الشريط السفلي
+- أيقونات أكبر وملاءمة أفضل للشاشات العريضة
+
+## Chinese, Simplified (zh-CN)
+
+Bitey AI 现在可以读取您的餐食照片。
+
+- 拍下一餐，即可获得食物、份量和热量，核对后保存
+- 照片离开您的手机前，Bitey 会先征求您的同意；您可以在设置中撤回
+- “保存”按钮不再被底部栏遮挡
+- 图标更大，宽屏显示效果更好
+
+## French (fr-FR)
+
+Bitey AI lit désormais les photos de vos repas.
+
+- Photographiez un repas et obtenez ses aliments, portions et calories à vérifier et enregistrer
+- Bitey vous demande avant qu'une photo quitte votre téléphone ; vous pouvez retirer ce consentement dans les Paramètres
+- Le bouton « Enregistrer » n'est plus caché par la barre du bas
+- Des icônes plus grandes et un meilleur affichage sur les écrans larges
+
+## German (de-DE)
+
+Bitey AI liest jetzt Fotos Ihrer Mahlzeiten.
+
+- Fotografieren Sie eine Mahlzeit und erhalten Sie Lebensmittel, Portionen und Kalorien zum Prüfen und Speichern
+- Bitey fragt, bevor ein Foto Ihr Handy verlässt; die Zustimmung können Sie in den Einstellungen widerrufen
+- Die Schaltfläche „Speichern“ wird nicht mehr von der unteren Leiste verdeckt
+- Größere Symbole und eine bessere Darstellung auf breiten Bildschirmen
+
+## Hindi (hi-IN)
+
+Bitey AI अब आपके भोजन की फोटो पढ़ता है।
+
+- भोजन की फोटो लें और जाँचने व सहेजने के लिए खाद्य पदार्थ, मात्रा और कैलोरी पाएँ
+- फोटो आपके फ़ोन से बाहर जाने से पहले Bitey आपसे पूछता है; सहमति आप सेटिंग्स में वापस ले सकते हैं
+- "सहेजें" बटन अब नीचे की पट्टी के पीछे नहीं छिपता
+- बड़े आइकन, और चौड़ी स्क्रीन पर बेहतर दिखावट
+
+## Japanese (ja-JP)
+
+Bitey AI が食事の写真を読み取れるようになりました。
+
+- 食事を撮影すると、食品・量・カロリーが表示され、確認して保存できます
+- 写真がスマートフォンから送信される前に Bitey が確認します。同意は設定から取り消せます
+- 「保存」ボタンが下部のバーに隠れなくなりました
+- アイコンを大きくし、横長の画面での表示を改善しました
+
+## Korean (ko-KR)
+
+이제 Bitey AI가 식사 사진을 읽습니다.
+
+- 식사를 촬영하면 음식, 양, 칼로리를 확인하고 저장할 수 있습니다
+- 사진이 휴대폰 밖으로 나가기 전에 Bitey가 묻습니다. 동의는 설정에서 철회할 수 있습니다
+- "저장" 버튼이 더 이상 하단 바에 가려지지 않습니다
+- 아이콘이 커지고 넓은 화면에서 더 잘 맞습니다
+
+## Portuguese, Brazil (pt-BR)
+
+O Bitey AI agora lê as fotos das suas refeições.
+
+- Fotografe uma refeição e receba os alimentos, porções e calorias para conferir e salvar
+- O Bitey pergunta antes de uma foto sair do seu celular, e você pode retirar isso em Configurações
+- O botão "Salvar" não fica mais escondido atrás da barra inferior
+- Ícones maiores e um encaixe melhor em telas largas
+
+## Romanian (ro)
+
+Bitey AI citește acum fotografiile meselor tale.
+
+- Fotografiază o masă și primești alimentele, porțiile și caloriile, ca să le verifici și să le salvezi
+- Bitey te întreabă înainte ca o fotografie să părăsească telefonul, iar acordul îl poți retrage din Setări
+- Butonul „Salvează” nu mai este ascuns sub bara de jos
+- Pictograme mai mari și o așezare mai bună pe ecranele late
+
+## Spanish (es-ES)
+
+Bitey AI ya lee las fotos de tus comidas.
+
+- Fotografía una comida y obtén sus alimentos, porciones y calorías para revisarlos y guardarlos
+- Bitey te pregunta antes de que una foto salga de tu teléfono, y puedes retirarlo en Configuración
+- El botón «Guardar» ya no queda oculto tras la barra inferior
+- Iconos más grandes y mejor ajuste en pantallas anchas
+
+## Ukrainian (uk)
+
+Bitey AI тепер читає фото ваших страв.
+
+- Сфотографуйте страву й отримайте продукти, порції та калорії, щоб перевірити й зберегти
+- Bitey запитує, перш ніж фото залишить ваш телефон; згоду можна відкликати в Налаштуваннях
+- Кнопку «Зберегти» більше не закриває нижня панель
+- Більші значки й краще розміщення на широких екранах
