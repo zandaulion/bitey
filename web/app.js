@@ -132,6 +132,18 @@ const screens = [];
 function openScreen(name, close) {
   screens.push({ name, close });
   history.pushState({ plateScreen: name, depth: screens.length }, '');
+  syncNativeActionBar();
+}
+
+/**
+ * Android's Manual / Barcode / Photo bar is a native view drawn over the
+ * page, so unlike the browser's own bar it is not covered by an open sheet --
+ * it covered the sheet instead, including the review sheet's Save button.
+ * It is shown only while no screen is open, which is exactly when the page's
+ * bar is visible in the browser.
+ */
+function syncNativeActionBar() {
+  window.PlateNative?.setPrimaryActionsVisible?.(screens.length === 0);
 }
 
 /** User-initiated dismissal: unwind history, and let popstate do the closing. */
@@ -164,6 +176,7 @@ window.addEventListener('popstate', () => {
       console.error('failed to close screen', screen.name, err);
     }
   }
+  syncNativeActionBar();
 });
 
 // The Android host owns the system Back gesture. Keep its one tiny request on

@@ -43,6 +43,10 @@ class MainActivity : ComponentActivity() {
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
     private lateinit var photoAction: Button
+
+    /** The Manual / Barcode / Photo bar. Hidden while the page has a sheet
+     * open, which the page reports through the bridge. */
+    private lateinit var actionBar: View
     private lateinit var backCallback: OnBackPressedCallback
     private var backRequestInFlight = false
 
@@ -223,6 +227,15 @@ class MainActivity : ComponentActivity() {
                 // JavaScript-interface calls are not made on the UI thread.
                 runOnUiThread { updatePrimaryActionLabels(manual, barcode, photo) }
             },
+            onPrimaryActionsVisibilityChanged = { visible ->
+                runOnUiThread {
+                    // GONE rather than INVISIBLE, so the WebView beneath gets
+                    // the whole screen back and a sheet's footer is reachable.
+                    if (::actionBar.isInitialized) {
+                        actionBar.visibility = if (visible) View.VISIBLE else View.GONE
+                    }
+                }
+            },
             onAiAccessRequested = { _, requestId ->
                 // The page asks for a narrow entitlement result. It never sees
                 // a Play purchase token, account identity, or billing details.
@@ -266,7 +279,8 @@ class MainActivity : ComponentActivity() {
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT,
         ))
-        root.addView(nativeActionBar(), FrameLayout.LayoutParams(
+        actionBar = nativeActionBar()
+        root.addView(actionBar, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT,
             Gravity.BOTTOM,

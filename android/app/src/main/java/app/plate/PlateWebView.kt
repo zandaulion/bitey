@@ -106,6 +106,7 @@ private class PlateNativeBridge(
     private val onBackupExportRequested: () -> Unit,
     private val onBackupImportRequested: () -> Unit,
     private val onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
+    private val onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
     private val onAiAccessRequested: (String, String) -> Unit,
     private val onAiOfferPurchaseRequested: (String, String) -> Unit,
     private val onAiPurchaseRefreshRequested: () -> Unit,
@@ -165,6 +166,13 @@ private class PlateNativeBridge(
     @JavascriptInterface
     fun setPrimaryActionLabels(manual: String, barcode: String, photo: String) {
         onPrimaryActionLabelsChanged(manual, barcode, photo)
+    }
+
+    /** The page knows when a sheet is open; the native bar, drawn over the
+     * WebView, would otherwise cover it. */
+    @JavascriptInterface
+    fun setPrimaryActionsVisible(visible: Boolean) {
+        onPrimaryActionsVisibilityChanged(visible)
     }
 
     /** A user-facing AI entry point asks native code to check Play ownership.
@@ -227,6 +235,7 @@ class PlateWebView(
     onBackupExportRequested: () -> Unit,
     onBackupImportRequested: () -> Unit,
     onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
+    onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
     onAiAccessRequested: (String, String) -> Unit,
     onAiOfferPurchaseRequested: (String, String) -> Unit,
     onAiPurchaseRefreshRequested: () -> Unit,
@@ -280,6 +289,7 @@ class PlateWebView(
                 onBackupExportRequested,
                 onBackupImportRequested,
                 onPrimaryActionLabelsChanged,
+                onPrimaryActionsVisibilityChanged,
                 onAiAccessRequested,
                 onAiOfferPurchaseRequested,
                 onAiPurchaseRefreshRequested,
