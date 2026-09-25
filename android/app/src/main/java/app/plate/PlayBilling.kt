@@ -83,7 +83,13 @@ class PlayBilling(
     private val accessCallbacks = mutableListOf<(Status) -> Unit>()
     private var connecting = false
     private var purchaseFlowInFlight = false
+    /** Read by the page's bridge on a binder thread as well as here. */
+    @Volatile
     private var entitlement = Status.INACTIVE
+
+    /** Play's last answer, for drawing the interface. Access itself is still
+     * decided per request, and again by the server. */
+    fun status(): Status = entitlement
 
     /**
      * The token of the purchase that makes [entitlement] active, or null.

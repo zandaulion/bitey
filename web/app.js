@@ -2212,6 +2212,13 @@ async function requestAiAccess(action) {
   return false;
 }
 
+/** Play's current answer, pushed by Android whenever it changes. The CSS
+ * padlocks key off it; nothing here grants access, which is still decided
+ * per request above and by the server. */
+window.__plateNativeAiEntitlement = (status) => {
+  document.documentElement.dataset.ai = String(status || 'inactive');
+};
+
 /**
  * Consent to send photographs off the phone for Bitey AI.
  *

@@ -1060,50 +1060,59 @@ input[type="range"] { padding: 0; border: 0; background: none; }
    shape is CSS rather than a glyph, so it stays recognisable in every locale
    and in WebView fonts which may not contain a lock emoji. */
 .ai-locked { position: relative; }
-.ai-locked::after {
+
+/* Once Bitey AI is active the promise has been kept, and a padlock on a
+   feature somebody has paid for reads as "locked". Android marks the document
+   data-ai="active" from Play's answer (see index.html); everything below is
+   the not-yet-subscribed state only. The browser never sets it, so the PWA
+   keeps its lock. */
+:root:not([data-ai="active"]) .ai-locked::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 8px;
-  border-radius: 2px;
+  width: 12px;
+  height: 9px;
+  border-radius: 2.5px;
   background: currentColor;
   pointer-events: none;
 }
-.ai-locked::before {
+:root:not([data-ai="active"]) .ai-locked::before {
   content: "";
   position: absolute;
-  width: 6px;
-  height: 6px;
-  border: 1.5px solid currentColor;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
   border-bottom: 0;
   border-radius: 5px 5px 0 0;
   pointer-events: none;
 }
-.action.ai-locked::after {
-  top: 10px;
-  right: calc(50% - 25px);
+/* The body sits 1px over the shackle's foot so the two read as one shape. */
+:root:not([data-ai="active"]) .action.ai-locked::after {
+  top: 9px;
+  right: calc(50% - 26px);
 }
-.action.ai-locked::before {
-  top: 5px;
-  right: calc(50% - 23px);
+:root:not([data-ai="active"]) .action.ai-locked::before {
+  top: 2px;
+  right: calc(50% - 24px);
 }
-.pick-photo.ai-locked,
-.link-btn.ai-locked,
-.secondary.ai-locked {
-  padding-right: 23px;
+:root:not([data-ai="active"]) .pick-photo.ai-locked,
+:root:not([data-ai="active"]) .link-btn.ai-locked,
+:root:not([data-ai="active"]) .secondary.ai-locked {
+  padding-right: 26px;
 }
-.pick-photo.ai-locked::after,
-.link-btn.ai-locked::after,
-.secondary.ai-locked::after {
+/* Centred on the text line: shackle from -8 to 0, body from -1 to 8. */
+:root:not([data-ai="active"]) .pick-photo.ai-locked::after,
+:root:not([data-ai="active"]) .link-btn.ai-locked::after,
+:root:not([data-ai="active"]) .secondary.ai-locked::after {
   top: 50%;
-  right: 5px;
-  transform: translateY(-2px);
+  right: 6px;
+  transform: translateY(-1px);
 }
-.pick-photo.ai-locked::before,
-.link-btn.ai-locked::before,
-.secondary.ai-locked::before {
+:root:not([data-ai="active"]) .pick-photo.ai-locked::before,
+:root:not([data-ai="active"]) .link-btn.ai-locked::before,
+:root:not([data-ai="active"]) .secondary.ai-locked::before {
   top: 50%;
-  right: 7px;
+  right: 8px;
   transform: translateY(-8px);
 }
 
