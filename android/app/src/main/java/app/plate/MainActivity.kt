@@ -220,8 +220,9 @@ class MainActivity : ComponentActivity() {
         // one from the first photograph on.
         AppCheckSetup.install(applicationContext)
 
-        // Play's answer arrives on its own thread, on start, on every resume
-        // and after a purchase; the padlocks follow it.
+        // Play's answer arrives on its own thread, on every resume (once the
+        // person has used Bitey AI) and after a purchase; the padlocks follow
+        // it. Creating the client does not connect to Play.
         playBilling = PlayBilling(applicationContext) { status ->
             runOnUiThread { applyAiEntitlement(status) }
         }
@@ -268,7 +269,7 @@ class MainActivity : ComponentActivity() {
             },
             onAiPurchaseRefreshRequested = {
                 runOnUiThread {
-                    playBilling.refresh { status ->
+                    playBilling.restore { status ->
                         plateWebView.deliverAiPurchaseRefreshResult(status.wireValue)
                     }
                 }
@@ -334,15 +335,12 @@ class MainActivity : ComponentActivity() {
         setContentView(root)
     }
 
-    override fun onStart() {
-        super.onStart()
-        playBilling.start()
-    }
-
     override fun onResume() {
         super.onResume()
         // A pending payment may have completed while the activity was away.
-        playBilling.refresh()
+        // Resume also runs at launch, so this is the only start-up query;
+        // a second one from onStart raced it into two connections.
+        playBilling.refreshIfEngaged()
     }
 
     override fun onDestroy() {

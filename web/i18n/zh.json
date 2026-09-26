@@ -416,5 +416,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "您拍摄或选择的照片，以及您为更正而输入的内容，会发送到位于 Google Cloud（比利时）的 Bitey 服务器，并由 Google 的 Gemini 读取。同时还会发送一个 Google Play 代码，用于确认您的订阅。",
   "That barcode is not in Open Food Facts yet. Enter it manually instead.": "Open Food Facts 中还没有这个条形码。请手动输入。",
   "This does not look like a food barcode. Enter it manually instead.": "这看起来不是食品条形码。请手动输入。",
-  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts 暂时无法响应。请重试或手动输入。"
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts 暂时无法响应。请重试或手动输入。",
+  "Already subscribed? Restore your purchase": "已订阅？恢复购买",
+  "Checking Google Play…": "正在检查 Google Play…"
 }

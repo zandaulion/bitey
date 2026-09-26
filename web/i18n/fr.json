@@ -416,5 +416,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "La photo que vous prenez ou choisissez, ainsi que tout ce que vous tapez pour la corriger, est envoyée au serveur de Bitey sur Google Cloud (Belgique) et lue par Gemini de Google. Un code de Google Play confirmant votre abonnement est envoyé avec elle.",
   "That barcode is not in Open Food Facts yet. Enter it manually instead.": "Ce code-barres n’est pas encore dans Open Food Facts. Saisissez-le plutôt manuellement.",
   "This does not look like a food barcode. Enter it manually instead.": "Cela ne ressemble pas à un code-barres alimentaire. Saisissez-le plutôt manuellement.",
-  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts ne peut pas répondre pour le moment. Réessayez ou saisissez-le manuellement."
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts ne peut pas répondre pour le moment. Réessayez ou saisissez-le manuellement.",
+  "Already subscribed? Restore your purchase": "Déjà abonné ? Restaurez votre achat",
+  "Checking Google Play…": "Vérification auprès de Google Play…"
 }

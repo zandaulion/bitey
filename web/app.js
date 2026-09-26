@@ -3998,13 +3998,31 @@ if (window.__PLATE_NATIVE__) {
   $('native-ai-purchases').hidden = false;
   syncAiConsentControls();
 
+  const restoreButtons = [$('ai-restore'), $('ai-plan-restore')];
   window.__plateNativeAiRestoreResult = (status) => {
+    restoreButtons.forEach((button) => { button.disabled = false; });
     if (status === 'active') toast(t('Bitey AI is active on this device.'));
     else if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
     else if (status === 'inactive') toast(t('No Bitey AI purchase was found for this Google Play account.'));
     else toast(t('Could not connect to Google Play. Try again.'));
+    // Restored from the plan picker: carry on with the photo that asked for
+    // it rather than leave a purchase screen up for a plan already owned.
+    if (status === 'active' && aiPlanRequestId) {
+      const requestId = aiPlanRequestId;
+      aiPlanRequestId = null;
+      closeAiPlanPicker();
+      settleNativeAiRequest(requestId, 'active');
+    }
   };
-  $('ai-restore').addEventListener('click', () => window.PlateNative?.refreshAiPurchase?.());
+  // Asking Play is the one thing that restores a subscription on a new
+  // install; the result arrives through __plateNativeAiRestoreResult.
+  const restoreAiPurchase = () => {
+    if (typeof window.PlateNative?.refreshAiPurchase !== 'function') return;
+    restoreButtons.forEach((button) => { button.disabled = true; });
+    toast(t('Checking Google Play…'));
+    window.PlateNative.refreshAiPurchase();
+  };
+  restoreButtons.forEach((button) => button.addEventListener('click', restoreAiPurchase));
   $('ai-manage').addEventListener('click', () => window.PlateNative?.manageAiSubscription?.());
 
   const alwaysAllowToggle = $('off-always-allow');
