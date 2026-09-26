@@ -33,9 +33,9 @@ go into GitHub.
   Bitey only. The project's default compute account never activated through a
   Play invite, which is why the function has an account of its own.
 - **App Check** is set up but **not enforced**. The Android app is registered
-  in Firebase as `1:561151262486:android:c304b4181314397f2eda37` with four
-  SHA-256 fingerprints (Play app signing classical and post-quantum, upload,
-  debug); it is registered with Play Integrity, and Play Console's Play
+  in Firebase as `1:561151262486:android:c304b4181314397f2eda37` with five
+  SHA-256 fingerprints (Play app signing for SDK 36 and older, for SDK 37 and
+  newer, and its post-quantum half; upload; debug -- see README); it is registered with Play Integrity, and Play Console's Play
   Integrity API is linked to `plate-cc703` (daily limit 10,000). Debug builds
   use the debug provider; each test device's debug token must be added under
   App Check -> Apps -> Bitey -> Manage debug tokens (the Galaxy Fold's is).
@@ -43,11 +43,15 @@ go into GitHub.
   invalid`, but refuses only when `APPCHECK_ENFORCE=true`. **Turn that on only
   once readings from the Play-installed current build log `valid`** --
   enforcing earlier locks out every tester on an older build. First
-  confirmed: a debug build on the Fold, logged `valid`, on 26 September 2026.
-- **1.0.6** (`versionCode` 7) is the current source: App Check in the app, the
-  privacy policy link in Settings, and the consent card naming Belgium. Before
-  uploading, add Firebase App Check's own entries to the Data safety form, as
-  for ML Kit: Google publishes a Play data disclosure for each Firebase SDK.
+  confirmed: a debug build on the Fold, logged `valid`, on 26 September 2026;
+  then the Play-installed 1.0.6 on a Xiaomi (Android 16) the same evening,
+  once the SDK 36 signing fingerprint had been added.
+- **1.0.6** (`versionCode` 7) was approved on Play on 26 September 2026: App
+  Check in the app, zxing-cpp in place of ML Kit, Play Billing contacted only
+  once someone uses Bitey AI, the privacy policy link in Settings, and the
+  consent card naming Belgium. The Data safety form still needs Firebase App
+  Check's own entries: Google publishes a Play data disclosure for each
+  Firebase SDK.
 - Every deploy leaves a container image in Artifact Registry
   (`gcf-artifacts`, europe-west1). A clean-up policy, set on 26 September 2026,
   deletes images older than one day; the running function does not need its
