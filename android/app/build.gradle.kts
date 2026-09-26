@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 import org.gradle.api.tasks.Sync
 import java.util.Properties
 
@@ -43,9 +44,46 @@ val releaseSigningReady = missingSigningInputs.isEmpty()
 // directory the build happened to be started in.
 val resolvedStoreFile = releaseStoreFile?.let(rootProject::file)
 
+/**
+ * Firebase's identifiers for this app, read from the ignored
+ * app/google-services.json (`firebase apps:sdkconfig ANDROID <appId>`).
+ *
+ * These are not secrets -- they are inside every APK -- but the file is kept
+ * out of this public repository under the no-personal-project-details rule.
+ * Google's own google-services plugin does this job; it is not used because
+ * its support for this AGP version could not be confirmed, and all it would
+ * add here is these four string resources.
+ *
+ * Without the file the app still builds: Firebase does not initialise, no App
+ * Check token is sent, and the analysis server accepts that until
+ * APPCHECK_ENFORCE is turned on.
+ */
+val googleServicesFile = file("google-services.json")
+val firebaseIds: Map<String, String>? = googleServicesFile.takeIf { it.isFile }?.let { file ->
+    @Suppress("UNCHECKED_CAST")
+    val json = JsonSlurper().parse(file) as Map<String, Any?>
+    val project = json["project_info"] as Map<String, Any?>
+    val client = (json["client"] as List<Map<String, Any?>>).first { client ->
+        val info = (client["client_info"] as Map<String, Any?>)["android_client_info"] as Map<String, Any?>
+        info["package_name"] == "com.zandaulion.bitey"
+    }
+    val clientInfo = client["client_info"] as Map<String, Any?>
+    val apiKey = (client["api_key"] as List<Map<String, Any?>>).first()["current_key"] as String
+    mapOf(
+        "google_app_id" to clientInfo["mobilesdk_app_id"] as String,
+        "google_api_key" to apiKey,
+        "project_id" to project["project_id"] as String,
+        "gcm_defaultSenderId" to project["project_number"] as String,
+    )
+}
+
 android {
     namespace = "com.zandaulion.bitey"
     compileSdk = 36
+
+    buildFeatures {
+        resValues = true
+    }
 
     defaultConfig {
         applicationId = "com.zandaulion.bitey"
@@ -53,6 +91,8 @@ android {
         targetSdk = 36
         versionCode = 6
         versionName = "1.0.5"
+        // Firebase's FirebaseInitProvider reads these by name at start-up.
+        firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
     }
 
     if (releaseSigningReady) {
@@ -144,6 +184,14 @@ dependencies {
     // metadata always comes from Play at purchase time; it is never bundled as
     // a price in the app.
     implementation("com.android.billingclient:billing:9.1.0")
+
+    // App Check: proves to the analysis server that a request comes from this
+    // app on a genuine device. Play Integrity in release; the debug provider
+    // only in debug builds, since a release carrying it would accept
+    // registered debug tokens in place of an attestation.
+    implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    debugImplementation("com.google.firebase:firebase-appcheck-debug")
 
     // Bundled scanning works as soon as the app is installed. It does not
     // download a barcode model or send camera frames to a service.
