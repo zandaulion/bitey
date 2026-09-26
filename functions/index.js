@@ -58,7 +58,13 @@ export const analyse = onRequest(
     // No browser calls this. The Android app posts from native code, and a
     // permissive CORS policy would only invite one.
     cors: false,
-    maxInstances: 20
+    // The ceiling on what a flood of requests can cost, not a performance
+    // setting. Each instance serves 80 requests at once, and a reading is
+    // mostly spent waiting on Gemini, so five instances carry 400 readings in
+    // flight -- far beyond current use. Five running flat out around the
+    // clock is roughly $10 a day; twenty was four times that. Raise it when
+    // real traffic needs it, not before.
+    maxInstances: 5
   },
   async (req, res) => {
     if (req.method !== 'POST') return fail(res, 405, 'method', 'POST only.');
