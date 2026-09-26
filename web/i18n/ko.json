@@ -406,12 +406,12 @@
   "How Bitey AI reads your photo": "Bitey AI가 사진을 읽는 방법",
   "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "그 밖의 것은 휴대폰 밖으로 나가지 않습니다. 기록, 체중, 프로필, 다른 사진도 마찬가지입니다. Bitey 서버는 사진을 보관하지 않습니다.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Bitey AI로 보낸 사진은 Google의 Gemini가 읽습니다. 그 밖의 것은 휴대폰 밖으로 나가지 않습니다.",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "촬영하거나 선택한 사진과 수정하려고 입력한 내용은 Bitey 서버로 전송되어 Google의 Gemini가 읽습니다. 구독을 확인하는 Google Play 코드도 함께 전송됩니다.",
   "This build cannot open the camera.": "이 버전에서는 카메라를 열 수 없습니다.",
   "Withdraw consent to send photos": "사진 전송 동의 철회",
   "You can withdraw this at any time in Settings.": "설정에서 언제든지 철회할 수 있습니다.",
   "Repeat": "반복",
   "Custom": "맞춤",
   "Save changes": "변경 사항 저장",
-  "Privacy policy": "개인정보처리방침"
+  "Privacy policy": "개인정보처리방침",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "촬영하거나 선택한 사진과 수정하려고 입력한 내용은 Google Cloud(벨기에)에 있는 Bitey 서버로 전송되어 Google의 Gemini가 읽습니다. 구독을 확인하는 Google Play 코드도 함께 전송됩니다."
 }

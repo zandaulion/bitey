@@ -406,12 +406,12 @@
   "How Bitey AI reads your photo": "Como o Bitey AI lê sua foto",
   "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Nada mais sai do seu celular: nem seu diário, nem seu peso, nem seu perfil, nem outras fotos. O servidor do Bitey não guarda a foto.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "As fotos que você envia ao Bitey AI são lidas pelo Gemini, do Google. Nada mais sai do seu celular.",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "A foto que você tira ou escolhe, e o que você digitar para corrigi-la, é enviada ao servidor do Bitey e lida pelo Gemini, do Google. Junto com ela vai um código do Google Play que confirma sua assinatura.",
   "This build cannot open the camera.": "Esta versão não consegue abrir a câmera.",
   "Withdraw consent to send photos": "Retirar o consentimento para enviar fotos",
   "You can withdraw this at any time in Settings.": "Você pode retirar isso a qualquer momento em Configurações.",
   "Repeat": "Repetir",
   "Custom": "Personalizado",
   "Save changes": "Salvar alterações",
-  "Privacy policy": "Política de privacidade"
+  "Privacy policy": "Política de privacidade",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "A foto que você tira ou escolhe, e o que você digitar para corrigi-la, é enviada ao servidor do Bitey no Google Cloud (Bélgica) e lida pelo Gemini, do Google. Junto com ela vai um código do Google Play que confirma sua assinatura."
 }

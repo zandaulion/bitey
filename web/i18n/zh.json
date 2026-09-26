@@ -406,12 +406,12 @@
   "How Bitey AI reads your photo": "Bitey AI 如何读取您的照片",
   "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "除此之外，任何内容都不会离开您的手机：日记、体重、个人资料和其他照片都不会。Bitey 的服务器不会保存照片。",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "您发送给 Bitey AI 的照片由 Google 的 Gemini 读取。除此之外，任何内容都不会离开您的手机。",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "您拍摄或选择的照片，以及您为更正而输入的内容，会发送到 Bitey 的服务器，并由 Google 的 Gemini 读取。同时还会发送一个 Google Play 代码，用于确认您的订阅。",
   "This build cannot open the camera.": "此版本无法打开相机。",
   "Withdraw consent to send photos": "撤回发送照片的同意",
   "You can withdraw this at any time in Settings.": "您可以随时在设置中撤回。",
   "Repeat": "重复",
   "Custom": "定制",
   "Save changes": "保存更改",
-  "Privacy policy": "隐私政策"
+  "Privacy policy": "隐私政策",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "您拍摄或选择的照片，以及您为更正而输入的内容，会发送到位于 Google Cloud（比利时）的 Bitey 服务器，并由 Google 的 Gemini 读取。同时还会发送一个 Google Play 代码，用于确认您的订阅。"
 }
