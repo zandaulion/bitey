@@ -32,17 +32,20 @@ go into GitHub.
   Active in Play Console with View app information and View financial data for
   Bitey only. The project's default compute account never activated through a
   Play invite, which is why the function has an account of its own.
-- **App Check** is set up but **not enforced**. The Android app is registered
-  in Firebase as `1:561151262486:android:c304b4181314397f2eda37` with five
-  SHA-256 fingerprints (Play app signing for SDK 36 and older, for SDK 37 and
-  newer, and its post-quantum half; upload; debug -- see README); it is registered with Play Integrity, and Play Console's Play
-  Integrity API is linked to `plate-cc703` (daily limit 10,000). Debug builds
-  use the debug provider; each test device's debug token must be added under
-  App Check -> Apps -> Bitey -> Manage debug tokens (the Galaxy Fold's is).
-  The function checks every token and logs `app check: absent | valid |
-  invalid`, but refuses only when `APPCHECK_ENFORCE=true`. **Turn that on only
-  once readings from the Play-installed current build log `valid`** --
-  enforcing earlier locks out every tester on an older build. First
+- **App Check** is set up and **enforced** since 26 September 2026. The
+  Android app is registered in Firebase as
+  `1:561151262486:android:c304b4181314397f2eda37` with five SHA-256
+  fingerprints (Play app signing for SDK 36 and older, for SDK 37 and newer,
+  and its post-quantum half; upload; debug -- see README); it is registered
+  with Play Integrity, and Play Console's Play Integrity API is linked to
+  `plate-cc703` (daily limit 10,000). Debug builds use the debug provider;
+  each test device's debug token must be added under App Check -> Apps ->
+  Bitey -> Manage debug tokens (the Galaxy Fold's is). The function checks
+  every token and logs `app check: absent | valid | invalid`, and refuses
+  anything but `valid` with a 401. Enforcement is the default in code; only
+  `APPCHECK_ENFORCE=false` in the function's environment turns it off, for an
+  App Check outage that is refusing genuine phones. Anyone on 1.0.5 or older,
+  which sends no token, gets no Bitey AI until Play updates them. First
   confirmed: a debug build on the Fold, logged `valid`, on 26 September 2026;
   then the Play-installed 1.0.6 on a Xiaomi (Android 16) the same evening,
   once the SDK 36 signing fingerprint had been added.
