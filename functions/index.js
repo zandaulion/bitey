@@ -33,9 +33,12 @@ const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY');
 // functions/.env.<project> into process.env, so either can be overridden
 // there without a code change.
 const PLAY_PACKAGE = (process.env.PLAY_PACKAGE || 'com.zandaulion.bitey').trim();
-// Off until the Android app is registered for App Check and shipping tokens;
-// turning it on before that would lock out every paying customer.
-const APPCHECK_ENFORCE = process.env.APPCHECK_ENFORCE === 'true';
+// On since 26 September 2026, once the Play-installed 1.0.6 was seen arriving
+// "valid". It is the default in code rather than a value in functions/.env,
+// which is git-ignored: a deploy from a checkout without that file must not
+// quietly switch protection off. APPCHECK_ENFORCE=false is the emergency
+// switch, for an App Check outage that is refusing genuine phones.
+const APPCHECK_ENFORCE = process.env.APPCHECK_ENFORCE !== 'false';
 
 const fail = (res, status, code, message, extra = {}) =>
   res.status(status).json({ error: code, message, ...extra });
@@ -69,10 +72,8 @@ export const analyse = onRequest(
   async (req, res) => {
     if (req.method !== 'POST') return fail(res, 405, 'method', 'POST only.');
 
-    // Always checked, enforced only once APPCHECK_ENFORCE is on. Until then the
-    // result is only logged, which is how the rollout is judged: enforcement
-    // is safe to turn on once requests from the current app arrive "valid",
-    // and would lock out everyone still on an older build before that.
+    // Always checked and logged, so a rise in "absent" or "invalid" shows up
+    // in the logs; refused unless APPCHECK_ENFORCE has been set to false.
     const appCheckToken = req.header('X-Firebase-AppCheck');
     let appCheck = 'absent';
     if (appCheckToken) {
