@@ -179,6 +179,11 @@ tasks.configureEach {
 dependencies {
     implementation("androidx.activity:activity-ktx:1.13.0")
     implementation("androidx.webkit:webkit:1.17.0")
+    // Bitey has no fragments, but Play services (under Billing and App Check)
+    // still drags in fragment 1.1.0, which predates the ActivityResult APIs
+    // used throughout; lintVitalRelease rejects the bundle with it. ML Kit
+    // used to raise it as a side effect; this pins it on purpose.
+    implementation("androidx.fragment:fragment:1.9.1")
 
     // Google Play is the only payment provider in the Android build. Product
     // metadata always comes from Play at purchase time; it is never bundled as
