@@ -114,6 +114,7 @@ private class PlateNativeBridge(
     private val onAiSubscriptionManagementRequested: () -> Unit,
     private val onCaptureRequested: (String, String) -> Unit,
     private val onAnalysisRequested: (String, String) -> Unit,
+    private val onPrivacyNoticeRequested: () -> Unit,
 ) {
     @JavascriptInterface
     fun platform(): String = "android"
@@ -227,6 +228,12 @@ private class PlateNativeBridge(
         onAnalysisRequested(payload, requestId)
     }
 
+    /** Opens the published privacy policy in the browser. The page names no
+     * address: the URL is fixed in native code, so page script cannot use
+     * this to open arbitrary sites. */
+    @JavascriptInterface
+    fun openPrivacyNotice() = onPrivacyNoticeRequested()
+
     @JavascriptInterface
     fun refreshAiPurchase() = onAiPurchaseRefreshRequested()
 
@@ -249,6 +256,7 @@ class PlateWebView(
     onAiSubscriptionManagementRequested: () -> Unit,
     onCaptureRequested: (String, String) -> Unit,
     onAnalysisRequested: (String, String) -> Unit,
+    onPrivacyNoticeRequested: () -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
     val captures = PlateCaptureStore(context)
@@ -304,6 +312,7 @@ class PlateWebView(
                 onAiSubscriptionManagementRequested,
                 onCaptureRequested,
                 onAnalysisRequested,
+                onPrivacyNoticeRequested,
             ),
             "PlateNative",
         )

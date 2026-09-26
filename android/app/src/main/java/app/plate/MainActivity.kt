@@ -32,6 +32,10 @@ import java.util.concurrent.Executors
 /** The page's phone column, `.view { max-width: 560px }` in app.css. */
 private const val PHONE_COLUMN_DP = 560
 
+/** The published privacy policy, the same address given in Play Console. Its
+ * source is store/PRIVACY_NOTICE.md. */
+private const val PRIVACY_NOTICE_URL = "https://zandaulion.com/plate-privacy.html"
+
 class MainActivity : ComponentActivity() {
     private lateinit var plateWebView: PlateWebView
     private lateinit var playBilling: PlayBilling
@@ -275,6 +279,16 @@ class MainActivity : ComponentActivity() {
                 analysisExecutor.execute {
                     val result = analysis.analyse(playBilling.activePurchaseToken(), payload)
                     plateWebView.deliverAnalysisResult(requestId, result)
+                }
+            },
+            onPrivacyNoticeRequested = {
+                runOnUiThread {
+                    // The WebView refuses to leave its own origin, so the
+                    // policy opens in the person's browser. A phone with no
+                    // browser at all simply does nothing rather than crash.
+                    runCatching {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PRIVACY_NOTICE_URL)))
+                    }
                 }
             },
             onFileChooserRequested = ::showFileChooser,
