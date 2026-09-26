@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
     /** A reading can take most of a minute. It gets its own thread so it
      * never queues behind -- or blocks -- a barcode lookup. */
     private val analysisExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-    private val analysis = BiteyAnalysis()
+    // Lazy: the application context does not exist yet while fields are built.
+    private val analysis by lazy { BiteyAnalysis(applicationContext) }
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
     private lateinit var photoAction: Button
@@ -215,6 +216,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Before anything can ask for a token: the analysis request carries
+        // one from the first photograph on.
+        AppCheckSetup.install(applicationContext)
+
         // Play's answer arrives on its own thread, on start, on every resume
         // and after a purchase; the padlocks follow it.
         playBilling = PlayBilling(applicationContext) { status ->

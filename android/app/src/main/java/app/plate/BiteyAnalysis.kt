@@ -1,9 +1,14 @@
 package com.zandaulion.bitey
 
+import android.content.Context
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.FirebaseAppCheck
 import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 /**
  * The client half of Bitey AI's photo reading.
@@ -18,7 +23,10 @@ import java.net.URL
  * than forwarded, so a field added to the page's request -- by a bug or by
  * anything else -- cannot quietly start leaving the device.
  */
-class BiteyAnalysis(private val endpoint: String = ANALYSE_URL) {
+class BiteyAnalysis(
+    private val appContext: Context,
+    private val endpoint: String = ANALYSE_URL,
+) {
     companion object {
         const val ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyse"
 
@@ -72,6 +80,7 @@ class BiteyAnalysis(private val endpoint: String = ANALYSE_URL) {
                 readTimeout = 95_000
                 setRequestProperty("Content-Type", "application/json; charset=utf-8")
                 setRequestProperty("Accept", "application/json")
+                appCheckToken()?.let { setRequestProperty("X-Firebase-AppCheck", it) }
                 // Identifies the software, never the person or the device.
                 setRequestProperty("User-Agent", "Bitey-Android (photo analysis)")
             }
@@ -97,6 +106,20 @@ class BiteyAnalysis(private val endpoint: String = ANALYSE_URL) {
             connection.disconnect()
         }
     }
+
+    /**
+     * An App Check token for the request, or null.
+     *
+     * Null is an answer, not an error: a build without google-services.json,
+     * a device Play Integrity cannot attest, or a slow attestation all send
+     * the request without one. While the server does not enforce App Check
+     * that still works; once it does, the server refuses it, and says so.
+     * Blocking is fine here -- this always runs on the analysis thread.
+     */
+    private fun appCheckToken(): String? = runCatching {
+        if (FirebaseApp.getApps(appContext).isEmpty()) return null
+        Tasks.await(FirebaseAppCheck.getInstance().getAppCheckToken(false), 10, TimeUnit.SECONDS).token
+    }.getOrNull()?.takeIf { it.isNotBlank() }
 
     private fun unreachable() = answer(
         0, "network", "Could not reach Bitey AI. Check the connection and try again.",

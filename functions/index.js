@@ -69,14 +69,24 @@ export const analyse = onRequest(
   async (req, res) => {
     if (req.method !== 'POST') return fail(res, 405, 'method', 'POST only.');
 
-    if (APPCHECK_ENFORCE) {
-      const token = req.header('X-Firebase-AppCheck');
-      if (!token) return fail(res, 401, 'no_app_check', 'This request did not come from Bitey.');
+    // Always checked, enforced only once APPCHECK_ENFORCE is on. Until then the
+    // result is only logged, which is how the rollout is judged: enforcement
+    // is safe to turn on once requests from the current app arrive "valid",
+    // and would lock out everyone still on an older build before that.
+    const appCheckToken = req.header('X-Firebase-AppCheck');
+    let appCheck = 'absent';
+    if (appCheckToken) {
       try {
-        await getAppCheck().verifyToken(token);
+        await getAppCheck().verifyToken(appCheckToken);
+        appCheck = 'valid';
       } catch {
-        return fail(res, 401, 'bad_app_check', 'This request did not come from Bitey.');
+        appCheck = 'invalid';
       }
+    }
+    logger.info('app check', { appCheck, enforced: APPCHECK_ENFORCE });
+    if (APPCHECK_ENFORCE && appCheck !== 'valid') {
+      return fail(res, 401, appCheck === 'absent' ? 'no_app_check' : 'bad_app_check',
+        'This request did not come from Bitey.');
     }
 
     const request = validateAnalyseRequest(req.body);

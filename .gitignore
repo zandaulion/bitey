@@ -42,6 +42,9 @@ APKs/
 # in the public source repository. (The Android config itself is not a secret,
 # but is kept local under Bitey's no-personal-project-details rule.)
 android/app/google-services.json
+# App Check debug secret for a test device. Whoever holds it passes App Check,
+# so it lives next to the build, never in the repository.
+android/appcheck-debug-token.txt
 firebase-service-account*.json
 service-account*.json
 functions/.env*
