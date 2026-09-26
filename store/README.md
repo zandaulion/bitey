@@ -44,14 +44,24 @@ and let `bitey_ai` be created; and 1.0.0 (`versionCode` 1).
 - 1.0.0 file SHA-256: `25D7FA1A970F215EA02EB3CAEEF2ACA22CA1F9272F016AC4D6B217C0425FF42F`
 - Upload certificate SHA-256:
   `4A:27:74:1E:3B:D3:A6:5F:30:C2:FA:EE:AA:06:4E:E9:67:BF:2B:79:9D:D2:B3:22:1B:6F:2B:50:22:E1:E2:BE`
-- Play app signing certificate SHA-256 (classical; what installed copies carry
-  and what Play Integrity attests):
+- Play app signing certificate SHA-256 for **Android 16 (SDK 36) and older**
+  -- the APK Signature Scheme v3.0 signer, which is what almost every phone
+  verifies, and so what Play Integrity attests there:
+  `21:19:1D:34:C0:51:1D:54:DA:17:11:E9:73:48:99:CC:B5:BA:44:D4:32:0E:8E:88:6E:19:6A:53:B7:06:31:26`
+- Play app signing certificate SHA-256 for **Android 17 (SDK 37) and newer**
+  (the classical half of the v3.2 hybrid signer; the one Play Console shows):
   `C8:BF:12:29:F2:DA:F6:D4:AD:9B:9C:15:DF:FC:40:D3:AC:39:17:02:EA:4E:60:22:52:44:FB:97:EA:AD:45:80`
-- Play app signing certificate SHA-256 (post-quantum, beta):
+- Play app signing certificate SHA-256 (post-quantum half of the v3.2 signer,
+  beta):
   `DB:B7:DE:A4:25:E2:7F:22:95:3C:E0:7E:49:6F:6C:DA:C9:C4:82:2D:E2:56:0C:17:4D:D8:7A:C1:60:C1:93:0B`
 
-All four fingerprints -- these three and the debug key's -- are registered on
-the Bitey Android app in Firebase project `plate-cc703` for App Check.
+All five fingerprints -- these four and the debug key's -- are registered on
+the Bitey Android app in Firebase project `plate-cc703` for App Check. The
+SDK 36 one was missing at first: App Check then refused every Play-installed
+phone below Android 17 with a 403 on ExchangePlayIntegrityToken, and the
+function logged `absent`. To read the certificates a Play install really
+carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
+`apksigner verify --print-certs`; each signer lists the SDK range it covers.
 
 ## Store identity
 
