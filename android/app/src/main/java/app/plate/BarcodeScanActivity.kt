@@ -18,17 +18,16 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import com.google.common.util.concurrent.ListenableFuture
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.common.InputImage
+import zxingcpp.BarcodeReader
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Native, offline barcode reader. ML Kit's bundled scanner recognizes the
- * barcode locally; this activity returns only the decoded text to the page.
+ * Native, offline barcode reader. zxing-cpp decodes each camera frame on the
+ * device and nothing about the scan leaves it; this activity returns only the
+ * decoded text to the page. A lookup with Open Food Facts happens later, and
+ * only if the person allows it.
  */
 class BarcodeScanActivity : ComponentActivity() {
     private val scanComplete = AtomicBoolean(false)
@@ -100,40 +99,45 @@ class BarcodeScanActivity : ComponentActivity() {
     }
 
     private fun bindCamera(cameraProvider: ProcessCameraProvider) {
-        val scanner = BarcodeScanning.getClient(
-            BarcodeScannerOptions.Builder()
-                .setBarcodeFormats(
-                    Barcode.FORMAT_EAN_13,
-                    Barcode.FORMAT_EAN_8,
-                    Barcode.FORMAT_UPC_A,
-                    Barcode.FORMAT_UPC_E,
-                    Barcode.FORMAT_CODE_128,
-                )
-                .build(),
-        )
+        // The same symbologies the ML Kit scanner accepted: what food
+        // packaging carries, plus Code 128 for shop-printed labels.
+        val reader = BarcodeReader().apply {
+            options.formats = setOf(
+                BarcodeReader.Format.EAN_13,
+                BarcodeReader.Format.EAN_8,
+                BarcodeReader.Format.UPC_A,
+                BarcodeReader.Format.UPC_E,
+                BarcodeReader.Format.CODE_128,
+            )
+            // A packet held at an angle, or a code printed light on dark,
+            // should still read. Each costs a little time per frame; with
+            // STRATEGY_KEEP_ONLY_LATEST a slow frame is skipped, never queued.
+            options.tryHarder = true
+            options.tryRotate = true
+            options.tryInvert = true
+        }
         val analysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
             .also { useCase ->
                 useCase.setAnalyzer(analysisExecutor) { imageProxy ->
-                    val mediaImage = imageProxy.image
-                    if (mediaImage == null || scanComplete.get()) {
-                        imageProxy.close()
-                        return@setAnalyzer
-                    }
-                    val image = InputImage.fromMediaImage(
-                        mediaImage,
-                        imageProxy.imageInfo.rotationDegrees,
-                    )
-                    scanner.process(image)
-                        .addOnSuccessListener { barcodes ->
-                            val code = barcodes.firstOrNull { !it.rawValue.isNullOrBlank() }?.rawValue
-                            if (code != null && scanComplete.compareAndSet(false, true)) {
+                    // zxing-cpp reads synchronously, so the frame is closed
+                    // here once it has been read, whatever the outcome; an
+                    // unclosed frame stalls the camera.
+                    try {
+                        if (scanComplete.get()) return@setAnalyzer
+                        val code = runCatching { reader.read(imageProxy) }.getOrNull()
+                            ?.firstOrNull { it.error == null && !it.text.isNullOrBlank() }
+                            ?.text
+                        if (code != null && scanComplete.compareAndSet(false, true)) {
+                            runOnUiThread {
                                 setResult(RESULT_OK, Intent().putExtra(EXTRA_BARCODE, code))
                                 finish()
                             }
                         }
-                        .addOnCompleteListener { imageProxy.close() }
+                    } finally {
+                        imageProxy.close()
+                    }
                 }
             }
         val preview = Preview.Builder().build().also {

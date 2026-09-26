@@ -200,7 +200,12 @@ dependencies {
     implementation("androidx.camera:camera-core:$cameraXVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
     implementation("androidx.camera:camera-view:$cameraXVersion")
-    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+    // Barcodes are decoded on the device by zxing-cpp (Apache-2.0), which has
+    // no network access and no telemetry. It replaced Google's ML Kit, whose
+    // bundled scanner sent Google device details, a per-installation
+    // identifier and usage metrics every time it ran -- none of it needed to
+    // read a barcode, and all of it declarable as analytics.
+    implementation("io.github.zxing-cpp:android:3.1.1")
 
     val roomVersion = "2.8.4"
     implementation("androidx.room:room-runtime:$roomVersion")
