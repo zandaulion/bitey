@@ -21,6 +21,11 @@ Google Play.
 
 ## Upload artifacts
 
+The next upload is **1.0.6** (`versionCode` 7), which carries Firebase App
+Check: every Bitey AI request brings a Play Integrity attestation. Its release
+notes are in `RELEASE_NOTES_1.0.6.md`, with the paste-ready tagged form in
+`release-notes-1.0.6.xml`. Record its hash here once built.
+
 The latest upload is **1.0.5** (`versionCode` 6), approved for closed testing
 on 26 September 2026: the first build in which Bitey AI reads a photograph end
 to end. Its Play release notes, in all twelve launch languages, are in
@@ -55,8 +60,8 @@ the Bitey Android app in Firebase project `plate-cc703` for App Check.
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.5** (`versionCode` 6), on closed testing
-- Next upload: 1.0.6 (`versionCode` 7); Play refuses a reused version code
+- Current source version: **1.0.6** (`versionCode` 7), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.6.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
