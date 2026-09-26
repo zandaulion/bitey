@@ -3535,7 +3535,16 @@ async function lookupOpenFoodFactsOnDevice(code) {
     window.PlateNative.lookupOpenFoodFacts(code);
   });
   if (!response.ok) {
-    throw new LocalApiError(response.message || 'Open Food Facts could not answer right now.', {
+    // Native code reports a code and an English sentence. The sentence is
+    // chosen here from the code instead, so it reaches the person in their
+    // own language; native text is kept only for a code this page does not
+    // know.
+    const messages = {
+      not_found: t('That barcode is not in Open Food Facts yet. Enter it manually instead.'),
+      invalid_barcode: t('This does not look like a food barcode. Enter it manually instead.'),
+      network_error: t('Open Food Facts could not answer right now. Try again or enter it manually.'),
+    };
+    throw new LocalApiError(messages[response.code] || response.message || messages.network_error, {
       code: response.code || 'network_error',
       status: response.code === 'not_found' ? 404 : 503,
     });

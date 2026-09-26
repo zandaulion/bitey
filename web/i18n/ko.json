@@ -413,5 +413,8 @@
   "Custom": "맞춤",
   "Save changes": "변경 사항 저장",
   "Privacy policy": "개인정보처리방침",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "촬영하거나 선택한 사진과 수정하려고 입력한 내용은 Google Cloud(벨기에)에 있는 Bitey 서버로 전송되어 Google의 Gemini가 읽습니다. 구독을 확인하는 Google Play 코드도 함께 전송됩니다."
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "촬영하거나 선택한 사진과 수정하려고 입력한 내용은 Google Cloud(벨기에)에 있는 Bitey 서버로 전송되어 Google의 Gemini가 읽습니다. 구독을 확인하는 Google Play 코드도 함께 전송됩니다.",
+  "That barcode is not in Open Food Facts yet. Enter it manually instead.": "이 바코드는 아직 Open Food Facts에 없습니다. 직접 입력하세요.",
+  "This does not look like a food barcode. Enter it manually instead.": "식품 바코드가 아닌 것 같습니다. 직접 입력하세요.",
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "지금은 Open Food Facts가 응답하지 않습니다. 다시 시도하거나 직접 입력하세요."
 }

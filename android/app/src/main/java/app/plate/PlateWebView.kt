@@ -750,6 +750,18 @@ class PlateWebView(
             setRequestProperty("Accept", "application/json")
         }
         return try {
+            // Open Food Facts answers 404 -- with a normal JSON body saying
+            // "product not found" -- for a barcode it has no record of. That
+            // is an answer, not an outage: treating it as one told people the
+            // service "could not answer right now" when it had answered, and
+            // sent them to retry a lookup that would never succeed.
+            if (connection.responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                return JSONObject()
+                    .put("ok", false)
+                    .put("code", "not_found")
+                    .put("message", "That barcode is not in Open Food Facts yet. Enter it manually instead.")
+                    .toString()
+            }
             if (connection.responseCode !in 200..299) {
                 return JSONObject()
                     .put("ok", false)
