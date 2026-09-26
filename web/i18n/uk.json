@@ -406,12 +406,12 @@
   "How Bitey AI reads your photo": "Як Bitey AI читає ваше фото",
   "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Більше ніщо не залишає ваш телефон: ні щоденник, ні вага, ні профіль, ні інші фото. Сервер Bitey не зберігає фото.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Фото, які ви надсилаєте в Bitey AI, читає Gemini від Google. Більше ніщо не залишає ваш телефон.",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Фото, яке ви робите або вибираєте, і все, що ви вводите для виправлення, надсилається на сервер Bitey і читається Gemini від Google. Разом із ним надсилається код від Google Play, що підтверджує вашу підписку.",
   "This build cannot open the camera.": "Ця версія не може відкрити камеру.",
   "Withdraw consent to send photos": "Відкликати згоду на надсилання фото",
   "You can withdraw this at any time in Settings.": "Ви можете відкликати це будь-коли в Налаштуваннях.",
   "Repeat": "Повторіть",
   "Custom": "Спеціальний",
   "Save changes": "Зберегти зміни",
-  "Privacy policy": "Політика конфіденційності"
+  "Privacy policy": "Політика конфіденційності",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Фото, яке ви робите або вибираєте, і все, що ви вводите для виправлення, надсилається на сервер Bitey у Google Cloud (Бельгія) і читається Gemini від Google. Разом із ним надсилається код від Google Play, що підтверджує вашу підписку."
 }

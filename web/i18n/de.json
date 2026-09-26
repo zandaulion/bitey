@@ -406,12 +406,12 @@
   "How Bitey AI reads your photo": "So liest Bitey AI dein Foto",
   "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Sonst verlässt nichts dein Handy: weder dein Tagebuch noch dein Gewicht, dein Profil oder andere Fotos. Der Bitey-Server speichert das Foto nicht.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Fotos, die du an Bitey AI sendest, werden von Googles Gemini gelesen. Sonst verlässt nichts dein Handy.",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Das Foto, das du aufnimmst oder auswählst, und alles, was du zur Korrektur eingibst, wird an den Bitey-Server gesendet und von Googles Gemini gelesen. Dabei wird ein Code von Google Play mitgesendet, der dein Abo bestätigt.",
   "This build cannot open the camera.": "Diese Version kann die Kamera nicht öffnen.",
   "Withdraw consent to send photos": "Einwilligung zum Senden von Fotos widerrufen",
   "You can withdraw this at any time in Settings.": "Du kannst dies jederzeit in den Einstellungen widerrufen.",
   "Repeat": "Wiederholen",
   "Custom": "Benutzerdefiniert",
   "Save changes": "Änderungen speichern",
-  "Privacy policy": "Datenschutzerklärung"
+  "Privacy policy": "Datenschutzerklärung",
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Das Foto, das du aufnimmst oder auswählst, und alles, was du zur Korrektur eingibst, wird an den Bitey-Server in Google Cloud (Belgien) gesendet und von Googles Gemini gelesen. Dabei wird ein Code von Google Play mitgesendet, der dein Abo bestätigt."
 }

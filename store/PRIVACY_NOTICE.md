@@ -61,8 +61,8 @@ your consent. You can withdraw consent at any time in Bitey’s Settings; the
 next photograph will ask again.
 
 **What is sent.** Each time you ask Bitey AI to read a photograph, your device
-sends, over HTTPS, to Bitey’s analysis server (a Google Cloud function operated
-by the developer):
+sends, over HTTPS, to Bitey’s analysis server, a Google Cloud function operated
+by the developer in Belgium (Google Cloud region europe-west1):
 
 - The photograph you took or chose.
 - Any correction you typed about it, such as “it is vegetarian”.
@@ -80,14 +80,17 @@ correction to Google’s Gemini, which returns an estimate of the foods and
 nutrition. Google processes the photograph on the developer’s behalf under the
 Gemini API’s terms for paid services, which do not permit Google to use it to
 improve Google’s products. Google may keep it for a limited period to detect
-abuse, as those terms describe. The estimate comes back to your device, where
+abuse, as those terms describe. Gemini is a separate Google service from the
+server: while the server runs in Belgium, Gemini may process the photograph in
+Google data centres outside the European Union. The estimate comes back to your device, where
 you review and save it like any other diary entry.
 
 **What is kept.** Bitey’s server does not store the photograph, your
 correction, or the estimate. To enforce the daily limit of readings, it keeps a
 counter for each subscription and day: a one-way hash of the purchase token,
-the date, and the number of readings used. The token itself is not stored. Each
-counter is deleted automatically seven days after its day ends. The server’s
+the date, and the number of readings used. The token itself is not stored. The
+counters are held in Belgium too, and each is deleted automatically seven days
+after its day ends. The server’s
 own logs record technical details — the hash, token counts, and whether a
 request succeeded — but not the photograph, your correction, or the estimate.
 Separately, Google Cloud keeps standard request logs for the server, which
