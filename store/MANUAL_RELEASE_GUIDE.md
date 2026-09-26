@@ -20,12 +20,13 @@ go into GitHub.
   after the Play check has one. Do not treat 1.0.3 as a working photo build.
 - **1.0.4** (`versionCode` 5) is on closed testing: native code opens the
   camera and the gallery, but analysis still answers "not connected yet".
-- The current source is **1.0.5** (`versionCode` 6), the first build in which
-  Bitey AI reads a photograph. Confirmed on a Galaxy Z Fold4 against the
-  deployed function: consent card, camera, analysis, an estimate in the review
-  sheet, Save, and the entry in the diary. No signed 1.0.5 bundle has been
-  uploaded yet. Its release notes are in `RELEASE_NOTES_1.0.5.md`, with the
-  paste-ready tagged form in `release-notes-1.0.5.xml`.
+- **1.0.5** (`versionCode` 6) was approved for closed testing on 26 September
+  2026, the first build in which Bitey AI reads a photograph. Confirmed on a
+  Galaxy Z Fold4 against the deployed function, from a debug build: consent
+  card, camera, analysis, an estimate in the review sheet, Save, and the entry
+  in the diary. Still to do: the same run on the Play-installed, Play-signed
+  build. Its release notes are in `RELEASE_NOTES_1.0.5.md`, with the paste-ready
+  tagged form in `release-notes-1.0.5.xml`.
 - The analysis function `analyse` is deployed in `plate-cc703` (europe-west1),
   running as `bitey-play@plate-cc703.iam.gserviceaccount.com`. That account is
   Active in Play Console with View app information and View financial data for
