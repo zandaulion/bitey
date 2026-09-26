@@ -416,5 +416,7 @@
   "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Fotografia pe care o faci sau o alegi, împreună cu orice corectură pe care o scrii, este trimisă către serverul Bitey din Google Cloud (Belgia) și citită de Gemini de la Google. Odată cu ea se trimite un cod de la Google Play care confirmă abonamentul.",
   "That barcode is not in Open Food Facts yet. Enter it manually instead.": "Codul de bare nu este încă în Open Food Facts. Introdu alimentul manual.",
   "This does not look like a food barcode. Enter it manually instead.": "Nu pare un cod de bare de aliment. Introdu-l manual.",
-  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts nu poate răspunde acum. Încearcă din nou sau introdu-l manual."
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts nu poate răspunde acum. Încearcă din nou sau introdu-l manual.",
+  "Already subscribed? Restore your purchase": "Ai deja un abonament? Restabilește achiziția",
+  "Checking Google Play…": "Se verifică Google Play…"
 }

@@ -25,6 +25,11 @@ import org.json.JSONObject
  * system and should not manufacture one just for payments. Google Play owns
  * the purchase and [refresh] restores it for the Play account on this device.
  *
+ * Play is not contacted at all until the person first reaches for Bitey AI
+ * (a photo action, the plan picker, Restore or Manage). Merely connecting
+ * makes the Billing Library report device details to Google, and someone
+ * who only keeps a diary has no reason to send any of that.
+ *
  * This is the client half of the eventual paid AI flow. It never sends a photo
  * or diary data to Play. Once Gemini is enabled, the Firebase endpoint must
  * verify the purchase token before it spends model quota; a client result is
@@ -40,6 +45,8 @@ class PlayBilling(
         const val MONTHLY_BASE_PLAN_ID = "monthly"
         const val YEARLY_BASE_PLAN_ID = "yearly"
         private val BASE_PLAN_ORDER = listOf(MONTHLY_BASE_PLAN_ID, YEARLY_BASE_PLAN_ID)
+        private const val PREFS = "bitey_billing"
+        private const val KEY_ENGAGED = "ai_engaged"
     }
 
     enum class Status(val wireValue: String) {
@@ -82,6 +89,10 @@ class PlayBilling(
     private val readyCallbacks = mutableListOf<(Boolean) -> Unit>()
     private val accessCallbacks = mutableListOf<(Status) -> Unit>()
     private var connecting = false
+    /** Once a connection has succeeded, enableAutoServiceReconnection() owns
+     * it: calling startConnection() again only races the library's own
+     * reconnect ("already in the process of connecting"). */
+    private var connectedOnce = false
     private var purchaseFlowInFlight = false
     /** Read by the page's bridge on a binder thread as well as here. */
     @Volatile
@@ -119,14 +130,31 @@ class PlayBilling(
         .enableAutoServiceReconnection()
         .build()
 
-    fun start() {
-        refresh()
+    private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+
+    /** True once the person has used any Bitey AI control on this install. */
+    private fun engaged(): Boolean = prefs.getBoolean(KEY_ENGAGED, false)
+
+    private fun markEngaged() {
+        if (!engaged()) prefs.edit().putBoolean(KEY_ENGAGED, true).apply()
     }
 
-    /** Query Play whenever the app returns to the foreground. This restores a
-     * purchase made elsewhere and catches a pending purchase that completed
-     * while Bitey was closed. */
-    fun refresh(callback: ((Status) -> Unit)? = null) {
+    /** Called whenever the app comes to the foreground. For someone who has
+     * used Bitey AI it restores a purchase made elsewhere and catches a
+     * pending purchase that completed while Bitey was closed; for anyone else
+     * it does nothing, and Play is never contacted. */
+    fun refreshIfEngaged() {
+        if (engaged()) refresh()
+    }
+
+    /** The Restore button: an explicit request, so it always asks Play, and
+     * it is also what lets a fresh install find an existing subscription. */
+    fun restore(callback: (Status) -> Unit) {
+        markEngaged()
+        refresh(callback)
+    }
+
+    private fun refresh(callback: ((Status) -> Unit)? = null) {
         ensureConnected { connected ->
             if (!connected) {
                 setEntitlement(Status.UNAVAILABLE)
@@ -154,6 +182,7 @@ class PlayBilling(
      * launched; ProductDetails are intentionally never cached.
      */
     fun requestAiAccess(callback: (AccessResponse) -> Unit) {
+        markEngaged()
         when (entitlement) {
             Status.ACTIVE, Status.PENDING -> {
                 callback(AccessResponse.Entitlement(entitlement))
@@ -177,6 +206,7 @@ class PlayBilling(
             callback(AccessResponse.Entitlement(Status.ERROR))
             return
         }
+        markEngaged()
         accessCallbacks += { status -> callback(AccessResponse.Entitlement(status)) }
         if (purchaseFlowInFlight) return
         purchaseFlowInFlight = true
@@ -191,6 +221,7 @@ class PlayBilling(
 
     /** Opens the standard Google Play subscription management page. */
     fun manageSubscription(activity: Activity) {
+        markEngaged()
         val uri = Uri.parse(
             "https://play.google.com/store/account/subscriptions" +
                 "?package=${context.packageName}&sku=$AI_SUBSCRIPTION_ID",
@@ -225,7 +256,9 @@ class PlayBilling(
     }
 
     private fun ensureConnected(whenReady: (Boolean) -> Unit) {
-        if (billingClient.isReady) {
+        // After the first connection, a call on a dropped client reconnects
+        // by itself; let it.
+        if (billingClient.isReady || connectedOnce) {
             whenReady(true)
             return
         }
@@ -241,6 +274,7 @@ class PlayBilling(
                     callbacks.forEach { it(false) }
                     return
                 }
+                connectedOnce = true
                 val callbacks = readyCallbacks.toList()
                 readyCallbacks.clear()
                 callbacks.forEach { it(true) }
