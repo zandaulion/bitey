@@ -413,5 +413,8 @@
   "Custom": "Спеціальний",
   "Save changes": "Зберегти зміни",
   "Privacy policy": "Політика конфіденційності",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Фото, яке ви робите або вибираєте, і все, що ви вводите для виправлення, надсилається на сервер Bitey у Google Cloud (Бельгія) і читається Gemini від Google. Разом із ним надсилається код від Google Play, що підтверджує вашу підписку."
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "Фото, яке ви робите або вибираєте, і все, що ви вводите для виправлення, надсилається на сервер Bitey у Google Cloud (Бельгія) і читається Gemini від Google. Разом із ним надсилається код від Google Play, що підтверджує вашу підписку.",
+  "That barcode is not in Open Food Facts yet. Enter it manually instead.": "Цього штрихкоду ще немає в Open Food Facts. Введіть його вручну.",
+  "This does not look like a food barcode. Enter it manually instead.": "Це не схоже на штрихкод продукту. Введіть його вручну.",
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts зараз не відповідає. Спробуйте ще раз або введіть вручну."
 }

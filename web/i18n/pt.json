@@ -413,5 +413,8 @@
   "Custom": "Personalizado",
   "Save changes": "Salvar alterações",
   "Privacy policy": "Política de privacidade",
-  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "A foto que você tira ou escolhe, e o que você digitar para corrigi-la, é enviada ao servidor do Bitey no Google Cloud (Bélgica) e lida pelo Gemini, do Google. Junto com ela vai um código do Google Play que confirma sua assinatura."
+  "The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.": "A foto que você tira ou escolhe, e o que você digitar para corrigi-la, é enviada ao servidor do Bitey no Google Cloud (Bélgica) e lida pelo Gemini, do Google. Junto com ela vai um código do Google Play que confirma sua assinatura.",
+  "That barcode is not in Open Food Facts yet. Enter it manually instead.": "Esse código de barras ainda não está no Open Food Facts. Digite manualmente.",
+  "This does not look like a food barcode. Enter it manually instead.": "Isso não parece um código de barras de alimento. Digite manualmente.",
+  "Open Food Facts could not answer right now. Try again or enter it manually.": "O Open Food Facts não pode responder agora. Tente de novo ou digite manualmente."
 }
