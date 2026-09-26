@@ -32,6 +32,10 @@ go into GitHub.
   Active in Play Console with View app information and View financial data for
   Bitey only. The project's default compute account never activated through a
   Play invite, which is why the function has an account of its own.
+- Every deploy leaves a container image in Artifact Registry
+  (`gcf-artifacts`, europe-west1). A clean-up policy, set on 26 September 2026,
+  deletes images older than one day; the running function does not need its
+  image once deployed. Without it, storage grows with every deploy.
 - Test subscriptions run on accelerated periods (five-minute renewals) and
   lapse within the hour, after which the plan picker and padlocks come back.
   That is Play's test behaviour, not a regression.
