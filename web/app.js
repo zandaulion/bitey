@@ -2266,6 +2266,7 @@ async function ensureAiPhotoConsent() {
 
 $('ai-consent-cancel').addEventListener('click', () => finishAiConsent(false));
 $('ai-consent-allow').addEventListener('click', () => finishAiConsent(true));
+$('privacy-notice')?.addEventListener('click', () => window.PlateNative?.openPrivacyNotice?.());
 $('ai-consent-withdraw')?.addEventListener('click', () => {
   setAiPhotoConsent(false);
   toast(t('Bitey AI will ask again before sending a photo.'));
