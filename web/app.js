@@ -1502,7 +1502,7 @@ $('entries').addEventListener('click', async (ev) => {
   const deleteId = ev.target.closest('[data-del]')?.dataset.del;
   if (deleteId) {
     ev.stopPropagation();
-    if (!confirm('Delete this entry?')) return;
+    if (!confirm(t('Delete this entry?'))) return;
     await api(`/api/entries/${encodeURIComponent(deleteId)}`, { method: 'DELETE' });
     track('entry_deleted');
     toast(t('Deleted'));
@@ -2692,7 +2692,7 @@ function closeReview() {
   //
   // Asked only when something actually changed, so opening an entry to look at
   // it and closing again is still one tap.
-  if (hasUnsavedEdit() && !confirm('Discard your changes to this entry?')) return false;
+  if (hasUnsavedEdit() && !confirm(t('Discard your changes to this entry?'))) return false;
   state.openedAs = null;
 
   document.activeElement?.blur?.();
@@ -2762,7 +2762,7 @@ function renderReview() {
   // Tense follows the meal: a plate in front of you is still being eaten, one
   // logged yesterday is not.
   $('correct-toggle').textContent = state.editingId
-    ? "Not what you ate?" : "Not what you're eating?";
+    ? t("Not what you ate?") : t("Not what you're eating?");
 
   $('weight-out').textContent = `${Math.round(totals.grams)} g`;
   $('review-kcal').textContent = Math.round(totals.calories);
@@ -4045,7 +4045,7 @@ if (window.__PLATE_NATIVE__) {
   });
 
   $('backup-import').addEventListener('click', async () => {
-    if (!confirm('Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.')) return;
+    if (!confirm(t('Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.'))) return;
     $('backup-import').disabled = true;
     try {
       const result = await nativeBackup('import');

@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "食品のバーコードではないようです。手動で入力してください。",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts が現在応答しません。もう一度試すか、手動で入力してください。",
   "Already subscribed? Restore your purchase": "すでに登録済みですか？購入を復元",
-  "Checking Google Play…": "Google Play を確認しています…"
+  "Checking Google Play…": "Google Play を確認しています…",
+  "Delete this entry?": "この記録を削除しますか？",
+  "Discard your changes to this entry?": "この記録への変更を破棄しますか？",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "このバックアップを復元しますか？この端末に現在保存されている日記、体重記録、保存済みの食品、写真が置き換えられます。",
+  "Not what you ate?": "食べたものと違いますか？",
+  "Not what you're eating?": "食べているものと違いますか？"
 }
