@@ -21,21 +21,25 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.0.6** (`versionCode` 7), which carries Firebase App
-Check: every Bitey AI request brings a Play Integrity attestation. Its release
+The next upload is **1.0.7** (`versionCode` 8), which wires "Not what you
+ate?" and "Photograph what's left" on saved meals and moves the page's
+confirmations to the phone's own dialogs. Its release notes are in
+`RELEASE_NOTES_1.0.7.md`, with the paste-ready tagged form in
+`release-notes-1.0.7.xml`. Record its hash here once built.
+
+The latest upload is **1.0.6** (`versionCode` 7), approved on Play on 26
+September 2026: Firebase App Check (now enforced), zxing-cpp in place of ML
+Kit, and Play Billing contacted only once someone uses Bitey AI. Its release
 notes are in `RELEASE_NOTES_1.0.6.md`, with the paste-ready tagged form in
-`release-notes-1.0.6.xml`. Record its hash here once built.
+`release-notes-1.0.6.xml`.
 
-The latest upload is **1.0.5** (`versionCode` 6), approved for closed testing
-on 26 September 2026: the first build in which Bitey AI reads a photograph end
-to end. Its Play release notes, in all twelve launch languages, are in
-`RELEASE_NOTES_1.0.5.md`, with the paste-ready tagged form in
-`release-notes-1.0.5.xml`.
+- 1.0.6 file SHA-256: `FA951065536E86B8D0F6B9D1CA06EA80195BDECED16FB1F1CD33AB7337912AC5`
+  (built 26 September 2026, 17:11)
 
-- 1.0.5 file SHA-256: `B0C3214D82442337CD20E68DE5198E1646192F55F43D29728FFBA129C4686BC0`
-  (signed with `key0`; built 25 September 2026)
-
-Previously uploaded, all closed testing: 1.0.4 (`versionCode` 5), in which the
+Previously uploaded: 1.0.5 (`versionCode` 6), approved for closed testing on 26
+September 2026, the first build in which Bitey AI reads a photograph end to end
+(SHA-256 `B0C3214D82442337CD20E68DE5198E1646192F55F43D29728FFBA129C4686BC0`,
+signed with `key0`, built 25 September 2026); and, all closed testing, 1.0.4 (`versionCode` 5), in which the
 camera and gallery first opened; 1.0.3 (`versionCode` 4), which made the Bitey
 AI plans reachable; 1.0.2 (`versionCode` 3), which declared
 `com.android.vending.BILLING` and so unlocked Play Console's Subscriptions page
@@ -70,8 +74,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.6** (`versionCode` 7), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.6.aab`
+- Current source version: **1.0.7** (`versionCode` 8), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.7.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
