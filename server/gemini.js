@@ -33,7 +33,8 @@ export async function analysePhoto(imageBase64, mimeType = 'image/jpeg', correct
       { inline_data: { mime_type: mimeType, data: imageBase64 } },
       { text: buildPrompt(correction, locale) }
     ],
-    RESPONSE_SCHEMA
+    RESPONSE_SCHEMA,
+    { think: false }
   );
 }
 
@@ -60,7 +61,7 @@ export async function readLeftovers(beforeBase64, afterBase64, mimeType, items, 
   );
 }
 
-async function call(parts, schema) {
+async function call(parts, schema, { think = true } = {}) {
   const key = getKey();
   if (!key) {
     throw new AnalysisError('not_configured', 'Photo analysis is not configured on this server.', 503);
@@ -72,7 +73,15 @@ async function call(parts, schema) {
       responseMimeType: 'application/json',
       responseSchema: schema,
       temperature: 0.2,
-      maxOutputTokens: 4096
+      maxOutputTokens: 4096,
+      // Reading a photograph goes without thinking. Measured 27 Sep 2026 on
+      // 106 weighed Nutrition5k plates with this prompt: calories came out the
+      // same (median error 28.5% against 28.2%, within 50% on 76% against
+      // 78%) while the thinking was ~60% of the tokens billed, so the photo
+      // costs $0.0026 instead of $0.0044. The leftovers comparison keeps its
+      // thinking: it was not measured, and comparing two photographs is the
+      // harder judgement.
+      ...(think ? {} : { thinkingConfig: { thinkingBudget: 0 } })
     }
   };
 
@@ -124,7 +133,10 @@ async function call(parts, schema) {
     raw: parsed,
     usage: {
       promptTokens: u.promptTokenCount ?? null,
-      outputTokens: u.candidatesTokenCount ?? null
+      // Thinking is billed as output but reported apart from the answer;
+      // counting only the answer made a photo look four times cheaper.
+      outputTokens: (u.candidatesTokenCount ?? 0) + (u.thoughtsTokenCount ?? 0),
+      thoughtTokens: u.thoughtsTokenCount ?? 0
     },
     model: getModel()
   };
