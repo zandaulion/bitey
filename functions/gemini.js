@@ -6,7 +6,9 @@
 // come from core/analysis/prompt.js; only the credential differs, because this
 // copy runs where a Secret Manager secret is available and the other does not.
 
-import { buildPrompt, RESPONSE_SCHEMA } from './core/analysis/prompt.js';
+import {
+  buildPrompt, RESPONSE_SCHEMA, buildLeftoversPrompt, LEFTOVERS_SCHEMA
+} from './core/analysis/prompt.js';
 
 const ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
@@ -24,20 +26,41 @@ export async function analysePhoto(
   { apiKey, imageBase64, mimeType = 'image/jpeg', correction = null, locale = 'en' },
   fetchImpl = fetch
 ) {
+  return call(apiKey, [
+    { inline_data: { mime_type: mimeType, data: imageBase64 } },
+    { text: buildPrompt(correction, locale) }
+  ], RESPONSE_SCHEMA, fetchImpl);
+}
+
+/**
+ * The plate after eating, read against the same plate before, as
+ * server/gemini.js does it: both photographs in order, labelled, then the
+ * prompt listing what was served. The answer is a fraction per item.
+ */
+export async function readLeftovers(
+  { apiKey, beforeBase64, beforeMimeType = 'image/jpeg', afterBase64, afterMimeType = 'image/jpeg',
+    items, locale = 'en' },
+  fetchImpl = fetch
+) {
+  return call(apiKey, [
+    { text: 'Before eating:' },
+    { inline_data: { mime_type: beforeMimeType, data: beforeBase64 } },
+    { text: 'After eating:' },
+    { inline_data: { mime_type: afterMimeType, data: afterBase64 } },
+    { text: buildLeftoversPrompt(items, locale) }
+  ], LEFTOVERS_SCHEMA, fetchImpl);
+}
+
+async function call(apiKey, parts, schema, fetchImpl) {
   if (!apiKey) {
     throw new AnalysisError('not_configured', 'Photo analysis is not configured yet.', 503);
   }
 
   const body = {
-    contents: [{
-      parts: [
-        { inline_data: { mime_type: mimeType, data: imageBase64 } },
-        { text: buildPrompt(correction, locale) }
-      ]
-    }],
+    contents: [{ parts }],
     generationConfig: {
       responseMimeType: 'application/json',
-      responseSchema: RESPONSE_SCHEMA,
+      responseSchema: schema,
       temperature: 0.2,
       maxOutputTokens: 4096
     }
