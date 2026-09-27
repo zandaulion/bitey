@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "Nu pare un cod de bare de aliment. Introdu-l manual.",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts nu poate răspunde acum. Încearcă din nou sau introdu-l manual.",
   "Already subscribed? Restore your purchase": "Ai deja un abonament? Restabilește achiziția",
-  "Checking Google Play…": "Se verifică Google Play…"
+  "Checking Google Play…": "Se verifică Google Play…",
+  "Delete this entry?": "Ștergi această înregistrare?",
+  "Discard your changes to this entry?": "Renunți la modificările acestei înregistrări?",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "Restabilești această copie de rezervă? Va înlocui jurnalul, cântăririle, alimentele salvate și fotografiile stocate acum pe acest dispozitiv.",
+  "Not what you ate?": "Nu e ce ai mâncat?",
+  "Not what you're eating?": "Nu e ce mănânci?"
 }

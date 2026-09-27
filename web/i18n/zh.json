@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "这看起来不是食品条形码。请手动输入。",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts 暂时无法响应。请重试或手动输入。",
   "Already subscribed? Restore your purchase": "已订阅？恢复购买",
-  "Checking Google Play…": "正在检查 Google Play…"
+  "Checking Google Play…": "正在检查 Google Play…",
+  "Delete this entry?": "删除这条记录？",
+  "Discard your changes to this entry?": "放弃对这条记录的修改？",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "恢复此备份？它将替换此设备上当前存储的日记、体重记录、已保存的食物和照片。",
+  "Not what you ate?": "不是你吃的东西？",
+  "Not what you're eating?": "不是你正在吃的东西？"
 }

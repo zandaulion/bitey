@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "यह किसी खाद्य पदार्थ का बारकोड नहीं लगता। कृपया इसे मैन्युअली दर्ज करें।",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts अभी जवाब नहीं दे पा रहा। फिर से कोशिश करें या मैन्युअली दर्ज करें।",
   "Already subscribed? Restore your purchase": "पहले से सदस्यता है? अपनी खरीदारी बहाल करें",
-  "Checking Google Play…": "Google Play की जाँच हो रही है…"
+  "Checking Google Play…": "Google Play की जाँच हो रही है…",
+  "Delete this entry?": "यह प्रविष्टि हटाएँ?",
+  "Discard your changes to this entry?": "इस प्रविष्टि में किए गए बदलाव छोड़ दें?",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "यह बैकअप बहाल करें? यह इस डिवाइस पर अभी सहेजी गई डायरी, वज़न, सहेजे गए खाद्य पदार्थ और फ़ोटो को बदल देगा।",
+  "Not what you ate?": "यह वह नहीं जो आपने खाया?",
+  "Not what you're eating?": "यह वह नहीं जो आप खा रहे हैं?"
 }

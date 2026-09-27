@@ -1,16 +1,21 @@
 package com.zandaulion.bitey
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.webkit.WebViewAssetLoader
 import org.json.JSONArray
 import org.json.JSONObject
@@ -290,6 +295,49 @@ class PlateWebView(
                 filePathCallback: ValueCallback<Array<Uri>>,
                 fileChooserParams: FileChooserParams,
             ): Boolean = onFileChooserRequested(filePathCallback, fileChooserParams.isCaptureEnabled)
+
+            // The page's alert(), confirm() and prompt() as the phone's own
+            // dialogs. WebView's defaults are titled "The page at
+            // https://plate.local says", which reads like a web page warning
+            // about itself. These carry only the message, and the system's
+            // own OK and Cancel, in the phone's language and look.
+            override fun onJsAlert(view: WebView, url: String?, message: String?, result: JsResult): Boolean =
+                showPageDialog(result, message) { dialog ->
+                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> result.confirm() }
+                        .setOnCancelListener { result.confirm() }
+                }
+
+            override fun onJsConfirm(view: WebView, url: String?, message: String?, result: JsResult): Boolean =
+                showPageDialog(result, message) { dialog ->
+                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> result.confirm() }
+                        .setNegativeButton(android.R.string.cancel) { _, _ -> result.cancel() }
+                        .setOnCancelListener { result.cancel() }
+                }
+
+            override fun onJsPrompt(
+                view: WebView,
+                url: String?,
+                message: String?,
+                defaultValue: String?,
+                result: JsPromptResult,
+            ): Boolean {
+                val input = EditText(context).apply {
+                    setText(defaultValue.orEmpty())
+                    setSingleLine()
+                    selectAll()
+                }
+                val padding = (20 * resources.displayMetrics.density).roundToInt()
+                val frame = FrameLayout(context).apply {
+                    setPadding(padding, padding / 2, padding, 0)
+                    addView(input)
+                }
+                return showPageDialog(result, message) { dialog ->
+                    dialog.setView(frame)
+                        .setPositiveButton(android.R.string.ok) { _, _ -> result.confirm(input.text.toString()) }
+                        .setNegativeButton(android.R.string.cancel) { _, _ -> result.cancel() }
+                        .setOnCancelListener { result.cancel() }
+                }
+            }
         }
         webViewClient = PlateAssetClient(context, photoStore, captures)
         addJavascriptInterface(
@@ -414,6 +462,31 @@ class PlateWebView(
         evaluateJavascript("window.__plateNativeBack?.() === true") { result ->
             onComplete(result == "true")
         }
+    }
+
+    /**
+     * Shows one of the page's dialogs on the device's default alert theme, so
+     * it looks like every other dialog on that phone rather than like Bitey's
+     * own screens or a browser's.
+     *
+     * Returns true when the dialog is showing and will answer [result]. If it
+     * cannot be shown -- the activity is finishing -- the page is answered
+     * "cancel" at once rather than left waiting, since a JavaScript dialog
+     * blocks the page until it has an answer.
+     */
+    private fun showPageDialog(
+        result: JsResult,
+        message: String?,
+        configure: (AlertDialog.Builder) -> AlertDialog.Builder,
+    ): Boolean {
+        val shown = runCatching {
+            configure(
+                AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                    .setMessage(message.orEmpty()),
+            ).show()
+        }.isSuccess
+        if (!shown) result.cancel()
+        return true
     }
 
     override fun onDetachedFromWindow() {

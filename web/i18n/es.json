@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "No parece un código de barras de alimento. Introdúcelo manualmente.",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts no puede responder ahora. Inténtalo de nuevo o introdúcelo manualmente.",
   "Already subscribed? Restore your purchase": "¿Ya tienes una suscripción? Restaura tu compra",
-  "Checking Google Play…": "Comprobando Google Play…"
+  "Checking Google Play…": "Comprobando Google Play…",
+  "Delete this entry?": "¿Eliminar esta entrada?",
+  "Discard your changes to this entry?": "¿Descartar los cambios en esta entrada?",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "¿Restaurar esta copia de seguridad? Reemplazará el diario, los pesajes, los alimentos guardados y las fotos que hay ahora en este dispositivo.",
+  "Not what you ate?": "¿No es lo que comiste?",
+  "Not what you're eating?": "¿No es lo que estás comiendo?"
 }

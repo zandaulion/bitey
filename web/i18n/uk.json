@@ -418,5 +418,10 @@
   "This does not look like a food barcode. Enter it manually instead.": "Це не схоже на штрихкод продукту. Введіть його вручну.",
   "Open Food Facts could not answer right now. Try again or enter it manually.": "Open Food Facts зараз не відповідає. Спробуйте ще раз або введіть вручну.",
   "Already subscribed? Restore your purchase": "Уже маєте підписку? Відновіть покупку",
-  "Checking Google Play…": "Перевіряємо Google Play…"
+  "Checking Google Play…": "Перевіряємо Google Play…",
+  "Delete this entry?": "Видалити цей запис?",
+  "Discard your changes to this entry?": "Скасувати зміни в цьому записі?",
+  "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "Відновити цю резервну копію? Вона замінить щоденник, зважування, збережені продукти й фото, які зараз зберігаються на цьому пристрої.",
+  "Not what you ate?": "Це не те, що ви з’їли?",
+  "Not what you're eating?": "Це не те, що ви їсте?"
 }
