@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -33,6 +34,9 @@ class BiteyAnalysis(
         /** Just above the server's own ceiling, so an oversized photograph is
          * refused here without being uploaded to be refused there. */
         const val MAX_IMAGE_CHARS = 7 * 1024 * 1024
+
+        /** The server's own cap on foods compared in one leftovers reading. */
+        const val MAX_LEFTOVER_ITEMS = 40
 
         private val LOCALE = Regex("[a-z]{2}(-[A-Za-z]{2})?")
     }
@@ -67,7 +71,33 @@ class BiteyAnalysis(
                 request.optString("locale").takeIf { LOCALE.matches(it) }
                     ?.let { put("locale", it) }
             }
-            .toString()
+        // Leftovers: the photo just taken is `image`, and the meal's original
+        // photo and its served foods travel with it. Only those; names and
+        // weights are re-validated by the server before they reach a prompt.
+        if (request.optString("mode") == "leftovers") {
+            val original = request.optString("original")
+            if (original.length < 100) {
+                return answer(400, "no_original", "The photo of the meal before eating was not received.")
+            }
+            if (original.length > MAX_IMAGE_CHARS) {
+                return answer(400, "image_too_large", "That photo is too large to read.")
+            }
+            val items = JSONArray()
+            val served = request.optJSONArray("items") ?: JSONArray()
+            for (i in 0 until minOf(served.length(), MAX_LEFTOVER_ITEMS)) {
+                val item = served.optJSONObject(i) ?: continue
+                items.put(JSONObject()
+                    .put("id", item.optString("id").take(64))
+                    .put("name", item.optString("name").take(80))
+                    .put("grams", item.optDouble("grams", 0.0)))
+            }
+            body.put("mode", "leftovers")
+                .put("original", original)
+                .put("originalMimeType",
+                    if (request.optString("originalMimeType") == "image/png") "image/png" else "image/jpeg")
+                .put("items", items)
+        }
+        val payload = body.toString()
 
         val connection = try {
             (URL(endpoint).openConnection() as HttpURLConnection).apply {
@@ -89,7 +119,7 @@ class BiteyAnalysis(
         }
 
         return try {
-            connection.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
+            connection.outputStream.use { it.write(payload.toByteArray(Charsets.UTF_8)) }
             val status = connection.responseCode
             val stream = if (status in 200..299) connection.inputStream else connection.errorStream
             val text = stream?.bufferedReader()?.use { it.readText() }.orEmpty()

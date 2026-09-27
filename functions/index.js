@@ -17,11 +17,11 @@ import { getAppCheck } from 'firebase-admin/app-check';
 import logger from 'firebase-functions/logger';
 
 import { validateAnalyseRequest, isEntitled, ANALYSE_ERRORS } from './core/ai/gate.js';
-import { parseResponse } from './core/analysis/prompt.js';
+import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';
 import { fromModelResponse, totalsOf, rangesOf } from './core/analysis/estimate.js';
 import { readSubscription, PlayError, AI_SUBSCRIPTION_ID } from './play.js';
 import { entitlementIdFor, claim, refund } from './quota.js';
-import { analysePhoto, AnalysisError } from './gemini.js';
+import { analysePhoto, readLeftovers, AnalysisError } from './gemini.js';
 
 initializeApp();
 
@@ -92,8 +92,8 @@ export const analyse = onRequest(
 
     const request = validateAnalyseRequest(req.body);
     if (!request.ok) {
-      return fail(res, request.error === 'no_image' || request.error === 'image_too_large' ? 400 : 401,
-        request.error, ANALYSE_ERRORS[request.error]);
+      const shape = ['no_image', 'image_too_large', 'no_original', 'no_items'].includes(request.error);
+      return fail(res, shape ? 400 : 401, request.error, ANALYSE_ERRORS[request.error]);
     }
 
     // The token identifies the subscription for the rest of this request and
@@ -124,15 +124,28 @@ export const analyse = onRequest(
         { used: quota.used, limit: quota.limit, remaining: 0 });
     }
 
+    // A leftovers reading sends two photographs but is one reading: it is one
+    // question about one meal, as on the PWA's server.
+    const leftovers = request.mode === 'leftovers';
     let raw, usage, model;
     try {
-      ({ raw, usage, model } = await analysePhoto({
-        apiKey: GEMINI_API_KEY.value(),
-        imageBase64: request.image,
-        mimeType: request.mimeType,
-        correction: request.correction,
-        locale: request.locale
-      }));
+      ({ raw, usage, model } = leftovers
+        ? await readLeftovers({
+          apiKey: GEMINI_API_KEY.value(),
+          beforeBase64: request.original,
+          beforeMimeType: request.originalMimeType,
+          afterBase64: request.image,
+          afterMimeType: request.mimeType,
+          items: request.items,
+          locale: request.locale
+        })
+        : await analysePhoto({
+          apiKey: GEMINI_API_KEY.value(),
+          imageBase64: request.image,
+          mimeType: request.mimeType,
+          correction: request.correction,
+          locale: request.locale
+        }));
     } catch (err) {
       if (err instanceof AnalysisError) {
         // Nothing was spent if the request never got as far as the model, so
@@ -143,6 +156,31 @@ export const analyse = onRequest(
       }
       await refund(entitlementId);
       throw err;
+    }
+
+    if (leftovers) {
+      const read = parseLeftovers(raw, request.items);
+      if (!read.ok) {
+        // "That is a different meal" is the model doing its job, and it cost a
+        // reading like any other answer. Rewriting an entry on the strength of
+        // a photograph of something else would be the actual harm.
+        return res.status(422).json({
+          error: read.reason,
+          message: read.reason === 'different_meal'
+            ? `That does not look like the same meal. ${read.note}`.trim()
+            : 'The leftovers could not be read. Set how much you ate by hand instead.',
+          note: read.note, usage, model, remaining: quota.remaining
+        });
+      }
+      logger.info('leftovers read', {
+        entitlementId,
+        promptTokens: usage.promptTokens,
+        outputTokens: usage.outputTokens,
+        remaining: quota.remaining
+      });
+      // Fractions only. The client applies them to the estimate in front of
+      // the person, and nothing changes until they save.
+      return res.json({ eaten: read.eaten, note: read.note, usage, model, remaining: quota.remaining });
     }
 
     const parsed = parseResponse(raw);

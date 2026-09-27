@@ -30,11 +30,17 @@ export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
  * should be refused without first being expanded in memory. */
 export const MAX_IMAGE_CHARS = Math.ceil(MAX_IMAGE_BYTES / 3) * 4;
 
+/** Most foods one leftovers reading compares. A plate holds a handful; the
+ * cap only bounds what a request can put into the prompt. */
+export const MAX_LEFTOVER_ITEMS = 40;
+
 export const ANALYSE_ERRORS = {
   no_token: 'This device has no Bitey AI subscription.',
   bad_token: 'This device has no Bitey AI subscription.',
   no_image: 'No photo was received.',
   image_too_large: 'That photo is too large to read.',
+  no_original: 'The photo of the meal before eating was not received.',
+  no_items: 'This entry has no foods to compare.',
   not_entitled: 'Bitey AI is not active on this Google Play account.',
   daily_limit: 'That is all the photo readings for today. They come back tomorrow.'
 };
@@ -69,7 +75,50 @@ export function validateAnalyseRequest(body) {
     ? body.locale.slice(0, 2)
     : 'en';
 
-  return { ok: true, purchaseToken, image, mimeType, correction, locale };
+  const request = { ok: true, mode: 'analyse', purchaseToken, image, mimeType, correction, locale };
+  if (body?.mode !== 'leftovers') return request;
+
+  // Leftovers: `image` is the plate after eating, `original` the same plate
+  // before, and `items` what the entry says was served. Both photographs go
+  // to the model, so each is held to the same ceiling as a single one.
+  const original = typeof body.original === 'string' ? body.original : '';
+  if (original.length < 100) return { ok: false, error: 'no_original' };
+  if (original.length > MAX_IMAGE_CHARS) return { ok: false, error: 'image_too_large' };
+  const items = leftoverItems(body.items);
+  if (!items.length) return { ok: false, error: 'no_items' };
+  return {
+    ...request,
+    mode: 'leftovers',
+    original,
+    originalMimeType: body.originalMimeType === 'image/png' ? 'image/png' : 'image/jpeg',
+    items,
+    // A leftovers reading has no correction; the prompt has no place for one.
+    correction: null
+  };
+}
+
+/**
+ * The served foods a leftovers prompt lists, reduced to what it uses.
+ *
+ * They come from the client and go into the prompt, so each is held to a
+ * plain shape: an id like the ones estimate.js issues, a name on one line and
+ * of a sensible length, and a weight within reason. Anything else is dropped
+ * rather than refused -- one odd item should not cost the whole reading.
+ */
+function leftoverItems(list) {
+  if (!Array.isArray(list)) return [];
+  const out = [];
+  for (const item of list.slice(0, MAX_LEFTOVER_ITEMS)) {
+    const id = typeof item?.id === 'string' ? item.id : '';
+    if (!/^[\w-]{1,64}$/.test(id)) continue;
+    const name = typeof item?.name === 'string'
+      ? item.name.replace(/[\u0000-\u001f\u007f]+/g, ' ').trim().slice(0, 80)
+      : '';
+    const grams = Number(item?.grams);
+    if (!name || !Number.isFinite(grams) || grams < 0 || grams > 5000) continue;
+    out.push({ id, name, grams: Math.round(grams) });
+  }
+  return out;
 }
 
 /**

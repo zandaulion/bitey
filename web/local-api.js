@@ -6,7 +6,7 @@
 // Express server. Keeping the boundary here makes the UI migration gradual
 // rather than rewriting every screen before the first local build can run.
 
-import { totalsOf, portionSourceOf } from '/core/analysis/estimate.js';
+import { totalsOf, portionSourceOf, hasPhotoItems } from '/core/analysis/estimate.js';
 import { summariseDay, macroSplit, MEALS } from '/core/day.js';
 import { ACTIVITY_LEVELS, ageFromBirthYear, maintenanceEnergy } from '/core/nutrition.js';
 import { adaptiveExpenditure } from '/core/expenditure.js';
@@ -235,7 +235,7 @@ window.__plateNativeAnalysisResult = (requestId, payload) => {
  * token and sends it. What comes back has the same shape the PWA's own server
  * returns, so the review sheet cannot tell the two apart.
  */
-async function nativeAnalyse(body) {
+async function nativeAnalyse(body, extra = null) {
   if (typeof window.PlateNative?.analysePhoto !== 'function') {
     throw new LocalApiError('Photo analysis is not available in this build.', { code: 'not_configured', status: 503 });
   }
@@ -245,7 +245,10 @@ async function nativeAnalyse(body) {
     correction: typeof body?.correction === 'string' ? body.correction : '',
     // The same signal the PWA sends as X-Plate-Locale: it decides the language
     // the model names food in and writes its note in.
-    locale: document.documentElement.lang || 'en'
+    locale: document.documentElement.lang || 'en',
+    // A leftovers reading's second photo and served foods; native code
+    // forwards these by name and nothing else.
+    ...(extra || {})
   };
   const requestId = `analyse-${++nativeAnalysisSequence}`;
   const result = await new Promise((resolve) => {
@@ -255,7 +258,8 @@ async function nativeAnalyse(body) {
 
   const status = Number(result?.httpStatus) || 0;
   const answer = result?.body || {};
-  if (status >= 200 && status < 300 && answer.estimate) return answer;
+  const answered = request.mode === 'leftovers' ? answer.eaten : answer.estimate;
+  if (status >= 200 && status < 300 && answered) return answer;
   throw new LocalApiError(answer.message || answer.note || 'The photo could not be read. Try again.', {
     code: answer.error || 'analysis_failed',
     // 0 is "never reached the server"; reported as 503 like any other outage.
@@ -605,6 +609,116 @@ async function updateEntry(id, body) {
   return { id, day: next.day, totals: next.totals, entry: publicEntry(next) };
 }
 
+/**
+ * "Not what you ate?" on a saved entry: the same photograph, read again with
+ * the person's correction. The PWA's server does this from the photo on its
+ * disk; here the photo is on the phone, so it is read back from app-private
+ * storage and sent through the same Bitey AI request as a fresh capture.
+ *
+ * The server's rules are kept. The same words about the same photo are
+ * answered from the last reply rather than spending a reading, and an entry
+ * is read again at most twice before the person is asked to set it by hand.
+ */
+const MAX_CORRECTIONS = 2;
+const reanalyseAnswers = new Map();
+
+async function storedPhoto(row) {
+  const mimeType = row.photoMimeType === 'image/png' ? 'image/png' : 'image/jpeg';
+  if (row.photoData) return { image: row.photoData, mimeType };
+  if (!window.__PLATE_NATIVE__) return null;
+  // The same address the diary shows the photo from; it is answered by
+  // native code from private storage and never leaves the device.
+  const res = await fetch(`/local-photo/${encodeURIComponent(row.photoId)}`).catch(() => null);
+  if (!res?.ok) return null;
+  const blob = await res.blob();
+  const dataUrl = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+  const image = dataUrl.slice(dataUrl.indexOf(',') + 1);
+  return image ? { image, mimeType: blob.type === 'image/png' ? 'image/png' : mimeType } : null;
+}
+
+async function countCorrection(row) {
+  const next = { ...row, corrections: (row.corrections || 0) + 1 };
+  if (window.__PLATE_NATIVE__) await writeNativeEntry(next);
+  else await put('entries', next);
+}
+
+async function reanalyseEntry(id, body) {
+  const row = await diaryEntry(id);
+  if (!row) throw new LocalApiError('Entry not found.', { code: 'not_found', status: 404 });
+  if (!row.photoId) {
+    throw new LocalApiError('This entry was not logged from a photo, so there is nothing to read again.',
+      { code: 'no_photo', status: 400 });
+  }
+  // A barcode entry's picture is the product shot; reading it as a plated
+  // meal would replace scanned facts with a guess.
+  if (!hasPhotoItems({ items: row.items || [] })) {
+    throw new LocalApiError('These numbers came from a barcode, not from reading the photo.',
+      { code: 'not_photo_based', status: 400 });
+  }
+
+  const correction = typeof body?.correction === 'string' ? body.correction.slice(0, 200) : '';
+  const key = JSON.stringify([row.photoId, correction]);
+  const seen = reanalyseAnswers.get(key);
+  if (seen) return { ...seen, repeated: true };
+
+  if ((row.corrections || 0) >= MAX_CORRECTIONS) {
+    throw new LocalApiError('The photo has been read again twice. Another go is unlikely to help — set the food by hand instead.',
+      { code: 'corrections_exhausted', status: 429 });
+  }
+
+  const photo = await storedPhoto(await hydrateEntry(row));
+  if (!photo) {
+    throw new LocalApiError('The photograph for this entry is no longer stored.', { code: 'photo_gone', status: 410 });
+  }
+
+  let answer;
+  try {
+    answer = await nativeAnalyse({ ...photo, correction });
+  } catch (err) {
+    // The model was asked and answered ("not food", "nothing found"): that
+    // reading was spent, so it counts toward the entry's two.
+    if (err?.status === 422) await countCorrection(row);
+    throw err;
+  }
+  await countCorrection(row);
+  reanalyseAnswers.set(key, answer);
+  return answer;
+}
+
+/**
+ * "Photograph what's left": the plate now, read against the entry's original
+ * photo. Only the fractions come back; the review sheet applies them, and
+ * nothing is saved until the person saves -- as on the PWA's server.
+ */
+async function readEntryLeftovers(id, body) {
+  const row = await diaryEntry(id);
+  if (!row) throw new LocalApiError('Entry not found.', { code: 'not_found', status: 404 });
+  if (typeof body?.image !== 'string' || body.image.length < 100) {
+    throw new LocalApiError('A photo of what is left is needed.', { code: 'no_image', status: 400 });
+  }
+  if (!row.photoId) {
+    throw new LocalApiError('This entry has no photo to compare against. Set how much you ate by hand instead.',
+      { code: 'no_photo', status: 400 });
+  }
+  const original = await storedPhoto(await hydrateEntry(row));
+  if (!original) {
+    throw new LocalApiError('The original photograph is no longer stored, so there is nothing to compare against.',
+      { code: 'photo_gone', status: 410 });
+  }
+  const items = (row.items || []).map((item) => ({ id: item.id, name: item.name, grams: item.grams }));
+  return nativeAnalyse({ image: body.image, mimeType: 'image/jpeg' }, {
+    mode: 'leftovers',
+    original: original.image,
+    originalMimeType: original.mimeType,
+    items
+  });
+}
+
 async function duplicateEntry(id, body) {
   const original = await diaryEntry(id);
   if (!original) throw new LocalApiError('Entry not found.', { code: 'not_found', status: 404 });
@@ -698,6 +812,12 @@ export async function localApi(path, options = {}) {
     if (!await deleteDiaryEntry(row)) throw new LocalApiError('Entry not found.', { code: 'not_found', status: 404 });
     return { ok: true };
   }
+  const reanalyse = url.pathname.match(/^\/api\/entries\/([^/]+)\/reanalyse$/);
+  if (reanalyse && method === 'POST') return reanalyseEntry(decodeURIComponent(reanalyse[1]), body);
+
+  const leftovers = url.pathname.match(/^\/api\/entries\/([^/]+)\/leftovers$/);
+  if (leftovers && method === 'POST') return readEntryLeftovers(decodeURIComponent(leftovers[1]), body);
+
   const duplicate = url.pathname.match(/^\/api\/entries\/([^/]+)\/duplicate$/);
   if (duplicate && method === 'POST') return duplicateEntry(decodeURIComponent(duplicate[1]), body);
 
