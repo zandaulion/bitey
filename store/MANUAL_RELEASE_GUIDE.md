@@ -55,6 +55,10 @@ go into GitHub.
   consent card naming Belgium. The Data safety form still needs Firebase App
   Check's own entries: Google publishes a Play data disclosure for each
   Firebase SDK.
+- **1.0.7** (`versionCode` 8) is the current source: "Not what you ate?" and
+  "Photograph what's left" on saved meals, wired for the first time on
+  Android (the leftovers mode of `analyse` is already deployed), and the
+  page's confirmations shown as native dialogs.
 - Every deploy leaves a container image in Artifact Registry
   (`gcf-artifacts`, europe-west1). A clean-up policy, set on 26 September 2026,
   deletes images older than one day; the running function does not need its
