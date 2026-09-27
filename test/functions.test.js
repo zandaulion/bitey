@@ -8,7 +8,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sync, SYNCED } from '../scripts/sync-functions-core.mjs';
-import { analysePhoto, AnalysisError, getModel } from '../functions/gemini.js';
+import { analysePhoto, readLeftovers, AnalysisError, getModel } from '../functions/gemini.js';
 
 test('the copies under functions/core match core/', () => {
   const stale = sync({ check: true });
@@ -43,8 +43,23 @@ test('a JSON answer comes back parsed, with its token usage', async () => {
   const out = await analysePhoto(request(), async () =>
     reply('{"items":[{"name":"stew"}]}', { promptTokenCount: 1409, candidatesTokenCount: 120 }));
   assert.deepEqual(out.raw, { items: [{ name: 'stew' }] });
-  assert.deepEqual(out.usage, { promptTokens: 1409, outputTokens: 120 });
+  assert.deepEqual(out.usage, { promptTokens: 1409, outputTokens: 120, thoughtTokens: 0 });
   assert.equal(out.model, getModel());
+});
+
+test('thinking is billed as output, so it is counted as output', async () => {
+  const out = await analysePhoto(request(), async () =>
+    reply('{"items":[]}', { promptTokenCount: 1412, candidatesTokenCount: 276, thoughtsTokenCount: 451 }));
+  assert.deepEqual(out.usage, { promptTokens: 1412, outputTokens: 727, thoughtTokens: 451 });
+});
+
+test('a photograph is read without thinking; leftovers keep it', async () => {
+  const bodies = [];
+  const capture = async (_url, options) => { bodies.push(JSON.parse(options.body)); return reply('{"items":[]}'); };
+  await analysePhoto(request(), capture);
+  await readLeftovers({ apiKey: 'test-key', beforeBase64: 'x'.repeat(200), afterBase64: 'y'.repeat(200), items: [] }, capture);
+  assert.deepEqual(bodies[0].generationConfig.thinkingConfig, { thinkingBudget: 0 });
+  assert.equal(bodies[1].generationConfig.thinkingConfig, undefined);
 });
 
 test('an answer fenced in markdown is still read', async () => {
