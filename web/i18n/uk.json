@@ -427,5 +427,11 @@
   "Not what you ate?": "Це не те, що ви з’їли?",
   "Not what you're eating?": "Це не те, що ви їсте?",
   "Gallery": "Галерея",
-  "Profile saved": "Профіль збережено"
+  "Profile saved": "Профіль збережено",
+  "First month free": "Перший місяць безкоштовно",
+  "Free trial": "Безкоштовний пробний період",
+  "then {0}": "потім {0}",
+  "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "Перший місяць безкоштовний. Скасуйте в Google Play до його завершення, і ви нічого не заплатите.",
+  "Start with a free trial. Cancel in Google Play before it ends and you pay nothing.": "Почніть із безкоштовного пробного періоду. Скасуйте в Google Play до його завершення, і ви нічого не заплатите.",
+  "Bitey AI saw": "Bitey AI розпізнав"
 }

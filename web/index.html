@@ -233,6 +233,16 @@
       <div id="review-body">
         <img id="review-photo" class="review-photo" alt="The meal you photographed">
         <p id="photo-day-note" class="photo-day-note" hidden></p>
+        <!-- What the photo was read as, straight under the photo: the foods
+             and their numbers used to sit below every control on the sheet.
+             Each one jumps to its full row, where it can be changed. -->
+        <section id="review-seen" class="review-seen" hidden aria-labelledby="seen-label">
+          <div class="seen-head">
+            <span id="seen-label" data-i18n="Bitey AI saw">Bitey AI saw</span>
+            <span class="seen-total"><strong id="seen-kcal">0</strong> <span data-i18n="kcal">kcal</span></span>
+          </div>
+          <ul id="seen-list" class="seen-list"></ul>
+        </section>
 
         <p id="review-note" class="note" hidden></p>
 

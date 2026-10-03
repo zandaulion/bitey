@@ -2136,18 +2136,47 @@ function showAiPlanPicker(requestId, offers) {
   }
   aiPlanRequestId = requestId;
 
+  // A free trial is whatever Play says this account may have, as an ISO
+  // period. A first free month gets its own words; any other length is
+  // still called a free trial rather than misdescribed as a month.
+  const trialOf = (offer) => (typeof offer.trial === 'string' && /^P\d+[DWMY]$/.test(offer.trial)
+    ? offer.trial : null);
+  const trialWords = (period) => (period === 'P1M' ? t('First month free') : t('Free trial'));
+  const trials = eligible.map(trialOf).filter(Boolean);
+  const hintKey = trials.includes('P1M')
+    ? 'Your first month is free. Cancel in Google Play before it ends and you pay nothing.'
+    : trials.length
+      ? 'Start with a free trial. Cancel in Google Play before it ends and you pay nothing.'
+      : 'Choose monthly or yearly billing. You can cancel any time in Google Play.';
+  const hint = $('ai-plan-body').querySelector('.hint');
+  // data-i18n too, so switching language re-translates the right sentence.
+  hint.dataset.i18n = hintKey;
+  hint.textContent = t(hintKey);
+
   const options = $('ai-plan-options');
   options.replaceChildren();
   for (const offer of eligible) {
     const button = document.createElement('button');
     const name = offer.id === 'yearly' ? t('Yearly') : t('Monthly');
+    const trial = trialOf(offer);
     button.type = 'button';
     button.className = 'secondary ai-plan-option';
-    button.setAttribute('aria-label', `${name}: ${offer.price}`);
     const label = document.createElement('span');
     label.textContent = name;
     const price = document.createElement('strong');
-    price.textContent = offer.price;
+    if (trial) {
+      // The free period is the headline; what follows it is still stated
+      // on the same button, never left for the Play sheet to reveal.
+      const then = t('then {0}', offer.price);
+      price.textContent = trialWords(trial);
+      const after = document.createElement('small');
+      after.textContent = then;
+      label.append(after);
+      button.setAttribute('aria-label', `${name}: ${trialWords(trial)}, ${then}`);
+    } else {
+      price.textContent = offer.price;
+      button.setAttribute('aria-label', `${name}: ${offer.price}`);
+    }
     button.append(label, price);
     button.addEventListener('click', () => {
       if (aiPlanRequestId !== requestId) return;
@@ -2613,6 +2642,7 @@ function openReview(mode, entry = null) {
     $('review-range').textContent = '';
     $('review-macros').innerHTML = '';
     $('weight-block').hidden = true;
+    $('review-seen').hidden = true;
     $('save-entry').disabled = true;
     renderMealChips();
   }
@@ -2805,6 +2835,7 @@ function renderReview() {
   }
 
   renderAte(est);
+  renderSeen(est);
 
   $('review-items').innerHTML = est.items.map((it) => `
     <li class="item${ateFraction(it) < 1 ? ' is-part' : ''}" data-id="${esc(it.id)}">
@@ -2828,6 +2859,41 @@ function renderReview() {
   $('save-entry').disabled = est.items.length === 0;
   if ($('dup-entry')) $('dup-entry').disabled = est.items.length === 0;
 }
+
+/**
+ * What the photograph was read as, under the photo.
+ *
+ * Only the foods that came from the photo: something added by name or by
+ * barcode was not "seen". The numbers follow every change below -- the
+ * slider, the steppers, how much was eaten -- because this is drawn from the
+ * same estimate on every render. Each food is a button to its full row.
+ */
+function renderSeen(est) {
+  const block = $('review-seen');
+  if (!block) return;
+  const seen = (est.items || []).filter((it) => it.source === 'photo');
+  block.hidden = seen.length === 0;
+  if (!seen.length) return;
+  const kcal = seen.reduce((sum, it) => sum + itemMacros(it).calories, 0);
+  $('seen-kcal').textContent = Math.round(kcal);
+  $('seen-list').innerHTML = seen.map((it) => `
+    <li><button type="button" class="seen-item" data-seen="${esc(it.id)}">
+      <span class="seen-name">${esc(it.name)}</span>
+      <span class="seen-nums">${Math.round(it.grams)} g · ${Math.round(itemMacros(it).calories)} ${esc(t('kcal'))}</span>
+    </button></li>`).join('');
+}
+
+$('seen-list')?.addEventListener('click', (ev) => {
+  const id = ev.target.closest('[data-seen]')?.dataset.seen;
+  if (!id) return;
+  const row = [...$('review-items').children].find((li) => li.dataset.id === id);
+  if (!row) return;
+  row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // A brief mark, so the eye lands on the row that was meant.
+  row.classList.remove('is-flash');
+  void row.offsetWidth;
+  row.classList.add('is-flash');
+});
 
 /**
  * The "how much did you eat" control.

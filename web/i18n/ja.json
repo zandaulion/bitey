@@ -421,5 +421,11 @@
   "Not what you ate?": "食べたものと違いますか？",
   "Not what you're eating?": "食べているものと違いますか？",
   "Gallery": "ギャラリー",
-  "Profile saved": "プロフィールを保存しました"
+  "Profile saved": "プロフィールを保存しました",
+  "First month free": "最初の1か月無料",
+  "Free trial": "無料トライアル",
+  "then {0}": "その後 {0}",
+  "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "最初の1か月は無料です。終了前に Google Play で解約すれば料金はかかりません。",
+  "Start with a free trial. Cancel in Google Play before it ends and you pay nothing.": "無料トライアルから始められます。終了前に Google Play で解約すれば料金はかかりません。",
+  "Bitey AI saw": "Bitey AI が見つけたもの"
 }

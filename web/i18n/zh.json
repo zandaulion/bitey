@@ -421,5 +421,11 @@
   "Not what you ate?": "不是你吃的东西？",
   "Not what you're eating?": "不是你正在吃的东西？",
   "Gallery": "图库",
-  "Profile saved": "个人资料已保存"
+  "Profile saved": "个人资料已保存",
+  "First month free": "首月免费",
+  "Free trial": "免费试用",
+  "then {0}": "之后 {0}",
+  "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "首月免费。在免费期结束前于 Google Play 取消，即无需付费。",
+  "Start with a free trial. Cancel in Google Play before it ends and you pay nothing.": "先免费试用。在试用结束前于 Google Play 取消，即无需付费。",
+  "Bitey AI saw": "Bitey AI 识别到"
 }

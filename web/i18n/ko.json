@@ -421,5 +421,11 @@
   "Not what you ate?": "드신 음식이 아닌가요?",
   "Not what you're eating?": "지금 드시는 음식이 아닌가요?",
   "Gallery": "갤러리",
-  "Profile saved": "프로필이 저장되었습니다"
+  "Profile saved": "프로필이 저장되었습니다",
+  "First month free": "첫 달 무료",
+  "Free trial": "무료 체험",
+  "then {0}": "이후 {0}",
+  "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "첫 달은 무료입니다. 끝나기 전에 Google Play에서 해지하면 요금이 청구되지 않습니다.",
+  "Start with a free trial. Cancel in Google Play before it ends and you pay nothing.": "무료 체험으로 시작하세요. 끝나기 전에 Google Play에서 해지하면 요금이 청구되지 않습니다.",
+  "Bitey AI saw": "Bitey AI가 찾은 것"
 }

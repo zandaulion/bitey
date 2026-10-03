@@ -90,7 +90,10 @@ const INDIRECT = [
   // Quick bites: named in core, rendered by label on the tile and by name in
   // the aria-label and the entry it creates.
   'Bite (~50 kcal)', 'Handful (~100 kcal)', 'Snack (~200 kcal)',
-  'Bite', 'Handful', 'Snack'
+  'Bite', 'Handful', 'Snack',
+  // The plan picker's hint, chosen by whether Play offers a free trial.
+  'Your first month is free. Cancel in Google Play before it ends and you pay nothing.',
+  'Start with a free trial. Cancel in Google Play before it ends and you pay nothing.'
 ];
 
 export function allKeys() {

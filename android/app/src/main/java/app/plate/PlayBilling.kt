@@ -58,7 +58,12 @@ class PlayBilling(
         ERROR("error"),
     }
 
-    data class Offer(val basePlanId: String, val formattedPrice: String)
+    /**
+     * One plan as the page draws it. [trialPeriod] is the free period Play
+     * offers this account before the price applies, as an ISO 8601 period
+     * ("P1M"), or null when there is none.
+     */
+    data class Offer(val basePlanId: String, val formattedPrice: String, val trialPeriod: String? = null)
 
     /** The WebView receives only opaque plan IDs and Play-localised prices.
      * A purchase re-queries ProductDetails, so it never launches against a
@@ -79,7 +84,8 @@ class PlayBilling(
                     offers.forEach { offer ->
                         put(JSONObject()
                             .put("id", offer.basePlanId)
-                            .put("price", offer.formattedPrice))
+                            .put("price", offer.formattedPrice)
+                            .apply { offer.trialPeriod?.let { put("trial", it) } })
                     }
                 })
                 .toString()
@@ -292,19 +298,15 @@ class PlayBilling(
                 callback(AccessResponse.Entitlement(Status.UNAVAILABLE))
                 return@queryAiProduct
             }
-            val offers = product.subscriptionOfferDetails.orEmpty()
-                .asSequence()
-                // A base plan is what we are deliberately selling at launch;
-                // free trials and other future offers will be modelled
-                // explicitly, not accidentally selected by list order.
-                .filter { it.offerId == null && it.basePlanId in BASE_PLAN_ORDER }
-                .mapNotNull { offer ->
-                    val price = offer.pricingPhases.pricingPhaseList.lastOrNull()?.formattedPrice
-                    price?.let { Offer(offer.basePlanId, it) }
-                }
-                .distinctBy(Offer::basePlanId)
-                .sortedBy { BASE_PLAN_ORDER.indexOf(it.basePlanId) }
-                .toList()
+            val details = product.subscriptionOfferDetails.orEmpty()
+            val offers = BASE_PLAN_ORDER.mapNotNull { basePlanId ->
+                val base = details.firstOrNull { it.offerId == null && it.basePlanId == basePlanId }
+                    ?: return@mapNotNull null
+                val price = base.pricingPhases.pricingPhaseList.lastOrNull()?.formattedPrice
+                    ?: return@mapNotNull null
+                val trial = freeTrialFor(details, basePlanId)
+                Offer(basePlanId, price, trial?.pricingPhases?.pricingPhaseList?.first()?.billingPeriod)
+            }
             if (offers.isEmpty()) callback(AccessResponse.Entitlement(Status.UNAVAILABLE))
             else callback(AccessResponse.Offers(offers))
         }
@@ -316,8 +318,13 @@ class PlayBilling(
                 finishAccess(Status.UNAVAILABLE)
                 return@queryAiProduct
             }
-            val offer = product.subscriptionOfferDetails.orEmpty()
-                .firstOrNull { it.offerId == null && it.basePlanId == basePlanId }
+            val details = product.subscriptionOfferDetails.orEmpty()
+            // The free trial when Play still offers it to this account, the
+            // plain base plan otherwise. Play's own sheet states which one it
+            // is -- "free for 1 month" or the price -- before anything is
+            // charged, so the person confirms the terms they actually get.
+            val offer = freeTrialFor(details, basePlanId)
+                ?: details.firstOrNull { it.offerId == null && it.basePlanId == basePlanId }
             if (offer == null) {
                 // The offer can change between displaying the plans and this
                 // click. Never substitute a different plan silently.
@@ -326,6 +333,30 @@ class PlayBilling(
             }
             launchPurchase(activity, product, offer.offerToken)
         }
+    }
+
+    /**
+     * The free-trial offer on [basePlanId], if Play offers one to this account.
+     *
+     * Play lists only the offers the signed-in account is eligible for, so a
+     * "new customers only" trial disappears by itself for anyone who has
+     * subscribed before. What counts as a trial is decided by its shape, not
+     * its name: exactly two phases, a free one and then the plan's own
+     * recurring price. Any other offer -- an introductory discount, a
+     * win-back price -- stays ignored until it is modelled on purpose.
+     */
+    private fun freeTrialFor(
+        details: List<ProductDetails.SubscriptionOfferDetails>,
+        basePlanId: String,
+    ): ProductDetails.SubscriptionOfferDetails? = details.firstOrNull { offer ->
+        val phases = offer.pricingPhases.pricingPhaseList
+        offer.offerId != null &&
+            offer.basePlanId == basePlanId &&
+            phases.size == 2 &&
+            phases[0].priceAmountMicros == 0L &&
+            phases[0].billingPeriod.isNotEmpty() &&
+            phases[1].priceAmountMicros > 0L &&
+            phases[1].recurrenceMode == ProductDetails.RecurrenceMode.INFINITE_RECURRING
     }
 
     private fun queryAiProduct(callback: (BillingResult, ProductDetails?) -> Unit) {

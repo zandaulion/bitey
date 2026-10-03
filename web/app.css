@@ -1178,6 +1178,11 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 #ai-plan-options { margin-top: 0; }
 .ai-plan-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; }
 .ai-plan-option strong { color: var(--green); font-size: 1rem; white-space: nowrap; }
+/* "then 15,99 RON" under the plan's name when a free trial leads. */
+.ai-plan-option span small {
+  display: block; margin-top: 2px;
+  color: var(--ink-3); font-size: .82rem; font-weight: 500;
+}
 #review-body { padding: 16px; }
 #profile-form { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .sheet-foot {
@@ -1201,6 +1206,34 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 .note {
   background: var(--sunken); border-radius: 10px; padding: 10px 12px;
   font-size: .86rem; color: var(--ink-2); margin: 12px 0 0;
+}
+
+/* What the photo was read as: a card straight under the photo. Lighter than
+   the weight control below, which stays the heaviest thing on the sheet. */
+.review-seen {
+  margin: 12px 0 0; padding: 10px 12px 6px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+}
+.seen-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent);
+}
+.seen-total { color: var(--ink-3); letter-spacing: .02em; text-transform: none; font-size: .86rem; font-weight: 600; }
+.seen-total strong { color: var(--ink); font-size: 1.15rem; }
+.seen-list { list-style: none; margin: 4px 0 0; padding: 0; }
+.seen-list li + li { border-top: 1px solid var(--line); }
+.seen-item {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  width: 100%; padding: 8px 0; border: 0; background: none;
+  font: inherit; color: inherit; text-align: start; cursor: pointer;
+}
+.seen-name { font-weight: 600; font-size: .95rem; min-width: 0; overflow-wrap: anywhere; }
+.seen-nums { color: var(--ink-2); font-size: .86rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.item.is-flash { animation: item-flash 1.2s ease-out; }
+@keyframes item-flash {
+  from { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent); }
+  to { box-shadow: 0 0 0 3px transparent; }
 }
 
 /* The weight control is the product's most valuable interaction, so it is
