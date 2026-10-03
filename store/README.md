@@ -21,10 +21,13 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.0.9** (`versionCode` 10): the first month free, and
-what Bitey AI saw shown straight under the photo. Its release notes are in
-`RELEASE_NOTES_1.0.9.md`, with the paste-ready tagged form in
-`release-notes-1.0.9.xml`. Record its hash here once built.
+**1.0.9** (`versionCode` 10) was sent for review on 3 October 2026: the first
+month free, and what Bitey AI saw shown straight under the photo. Its release
+notes are in `RELEASE_NOTES_1.0.9.md`, with the paste-ready tagged form in
+`release-notes-1.0.9.xml`.
+
+- 1.0.9 file SHA-256: `6DCF62CF31BD6BC38BDB2CEDB8112D2A9B129FF94FE48B7019FB5B96CC604B94`
+  (built 3 October 2026, 22:46)
 
 The latest upload is **1.0.8** (`versionCode` 9), sent for review on 3 October
 2026. It answers PrimeTestLab's first closed-testing report (No 7991): a
@@ -83,8 +86,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.9** (`versionCode` 10), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.9.aab`
+- Current source version: **1.0.9** (`versionCode` 10), in Play review
+- Latest upload artifact: `bitey-private-food-log-1.0.9.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
