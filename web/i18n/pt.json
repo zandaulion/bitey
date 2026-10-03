@@ -391,14 +391,12 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} pesagens em {1} dias — tendência de aumento de {2} kg por semana.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} pesagens em {1} dias — até {2} kg por semana.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "{0} pesagens até agora. Espalhe ao longo de uma semana e uma linha de tendência aparece.",
-    "one": "{0} pesagens até agora. Espalhe ao longo de uma semana e uma linha de tendência aparece.",
-    "other": "{0} pesagens até agora. Espalhe ao longo de uma semana e uma linha de tendência aparece."
+    "one": "{0} pesagem até agora. Distribuídas ao longo de uma semana, as pesagens fazem aparecer uma linha de tendência.",
+    "other": "{0} pesagens até agora. Distribuídas ao longo de uma semana, elas fazem aparecer uma linha de tendência."
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "{0} pesagens até agora. Mais {1}, distribuídos ao longo de uma semana, e uma linha de tendência aparece.",
-    "one": "{0} pesagens até agora. Mais {1}, distribuídos ao longo de uma semana, e uma linha de tendência aparece.",
-    "other": "{0} pesagens até agora. Mais {1}, distribuídos ao longo de uma semana, e uma linha de tendência aparece."
+    "one": "{0} pesagem até agora. Mais {1}, distribuídas ao longo de uma semana, e aparece uma linha de tendência.",
+    "other": "{0} pesagens até agora. Mais {1}, distribuídas ao longo de uma semana, e aparece uma linha de tendência."
   },
   "Agree and continue": "Concordar e continuar",
   "Bitey AI will ask again before sending a photo.": "O Bitey AI vai perguntar de novo antes de enviar uma foto.",
@@ -423,5 +421,7 @@
   "Discard your changes to this entry?": "Descartar as alterações neste registro?",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "Restaurar este backup? Ele substituirá o diário, as pesagens, os alimentos salvos e as fotos armazenados neste dispositivo.",
   "Not what you ate?": "Não foi isso que você comeu?",
-  "Not what you're eating?": "Não é isso que você está comendo?"
+  "Not what you're eating?": "Não é isso que você está comendo?",
+  "Gallery": "Galeria",
+  "Profile saved": "Perfil salvo"
 }

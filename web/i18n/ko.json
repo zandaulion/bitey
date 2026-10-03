@@ -391,14 +391,10 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1}일 동안 {0}개의 체중 측정 — 주당 {2}kg 증가 추세입니다.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{1}일에 걸쳐 {0}개의 체중 측정 — 주당 {2}kg 증가.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "지금까지 {0}개의 체중을 측정했습니다. 일주일에 걸쳐 확산되면 추세선이 나타납니다.",
-    "one": "지금까지 {0}개의 체중을 측정했습니다. 일주일에 걸쳐 확산되면 추세선이 나타납니다.",
-    "other": "지금까지 {0}개의 체중을 측정했습니다. 일주일에 걸쳐 확산되면 추세선이 나타납니다."
+    "other": "지금까지 체중을 {0}번 기록했습니다. 일주일에 걸쳐 나누어 기록하면 추세선이 나타납니다."
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "지금까지 {0}개의 체중을 측정했습니다. {1}개 이상, 일주일에 걸쳐 확산되면 추세선이 나타납니다.",
-    "one": "지금까지 {0}개의 체중을 측정했습니다. {1}개 이상, 일주일에 걸쳐 확산되면 추세선이 나타납니다.",
-    "other": "지금까지 {0}개의 체중을 측정했습니다. {1}개 이상, 일주일에 걸쳐 확산되면 추세선이 나타납니다."
+    "other": "지금까지 체중을 {0}번 기록했습니다. 일주일에 걸쳐 {1}번 더 기록하면 추세선이 나타납니다."
   },
   "Agree and continue": "동의하고 계속",
   "Bitey AI will ask again before sending a photo.": "사진을 보내기 전에 Bitey AI가 다시 묻습니다.",
@@ -423,5 +419,7 @@
   "Discard your changes to this entry?": "이 기록의 변경 사항을 취소할까요?",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "이 백업을 복원할까요? 현재 이 기기에 저장된 일지, 체중 기록, 저장된 식품, 사진이 대체됩니다.",
   "Not what you ate?": "드신 음식이 아닌가요?",
-  "Not what you're eating?": "지금 드시는 음식이 아닌가요?"
+  "Not what you're eating?": "지금 드시는 음식이 아닌가요?",
+  "Gallery": "갤러리",
+  "Profile saved": "프로필이 저장되었습니다"
 }

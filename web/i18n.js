@@ -88,12 +88,38 @@ export function t(key, ...args) {
 }
 
 /**
+ * English's own singular for each counted string. English has no catalogue --
+ * the key is the English -- and a key can only be written one way, in the
+ * plural, so without these one weigh-in read "1 weigh-ins" (PrimeTestLab
+ * report 7991, M-01). Every key passed to plural() whose English changes in
+ * the singular belongs here.
+ */
+const ENGLISH_ONE = {
+  'trend needs {0} more weigh-ins': 'trend needs {0} more weigh-in',
+  'trend needs {0} more days': 'trend needs {0} more day',
+  '{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.':
+    '{0} weigh-in so far. {1} more, spread over a week, and a trend line appears.',
+  '{0} weigh-ins so far. Spread over a week, and a trend line appears.':
+    '{0} weigh-in so far. Spread over a week, and a trend line appears.',
+  '{0} more days logged': '{0} more day logged',
+  '{0} more weigh-ins': '{0} more weigh-in',
+  'Open Plate there, choose "Link a device", and type this in. It expires in {0} minutes and works once.':
+    'Open Plate there, choose "Link a device", and type this in. It expires in {0} minute and works once.'
+};
+
+/**
  * Languages use different plural categories. Intl owns the grammar rule, so a
  * catalogue supplies the forms it has and the renderer chooses the right one.
  */
 export function plural(key, n, ...args) {
   const forms = strings[key];
   if (!forms || typeof forms !== 'object') {
+    // No plural forms in the catalogue: either English, or a catalogue that
+    // gives one sentence for every count. Only the first falls back to the
+    // English singular.
+    if (!forms && ENGLISH_ONE[key] && new Intl.PluralRules('en').select(n) === 'one') {
+      return fill(ENGLISH_ONE[key], [n, ...args]);
+    }
     return t(key, n, ...args);
   }
   const rule = new Intl.PluralRules(current).select(n);

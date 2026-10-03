@@ -4091,7 +4091,22 @@ if (!window.__PLATE_NATIVE__) {
 
 /** Keep Android's stable native action bar in the same language as the page. */
 function syncNativeActionLabels() {
-  window.PlateNative?.setPrimaryActionLabels?.(t('Manual'), t('Barcode'), t('Photo'));
+  window.PlateNative?.setPrimaryActionLabels?.(t('Manual'), t('Barcode'), t('Gallery'), t('Photo'));
+}
+
+let profileSavedTimer = null;
+
+/** The Save button reads "Saved ✓" for a moment, then goes back. */
+function confirmProfileSaved() {
+  const button = $('profile-save');
+  if (!button) return;
+  clearTimeout(profileSavedTimer);
+  button.textContent = `${t('Saved')} ✓`;
+  button.classList.add('is-saved');
+  profileSavedTimer = setTimeout(() => {
+    button.textContent = t('Save');
+    button.classList.remove('is-saved');
+  }, 2000);
 }
 
 $('profile-form').addEventListener('submit', async (ev) => {
@@ -4118,7 +4133,11 @@ $('profile-form').addEventListener('submit', async (ev) => {
     state.me.maintenance = data.maintenance;
     state.me.weightUsedKg = data.weightUsedKg;
     showMaintenanceResult(data.maintenance, data.weightUsedKg);
-    toast(t('Saved'));
+    // Said where the person is looking -- on the button they just pressed, at
+    // the foot of a long form -- as well as in the toast at the top, which
+    // was easy to miss (PrimeTestLab report 7991, S-02).
+    confirmProfileSaved();
+    toast(t('Profile saved'));
     await loadDay();
   } catch (e) {
     err.textContent = e.status === 400 && e.code === 'out_of_range'

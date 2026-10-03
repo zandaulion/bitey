@@ -316,14 +316,10 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1} 天称重 {0} 次 — 每周增加 {2} 公斤。",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "在 {1} 天内称重 {0} 次 — 每周增加 {2} 公斤。",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "到目前为止已称重 {0} 次。持续一周，就会出现一条趋势线。",
-    "one": "到目前为止已称重 {0} 次。持续一周，就会出现一条趋势线。",
-    "other": "到目前为止已称重 {0} 次。持续一周，就会出现一条趋势线。"
+    "other": "目前已称重 {0} 次。把称重分散在一周内，就会出现趋势线。"
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "到目前为止已称重 {0} 次。 {1} 再持续一周，就会出现一条趋势线。",
-    "one": "到目前为止已称重 {0} 次。 {1} 再持续一周，就会出现一条趋势线。",
-    "other": "到目前为止已称重 {0} 次。 {1} 再持续一周，就会出现一条趋势线。"
+    "other": "目前已称重 {0} 次。在一周内再称 {1} 次，就会出现趋势线。"
   },
   "Without them the app cannot work out what you burn, so a day's total has nothing to sit against. Real numbers, not round ones — the estimate is only as good as what it is given.": "如果没有它们，应用程序无法计算出您燃烧的内容，因此一天的总量没有什么可担心的。实数，而不是整数——估计值的好坏取决于给出的值。",
   "Worked out from your latest weigh-in, <b>{0} kg</b>.": "根据您最近的体重计算得出，<b>{0} 公斤</b>。",
@@ -423,5 +419,7 @@
   "Discard your changes to this entry?": "放弃对这条记录的修改？",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "恢复此备份？它将替换此设备上当前存储的日记、体重记录、已保存的食物和照片。",
   "Not what you ate?": "不是你吃的东西？",
-  "Not what you're eating?": "不是你正在吃的东西？"
+  "Not what you're eating?": "不是你正在吃的东西？",
+  "Gallery": "图库",
+  "Profile saved": "个人资料已保存"
 }

@@ -316,14 +316,10 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1} 日間で {0} 回の体重測定 - 週あたり {2} kg 増加する傾向にあります。",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{1} 日間で {0} 回の体重測定 - 週に {2} kg 増加します。",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "これまでに {0} 人が計量を行っています。 1週間に広がるとトレンドラインが現れます。",
-    "one": "これまでに {0} 人が計量を行っています。 1週間に広がるとトレンドラインが現れます。",
-    "other": "これまでに {0} 人が計量を行っています。 1週間に広がるとトレンドラインが現れます。"
+    "other": "これまでの体重記録は {0} 回です。1 週間に分けて記録すると、傾向線が表示されます。"
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "これまでに {0} 人が計量を行っています。さらに {1} 個、1 週間にわたって広がり、傾向線が表示されます。",
-    "one": "これまでに {0} 人が計量を行っています。さらに {1} 個、1 週間にわたって広がり、傾向線が表示されます。",
-    "other": "これまでに {0} 人が計量を行っています。さらに {1} 個、1 週間にわたって広がり、傾向線が表示されます。"
+    "other": "これまでの体重記録は {0} 回です。1 週間かけてあと {1} 回記録すると、傾向線が表示されます。"
   },
   "Without them the app cannot work out what you burn, so a day's total has nothing to sit against. Real numbers, not round ones — the estimate is only as good as what it is given.": "これらがなければ、アプリは消費量を計算できないため、1 日の合計には何の根拠もありません。四捨五入ではなく実数です。推定値は与えられた値と同じくらい正確です。",
   "Worked out from your latest weigh-in, <b>{0} kg</b>.": "最新の体重 <b>{0} kg</b> から計算されます。",
@@ -423,5 +419,7 @@
   "Discard your changes to this entry?": "この記録への変更を破棄しますか？",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "このバックアップを復元しますか？この端末に現在保存されている日記、体重記録、保存済みの食品、写真が置き換えられます。",
   "Not what you ate?": "食べたものと違いますか？",
-  "Not what you're eating?": "食べているものと違いますか？"
+  "Not what you're eating?": "食べているものと違いますか？",
+  "Gallery": "ギャラリー",
+  "Profile saved": "プロフィールを保存しました"
 }

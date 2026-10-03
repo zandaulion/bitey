@@ -91,6 +91,8 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   font-weight: 650; letter-spacing: .01em;
 }
 .primary:disabled { opacity: .5; }
+/* A save just went through: a beat of darker green under "Saved ✓". */
+.primary.is-saved { background: color-mix(in srgb, var(--accent) 78%, #000); }
 .text-btn { background: none; border: 0; color: var(--ink-3); text-decoration: underline; padding: 8px; }
 
 .error { color: var(--danger); font-size: .88rem; margin: 4px 0 0; }
@@ -1042,6 +1044,10 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 :root[data-host="android"] body {
   padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }
+/* Android's native rail has its own Gallery button beside Photo, so the
+   page's "Already have a photo?" below the meals would only repeat it. The
+   PWA's bar has no gallery button and keeps the link. */
+:root[data-host="android"] .pick-photo { display: none; }
 .action {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
   padding: 10px 4px 8px; border: 1px solid var(--line); border-radius: 16px;

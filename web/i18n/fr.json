@@ -391,14 +391,12 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} pesées sur {1} jours, soit une tendance à la hausse de {2} kg par semaine.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} pesées sur {1} jours, soit jusqu'à {2} kg par semaine.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "{0} pesées jusqu'à présent. Répartie sur une semaine, une ligne de tendance apparaît.",
-    "one": "{0} pesées jusqu'à présent. Répartie sur une semaine, une ligne de tendance apparaît.",
-    "other": "{0} pesées jusqu'à présent. Répartie sur une semaine, une ligne de tendance apparaît."
+    "one": "{0} pesée pour l’instant. Réparties sur une semaine, les pesées font apparaître une courbe de tendance.",
+    "other": "{0} pesées pour l’instant. Réparties sur une semaine, elles font apparaître une courbe de tendance."
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "{0} pesées jusqu'à présent. {1} de plus, répartis sur une semaine, et une ligne de tendance apparaît.",
-    "one": "{0} pesées jusqu'à présent. {1} de plus, répartis sur une semaine, et une ligne de tendance apparaît.",
-    "other": "{0} pesées jusqu'à présent. {1} de plus, répartis sur une semaine, et une ligne de tendance apparaît."
+    "one": "{0} pesée pour l’instant. Encore {1}, réparties sur une semaine, et une courbe de tendance apparaît.",
+    "other": "{0} pesées pour l’instant. Encore {1}, réparties sur une semaine, et une courbe de tendance apparaît."
   },
   "Agree and continue": "Accepter et continuer",
   "Bitey AI will ask again before sending a photo.": "Bitey AI vous redemandera avant d'envoyer une photo.",
@@ -423,5 +421,7 @@
   "Discard your changes to this entry?": "Abandonner vos modifications de cette entrée ?",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "Restaurer cette sauvegarde ? Elle remplacera le journal, les pesées, les aliments enregistrés et les photos actuellement stockés sur cet appareil.",
   "Not what you ate?": "Ce n'est pas ce que vous avez mangé ?",
-  "Not what you're eating?": "Ce n'est pas ce que vous mangez ?"
+  "Not what you're eating?": "Ce n'est pas ce que vous mangez ?",
+  "Gallery": "Galerie",
+  "Profile saved": "Profil enregistré"
 }
