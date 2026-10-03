@@ -55,7 +55,12 @@ go into GitHub.
   consent card naming Belgium. The Data safety form still needs Firebase App
   Check's own entries: Google publishes a Play data disclosure for each
   Firebase SDK.
-- **1.0.7** (`versionCode` 8) is the current source: "Not what you ate?" and
+- **1.0.8** (`versionCode` 9) is the current source, answering PrimeTestLab
+  report 7991 (no critical issues found in 1.0.7): a Gallery button beside
+  Photo, the logging actions as a side rail in landscape, a confirmation on
+  the profile's Save button, and English and translated singulars for
+  weigh-ins. A light/dark setting (their S-03) waits for a dark theme.
+- **1.0.7** (`versionCode` 8), in closed testing: "Not what you ate?" and
   "Photograph what's left" on saved meals, wired for the first time on
   Android (the leftovers mode of `analyse` is already deployed), and the
   page's confirmations shown as native dialogs.
