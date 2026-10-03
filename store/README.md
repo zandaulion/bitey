@@ -21,24 +21,27 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.0.8** (`versionCode` 9), which answers PrimeTestLab's
-first closed-testing report (No 7991): a Gallery button beside Photo, a side
-rail for the logging actions in landscape, a confirmation on the profile's
-Save button, and correct singulars for weigh-ins. Its release notes are in
-`RELEASE_NOTES_1.0.8.md`, with the paste-ready tagged form in
-`release-notes-1.0.8.xml`. Record its hash here once built.
+The next upload is **1.0.9** (`versionCode` 10): the first month free, and
+what Bitey AI saw shown straight under the photo. Its release notes are in
+`RELEASE_NOTES_1.0.9.md`, with the paste-ready tagged form in
+`release-notes-1.0.9.xml`. Record its hash here once built.
 
-The latest upload is **1.0.7** (`versionCode` 8), sent for review on 27
-September 2026 and tested on closed testing by PrimeTestLab from 1 October.
-It wires "Not what you ate?" and "Photograph what's left" on saved meals and
-moves the page's confirmations to the phone's own dialogs. Its release notes
-are in `RELEASE_NOTES_1.0.7.md`, with the paste-ready tagged form in
-`release-notes-1.0.7.xml`.
+The latest upload is **1.0.8** (`versionCode` 9), sent for review on 3 October
+2026. It answers PrimeTestLab's first closed-testing report (No 7991): a
+Gallery button beside Photo, a side rail for the logging actions in
+landscape, a confirmation on the profile's Save button, and correct
+singulars for weigh-ins. Its release notes are in `RELEASE_NOTES_1.0.8.md`,
+with the paste-ready tagged form in `release-notes-1.0.8.xml`.
 
-- 1.0.7 file SHA-256: `50D5C8DAABDC8E53FC25F5A542065FD51940E47F28A3DBF82120D34A685995DF`
-  (built 27 September 2026, 18:17)
+- 1.0.8 file SHA-256: `070E07502FD96D9C67E430FADB0F7903DFF2D71D0FA09DED284143E65E7453E8`
+  (built 3 October 2026, 16:30)
 
-Previously uploaded: 1.0.6 (`versionCode` 7), approved on Play on 26 September
+Previously uploaded: 1.0.7 (`versionCode` 8), sent for review on 27 September
+2026 and tested on closed testing by PrimeTestLab from 1 October, which wired
+"Not what you ate?" and "Photograph what's left" on saved meals and moved the
+page's confirmations to native dialogs
+(SHA-256 `50D5C8DAABDC8E53FC25F5A542065FD51940E47F28A3DBF82120D34A685995DF`,
+built 27 September 2026, 18:17); 1.0.6 (`versionCode` 7), approved on Play on 26 September
 2026, which brought Firebase App Check (now enforced), zxing-cpp in place of
 ML Kit, and Play Billing contacted only once someone uses Bitey AI
 (SHA-256 `FA951065536E86B8D0F6B9D1CA06EA80195BDECED16FB1F1CD33AB7337912AC5`,
@@ -80,8 +83,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.8** (`versionCode` 9), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.8.aab`
+- Current source version: **1.0.9** (`versionCode` 10), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.9.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do

@@ -55,7 +55,10 @@ go into GitHub.
   consent card naming Belgium. The Data safety form still needs Firebase App
   Check's own entries: Google publishes a Play data disclosure for each
   Firebase SDK.
-- **1.0.8** (`versionCode` 9) is the current source, answering PrimeTestLab
+- **1.0.9** (`versionCode` 10) is the current source: the first month free
+  (the `free-month` offers below are active on both base plans) and what
+  Bitey AI saw shown straight under the photo on the review sheet.
+- **1.0.8** (`versionCode` 9), in review from 3 October, answering PrimeTestLab
   report 7991 (no critical issues found in 1.0.7): a Gallery button beside
   Photo, the logging actions as a side rail in landscape, a confirmation on
   the profile's Save button, and English and translated singulars for
@@ -73,6 +76,24 @@ go into GitHub.
   That is Play's test behaviour, not a regression.
 - `bitey_ai` is **created and active** in Play Console with both auto-renewing
   base plans, `monthly` (€5.99) and `yearly` (€49.99), in 174 countries.
+- **First month free** (from 1.0.9): the app offers a free trial wherever Play
+  returns one, and only in this shape. Created and active on both base plans
+  on 3 October 2026 as `free-month`. In Play Console, Subscriptions →
+  `bitey_ai` → a base plan → Add offer:
+  - Eligibility: *New customer acquisition*, "Never had this subscription".
+  - Phases: one **Free trial** phase of **1 month**, and nothing else. The
+    base plan's own price follows by itself.
+  - Offer ID: any (`free-month` reads well); the app recognises a trial by
+    its shape, two phases, free then the recurring price, not by its ID.
+    Any other offer (an introductory discount, a win-back price) is ignored
+    until the app models it.
+
+  Add one to each base plan that should have it. Play lists an offer only to
+  accounts eligible for it, so anyone who has subscribed before sees the
+  plain price, and Play's own purchase sheet states the trial terms before
+  confirming. The server needs nothing: a trial is an active subscription.
+  An account that has subscribed before (any license tester used so far) is
+  not eligible, so testing it needs a Google account that never subscribed.
 - Before 1.0.5 goes beyond closed testing: the Data safety form (section 4,
   "From 1.0.5"), the published privacy notice, the Firestore TTL policy on
   `ai_usage.expireAt`, and App Check.
