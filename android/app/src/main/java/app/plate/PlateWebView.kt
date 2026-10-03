@@ -110,7 +110,7 @@ private class PlateNativeBridge(
     private val onLocalPhotoRequested: (String, String, String, String, String) -> Unit,
     private val onBackupExportRequested: () -> Unit,
     private val onBackupImportRequested: () -> Unit,
-    private val onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
+    private val onPrimaryActionLabelsChanged: (String, String, String, String) -> Unit,
     private val onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
     private val aiEntitlementStatus: () -> String,
     private val onAiAccessRequested: (String, String) -> Unit,
@@ -171,8 +171,8 @@ private class PlateNativeBridge(
     /** The action bar is native to avoid a WebView compositing glitch, but its
      * wording still belongs to the PWA's active interface language. */
     @JavascriptInterface
-    fun setPrimaryActionLabels(manual: String, barcode: String, photo: String) {
-        onPrimaryActionLabelsChanged(manual, barcode, photo)
+    fun setPrimaryActionLabels(manual: String, barcode: String, gallery: String, photo: String) {
+        onPrimaryActionLabelsChanged(manual, barcode, gallery, photo)
     }
 
     /** A status word only -- never the purchase token -- so the page can draw
@@ -252,7 +252,7 @@ class PlateWebView(
     onBarcodeScanRequested: () -> Unit,
     onBackupExportRequested: () -> Unit,
     onBackupImportRequested: () -> Unit,
-    onPrimaryActionLabelsChanged: (String, String, String) -> Unit,
+    onPrimaryActionLabelsChanged: (String, String, String, String) -> Unit,
     onPrimaryActionsVisibilityChanged: (Boolean) -> Unit,
     aiEntitlementStatus: () -> String,
     onAiAccessRequested: (String, String) -> Unit,
@@ -379,6 +379,10 @@ class PlateWebView(
     fun performPrimaryAction(action: String) {
         if (action == "photo") {
             requestAiAction("camera")
+            return
+        }
+        if (action == "gallery") {
+            requestAiAction("gallery")
             return
         }
         val elementId = when (action) {

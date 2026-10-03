@@ -391,14 +391,12 @@
   "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} Wiegen über {1} Tage – Tendenz steigend: {2} kg pro Woche.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} Wiegen über {1} Tage – mehr als {2} kg pro Woche.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
-    "few": "Bisher {0} Wiegungen. Über eine Woche verteilt, erscheint eine Trendlinie.",
-    "one": "Bisher {0} Wiegungen. Über eine Woche verteilt, erscheint eine Trendlinie.",
-    "other": "Bisher {0} Wiegungen. Über eine Woche verteilt, erscheint eine Trendlinie."
+    "one": "Bisher {0} Wiegung. Über eine Woche verteilt erscheint eine Trendlinie.",
+    "other": "Bisher {0} Wiegungen. Über eine Woche verteilt erscheint eine Trendlinie."
   },
   "{0} weigh-ins so far. {1} more, spread over a week, and a trend line appears.": {
-    "few": "Bisher {0} Wiegungen. {1} weitere, über eine Woche verteilt, und eine Trendlinie erscheint.",
-    "one": "Bisher {0} Wiegungen. {1} weitere, über eine Woche verteilt, und eine Trendlinie erscheint.",
-    "other": "Bisher {0} Wiegungen. {1} weitere, über eine Woche verteilt, und eine Trendlinie erscheint."
+    "one": "Bisher {0} Wiegung. Noch {1} weitere, über eine Woche verteilt, und eine Trendlinie erscheint.",
+    "other": "Bisher {0} Wiegungen. Noch {1} weitere, über eine Woche verteilt, und eine Trendlinie erscheint."
   },
   "Agree and continue": "Zustimmen und fortfahren",
   "Bitey AI will ask again before sending a photo.": "Bitey AI fragt vor dem Senden eines Fotos erneut.",
@@ -423,5 +421,7 @@
   "Discard your changes to this entry?": "Änderungen an diesem Eintrag verwerfen?",
   "Restore this backup? It will replace the diary, weigh-ins, cached foods, and photos currently stored on this device.": "Diese Sicherung wiederherstellen? Sie ersetzt das Tagebuch, die Wiegungen, die gespeicherten Lebensmittel und die Fotos, die derzeit auf diesem Gerät gespeichert sind.",
   "Not what you ate?": "Nicht das, was du gegessen hast?",
-  "Not what you're eating?": "Nicht das, was du isst?"
+  "Not what you're eating?": "Nicht das, was du isst?",
+  "Gallery": "Galerie",
+  "Profile saved": "Profil gespeichert"
 }

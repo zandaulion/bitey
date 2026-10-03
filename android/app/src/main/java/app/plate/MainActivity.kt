@@ -3,12 +3,16 @@ package com.zandaulion.bitey
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
+import android.util.TypedValue
 import android.view.View
+import android.view.WindowInsets
 import android.webkit.ValueCallback
 import android.widget.Button
 import android.widget.FrameLayout
@@ -32,6 +36,12 @@ import java.util.concurrent.Executors
 /** The page's phone column, `.view { max-width: 560px }` in app.css. */
 private const val PHONE_COLUMN_DP = 560
 
+/** Width of the landscape side rail: an 80dp button and its 8dp gutters. */
+private const val SIDE_RAIL_DP = 96
+
+/** Four 64dp buttons, their gaps and the rail's padding. */
+private const val SIDE_RAIL_HEIGHT_DP = 304
+
 /** The published privacy policy, the same address given in Play Console. Its
  * source is store/PRIVACY_NOTICE.md. */
 private const val PRIVACY_NOTICE_URL = "https://zandaulion.com/plate-privacy.html"
@@ -47,6 +57,7 @@ class MainActivity : ComponentActivity() {
     private val analysis by lazy { BiteyAnalysis(applicationContext) }
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
+    private lateinit var galleryAction: Button
     private lateinit var photoAction: Button
 
     /** The Manual / Barcode / Photo bar. Hidden while the page has a sheet
@@ -237,9 +248,9 @@ class MainActivity : ComponentActivity() {
             onBackupImportRequested = {
                 backupImporter.launch(arrayOf("application/zip", "application/x-zip-compressed"))
             },
-            onPrimaryActionLabelsChanged = { manual, barcode, photo ->
+            onPrimaryActionLabelsChanged = { manual, barcode, gallery, photo ->
                 // JavaScript-interface calls are not made on the UI thread.
-                runOnUiThread { updatePrimaryActionLabels(manual, barcode, photo) }
+                runOnUiThread { updatePrimaryActionLabels(manual, barcode, gallery, photo) }
             },
             aiEntitlementStatus = { playBilling.status().wireValue },
             onPrimaryActionsVisibilityChanged = { visible ->
@@ -307,11 +318,7 @@ class MainActivity : ComponentActivity() {
         actionBar = nativeActionBar()
         // Play may already have answered before the bar existed.
         applyAiEntitlement(playBilling.status())
-        root.addView(actionBar, FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            Gravity.BOTTOM,
-        ))
+        root.addView(actionBar, actionBarLayoutParams())
         backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // evaluateJavascript returns asynchronously. Ignore a second
@@ -354,23 +361,108 @@ class MainActivity : ComponentActivity() {
      * This small native sibling keeps the exact three entry points stable while
      * delegating their actual behaviour back to the packaged PWA.
      */
+    /**
+     * Where the three logging actions sit.
+     *
+     * A phone turned sideways has little height to spare: a full bottom bar
+     * there covered the middle of the day's total card (PrimeTestLab report
+     * 7991, M-02). The page keeps a centred 560dp column, so a phone wide
+     * enough to leave room beside it gets the actions as a rail in that empty
+     * margin, covering nothing. A narrower one keeps them along the bottom,
+     * but compact: icon beside label, a third of the height shorter.
+     * Portrait and tablets are unchanged. The activity is rebuilt on each
+     * rotation, so this is decided afresh every time.
+     */
+    private enum class RailLayout { BOTTOM, BOTTOM_COMPACT, SIDE }
+
+    private val railLayout: RailLayout by lazy {
+        val config = resources.configuration
+        when {
+            isTablet || config.orientation != Configuration.ORIENTATION_LANDSCAPE -> RailLayout.BOTTOM
+            (config.screenWidthDp - PHONE_COLUMN_DP) / 2 >= SIDE_RAIL_DP &&
+                config.screenHeightDp >= SIDE_RAIL_HEIGHT_DP -> RailLayout.SIDE
+            else -> RailLayout.BOTTOM_COMPACT
+        }
+    }
+
     private fun nativeActionBar(): View = FrameLayout(this).apply {
-        setBackgroundColor(Color.rgb(250, 246, 239))
-        elevation = dp(8).toFloat()
+        val layout = railLayout
+        if (layout == RailLayout.SIDE) {
+            // Nothing behind the buttons but the page's own empty margin, so
+            // no strip of colour or shadow; touches between the buttons fall
+            // through to the page.
+            applySideInsets(this)
+        } else {
+            setBackgroundColor(Color.rgb(250, 246, 239))
+            elevation = dp(8).toFloat()
+        }
 
         val rail = LinearLayout(this@MainActivity).apply {
-            orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
-            setPadding(dp(if (isTablet) 16 else 12), dp(8), dp(if (isTablet) 16 else 12), dp(10))
+            when (layout) {
+                RailLayout.SIDE -> {
+                    orientation = LinearLayout.VERTICAL
+                    setPadding(dp(8), dp(8), dp(8), dp(8))
+                }
+                RailLayout.BOTTOM_COMPACT -> {
+                    orientation = LinearLayout.HORIZONTAL
+                    setPadding(dp(12), dp(6), dp(12), dp(6))
+                }
+                RailLayout.BOTTOM -> {
+                    orientation = LinearLayout.HORIZONTAL
+                    setPadding(dp(if (isTablet) 16 else 12), dp(8), dp(if (isTablet) 16 else 12), dp(10))
+                }
+            }
 
             manualAction = actionButton("Manual", R.drawable.ic_action_manual, false, "manual")
             barcodeAction = actionButton("Barcode", R.drawable.ic_action_barcode, false, "barcode")
+            // The gallery beside the camera rather than a chooser in front of
+            // it: both stay one tap (PrimeTestLab report 7991, S-01). It used
+            // to be reachable only from "Already have a photo?" at the foot
+            // of the day, below every meal.
+            galleryAction = actionButton("Gallery", R.drawable.ic_action_gallery_locked, false, "gallery", locked = true)
             photoAction = actionButton("Photo", R.drawable.ic_action_photo_locked, true, "photo", locked = true)
             addView(manualAction, actionLayoutParams())
             addView(barcodeAction, actionLayoutParams())
+            addView(galleryAction, actionLayoutParams())
             addView(photoAction, actionLayoutParams())
         }
-        addView(rail, FrameLayout.LayoutParams(actionRailWidth(), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL))
+        if (layout == RailLayout.SIDE) {
+            addView(rail, FrameLayout.LayoutParams(dp(SIDE_RAIL_DP), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL))
+        } else {
+            addView(rail, FrameLayout.LayoutParams(actionRailWidth(), FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL))
+        }
+    }
+
+    /** Where the bar itself goes in the activity's root. */
+    private fun actionBarLayoutParams() = if (railLayout == RailLayout.SIDE) {
+        FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            Gravity.END,
+        )
+    } else {
+        FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.BOTTOM,
+        )
+    }
+
+    /** Sideways, the navigation bar or a camera cutout can be on either long
+     * edge; the rail steps in from whichever it meets. */
+    private fun applySideInsets(view: View) {
+        view.setOnApplyWindowInsetsListener { v, insets ->
+            val (left, right) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val bars = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+                bars.left to bars.right
+            } else {
+                @Suppress("DEPRECATION")
+                insets.systemWindowInsetLeft to insets.systemWindowInsetRight
+            }
+            v.setPadding(left, 0, right, 0)
+            insets
+        }
     }
 
     private val isTablet: Boolean
@@ -390,9 +482,30 @@ class MainActivity : ComponentActivity() {
         return dp(minOf(960, (resources.configuration.screenWidthDp - 48).coerceAtLeast(0)))
     }
 
-    private fun actionLayoutParams() = LinearLayout.LayoutParams(0, dp(if (isTablet) 72 else 64), 1f).apply {
-        marginStart = dp(if (isTablet) 6 else 4)
-        marginEnd = dp(if (isTablet) 6 else 4)
+    private fun actionLayoutParams() = when (railLayout) {
+        RailLayout.SIDE -> LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(64)).apply {
+            topMargin = dp(4)
+            bottomMargin = dp(4)
+        }
+        RailLayout.BOTTOM_COMPACT -> LinearLayout.LayoutParams(0, dp(44), 1f).apply {
+            marginStart = dp(4)
+            marginEnd = dp(4)
+        }
+        RailLayout.BOTTOM -> LinearLayout.LayoutParams(0, dp(if (isTablet) 72 else 64), 1f).apply {
+            marginStart = dp(if (isTablet) 6 else 4)
+            marginEnd = dp(if (isTablet) 6 else 4)
+        }
+    }
+
+    /** The compact bar puts the icon beside the label, which is what saves
+     * its height; everywhere else it sits above. */
+    private fun Button.placeIcon(icon: android.graphics.drawable.Drawable?) {
+        if (railLayout == RailLayout.BOTTOM_COMPACT) {
+            compoundDrawablePadding = dp(8)
+            setCompoundDrawablesRelative(sized(icon), null, null, null)
+        } else {
+            setCompoundDrawables(null, sized(icon), null, null)
+        }
     }
 
     /**
@@ -404,7 +517,8 @@ class MainActivity : ComponentActivity() {
     private fun applyAiEntitlement(status: PlayBilling.Status) {
         val locked = status != PlayBilling.Status.ACTIVE
         if (::photoAction.isInitialized) {
-            photoAction.setCompoundDrawables(null, sized(photoIcon(locked)), null, null)
+            photoAction.placeIcon(photoIcon(locked))
+            galleryAction.placeIcon(galleryIcon(locked))
         }
         if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(status.wireValue)
     }
@@ -416,16 +530,23 @@ class MainActivity : ComponentActivity() {
         if (locked) R.drawable.ic_action_photo_locked else R.drawable.ic_action_photo,
     )?.mutate()?.apply { if (!locked) setTint(Color.WHITE) }
 
+    /** The gallery sits on a white button, so its open icon takes the
+     * secondary ink; the locked one carries its own colours. */
+    private fun galleryIcon(locked: Boolean) = getDrawable(
+        if (locked) R.drawable.ic_action_gallery_locked else R.drawable.ic_action_gallery,
+    )?.mutate()?.apply { if (!locked) setTint(Color.rgb(74, 87, 76)) }
+
     /**
      * The icons are 24dp vectors, Android's default, which left them looking
      * lost in buttons 64dp tall. Drawn at 30dp (34 on a tablet) they fill the
      * button in proportion, and stay sharp because they are vectors.
      *
      * The height budget still holds at large system font sizes: 30 + 2 gap +
-     * a 12sp label at 1.3x + 8 padding is 61, inside the 64dp button.
+     * a 12sp label at 1.3x + 8 padding is 61, inside the 64dp button. The
+     * compact bar's icon sits beside its label at the standard 24dp.
      */
     private fun sized(drawable: android.graphics.drawable.Drawable?) = drawable?.apply {
-        val size = dp(if (isTablet) 34 else 30)
+        val size = dp(if (railLayout == RailLayout.BOTTOM_COMPACT) 24 else if (isTablet) 34 else 30)
         setBounds(0, 0, size, size)
     }
 
@@ -434,6 +555,11 @@ class MainActivity : ComponentActivity() {
         textSize = if (isTablet) 14f else 12f
         isAllCaps = false
         gravity = Gravity.CENTER
+        // Four buttons share a narrow phone's width, and some languages'
+        // labels are long ("Code-barres"). One line, shrinking to fit,
+        // rather than wrapping out of the button.
+        maxLines = 1
+        setAutoSizeTextTypeUniformWithConfiguration(8, if (isTablet) 14 else 12, 1, TypedValue.COMPLEX_UNIT_SP)
         setTextColor(if (primary) Color.WHITE else Color.rgb(74, 87, 76))
         compoundDrawablePadding = dp(2)
         // The locked photo drawable carries its own two colours: the lock sits
@@ -442,7 +568,7 @@ class MainActivity : ComponentActivity() {
         val image = getDrawable(icon)?.mutate()?.apply {
             if (!locked) setTint(if (primary) Color.WHITE else Color.rgb(74, 87, 76))
         }
-        setCompoundDrawables(null, sized(image), null, null)
+        placeIcon(image)
         background = GradientDrawable().apply {
             setColor(if (primary) Color.rgb(46, 139, 87) else Color.WHITE)
             cornerRadius = dp(if (isTablet) 18 else 16).toFloat()
@@ -454,11 +580,12 @@ class MainActivity : ComponentActivity() {
         setOnClickListener { plateWebView.performPrimaryAction(action) }
     }
 
-    private fun updatePrimaryActionLabels(manual: String, barcode: String, photo: String) {
+    private fun updatePrimaryActionLabels(manual: String, barcode: String, gallery: String, photo: String) {
         // A WebView page can finish loading while Android restores an activity.
         // The buttons are already added before its scripts send this message.
         manualAction.text = manual
         barcodeAction.text = barcode
+        galleryAction.text = gallery
         photoAction.text = photo
     }
 
