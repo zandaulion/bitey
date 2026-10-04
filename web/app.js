@@ -2419,7 +2419,7 @@ async function startPhotoEntry(file) {
     // likely to be filing from days ago, not less.
     offerPhotoDay(takenOn);
 
-    busy('Working out what is on the plate…');
+    aiBusy(t('Working out what is on the plate…'));
     const analyseAt = Date.now();
     track('analyse_start');
     const data = await api('/api/analyse', {
@@ -2541,7 +2541,113 @@ function guessMeal(takenOn) {
  * replaced. A failure must be dismissed, because it is the app declining to do
  * what was asked and that should not scroll quietly past.
  */
+/**
+ * Lines shown while Bitey AI reads a photo, one every two seconds after the
+ * opening line. They are for company, not information: the honest message is
+ * the first one, and these say only that the wait is being spent on the plate.
+ */
+const AI_WAIT_LINES = [
+  "Counting the peas…",
+  "Measuring the portion with a tiny ruler…",
+  "Asking the potatoes how they are doing…",
+  "Separating the sauce from the facts…",
+  "Weighing it with dinosaur precision…",
+  "Looking for hidden butter…",
+  "Finding the plate’s best side…",
+  "Comparing it with a thousand lunches…",
+  "Doing the calorie maths…",
+  "Chewing it over…",
+  "Interviewing the broccoli…",
+  "Untangling the spaghetti…",
+  "Estimating the crunch factor…",
+  "Checking under the lettuce…",
+  "Consulting the snack archives…",
+  "Sniffing out the olive oil…",
+  "Squinting at the sauce…",
+  "Lining up the crumbs…",
+  "Asking the rice how many grains it brought…",
+  "Weighing the cheese, twice…",
+  "Polishing the fork for a closer look…",
+  "Tasting with my eyes…",
+  "Counting the sesame seeds…",
+  "Folding the numbers like a burrito…",
+  "Peeking inside the sandwich…",
+  "Negotiating with the dessert…",
+  "Measuring the sauce in tiny spoons…",
+  "Looking for the croutons…",
+  "Translating “a pinch” into grams…",
+  "Warming up the calorie calculator…",
+  "Sorting the beans by mood…",
+  "Checking whether that is one egg or two…",
+  "Giving the salad a fair hearing…",
+  "Asking the bread to rise to the occasion…",
+  "Dusting off the nutrition tables…",
+  "Telling the carbs from the fibre…",
+  "Following the trail of the gravy…",
+  "Estimating the thickness of the slice…",
+  "Inspecting the noodles one by one…",
+  "Wondering about the dressing…",
+  "Weighing the protein against the pasta…",
+  "Doing long division on the lasagne…",
+  "Zooming in on the toppings…",
+  "Rounding up the stray peas…",
+  "Checking the soup’s depth…",
+  "Admiring the presentation…",
+  "Asking Bitey’s tummy for a second opinion…",
+  "Tallying the fats, gently…",
+  "Adding it all up…",
+  "Nearly done, licking the spoon…"
+];
+
+let aiWaitTimer = null;
+
+function stopAiWait() {
+  clearInterval(aiWaitTimer);
+  aiWaitTimer = null;
+  $('wait-bar').hidden = true;
+  $('wait-msg').classList.remove('is-swapping');
+}
+
+/**
+ * The waiting card, for a Bitey AI reading: a bar instead of the spinner and
+ * a new line every two seconds.
+ *
+ * The bar is not a measurement -- the server sends no progress -- so it eases
+ * towards 95% (about 60% at five seconds, 85% at ten) and never reaches the
+ * end on its own; idle() completes it when the answer is in.
+ */
+function aiBusy(text) {
+  busy(text);
+  $('wait-spin').hidden = true;
+  const bar = $('wait-bar');
+  const fill = bar.firstElementChild;
+  bar.hidden = false;
+  fill.style.transition = 'none';
+  fill.style.width = '3%';
+  void fill.offsetWidth;
+  fill.style.transition = '';
+
+  const lines = [...AI_WAIT_LINES].sort(() => Math.random() - 0.5);
+  const startedAt = Date.now();
+  let shown = 0;
+  aiWaitTimer = setInterval(() => {
+    const seconds = (Date.now() - startedAt) / 1000;
+    fill.style.width = `${3 + 92 * (1 - Math.exp(-seconds / 5))}%`;
+    const due = Math.floor(seconds / 2);
+    if (due > shown) {
+      shown = due;
+      const msg = $('wait-msg');
+      msg.classList.add('is-swapping');
+      setTimeout(() => {
+        msg.textContent = t(lines[(due - 1) % lines.length]);
+        msg.classList.remove('is-swapping');
+      }, 180);
+    }
+  }, 250);
+}
+
 function busy(text) {
+  stopAiWait();
   const el = $('wait');
   el.hidden = false;
   el.classList.remove('err');
@@ -2552,6 +2658,7 @@ function busy(text) {
 
 function failed(text) {
   if (!text) return idle();
+  stopAiWait();
   track('error_shown', { where: 'review' });
   const el = $('wait');
   el.hidden = false;
@@ -2567,6 +2674,18 @@ function failed(text) {
 
 function idle() {
   if (screenIsOpen('alert')) return dismissScreen('alert');
+  if (aiWaitTimer) {
+    // The answer is in: the bar finishes before the card goes.
+    clearInterval(aiWaitTimer);
+    aiWaitTimer = null;
+    $('wait-bar').firstElementChild.style.width = '100%';
+    setTimeout(() => {
+      if (aiWaitTimer) return;
+      $('wait').hidden = true;
+      stopAiWait();
+    }, 260);
+    return;
+  }
   $('wait').hidden = true;
 }
 
@@ -2626,6 +2745,7 @@ function openReview(mode, entry = null) {
   $('correct-form').hidden = true;
   $('correct-toggle').setAttribute('aria-expanded', 'false');
   $('correct-text').value = '';
+  syncCorrectButton();
   $('food-q').value = '';
   $('food-results').innerHTML = '';
   $('finder-hint').textContent = state.me?.genericSearch === false
@@ -2997,23 +3117,23 @@ async function useLeftoversPhoto(file) {
   if (!file || !state.editingId) return;
 
   const btn = $('leftovers-shoot');
-  const was = btn.textContent;
   btn.disabled = true;
-  btn.textContent = t('Reading what is left…');
+  aiBusy(t('Reading what is left…'));
   try {
     const { base64 } = await prepareImage(file);
     const out = await api(`/api/entries/${state.editingId}/leftovers`, {
       method: 'POST',
       body: JSON.stringify({ image: base64 })
     });
+    idle();
     state.estimate = markEaten(state.estimate, out.eaten);
     renderReview();
     toast(out.note ? out.note.slice(0, 90) : 'Read what was left');
   } catch (err) {
+    idle();
     toast(err.message || 'Could not read the leftovers');
   } finally {
     btn.disabled = false;
-    btn.textContent = was;
   }
 }
 
@@ -3348,7 +3468,7 @@ async function submitCorrection() {
   }
 
   $('correct-go').disabled = true;
-  busy('Reading it again…');
+  aiBusy(t('Reading it again…'));
   track('correct_submit', { chars: correction.length });
   const startedAt = Date.now();
 
@@ -3376,6 +3496,7 @@ async function submitCorrection() {
     $('correct-form').hidden = true;
     $('correct-toggle').setAttribute('aria-expanded', 'false');
     $('correct-text').value = '';
+  syncCorrectButton();
     initWeightSlider();
     renderReview();
     toast(t('Read again'));
@@ -3388,6 +3509,23 @@ async function submitCorrection() {
 }
 
 $('correct-go').addEventListener('click', () => { void beginAiAction('correction'); });
+
+// The keyboard's own key sends it: after typing, the thumb is on the keyboard,
+// not on a button that may have scrolled away under it.
+$('correct-text').addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Enter' || ev.isComposing) return;
+  ev.preventDefault();
+  if ($('correct-text').value.trim()) void beginAiAction('correction');
+});
+
+// Once there is something to send, "Read it again" is the main action on the
+// sheet and looks it, rather than a grey button beside a green Save.
+function syncCorrectButton() {
+  const ready = Boolean($('correct-text').value.trim());
+  $('correct-go').classList.toggle('primary', ready);
+  $('correct-go').classList.toggle('secondary', !ready);
+}
+$('correct-text').addEventListener('input', syncCorrectButton);
 
 $('manual-toggle').addEventListener('click', () => {
   const form = $('manual-form');
@@ -3759,8 +3897,52 @@ $('scan-btn').addEventListener('click', startScan);
 
 // ------------------------------------------------------------------ save
 
+/**
+ * Asks what to do with a correction typed but never sent.
+ *
+ * Resolves 'send', 'save', or null when the card is closed by Back or a tap
+ * outside it -- which leaves everything as it was, rather than quietly
+ * choosing one of the two for the person.
+ */
+function askAboutPendingCorrection() {
+  return new Promise((resolve) => {
+    const dialog = $('correction-pending');
+    let choice = null;
+    const choose = (value) => {
+      choice = value;
+      dismissScreen('correction-pending');
+    };
+    $('correction-send').onclick = () => choose('send');
+    $('correction-save-anyway').onclick = () => choose('save');
+    dialog.onclick = (ev) => { if (ev.target === dialog) choose(null); };
+    dialog.hidden = false;
+    openScreen('correction-pending', () => {
+      dialog.hidden = true;
+      resolve(choice);
+    });
+    $('correction-send').focus();
+  });
+}
+
 $('save-entry').addEventListener('click', async () => {
   if (!state.estimate || state.busy) return;
+  // A correction typed but never sent would otherwise be lost silently, and
+  // the entry saved with the reading the person was trying to correct.
+  const pending = !$('correct-form').hidden && $('correct-text').value.trim();
+  if (pending) {
+    const choice = await askAboutPendingCorrection();
+    if (choice === 'send') {
+      void beginAiAction('correction');
+      return;
+    }
+    // Closed without choosing: nothing happens, and the text is still there.
+    if (choice !== 'save') return;
+    // "Save without it": the correction is dropped on purpose, then saved.
+    $('correct-text').value = '';
+    syncCorrectButton();
+    $('correct-form').hidden = true;
+    $('correct-toggle').setAttribute('aria-expanded', 'false');
+  }
   state.busy = true;
   $('save-entry').disabled = true;
   busy('Saving…');

@@ -1114,20 +1114,23 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 }
 :root:not([data-ai="active"]) .pick-photo.ai-locked,
 :root:not([data-ai="active"]) .link-btn.ai-locked,
-:root:not([data-ai="active"]) .secondary.ai-locked {
+:root:not([data-ai="active"]) .secondary.ai-locked,
+:root:not([data-ai="active"]) .primary.ai-locked {
   padding-right: 26px;
 }
 /* Centred on the text line: shackle from -8 to 0, body from -1 to 8. */
 :root:not([data-ai="active"]) .pick-photo.ai-locked::after,
 :root:not([data-ai="active"]) .link-btn.ai-locked::after,
-:root:not([data-ai="active"]) .secondary.ai-locked::after {
+:root:not([data-ai="active"]) .secondary.ai-locked::after,
+:root:not([data-ai="active"]) .primary.ai-locked::after {
   top: 50%;
   right: 6px;
   transform: translateY(-1px);
 }
 :root:not([data-ai="active"]) .pick-photo.ai-locked::before,
 :root:not([data-ai="active"]) .link-btn.ai-locked::before,
-:root:not([data-ai="active"]) .secondary.ai-locked::before {
+:root:not([data-ai="active"]) .secondary.ai-locked::before,
+:root:not([data-ai="active"]) .primary.ai-locked::before {
   top: 50%;
   right: 8px;
   transform: translateY(-8px);
@@ -1401,6 +1404,22 @@ input[type="range"]::-moz-range-thumb {
   animation: spin .8s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) { .wait-spin { animation-duration: 3s } }
+
+/* While Bitey AI reads a photo: a bar that keeps moving and a line that keeps
+   changing, so the seconds of waiting read as work being done. */
+.wait-bar {
+  width: 100%; height: 8px; border-radius: 99px; overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.wait-bar span {
+  display: block; height: 100%; width: 0; border-radius: inherit;
+  background: var(--accent); transition: width .25s linear;
+}
+#wait-msg { transition: opacity .18s ease; min-height: 3em; }
+#wait-msg.is-swapping { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .wait-bar span, #wait-msg { transition: none; }
+}
 
 /* The search hint stays in the flow -- it belongs beside the box being typed
    into, and a pop-up on every keystroke would cover the results being waited
@@ -1853,6 +1872,13 @@ input[type="range"]::-moz-range-thumb {
 /* ------------------------------------------------------ correcting the AI */
 
 .correct { margin-top: 10px; }
+/* An outlined button, not a text link: it is the remedy for the card above. */
+.correct #correct-toggle {
+  display: block; width: 100%; padding: 11px 14px; text-align: center;
+  border: 1.5px solid var(--accent); border-radius: 12px; text-decoration: none;
+  background: var(--surface); font-size: .92rem;
+}
+.correct #correct-toggle[aria-expanded="true"] { border-style: dashed; }
 .correct #correct-form { display: flex; flex-direction: column; gap: 9px; margin-top: 4px; }
 .correct input { width: 100%; }
 .correct .secondary { width: 100%; }

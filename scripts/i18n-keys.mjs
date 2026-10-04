@@ -43,7 +43,7 @@ function fromJs(src) {
  */
 function fromTables(src) {
   const out = [];
-  for (const name of ['BITEY_CHEERS', 'BITEY_QUOTES']) {
+  for (const name of ['BITEY_CHEERS', 'BITEY_QUOTES', 'AI_WAIT_LINES']) {
     const m = new RegExp(name + '\\s*=\\s*\\[([\\s\\S]*?)\\n\\];').exec(src);
     if (!m) continue;
     for (const q of m[1].matchAll(/"((?:\\.|[^"])*)"/g)) out.push(unescapeJs(q[1]));

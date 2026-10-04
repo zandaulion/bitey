@@ -243,24 +243,26 @@
           </div>
           <ul id="seen-list" class="seen-list"></ul>
         </section>
-
-        <p id="review-note" class="note" hidden></p>
-
-        <!-- A photograph can be read confidently and wrongly, and no amount of
-             portion adjustment fixes the wrong food. Only shown for photo
-             estimates, since there is nothing to re-read otherwise. -->
+        <!-- Straight under what was seen: the place someone notices it is wrong.
+             It used to sit below the model's note, as a small link. -->
         <section id="correct-block" class="correct" hidden>
           <button id="correct-toggle" class="link-btn ai-locked" type="button" aria-expanded="false">
             Not what you're eating?
           </button>
           <div id="correct-form" hidden>
             <label class="sr-only" for="correct-text" data-i18n="What is it really?">What is it really?</label>
-            <input id="correct-text" type="text" autocomplete="off"
+            <input id="correct-text" type="text" autocomplete="off" enterkeyhint="send"
                    placeholder="e.g. it's vegetarian, not chicken" data-i18n-placeholder="e.g. it&#x27;s vegetarian, not chicken">
             <button id="correct-go" class="secondary ai-locked" type="button" data-i18n="Read it again">Read it again</button>
             <p class="hint" data-i18n="Your word beats the photo. It works the whole dish out afresh.">Your word beats the photo. It works the whole dish out afresh.</p>
           </div>
         </section>
+
+        <p id="review-note" class="note" hidden></p>
+
+        <!-- A photograph can be read confidently and wrongly, and no amount of
+             portion adjustment fixes the wrong food. Only shown for photo
+             estimates, since there is nothing to re-read otherwise. -->
 
         <!-- Above the weight, because it is the question that gets answered.
              The weight is only worth touching when you have a better idea than
@@ -639,6 +641,7 @@
   <div class="wait-card" role="alertdialog" aria-modal="true" aria-labelledby="wait-msg">
     <div id="wait-spin" class="wait-spin" aria-hidden="true"></div>
     <p id="wait-msg"></p>
+    <div id="wait-bar" class="wait-bar" hidden aria-hidden="true"><span></span></div>
     <button id="wait-ok" class="primary" type="button" hidden data-i18n="OK">OK</button>
   </div>
 </div>
@@ -669,6 +672,20 @@
      what is sent, to whom, and what is not, in the words of the privacy
      notice; declining sends nothing and leaves the rest of the diary as it
      was. -->
+<!-- Asked when Save is tapped with a correction typed but not sent. Its own
+     card rather than confirm(): Android's confirm can only say OK and Cancel,
+     and neither says which way the entry goes. -->
+<div id="correction-pending" class="consent" hidden role="dialog" aria-modal="true" aria-labelledby="correction-pending-heading">
+  <div class="consent-card">
+    <h2 id="correction-pending-heading" data-i18n="Your correction has not been sent">Your correction has not been sent</h2>
+    <p data-i18n="Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.">Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.</p>
+    <div class="consent-actions">
+      <button id="correction-save-anyway" class="secondary" type="button" data-i18n="Save without it">Save without it</button>
+      <button id="correction-send" class="primary" type="button" data-i18n="Read it again">Read it again</button>
+    </div>
+  </div>
+</div>
+
 <div id="ai-consent" class="consent" hidden role="dialog" aria-modal="true" aria-labelledby="ai-consent-heading">
   <div class="consent-card">
     <h2 id="ai-consent-heading" data-i18n="How Bitey AI reads your photo">How Bitey AI reads your photo</h2>
