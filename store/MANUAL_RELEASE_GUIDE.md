@@ -266,11 +266,34 @@ defended from memory.
 - **App language.** It is sent so the answer comes back in the right language.
   It is an app setting, not one of Play's user data types.
 
-**Check before submitting: ML Kit.** The barcode scanner uses Google's
-bundled ML Kit (`com.google.mlkit:barcode-scanning`), and has since 1.0.0.
-Google publishes a Data safety disclosure for ML Kit, covering what the
-library itself may send to Google. Read it and add whatever it lists. This
-applies to every Bitey release, not just 1.0.5.
+#### From 1.0.6: App Check and Play Billing
+
+1.0.6 replaced ML Kit with zxing-cpp, which has no network access: remove
+anything declared for ML Kit. It added Firebase App Check, and from 1.0.6 Play
+Billing connects only once someone uses Bitey AI. Two more rows:
+
+| Data type | Collected | Shared | Ephemeral | Required | Purposes |
+| --- | --- | --- | --- | --- | --- |
+| Device or other IDs | Yes | No | Yes | Optional | Fraud prevention, security, and compliance |
+| App info and performance → **Diagnostics** | Yes | No | No | Optional | App functionality |
+
+- **Device or other IDs: App Check.** Firebase's Play data disclosure lists
+  this type for App Check and for the Play Integrity token, plus a "Firebase
+  user agent" (library and OS versions). Play Integrity's own terms list what
+  it reads: package name, version, signing certificate, licence status and a
+  device attestation; encrypted, not passed to third parties, deleted after a
+  fixed retention. *Ephemeral:* the token only authorises one request and is
+  not stored. *Optional:* it runs only for Bitey AI. Bitey creates no
+  identifier of its own: on the Fold, after many exchanges, there is no
+  Firebase installation ID file (`files/PersistedInstallation*`), only the
+  heartbeat store that carries the user agent (checked 3 October 2026).
+- **Diagnostics: Play Billing.** When it connects, Google's billing library
+  sends Google device model and build, country, mobile network and locale.
+  *Judgment call:* Play's payment-service exemption may cover this, since it
+  goes to Google Play in connection with billing, but the privacy notice now
+  describes it, and the form should not say less than the notice. Declared,
+  not shared (Google Play is the payment provider), optional (only after a
+  Bitey AI feature is used).
 
 ### Other app-content tasks
 

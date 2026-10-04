@@ -1,6 +1,6 @@
 # Bitey — Private Food Log: Privacy Policy
 
-**Last updated:** 25 September 2026
+**Last updated:** 3 October 2026
 **Developer:** Zandaulion
 **Privacy contact:** **zandaulion@gmail.com**
 
@@ -20,8 +20,9 @@ your device, and only when you use them:
   Gemini reads it. Bitey asks for your consent before the first photograph is
   sent.
 
-Nothing else leaves your device: not your diary, weight, profile, or other
-photos.
+Using Bitey AI also involves two Google services, Google Play's billing and
+Google's app-verification check, which are described below. Nothing else
+leaves your device: not your diary, weight, profile, or other photos.
 
 ## Information Bitey stores on your device
 
@@ -97,6 +98,35 @@ Separately, Google Cloud keeps standard request logs for the server, which
 record each request’s IP address, time, and outcome, for 30 days. Bitey does
 not use them to work out where you are.
 
+## Google services used with Bitey AI
+
+Two Google libraries built into Bitey contact Google, and only in connection
+with Bitey AI. Neither receives your photographs, diary, weight, or profile.
+
+**Google Play Billing.** Bitey AI is bought and managed through Google Play.
+Bitey connects to Google Play's billing service only after you first use a
+Bitey AI feature — a photo action, the plans, Restore or Manage — and from then
+on it checks your subscription when Bitey opens. When it connects, Google's
+billing library sends Google technical information such as your device model
+and Android version, country, mobile network and language. Google uses it to
+operate Play billing; Bitey does not receive it. If you only keep a diary,
+Bitey never connects to Google Play's billing service.
+
+**App verification (Firebase App Check with Google Play Integrity).** Before a
+photograph is sent to Bitey AI, Bitey asks Google Play to confirm that the
+request comes from the genuine Bitey app, installed from Google Play, on a
+genuine device. To answer, Google Play checks the app's package, version,
+signing certificate and licence, and an attestation from your device; Firebase,
+Google's app platform, then issues a short-lived token that Bitey's server
+checks before it accepts the photograph. Firebase also receives technical
+details such as the library and Android versions. This keeps the paid service
+from being used by copies of the app or by scripts. Bitey does not create an
+identifier for you or your device for this, and Bitey's server does not store
+the token.
+
+Google handles this information under the [Google Privacy
+Policy](https://policies.google.com/privacy).
+
 ## Optional Open Food Facts barcode lookups
 
 Bitey includes a packaged food database and first checks food data already
@@ -124,7 +154,8 @@ Manual food search uses a food table packaged with the app. It does not send
 your search terms to the developer or a search provider.
 
 Bitey does not include advertising, advertising identifiers, behavioral
-analytics, or third-party analytics SDKs. It does not sell, rent, or share
+analytics, or third-party analytics SDKs. Barcodes are read on the device by
+an open-source library that has no network access. It does not sell, rent, or share
 your personal or health-related information for advertising or marketing.
 
 ## Backups and exports
@@ -192,8 +223,10 @@ privacy contact shown at the top of this notice.
    this document alone. Audit the optional Open Food Facts barcode transfer,
    the camera permission, and — from 1.0.5 — the Bitey AI photo and purchase
    token transfer in particular.
-4. Before 1.0.5 reaches testers: enable the Firestore TTL policy on collection
-   group `ai_usage`, field `expireAt`. The seven-day retention stated above
-   depends on it; without it the counters are never deleted.
+4. The Firestore TTL policy on collection group `ai_usage`, field `expireAt`,
+   is what keeps the seven-day retention stated above. It is declared in
+   `firestore.indexes.json` and was deployed on 3 October 2026 (until then the
+   counters were not being deleted). Check it with
+   `firebase firestore:indexes --project plate-cc703`.
 5. Update this notice, the Data safety form, and the in-app disclosure before
    enabling cloud sync, analytics, or any other new third-party data flow.
