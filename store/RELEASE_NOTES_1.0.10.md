@@ -1,0 +1,111 @@
+# Bitey 1.0.10 (`versionCode` 11) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.0.10.xml` beside this file is that paste-ready form, and
+this copy is generated from it. Play allows 500 characters per locale; the
+longest here, German, is 432.
+
+1.0.10 makes correcting Bitey AI harder to miss and harder to lose. "Not what
+you ate?" is an outlined button straight under the "Bitey AI saw" card; the
+keyboard's Send key sends the correction; "Read it again" turns green while
+there is text; and Save with an unsent correction asks, in a card whose
+buttons say "Read it again" and "Save without it", instead of saving the old
+reading silently. Every Bitey AI wait (a photo, a correction, the leftovers)
+now shows a progress bar and a new line every two seconds from 50 playful
+ones, translated into every language.
+
+## English (en-US)
+
+Correcting Bitey AI is easier, and the wait is more fun.
+
+- "Not what you ate?" now sits right under what Bitey AI saw, and your keyboard's Send key reads the photo again
+- Tap Save with a correction you haven't sent, and Bitey asks whether to read the photo again first
+- While Bitey AI works, a progress bar and a stream of playful messages keep you company
+
+## Arabic (ar)
+
+تصحيح Bitey AI أسهل، والانتظار أكثر متعة.
+
+- أصبح «ليس ما أكلته؟» مباشرة تحت ما رآه Bitey AI، وزر الإرسال في لوحة المفاتيح يقرأ الصورة مرة أخرى
+- إذا لمست «حفظ» وتصحيحك لم يُرسل بعد، يسألك Bitey هل يقرأ الصورة مرة أخرى أولًا
+- أثناء عمل Bitey AI، يرافقك شريط تقدّم ورسائل مرحة
+
+## Chinese, Simplified (zh-CN)
+
+更正 Bitey AI 更方便，等待也更有趣。
+
+- “不是你吃的东西？”现在就在“Bitey AI 识别到”的内容下方，按键盘上的发送键即可重新识别照片
+- 如果你输入了更正但没发送就点了保存，Bitey 会先问你是否要重新识别照片
+- Bitey AI 工作时，进度条和一连串有趣的提示会陪着你
+
+## French (fr-FR)
+
+Corriger Bitey AI est plus simple, et l'attente plus amusante.
+
+- « Ce n'est pas ce que vous avez mangé ? » se trouve juste sous ce que Bitey AI a repéré, et la touche Envoyer du clavier relit la photo
+- Si vous touchez Enregistrer avec une correction non envoyée, Bitey vous demande s'il doit d'abord relire la photo
+- Pendant que Bitey AI travaille, une barre de progression et des messages amusants vous tiennent compagnie
+
+## German (de-DE)
+
+Bitey AI zu korrigieren ist einfacher, und das Warten macht mehr Spaß.
+
+- „Nicht das, was du gegessen hast?“ steht jetzt direkt unter dem, was Bitey AI erkannt hat, und die Senden-Taste der Tastatur liest das Foto neu
+- Tippst du mit einer nicht gesendeten Korrektur auf Speichern, fragt Bitey, ob es das Foto zuerst neu lesen soll
+- Während Bitey AI arbeitet, leisten dir ein Fortschrittsbalken und lustige Nachrichten Gesellschaft
+
+## Hindi (hi-IN)
+
+Bitey AI को सुधारना अब आसान, और इंतज़ार ज़्यादा मज़ेदार।
+
+- "यह वह नहीं जो आपने खाया?" अब Bitey AI ने जो पहचाना उसके ठीक नीचे है, और कीबोर्ड का भेजें बटन फ़ोटो दोबारा पढ़ता है
+- बिना भेजे सुधार के साथ सहेजें दबाने पर Bitey पूछता है कि क्या पहले फ़ोटो दोबारा पढ़ें
+- Bitey AI के काम करते समय एक प्रगति पट्टी और मज़ेदार संदेश आपका साथ देते हैं
+
+## Japanese (ja-JP)
+
+Bitey AI の訂正がもっと簡単に、待ち時間がもっと楽しく。
+
+- 「食べたものと違いますか？」が「Bitey AI が見つけたもの」のすぐ下に。キーボードの送信キーで写真を読み直せます
+- 訂正を送信せずに保存をタップすると、先に写真を読み直すかどうか Bitey が確認します
+- Bitey AI の処理中は、進行バーと楽しいメッセージがお供します
+
+## Korean (ko-KR)
+
+Bitey AI 수정은 더 쉽게, 기다림은 더 즐겁게.
+
+- "드신 음식이 아닌가요?"가 이제 "Bitey AI가 찾은 것" 바로 아래에 있고, 키보드의 보내기 키로 사진을 다시 읽습니다
+- 보내지 않은 수정 내용이 있을 때 저장을 누르면, Bitey가 먼저 사진을 다시 읽을지 물어봅니다
+- Bitey AI가 작업하는 동안 진행 막대와 재미있는 메시지가 함께합니다
+
+## Portuguese, Brazil (pt-BR)
+
+Corrigir o Bitey AI ficou mais fácil, e a espera, mais divertida.
+
+- "Não foi isso que você comeu?" agora fica logo abaixo do que o Bitey AI identificou, e a tecla Enviar do teclado lê a foto de novo
+- Se você tocar em Salvar com uma correção não enviada, o Bitey pergunta se deve ler a foto de novo primeiro
+- Enquanto o Bitey AI trabalha, uma barra de progresso e mensagens divertidas fazem companhia
+
+## Romanian (ro)
+
+Corectarea Bitey AI e mai ușoară, iar așteptarea mai amuzantă.
+
+- „Nu e ce ai mâncat?” stă acum chiar sub ce a văzut Bitey AI, iar tasta Trimite de pe tastatură citește din nou fotografia
+- Dacă atingi Salvează cu o corectură netrimisă, Bitey te întreabă dacă să citească mai întâi fotografia din nou
+- Cât timp lucrează Bitey AI, o bară de progres și mesaje amuzante îți țin companie
+
+## Spanish (es-ES)
+
+Corregir a Bitey AI es más fácil, y la espera, más divertida.
+
+- «¿No es lo que comiste?» está ahora justo debajo de lo que Bitey AI ha visto, y la tecla Enviar del teclado vuelve a leer la foto
+- Si tocas Guardar con una corrección sin enviar, Bitey te pregunta si quieres volver a leer la foto primero
+- Mientras Bitey AI trabaja, una barra de progreso y mensajes divertidos te hacen compañía
+
+## Ukrainian (uk)
+
+Виправляти Bitey AI простіше, а чекати веселіше.
+
+- «Це не те, що ви з’їли?» тепер одразу під тим, що розпізнав Bitey AI, а клавіша «Надіслати» на клавіатурі читає фото ще раз
+- Якщо натиснути «Зберегти» з ненадісланим виправленням, Bitey спитає, чи спершу прочитати фото ще раз
+- Поки Bitey AI працює, вам складають компанію смуга прогресу й кумедні повідомлення
