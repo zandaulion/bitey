@@ -13,7 +13,14 @@
 // protein it had in 2018 -- so this is rebuilt when convenient, not on a
 // schedule.
 //
-//   node scripts/build-food-table.mjs <out.sqlite> //     --foundation <foundation.json> --sr <sr_legacy.json> //     --fndds <surveyDownload.json> --ciqual <dir with ciqual_alim.xml, ciqual_compo.xml> //     --names scripts/food-names.json
+//   node scripts/build-food-table.mjs <out.sqlite>
+//     --foundation <foundation.json> --sr <sr_legacy.json>
+//     --fndds <surveyDownload.json>
+//     --ciqual <dir with ciqual_alim.xml, ciqual_compo.xml>
+//     --names scripts/food-names.json
+//
+// The USDA files come from https://fdc.nal.usda.gov/download-datasets (JSON),
+// CIQUAL's from https://ciqual.anses.fr (XML). Neither is kept in the repo.
 //
 // Sources, in the order they win a shared English name:
 //   Foundation, SR Legacy  USDA ingredients and raw foods (public domain)
