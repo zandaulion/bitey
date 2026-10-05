@@ -11,7 +11,7 @@ import { summariseDay, macroSplit, MEALS } from '/core/day.js';
 import { ACTIVITY_LEVELS, ageFromBirthYear, maintenanceEnergy } from '/core/nutrition.js';
 import { adaptiveExpenditure } from '/core/expenditure.js';
 import { smoothSeries, weightTrend, trendGap } from '/core/weight.js';
-import { summariseRecent, collapseRepeatable, rankResults } from '/core/foods.js';
+import { summariseRecent, collapseRepeatable, rankByMatch } from '/core/foods.js';
 
 const DB_NAME = 'plate-local-v1';
 const DB_VERSION = 2;
@@ -146,7 +146,7 @@ async function nativeGenericFoodSearch(query) {
   }
   // Native returns the likeliest few hundred; the order is decided here, by
   // the same rules the PWA's server uses.
-  return { results: rankResults(result.results || [], query).slice(0, 20), genericSearch: true };
+  return { results: rankByMatch(result.results || [], query).slice(0, 20), genericSearch: true };
 }
 
 let nativeSearchSequence = 0;

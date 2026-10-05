@@ -10,7 +10,7 @@ import path from 'node:path';
 import { db, nowIso, PRODUCT_DIR, addColumnIfMissing } from './db.js';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
-import { fromOpenFoodFacts, rankResults, tokenise } from '../core/foods.js';
+import { fromOpenFoodFacts, rankResults, rankByMatch, tokenise } from '../core/foods.js';
 
 const UA = 'Plate/0.1 (self-hosted personal food log)';
 // product_name_ro is requested alongside the generic name rather than instead
@@ -256,8 +256,8 @@ function searchGeneric(query, locale = 'en') {
 
   return generic.prepare(`
     SELECT f.id, f.kcal, f.protein, f.fat, f.carbs, f.fiber, f.serving_g, f.source,
-           (SELECT name FROM names WHERE food_id = f.id AND lang = ?) AS local,
-           (SELECT name FROM names WHERE food_id = f.id AND lang = 'en') AS english,
+           (SELECT name FROM names WHERE food_id = f.id AND lang = ? AND rank < 2 ORDER BY rank LIMIT 1) AS local,
+           (SELECT name FROM names WHERE food_id = f.id AND lang = 'en' AND rank < 2 ORDER BY rank LIMIT 1) AS english,
            n.name AS matched
     FROM names n JOIN foods f ON f.id = n.food_id
     WHERE ${where}
@@ -268,6 +268,7 @@ function searchGeneric(query, locale = 'en') {
     source: r.source,
     barcode: null,
     name: r.local || r.english || r.matched,
+    matched: r.matched,
     per100: {
       calories: r.kcal, protein: r.protein, fat: r.fat, carbs: r.carbs,
       ...(r.fiber === null ? {} : { fiber: r.fiber })
@@ -311,5 +312,5 @@ export async function searchFoods(rawQuery, locale = 'en') {
     return true;
   });
 
-  return rankResults(unique, query).slice(0, 15);
+  return rankByMatch(unique, query).slice(0, 15);
 }

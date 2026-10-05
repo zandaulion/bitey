@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   fromOpenFoodFacts, fromUsda, parseServing, rankResults, toItem, isPlausible, summariseRecent,
-  QUICK_BITES, createQuickBiteItem, getGrazingSuggestions, collapseRepeatable, foldText, tokenise
+  QUICK_BITES, createQuickBiteItem, getGrazingSuggestions, collapseRepeatable, foldText, tokenise, rankByMatch
 } from './foods.js';
 
 const OFF_PRODUCT = {
@@ -297,4 +297,14 @@ test('the food named before the comma beats a compound that starts the same way'
     { name: 'Rice, white, cooked', source: 'usda', per100: {} }
   ];
   assert.equal(rankResults(results, 'rice')[0].name, 'Rice, white, cooked');
+});
+
+test('a food found by an alias ranks on the alias but keeps its shown name', () => {
+  const results = [
+    { name: 'Broth or stock, beef', matched: 'Broth or stock, beef', source: 'ciqual', per100: {} },
+    { name: 'Weißbrot', matched: 'Brot', source: 'usda', per100: {} }
+  ];
+  const [first] = rankByMatch(results, 'Brot');
+  assert.equal(first.name, 'Weißbrot');
+  assert.equal(first.matched, undefined, 'the match is not passed on');
 });

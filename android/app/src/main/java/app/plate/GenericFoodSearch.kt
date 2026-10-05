@@ -24,10 +24,10 @@ class GenericFoodSearch(private val context: Context) : AutoCloseable {
     private val database = lazy { openPackagedTable() }
 
     companion object {
-        /** The filename doubles as a content version: a new table ships as a
-         * new file, and the old copy is deleted. */
-        private const val TABLE_FILE = "plate-generic-foods-v2.sqlite"
-        private val OLD_TABLE_FILES = listOf("plate-generic-foods-v1.sqlite")
+        /** Copies are named after the app install that made them, so every
+         * update brings its own table: a name bumped by hand is one a table
+         * update can forget, and then the old schema stays in use. */
+        private const val TABLE_PREFIX = "plate-generic-foods-"
 
         private val NON_WORD = Regex("[^\\p{L}\\p{N}]+")
         private val MARKS = Regex("\\p{M}+")
@@ -61,8 +61,8 @@ class GenericFoodSearch(private val context: Context) : AutoCloseable {
         database.value.rawQuery(
             """
             SELECT f.id, f.kcal, f.protein, f.fat, f.carbs, f.fiber, f.serving_g, f.source,
-                   (SELECT name FROM names WHERE food_id = f.id AND lang = ?) AS local,
-                   (SELECT name FROM names WHERE food_id = f.id AND lang = 'en') AS english,
+                   (SELECT name FROM names WHERE food_id = f.id AND lang = ? AND rank < 2 ORDER BY rank LIMIT 1) AS local,
+                   (SELECT name FROM names WHERE food_id = f.id AND lang = 'en' AND rank < 2 ORDER BY rank LIMIT 1) AS english,
                    n.name AS matched
             FROM names n JOIN foods f ON f.id = n.food_id
             WHERE $where
@@ -86,6 +86,9 @@ class GenericFoodSearch(private val context: Context) : AutoCloseable {
                     .put("source", source)
                     .put("barcode", JSONObject.NULL)
                     .put("name", name)
+                    // The name the query matched, which may be an alias in
+                    // another language; the page ranks on it.
+                    .put("matched", cursor.getString(10))
                     .put("per100", per100)
                     .put("servingG", if (cursor.isNull(6)) JSONObject.NULL else cursor.getDouble(6)))
             }
@@ -98,8 +101,16 @@ class GenericFoodSearch(private val context: Context) : AutoCloseable {
     }
 
     private fun openPackagedTable(): SQLiteDatabase {
-        OLD_TABLE_FILES.forEach { context.deleteDatabase(it) }
-        val target = context.getDatabasePath(TABLE_FILE)
+        // Version and install time: an update always brings a fresh copy,
+        // and so does reinstalling a debug build whose version did not move.
+        val info = context.packageManager.getPackageInfo(context.packageName, 0)
+        @Suppress("DEPRECATION")
+        val version = if (android.os.Build.VERSION.SDK_INT >= 28) info.longVersionCode else info.versionCode.toLong()
+        val current = "$TABLE_PREFIX$version-${info.lastUpdateTime}.sqlite"
+        context.databaseList()
+            .filter { it.startsWith(TABLE_PREFIX) && it.endsWith(".sqlite") && it != current }
+            .forEach { context.deleteDatabase(it) }
+        val target = context.getDatabasePath(current)
         if (!target.exists()) {
             target.parentFile?.mkdirs()
             context.assets.open("database/foods.sqlite").use { input ->

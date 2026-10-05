@@ -13,7 +13,7 @@
 // protein it had in 2018 -- so this is rebuilt when convenient, not on a
 // schedule.
 //
-//   node scripts/build-food-table.mjs <out.sqlite> //     --foundation <foundation.json> --sr <sr_legacy.json> //     --fndds <surveyDownload.json> --ciqual <dir with ciqual_alim.xml, ciqual_compo.xml>
+//   node scripts/build-food-table.mjs <out.sqlite> //     --foundation <foundation.json> --sr <sr_legacy.json> //     --fndds <surveyDownload.json> --ciqual <dir with ciqual_alim.xml, ciqual_compo.xml> //     --names scripts/food-names.json
 //
 // Sources, in the order they win a shared English name:
 //   Foundation, SR Legacy  USDA ingredients and raw foods (public domain)
@@ -21,6 +21,8 @@
 //                          portion people typically eat (public domain)
 //   CIQUAL                 ANSES, foods eaten in France, French and English
 //                          names (Licence Ouverte / Etalab 2.0)
+//   scripts/food-names.json curated names for common foods in every app
+//                          language, linked to the foods above by name
 //
 // Parsed as a stream. The SR Legacy file is 201 MB and JSON.parse would want
 // well over a gigabyte for it; this build should not be the reason a laptop
@@ -31,7 +33,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { isPlausible, tokenise } from '../core/foods.js';
 
 const [out, ...rest] = process.argv.slice(2);
-const KINDS = { '--foundation': 'foundation', '--sr': 'sr', '--fndds': 'fndds', '--ciqual': 'ciqual' };
+const KINDS = { '--foundation': 'foundation', '--sr': 'sr', '--fndds': 'fndds', '--ciqual': 'ciqual', '--names': 'names' };
 const inputs = [];
 for (let i = 0; i < rest.length; i += 2) {
   const kind = KINDS[rest[i]];
@@ -243,11 +245,15 @@ db.exec(`
   );
   -- One row per name per language. A food is found by any of its names and
   -- shown in the reader's language when the table has one.
+  -- rank orders the names a food has in one language: 0 a curated name
+  -- shown to the reader, 1 the source table's own name, 2 an alias that
+  -- finds the food but is not shown.
   CREATE TABLE names (
     food_id  INTEGER NOT NULL REFERENCES foods(id),
     lang     TEXT NOT NULL,
     name     TEXT NOT NULL,
-    search   TEXT NOT NULL
+    search   TEXT NOT NULL,
+    rank     INTEGER NOT NULL DEFAULT 1
   );
   CREATE INDEX idx_names_search ON names(search);
   CREATE INDEX idx_names_food ON names(food_id, lang);
@@ -255,7 +261,7 @@ db.exec(`
 
 const insertFood = db.prepare(
   'INSERT INTO foods (kcal, protein, fat, carbs, fiber, serving_g, source) VALUES (?, ?, ?, ?, ?, ?, ?)');
-const insertName = db.prepare('INSERT INTO names (food_id, lang, name, search) VALUES (?, ?, ?, ?)');
+const insertName = db.prepare('INSERT INTO names (food_id, lang, name, search, rank) VALUES (?, ?, ?, ?, ?)');
 const hasName = db.prepare('SELECT 1 FROM names WHERE food_id = ? AND lang = ?');
 
 // English search key -> food id. The first source listed wins a name; a later
@@ -266,6 +272,7 @@ let read = 0, kept = 0, merged = 0, rejected = 0, duplicate = 0;
 
 db.exec('BEGIN');
 for (const [kind, path] of inputs) {
+  if (kind === 'names') continue;
   let fileKept = 0;
   const rows = kind === 'ciqual' ? ciqualFoods(path) : usdaFoods(path, kind);
   for await (const row of rows) {
@@ -281,7 +288,7 @@ for (const [kind, path] of inputs) {
       let lent = false;
       for (const [lang, name] of row.names) {
         if (lang === 'en' || hasName.get(id, lang)) continue;
-        insertName.run(id, lang, name, searchKey(name));
+        insertName.run(id, lang, name, searchKey(name), 1);
         lent = true;
       }
       if (lent) merged++; else duplicate++;
@@ -291,12 +298,46 @@ for (const [kind, path] of inputs) {
     const { lastInsertRowid } = insertFood.run(row.per100.calories, row.per100.protein, row.per100.fat,
       row.per100.carbs, row.per100.fiber, row.servingG, row.source);
     const id = Number(lastInsertRowid);
-    for (const [lang, name] of row.names) insertName.run(id, lang, name, searchKey(name));
+    for (const [lang, name] of row.names) insertName.run(id, lang, name, searchKey(name), 1);
     if (key) byEnglish.set(key, id);
     kept++; fileKept++;
   }
   console.log(`  ${kind} ${path.split(/[\\/]/).pop()}: kept ${fileKept}`);
 }
+// Curated names, after every food exists. Each entry names its food exactly
+// as a source table does; one that matches nothing is a mistake in the file,
+// and the build stops rather than shipping it silently unlinked.
+const findFood = db.prepare(
+  "SELECT food_id FROM names WHERE name = ? ORDER BY (lang = 'en') DESC, food_id LIMIT 1");
+const hasExact = db.prepare('SELECT 1 FROM names WHERE food_id = ? AND lang = ? AND search = ?');
+let curated = 0, curatedNames = 0;
+const unmatched = [];
+for (const [kind, path] of inputs) {
+  if (kind !== 'names') continue;
+  for (const entry of JSON.parse(fs.readFileSync(path, 'utf8'))) {
+    const hit = findFood.get(entry.food);
+    if (!hit) { unmatched.push(entry.food); continue; }
+    curated++;
+    for (const [lang, names] of Object.entries(entry)) {
+      if (lang === 'food' || !Array.isArray(names)) continue;
+      names.forEach((name, i) => {
+        const key = searchKey(name);
+        if (!key || hasExact.get(hit.food_id, lang, key)) return;
+        // English keeps the source's name on screen; the curated English
+        // names are only there to be found by ("fries", "porridge").
+        insertName.run(hit.food_id, lang, name, key, lang === 'en' || i > 0 ? 2 : 0);
+        curatedNames++;
+      });
+    }
+  }
+  console.log(`  names ${path.split(/[\\/]/).pop()}: ${curated} foods, ${curatedNames} names`);
+}
+if (unmatched.length) {
+  db.exec('ROLLBACK');
+  console.error(`\n${unmatched.length} curated entries match no food:\n  ${unmatched.join('\n  ')}`);
+  process.exit(1);
+}
+
 db.exec('COMMIT');
 db.exec('VACUUM');
 

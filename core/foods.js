@@ -279,6 +279,20 @@ export function rankResults(results, query) {
 }
 
 /**
+ * rankResults, scored on the name the query actually matched.
+ *
+ * A food is shown by its name in the reader's language but may have been
+ * found by an alias: "Brot" finds white bread, shown as "Weißbrot", and
+ * "fries" finds a dish shown under its full table name. Scoring the shown
+ * name would rank those below anything that merely starts the same way
+ * ("Broth"). The `matched` field is dropped from what is returned.
+ */
+export function rankByMatch(results, query) {
+  const keyed = results.map((r) => ({ ...r, shown: r.name, name: r.matched || r.name }));
+  return rankResults(keyed, query).map(({ shown, matched, ...r }) => ({ ...r, name: shown }));
+}
+
+/**
  * A search hit at a chosen weight, ready for estimate.addManualItem.
  *
  * The barcode travels with the item so the server can find the product shot it

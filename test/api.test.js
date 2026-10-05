@@ -1349,6 +1349,15 @@ test('a dish carries the portion people typically eat', async () => {
   assert.ok(results.some((r) => r.servingG > 0), 'FNDDS dishes come with a serving weight');
 });
 
+test('common foods are found and named in the reader’s language', async () => {
+  const { auth } = await registerDevice();
+  const search = async (q, lang) => (await (await api(`/api/foods/search?q=${encodeURIComponent(q)}`,
+    { headers: { ...auth, 'X-Plate-Locale': lang } })).json()).results;
+  assert.equal((await search('mamaliga', 'ro'))[0].name, 'Mămăligă', 'without diacritics, in Romanian');
+  assert.equal((await search('Brot', 'de'))[0].name, 'Weißbrot', 'an alias ranks its food first');
+  assert.equal((await search('гречка', 'uk'))[0].name, 'Гречка', 'a Cyrillic query');
+});
+
 test('every bundled food is physically possible', async () => {
   const { isPlausible } = await import('../core/foods.js');
   const { auth } = await registerDevice();
