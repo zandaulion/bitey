@@ -182,8 +182,22 @@ export function fromUsda(food) {
 }
 
 /** Query and food names alike, reduced to comparable words. */
-export const tokenise = (s) => String(s || '')
-  .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
+/**
+ * Text as search compares it: lower case, accents dropped, and the ligatures
+ * people type out spelled out ("crème" is "creme", "œuf" is "oeuf", "Soße" is
+ * "sosse"). Letters of every script are kept, so Ukrainian or Japanese
+ * queries still have words to match.
+ *
+ * The food table's search column is built with this, and Android's query
+ * folds the same way (GenericFoodSearch.fold); the three must agree.
+ */
+export const foldText = (s) => String(s || '')
+  .normalize('NFD').replace(/\p{M}+/gu, '')
+  .toLowerCase()
+  .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/ß/g, 'ss');
+
+export const tokenise = (s) => foldText(s)
+  .replace(/[^\p{L}\p{N}]+/gu, ' ').trim().split(' ').filter(Boolean);
 
 /**
  * Orders search hits so the useful one is first.
@@ -246,6 +260,13 @@ export function rankResults(results, query) {
     const headMatched = words.length
       && wanted.some((t) => words[0] === t || words[0] === `${t}s` || words[0].startsWith(t));
     if (!headMatched) s -= 22;
+
+    // Food tables name a food first and describe it after the comma: "Rice,
+    // white, cooked" is rice, while "Rice milk" and "Rice cake" are other
+    // foods that start with the same word. Without this, the short compound
+    // names beat the thing asked for.
+    const lead = tokenise(String(r.name || '').split(',')[0]).join(' ');
+    if (lead === wanted.join(' ') || lead === `${wanted.join(' ')}s`) s += 30;
 
     if (!(/\(/.test(r.name) || r.source === 'openfoodfacts')) s += 14;
     return s;

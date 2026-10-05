@@ -482,5 +482,7 @@
   "Asking Bitey’s tummy for a second opinion…": "正在请 Bitey 的肚子给第二意见…",
   "Tallying the fats, gently…": "正在轻轻数脂肪…",
   "Adding it all up…": "正在全部加起来…",
-  "Nearly done, licking the spoon…": "快好了，正在舔勺子…"
+  "Nearly done, licking the spoon…": "快好了，正在舔勺子…",
+  "Food data": "食物数据",
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "营养数值来自 USDA FoodData Central、Anses Ciqual 2025 数据表（Licence Ouverte / Etalab 2.0），条形码数据来自 Open Food Facts（Open Database License）。"
 }

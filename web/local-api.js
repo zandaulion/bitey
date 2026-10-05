@@ -11,7 +11,7 @@ import { summariseDay, macroSplit, MEALS } from '/core/day.js';
 import { ACTIVITY_LEVELS, ageFromBirthYear, maintenanceEnergy } from '/core/nutrition.js';
 import { adaptiveExpenditure } from '/core/expenditure.js';
 import { smoothSeries, weightTrend, trendGap } from '/core/weight.js';
-import { summariseRecent, collapseRepeatable } from '/core/foods.js';
+import { summariseRecent, collapseRepeatable, rankResults } from '/core/foods.js';
 
 const DB_NAME = 'plate-local-v1';
 const DB_VERSION = 2;
@@ -136,14 +136,17 @@ async function nativeGenericFoodSearch(query) {
   const requestId = `generic-${++nativeSearchSequence}`;
   const result = await new Promise((resolve) => {
     nativeSearchWaiters.set(requestId, resolve);
-    window.PlateNative.searchGenericFoods(query, requestId);
+    // The app's language, so a food is named the way the reader reads.
+    window.PlateNative.searchGenericFoods(query, document.documentElement.lang || 'en', requestId);
   });
   if (!result.ok) {
     throw new LocalApiError(result.message || 'The on-device food table could not be opened.', {
       code: result.code || 'search_error', status: 503
     });
   }
-  return { results: result.results || [], genericSearch: true };
+  // Native returns the likeliest few hundred; the order is decided here, by
+  // the same rules the PWA's server uses.
+  return { results: rankResults(result.results || [], query).slice(0, 20), genericSearch: true };
 }
 
 let nativeSearchSequence = 0;

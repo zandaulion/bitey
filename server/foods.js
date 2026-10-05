@@ -242,23 +242,37 @@ export function genericSearchAvailable() {
  * "olive oil" has to reach "Oil, olive, salad or cooking" and "chicken breast"
  * has to reach "Chicken, broilers or fryers, breast, meat only, raw".
  */
-function searchGeneric(query) {
+function searchGeneric(query, locale = 'en') {
   if (!generic) return [];
   const tokens = tokenise(query).slice(0, 6);
   if (!tokens.length) return [];
+  const lang = /^[a-z]{2}$/.test(locale) ? locale : 'en';
 
-  const where = tokens.map(() => '(search LIKE ? OR search LIKE ?)').join(' AND ');
-  const args = tokens.flatMap((t) => [`${t}%`, `% ${t}%`]);
+  // The same query as Android's GenericFoodSearch: any name of a food may
+  // match, names starting with the whole query and shorter names come first,
+  // and the food is named in the reader's language when the table has it.
+  const where = tokens.map(() => '(n.search LIKE ? OR n.search LIKE ?)').join(' AND ');
+  const args = [lang, ...tokens.flatMap((t) => [`${t}%`, `% ${t}%`]), `${tokens.join(' ')}%`];
 
-  return generic.prepare(
-    `SELECT name, kcal, protein, fat, carbs FROM foods WHERE ${where} LIMIT 200`
-  ).all(...args).map((r) => ({
-    id: `usda:${r.name}`,
-    source: 'usda',
+  return generic.prepare(`
+    SELECT f.id, f.kcal, f.protein, f.fat, f.carbs, f.fiber, f.serving_g, f.source,
+           (SELECT name FROM names WHERE food_id = f.id AND lang = ?) AS local,
+           (SELECT name FROM names WHERE food_id = f.id AND lang = 'en') AS english,
+           n.name AS matched
+    FROM names n JOIN foods f ON f.id = n.food_id
+    WHERE ${where}
+    GROUP BY f.id
+    ORDER BY MAX(n.search LIKE ?) DESC, MIN(length(n.name))
+    LIMIT 300`).all(...args).map((r) => ({
+    id: `${r.source}:${r.id}`,
+    source: r.source,
     barcode: null,
-    name: r.name,
-    per100: { calories: r.kcal, protein: r.protein, fat: r.fat, carbs: r.carbs },
-    servingG: null
+    name: r.local || r.english || r.matched,
+    per100: {
+      calories: r.kcal, protein: r.protein, fat: r.fat, carbs: r.carbs,
+      ...(r.fiber === null ? {} : { fiber: r.fiber })
+    },
+    servingG: r.serving_g ?? null
   }));
 }
 
@@ -274,7 +288,7 @@ export async function searchFoods(rawQuery, locale = 'en') {
   }
 
   // The local table cannot fail or be slow, so it is not raced with anything.
-  const local = searchGeneric(query);
+  const local = searchGeneric(query, locale);
   const off = await Promise.allSettled([searchOpenFoodFacts(query, locale)]).then((r) => r[0]);
 
   const results = [

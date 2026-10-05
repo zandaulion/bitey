@@ -488,5 +488,7 @@
   "Asking Bitey’s tummy for a second opinion…": "Питаю животик Bitey про другу думку…",
   "Tallying the fats, gently…": "Рахую жири, обережно…",
   "Adding it all up…": "Підсумовую все…",
-  "Nearly done, licking the spoon…": "Майже готово, облизую ложку…"
+  "Nearly done, licking the spoon…": "Майже готово, облизую ложку…",
+  "Food data": "Дані про продукти",
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Харчові значення взято з USDA FoodData Central, таблиці Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0), а для штрихкодів — з Open Food Facts (Open Database License)."
 }

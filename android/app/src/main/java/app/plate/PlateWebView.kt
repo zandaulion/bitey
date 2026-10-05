@@ -105,7 +105,7 @@ private class PlateNativeBridge(
     private val onOpenFoodFactsLookupRequested: (String) -> Unit,
     private val onCachedFoodReadRequested: (String) -> Unit,
     private val onCachedFoodWriteRequested: (String, String) -> Unit,
-    private val onGenericFoodSearchRequested: (String, String) -> Unit,
+    private val onGenericFoodSearchRequested: (String, String, String) -> Unit,
     private val onLocalDiaryRequested: (String, String, String) -> Unit,
     private val onLocalPhotoRequested: (String, String, String, String, String) -> Unit,
     private val onBackupExportRequested: () -> Unit,
@@ -148,8 +148,8 @@ private class PlateNativeBridge(
     }
 
     @JavascriptInterface
-    fun searchGenericFoods(query: String, requestId: String) {
-        onGenericFoodSearchRequested(query, requestId)
+    fun searchGenericFoods(query: String, lang: String, requestId: String) {
+        onGenericFoodSearchRequested(query, lang, requestId)
     }
 
     @JavascriptInterface
@@ -584,9 +584,9 @@ class PlateWebView(
         )
     }
 
-    private fun searchGenericFoods(query: String, requestId: String) {
+    private fun searchGenericFoods(query: String, lang: String, requestId: String) {
         networkExecutor.execute {
-            val result = runCatching { genericFoodSearch.value.search(query) }.getOrElse {
+            val result = runCatching { genericFoodSearch.value.search(query, lang) }.getOrElse {
                 JSONObject()
                     .put("ok", false)
                     .put("code", "search_error")

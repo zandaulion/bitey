@@ -484,5 +484,7 @@
   "Asking Bitey’s tummy for a second opinion…": "Pidiendo una segunda opinión a la barriga de Bitey…",
   "Tallying the fats, gently…": "Contando las grasas, con cuidado…",
   "Adding it all up…": "Sumándolo todo…",
-  "Nearly done, licking the spoon…": "Casi listo, lamiendo la cuchara…"
+  "Nearly done, licking the spoon…": "Casi listo, lamiendo la cuchara…",
+  "Food data": "Datos de alimentos",
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Los valores nutricionales proceden de USDA FoodData Central, de la tabla Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0) y, para los códigos de barras, de Open Food Facts (Open Database License)."
 }

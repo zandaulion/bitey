@@ -445,7 +445,11 @@ app.get('/api/foods/image/:barcode', requireDevice, (req, res) => {
 
 app.get('/api/foods/search', requireDevice, asyncRoute(async (req, res) => {
   res.json({
-    results: await searchFoods(req.query.q, localeOf(req)),
+    // Any app language for naming foods: the table holds names in the
+    // languages it has and falls back to English. localeOf() is narrower
+    // because it also decides the model's answer language.
+    results: await searchFoods(req.query.q,
+      /^[a-z]{2}/.exec(String(req.get('x-plate-locale') || '').toLowerCase())?.[0] || 'en'),
     genericSearch: usdaConfigured()
   });
 }));

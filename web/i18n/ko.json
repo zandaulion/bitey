@@ -482,5 +482,7 @@
   "Asking Bitey’s tummy for a second opinion…": "Bitey의 배에게 두 번째 의견을 묻는 중…",
   "Tallying the fats, gently…": "지방을 살살 세는 중…",
   "Adding it all up…": "모두 더하는 중…",
-  "Nearly done, licking the spoon…": "거의 다 됐어요, 숟가락을 핥는 중…"
+  "Nearly done, licking the spoon…": "거의 다 됐어요, 숟가락을 핥는 중…",
+  "Food data": "식품 데이터",
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "영양 정보는 USDA FoodData Central, Anses Ciqual 2025 표(Licence Ouverte / Etalab 2.0), 그리고 바코드의 경우 Open Food Facts(Open Database License)에서 가져옵니다."
 }

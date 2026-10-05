@@ -1334,6 +1334,21 @@ test('word order does not matter, because USDA writes names backwards', async ()
   assert.ok(results.some((r) => /oil, olive/i.test(r.name)), 'found the oil');
 });
 
+test('French foods are found with or without accents, and named in French', async () => {
+  const { auth } = await registerDevice();
+  const res = await api('/api/foods/search?q=creme%20brulee', { headers: { ...auth, 'X-Plate-Locale': 'fr' } });
+  const { results } = await res.json();
+  const ciqual = results.find((r) => r.source === 'ciqual');
+  assert.ok(ciqual, 'CIQUAL is in the table');
+  assert.match(ciqual.name, /Crème brûlée/);
+});
+
+test('a dish carries the portion people typically eat', async () => {
+  const { auth } = await registerDevice();
+  const { results } = await (await api('/api/foods/search?q=croissant', { headers: auth })).json();
+  assert.ok(results.some((r) => r.servingG > 0), 'FNDDS dishes come with a serving weight');
+});
+
 test('every bundled food is physically possible', async () => {
   const { isPlausible } = await import('../core/foods.js');
   const { auth } = await registerDevice();

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   fromOpenFoodFacts, fromUsda, parseServing, rankResults, toItem, isPlausible, summariseRecent,
-  QUICK_BITES, createQuickBiteItem, getGrazingSuggestions, collapseRepeatable
+  QUICK_BITES, createQuickBiteItem, getGrazingSuggestions, collapseRepeatable, foldText, tokenise
 } from './foods.js';
 
 const OFF_PRODUCT = {
@@ -279,4 +279,22 @@ test('repeatable meals respect the limit', () => {
   const rows = Array.from({ length: 40 }, (_, i) =>
     entry(`e${i}`, `2026-08-${String((i % 28) + 1).padStart(2, '0')}`, [`meal ${i}`], 100));
   assert.equal(collapseRepeatable(rows, { limit: 5 }).length, 5);
+});
+
+test('search folds accents and ligatures, and keeps every script', () => {
+  assert.equal(foldText('Crème brûlée'), 'creme brulee');
+  assert.equal(foldText('Œuf à la coque'), 'oeuf a la coque');
+  assert.equal(foldText('Soße'), 'sosse');
+  assert.deepEqual(tokenise('Mămăligă cu brânză'), ['mamaliga', 'cu', 'branza']);
+  assert.deepEqual(tokenise('Вареники з картоплею'), ['вареники', 'з', 'картоплею'],
+    'a Ukrainian query still has words to match');
+});
+
+test('the food named before the comma beats a compound that starts the same way', () => {
+  const results = [
+    { name: 'Rice milk', source: 'usda', per100: {} },
+    { name: 'Rice cake', source: 'usda', per100: {} },
+    { name: 'Rice, white, cooked', source: 'usda', per100: {} }
+  ];
+  assert.equal(rankResults(results, 'rice')[0].name, 'Rice, white, cooked');
 });
