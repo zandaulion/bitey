@@ -402,8 +402,6 @@
   "Bitey AI will ask again before sending a photo.": "Bitey AI fragt vor dem Senden eines Fotos erneut.",
   "Could not read that photo.": "Das Foto konnte nicht gelesen werden.",
   "How Bitey AI reads your photo": "So liest Bitey AI dein Foto",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Sonst verlässt nichts dein Handy: weder dein Tagebuch noch dein Gewicht, dein Profil oder andere Fotos. Der Bitey-Server speichert das Foto nicht.",
-  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Fotos, die du an Bitey AI sendest, werden von Googles Gemini gelesen. Sonst verlässt nichts dein Handy.",
   "This build cannot open the camera.": "Diese Version kann die Kamera nicht öffnen.",
   "Withdraw consent to send photos": "Einwilligung zum Senden von Fotos widerrufen",
   "You can withdraw this at any time in Settings.": "Du kannst dies jederzeit in den Einstellungen widerrufen.",
@@ -490,5 +488,9 @@
   "Hide these fields": "Diese Felder ausblenden",
   "Type in the numbers instead": "Stattdessen die Werte eintippen",
   "Amount": "Menge",
-  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Deine Sicherung enthält Tagebucheinträge, Gewichtsmessungen, gespeicherte Barcode-Lebensmittel und Fotos. Bewahre sie an einem privaten Ort auf."
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Deine Sicherung enthält Tagebucheinträge, Gewichtsmessungen, gespeicherte Barcode-Lebensmittel und Fotos. Bewahre sie an einem privaten Ort auf.",
+  "Use my diet when reading photos": "Meine Ernährungsweise beim Lesen von Fotos nutzen",
+  "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "Wenn ein Gericht so oder so zubereitet sein könnte, liest Bitey AI es passend zu deinem Profil als vegetarisch, vegan oder pescetarisch. Was eindeutig Fleisch oder Fisch ist, wird trotzdem so erfasst. Solange dies an ist, wird deine Ernährungsweise mit jedem Foto gesendet.",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Fotos, die du an Bitey AI sendest, werden von Googles Gemini gelesen. Sonst verlässt nichts dein Handy – außer deiner Ernährungsweise, wenn du sie oben einschaltest.",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Sonst verlässt nichts dein Handy: nicht dein Tagebuch, dein Gewicht, dein Profil oder andere Fotos. Die einzige Ausnahme ist deine Ernährungsweise, und nur wenn du in den Einstellungen „Meine Ernährungsweise beim Lesen von Fotos nutzen“ einschaltest. Bitey’s Server speichert das Foto nicht."
 }

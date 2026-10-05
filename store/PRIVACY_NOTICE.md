@@ -1,6 +1,6 @@
 # Bitey — Private Food Log: Privacy Policy
 
-**Last updated:** 3 October 2026
+**Last updated:** 5 October 2026
 **Developer:** Zandaulion
 **Privacy contact:** **zandaulion@gmail.com**
 
@@ -16,13 +16,14 @@ your device, and only when you use them:
 
 - **Barcode lookups** send a barcode you scanned directly to Open Food Facts.
 - **Bitey AI**, an optional paid feature, sends a food photograph you choose —
-  and any correction you type — to Bitey’s analysis server, where Google’s
-  Gemini reads it. Bitey asks for your consent before the first photograph is
-  sent.
+  and any correction you type, and your diet if you turn that on — to Bitey’s
+  analysis server, where Google’s Gemini reads it. Bitey asks for your consent
+  before the first photograph is sent.
 
 Using Bitey AI also involves two Google services, Google Play's billing and
 Google's app-verification check, which are described below. Nothing else
-leaves your device: not your diary, weight, profile, or other photos.
+leaves your device: not your diary, weight, other photos, or your profile —
+apart from your diet, and only if you choose to send it as described below.
 
 ## Information Bitey stores on your device
 
@@ -68,16 +69,23 @@ by the developer in Belgium (Google Cloud region europe-west1):
 - The photograph you took or chose.
 - Any correction you typed about it, such as “it is vegetarian”.
 - Your app language, so the answer comes back in it.
+- Your diet — vegetarian, vegan or pescatarian — but only if you turn on “Use
+  my diet when reading photos” in Bitey’s Settings. It is off unless you turn
+  it on, and you can turn it off at any time. It helps the model read a dish
+  that could be made either way, such as a wrap whose filling could be meat or
+  falafel. Other diet settings, and the rest of your profile, are never sent.
 - A Google Play purchase token: an opaque code that identifies your
   subscription purchase. It is not your Google account and does not name you.
 - Standard connection information that any internet service receives, such as
   your IP address and request time.
 
-Your diary, weight, profile, other photographs and backups are not sent.
+Your diary, weight, other photographs, backups and the rest of your profile
+are not sent. A diet can suggest religious or philosophical beliefs, which is
+why it is sent only when you choose to send it.
 
 **What happens to it.** The server asks Google Play whether the purchase token
-belongs to an active Bitey AI subscription, then passes the photograph and your
-correction to Google’s Gemini, which returns an estimate of the foods and
+belongs to an active Bitey AI subscription, then passes the photograph, your
+correction and, if you turned it on, your diet to Google’s Gemini, which returns an estimate of the foods and
 nutrition. Google processes the photograph on the developer’s behalf under the
 Gemini API’s terms for paid services, which do not permit Google to use it to
 improve Google’s products. Google may keep it for a limited period to detect
@@ -87,7 +95,7 @@ Google data centres outside the European Union. The estimate comes back to your 
 you review and save it like any other diary entry.
 
 **What is kept.** Bitey’s server does not store the photograph, your
-correction, or the estimate. To enforce the daily limit of readings, it keeps a
+correction, your diet, or the estimate. To enforce the daily limit of readings, it keeps a
 counter for each subscription and day: a one-way hash of the purchase token,
 the date, and the number of readings used. The token itself is not stored. The
 counters are held in Belgium too, and each is deleted automatically seven days

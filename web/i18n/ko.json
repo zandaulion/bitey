@@ -400,8 +400,6 @@
   "Bitey AI will ask again before sending a photo.": "사진을 보내기 전에 Bitey AI가 다시 묻습니다.",
   "Could not read that photo.": "해당 사진을 읽을 수 없습니다.",
   "How Bitey AI reads your photo": "Bitey AI가 사진을 읽는 방법",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "그 밖의 것은 휴대폰 밖으로 나가지 않습니다. 기록, 체중, 프로필, 다른 사진도 마찬가지입니다. Bitey 서버는 사진을 보관하지 않습니다.",
-  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Bitey AI로 보낸 사진은 Google의 Gemini가 읽습니다. 그 밖의 것은 휴대폰 밖으로 나가지 않습니다.",
   "This build cannot open the camera.": "이 버전에서는 카메라를 열 수 없습니다.",
   "Withdraw consent to send photos": "사진 전송 동의 철회",
   "You can withdraw this at any time in Settings.": "설정에서 언제든지 철회할 수 있습니다.",
@@ -488,5 +486,9 @@
   "Hide these fields": "이 입력란 숨기기",
   "Type in the numbers instead": "대신 숫자 직접 입력",
   "Amount": "양",
-  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "백업에는 식단 기록, 체중 기록, 바코드로 저장한 음식, 사진이 포함됩니다. 안전한 곳에 보관하세요."
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "백업에는 식단 기록, 체중 기록, 바코드로 저장한 음식, 사진이 포함됩니다. 안전한 곳에 보관하세요.",
+  "Use my diet when reading photos": "사진을 읽을 때 내 식단 사용",
+  "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "어느 쪽으로도 만들 수 있는 요리는 프로필에 맞춰 채식, 비건 또는 페스코 채식으로 읽습니다. 분명히 고기나 생선인 음식은 그대로 기록됩니다. 이 설정이 켜져 있는 동안 사진마다 식단이 함께 전송됩니다.",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI로 보낸 사진은 Google의 Gemini가 읽습니다. 위에서 켠 경우의 식단을 제외하면 그 밖의 어떤 것도 휴대폰 밖으로 나가지 않습니다.",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "그 밖의 어떤 것도 휴대폰 밖으로 나가지 않습니다. 일지, 체중, 프로필, 다른 사진도 마찬가지입니다. 유일한 예외는 식단이며, 설정에서 ‘사진을 읽을 때 내 식단 사용’을 켠 경우에만 전송됩니다. Bitey 서버는 사진을 보관하지 않습니다."
 }

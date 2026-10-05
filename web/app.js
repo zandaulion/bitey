@@ -20,7 +20,7 @@ import {
   t, plural, load as loadLocale, setLocale, locale, applyToDom,
   LOCALES, LOCALE_NAMES
 } from '/i18n.js';
-import { localApi, LocalApiError } from '/local-api.js';
+import { localApi, LocalApiError, AI_USE_DIET_STORAGE_KEY } from '/local-api.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -4272,6 +4272,16 @@ if (window.__PLATE_NATIVE__) {
   };
   restoreButtons.forEach((button) => button.addEventListener('click', restoreAiPurchase));
   $('ai-manage').addEventListener('click', () => window.PlateNative?.manageAiSubscription?.());
+
+  // Off by default: the diet is profile data, and turning this on is the
+  // consent to send it. Read by local-api.js when a photo is sent.
+  const useDietToggle = $('ai-use-diet');
+  try { useDietToggle.checked = localStorage.getItem(AI_USE_DIET_STORAGE_KEY) === 'true'; } catch { /* off */ }
+  useDietToggle.setAttribute('aria-checked', String(useDietToggle.checked));
+  useDietToggle.addEventListener('change', () => {
+    try { localStorage.setItem(AI_USE_DIET_STORAGE_KEY, String(useDietToggle.checked)); } catch { /* stays off */ }
+    useDietToggle.setAttribute('aria-checked', String(useDietToggle.checked));
+  });
 
   const alwaysAllowToggle = $('off-always-allow');
   syncAlwaysAllowOpenFoodFactsToggle();

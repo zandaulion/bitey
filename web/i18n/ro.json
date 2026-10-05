@@ -404,8 +404,6 @@
   "Bitey AI will ask again before sending a photo.": "Bitey AI te va întreba din nou înainte de a trimite o fotografie.",
   "Could not read that photo.": "Fotografia nu a putut fi citită.",
   "How Bitey AI reads your photo": "Cum citește Bitey AI fotografia ta",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "Nimic altceva nu părăsește telefonul: nici jurnalul, nici greutatea, nici profilul, nici alte fotografii. Serverul Bitey nu păstrează fotografia.",
-  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Fotografiile trimise către Bitey AI sunt citite de Gemini de la Google. Nimic altceva nu părăsește telefonul.",
   "This build cannot open the camera.": "Această versiune nu poate deschide camera.",
   "Withdraw consent to send photos": "Retrage acordul pentru trimiterea fotografiilor",
   "You can withdraw this at any time in Settings.": "Poți retrage acest acord oricând din Setări.",
@@ -492,5 +490,9 @@
   "Hide these fields": "Ascunde aceste câmpuri",
   "Type in the numbers instead": "Introdu valorile manual",
   "Amount": "Cantitate",
-  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Copia de rezervă include intrările din jurnal, cântăririle, alimentele salvate după codul de bare și fotografiile. Păstreaz-o într-un loc privat."
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Copia de rezervă include intrările din jurnal, cântăririle, alimentele salvate după codul de bare și fotografiile. Păstreaz-o într-un loc privat.",
+  "Use my diet when reading photos": "Folosește dieta mea la citirea fotografiilor",
+  "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "Când un preparat poate fi făcut în ambele feluri, Bitey AI îl citește ca vegetarian, vegan sau pescetarian, după profilul tău. Mâncarea care e clar carne sau pește este înregistrată așa cum este. Cât timp opțiunea e pornită, dieta ta este trimisă cu fiecare fotografie.",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Fotografiile trimise către Bitey AI sunt citite de Gemini de la Google. Nimic altceva nu părăsește telefonul, în afară de dieta ta, dacă pornești opțiunea de mai sus.",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Nimic altceva nu părăsește telefonul: nici jurnalul, nici greutatea, nici profilul, nici alte fotografii. Singura excepție este dieta ta, și doar dacă pornești „Folosește dieta mea la citirea fotografiilor” în Setări. Serverul Bitey nu păstrează fotografia."
 }

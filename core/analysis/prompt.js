@@ -109,12 +109,60 @@ export function noteLanguageClause(locale) {
   return name ? `\n\nWrite the note in ${name}. The numbers are unaffected.` : '';
 }
 
-export function buildPrompt(correction, locale = 'en') {
+/**
+ * What each diet means for reading an ambiguous plate. Only the diets that
+ * change what a dish is made of: keto or "high protein" do not turn a shawarma
+ * into a falafel wrap, and an omnivore needs no hint at all.
+ */
+const DIETS = {
+  vegetarian: {
+    name: 'vegetarian (no meat or fish; eggs and dairy are eaten)',
+    swap: 'the vegetarian version -- falafel, soy, seitan, tofu, halloumi, beans or vegetables'
+  },
+  vegan: {
+    name: 'vegan (no meat, fish, eggs, dairy or honey)',
+    swap: 'the vegan version -- plant-based meat, tofu, tempeh, seitan, beans, plant milk or vegan cheese'
+  },
+  pescatarian: {
+    name: 'pescatarian (fish and seafood, but no meat)',
+    swap: 'the fish, seafood or vegetarian version, whichever the dish suggests'
+  }
+};
+
+export const PROMPT_DIETS = Object.keys(DIETS);
+
+/**
+ * The person's diet, as a tie-breaker and nothing stronger.
+ *
+ * Weaker than a correction on purpose. A correction is the person describing
+ * this plate; a diet is a habit, and habits have exceptions -- a guest dish, a
+ * lapse, a meal cooked for someone else. So it settles what the photograph
+ * leaves open and never overrides what it shows. A model told to "respect the
+ * diet" will happily rename a chicken leg, and a diary that quietly does that
+ * is worse than one that is sometimes corrected.
+ */
+export function dietClause(diet) {
+  const d = DIETS[diet];
+  if (!d) return '';
+  return `
+
+The person eating this follows a ${d.name} diet. Use this only to settle what
+the photograph leaves open. Where a dish could be made either way -- a wrap,
+burger, dumpling, nugget, sausage, mince sauce, curry or stew whose filling
+could be meat or a substitute -- assume ${d.swap}, and work the nutrition out
+for that. Where something is plainly what it is -- a chicken leg with the bone,
+a steak, a whole fish, prawns, a fried egg, a slice of cheese -- log what you
+see, even if it does not fit the diet. Never rename food to make it fit. If the
+diet decided how you read an item, say so in the note.`;
+}
+
+export function buildPrompt(correction, locale = 'en', diet = null) {
   const note = String(correction || '').trim().slice(0, 200);
   const language = languageClause(locale);
-  if (!note) return PROMPT + language;
+  const habits = dietClause(diet);
+  if (!note) return PROMPT + language + habits;
 
-  return `${PROMPT}${language}
+  return `${PROMPT}${language}${habits}
 
 IMPORTANT — the person eating this has corrected your reading. They said:
 

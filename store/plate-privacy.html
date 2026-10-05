@@ -19,7 +19,7 @@
                 <h1>Bitey — Private Food Log: Privacy Policy</h1>
 
                 <p>
-                    <strong>Last updated:</strong> 3 October 2026<br>
+                    <strong>Last updated:</strong> 5 October 2026<br>
                     <strong>Developer:</strong> Zandaulion<br>
                     <strong>Privacy contact:</strong> <a href="mailto:zandaulion@gmail.com"><strong>zandaulion@gmail.com</strong></a>
                 </p>
@@ -32,10 +32,10 @@
 
                 <ul>
                     <li><strong>Barcode lookups</strong> send a barcode you scanned directly to Open Food Facts.</li>
-                    <li><strong>Bitey AI</strong>, an optional paid feature, sends a food photograph you choose — and any correction you type — to Bitey’s analysis server, where Google’s Gemini reads it. Bitey asks for your consent before the first photograph is sent.</li>
+                    <li><strong>Bitey AI</strong>, an optional paid feature, sends a food photograph you choose — and any correction you type, and your diet if you turn that on — to Bitey’s analysis server, where Google’s Gemini reads it. Bitey asks for your consent before the first photograph is sent.</li>
                 </ul>
 
-                <p>Using Bitey AI also involves two Google services, Google Play's billing and Google's app-verification check, which are described below. Nothing else leaves your device: not your diary, weight, profile, or other photos.</p>
+                <p>Using Bitey AI also involves two Google services, Google Play's billing and Google's app-verification check, which are described below. Nothing else leaves your device: not your diary, weight, other photos, or your profile — apart from your diet, and only if you choose to send it as described below.</p>
 
                 <h2>Information Bitey stores on your device</h2>
 
@@ -65,16 +65,17 @@
                 <ul>
                     <li>The photograph you took or chose.</li>
                     <li>Any correction you typed about it, such as “it is vegetarian”.</li>
+                    <li>Your diet — vegetarian, vegan or pescatarian — but only if you turn on “Use my diet when reading photos” in Bitey’s Settings. It is off unless you turn it on, and you can turn it off at any time. It helps the model read a dish that could be made either way, such as a wrap whose filling could be meat or falafel. Other diet settings, and the rest of your profile, are never sent.</li>
                     <li>Your app language, so the answer comes back in it.</li>
                     <li>A Google Play purchase token: an opaque code that identifies your subscription purchase. It is not your Google account and does not name you.</li>
                     <li>Standard connection information that any internet service receives, such as your IP address and request time.</li>
                 </ul>
 
-                <p>Your diary, weight, profile, other photographs and backups are not sent.</p>
+                <p>Your diary, weight, other photographs, backups and the rest of your profile are not sent. A diet can suggest religious or philosophical beliefs, which is why it is sent only when you choose to send it.</p>
 
-                <p><strong>What happens to it.</strong> The server asks Google Play whether the purchase token belongs to an active Bitey AI subscription, then passes the photograph and your correction to Google’s Gemini, which returns an estimate of the foods and nutrition. Google processes the photograph on the developer’s behalf under the Gemini API’s terms for paid services, which do not permit Google to use it to improve Google’s products. Google may keep it for a limited period to detect abuse, as those terms describe. Gemini is a separate Google service from the server: while the server runs in Belgium, Gemini may process the photograph in Google data centres outside the European Union. The estimate comes back to your device, where you review and save it like any other diary entry.</p>
+                <p><strong>What happens to it.</strong> The server asks Google Play whether the purchase token belongs to an active Bitey AI subscription, then passes the photograph, your correction and, if you turned it on, your diet to Google’s Gemini, which returns an estimate of the foods and nutrition. Google processes the photograph on the developer’s behalf under the Gemini API’s terms for paid services, which do not permit Google to use it to improve Google’s products. Google may keep it for a limited period to detect abuse, as those terms describe. Gemini is a separate Google service from the server: while the server runs in Belgium, Gemini may process the photograph in Google data centres outside the European Union. The estimate comes back to your device, where you review and save it like any other diary entry.</p>
 
-                <p><strong>What is kept.</strong> Bitey’s server does not store the photograph, your correction, or the estimate. To enforce the daily limit of readings, it keeps a counter for each subscription and day: a one-way hash of the purchase token, the date, and the number of readings used. The token itself is not stored. The counters are held in Belgium too, and each is deleted automatically seven days after its day ends. The server’s own logs record technical details — the hash, token counts, and whether a request succeeded — but not the photograph, your correction, or the estimate. Separately, Google Cloud keeps standard request logs for the server, which record each request’s IP address, time, and outcome, for 30 days. Bitey does not use them to work out where you are.</p>
+                <p><strong>What is kept.</strong> Bitey’s server does not store the photograph, your correction, your diet, or the estimate. To enforce the daily limit of readings, it keeps a counter for each subscription and day: a one-way hash of the purchase token, the date, and the number of readings used. The token itself is not stored. The counters are held in Belgium too, and each is deleted automatically seven days after its day ends. The server’s own logs record technical details — the hash, token counts, and whether a request succeeded — but not the photograph, your correction, or the estimate. Separately, Google Cloud keeps standard request logs for the server, which record each request’s IP address, time, and outcome, for 30 days. Bitey does not use them to work out where you are.</p>
 
                 <h2>Google services used with Bitey AI</h2>
 

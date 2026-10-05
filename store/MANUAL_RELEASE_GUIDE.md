@@ -295,6 +295,27 @@ Billing connects only once someone uses Bitey AI. Two more rows:
   not shared (Google Play is the payment provider), optional (only after a
   Bitey AI feature is used).
 
+#### From the release after 1.0.10: diet with Bitey AI photos
+
+"Use my diet when reading photos" (Settings → Bitey AI, off by default) sends
+the profile's diet -- vegetarian, vegan or pescatarian, nothing else -- with
+each photo, so an ambiguous dish is read the way the person eats. One more row:
+
+| Data type | Collected | Shared | Ephemeral | Required | Purposes |
+| --- | --- | --- | --- | --- | --- |
+| Personal info → **Other info** | Yes | No | No | Optional | App functionality |
+
+- *Judgment call, type:* a diet is not health information in Play's sense
+  (medical history, symptoms) and not, by itself, a religious belief, though it
+  can hint at one -- the reason it is opt-in. *Other info* is Play's bucket for
+  personal details that fit no other type. If review reads it as **Health
+  info**, move the row there with the same answers; no code change.
+- *Ephemeral:* the function keeps nothing, but the diet sits in the prompt
+  Gemini receives, which Google may keep for a limited period to detect abuse,
+  as with the photograph. So **No**, like Photos.
+- Upload the updated `store/plate-privacy.html` (5 October 2026) before the
+  release goes out: it is the page that now describes the switch.
+
 ### Other app-content tasks
 
 - Complete the content-rating questionnaire accurately; do not claim medical

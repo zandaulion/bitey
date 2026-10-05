@@ -39,6 +39,7 @@ class BiteyAnalysis(
         const val MAX_LEFTOVER_ITEMS = 40
 
         private val LOCALE = Regex("[a-z]{2}(-[A-Za-z]{2})?")
+        private val DIETS = setOf("vegetarian", "vegan", "pescatarian")
     }
 
     /**
@@ -70,6 +71,10 @@ class BiteyAnalysis(
                     ?.let { put("correction", it.take(200)) }
                 request.optString("locale").takeIf { LOCALE.matches(it) }
                     ?.let { put("locale", it) }
+                // Present only when the person turned on "Use my diet when
+                // reading photos"; the server re-checks it against its list.
+                request.optString("diet").takeIf { it in DIETS }
+                    ?.let { put("diet", it) }
             }
         // Leftovers: the photo just taken is `image`, and the meal's original
         // photo and its served foods travel with it. Only those; names and

@@ -400,8 +400,6 @@
   "Bitey AI will ask again before sending a photo.": "写真を送る前に、Bitey AI がもう一度確認します。",
   "Could not read that photo.": "その写真を読み取れませんでした。",
   "How Bitey AI reads your photo": "Bitey AI が写真を読み取るしくみ",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "それ以外のものはスマートフォンから送信されません。記録、体重、プロフィール、ほかの写真も送信されません。Bitey のサーバーは写真を保存しません。",
-  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Bitey AI に送った写真は Google の Gemini が読み取ります。それ以外のものはスマートフォンから送信されません。",
   "This build cannot open the camera.": "このバージョンではカメラを開けません。",
   "Withdraw consent to send photos": "写真送信への同意を取り消す",
   "You can withdraw this at any time in Settings.": "この同意は設定からいつでも取り消せます。",
@@ -488,5 +486,9 @@
   "Hide these fields": "これらの欄を隠す",
   "Type in the numbers instead": "代わりに数値を入力",
   "Amount": "量",
-  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "バックアップには、日記の記録、体重の記録、バーコードで保存した食品、写真が含まれます。人に見られない場所に保管してください。"
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "バックアップには、日記の記録、体重の記録、バーコードで保存した食品、写真が含まれます。人に見られない場所に保管してください。",
+  "Use my diet when reading photos": "写真を読み取るときに食事スタイルを使う",
+  "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "どちらの作り方もあり得る料理は、プロフィールに合わせてベジタリアン、ヴィーガン、ペスカタリアンとして読み取ります。明らかに肉や魚のものは、そのまま記録します。オンの間は、写真ごとに食事スタイルが送信されます。",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI に送った写真は Google の Gemini が読み取ります。上でオンにした場合の食事スタイルを除き、それ以外のものがスマホから送られることはありません。",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "それ以外のものはスマホから送られません。日記、体重、プロフィール、ほかの写真も送られません。唯一の例外は食事スタイルで、設定で「写真を読み取るときに食事スタイルを使う」をオンにした場合だけです。Bitey のサーバーは写真を保存しません。"
 }

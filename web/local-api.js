@@ -238,10 +238,30 @@ window.__plateNativeAnalysisResult = (requestId, payload) => {
  * token and sends it. What comes back has the same shape the PWA's own server
  * returns, so the review sheet cannot tell the two apart.
  */
+/** Set by the "Use my diet when reading photos" switch in Settings. */
+export const AI_USE_DIET_STORAGE_KEY = 'plate.ai.useDiet';
+
+/**
+ * The diet to send with a photo, or null. Off unless the person turned the
+ * switch on, because it is profile data and the consent they gave was for the
+ * photo alone. Only a diet that changes what a dish is made of goes; the
+ * server keeps the same list and drops anything else.
+ */
+async function dietForAnalysis() {
+  let enabled = false;
+  try { enabled = localStorage.getItem(AI_USE_DIET_STORAGE_KEY) === 'true'; } catch { /* off */ }
+  if (!enabled) return null;
+  const diet = (await profile())?.diet;
+  return ['vegetarian', 'vegan', 'pescatarian'].includes(diet) ? diet : null;
+}
+
 async function nativeAnalyse(body, extra = null) {
   if (typeof window.PlateNative?.analysePhoto !== 'function') {
     throw new LocalApiError('Photo analysis is not available in this build.', { code: 'not_configured', status: 503 });
   }
+  // A leftovers reading compares two photos of a meal already read; the diet
+  // has nothing to add there.
+  const diet = extra ? null : await dietForAnalysis();
   const request = {
     image: typeof body?.image === 'string' ? body.image : '',
     mimeType: body?.mimeType === 'image/png' ? 'image/png' : 'image/jpeg',
@@ -249,6 +269,7 @@ async function nativeAnalyse(body, extra = null) {
     // The same signal the PWA sends as X-Plate-Locale: it decides the language
     // the model names food in and writes its note in.
     locale: document.documentElement.lang || 'en',
+    ...(diet ? { diet } : {}),
     // A leftovers reading's second photo and served foods; native code
     // forwards these by name and nothing else.
     ...(extra || {})

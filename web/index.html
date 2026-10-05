@@ -589,7 +589,15 @@
             <button id="ai-restore" class="secondary" type="button" data-i18n="Restore Bitey AI purchase">Restore Bitey AI purchase</button>
             <button id="ai-manage" class="secondary" type="button" data-i18n="Manage Bitey AI subscription">Manage Bitey AI subscription</button>
           </div>
-          <p class="hint" data-i18n="Photos you send to Bitey AI are read by Google&#x27;s Gemini. Nothing else leaves your phone.">Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.</p>
+          <label class="privacy-toggle" for="ai-use-diet">
+            <span>
+              <strong data-i18n="Use my diet when reading photos">Use my diet when reading photos</strong>
+              <small data-i18n="When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.">When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.</small>
+            </span>
+            <input id="ai-use-diet" type="checkbox" role="switch"
+                   aria-label="Use my diet when reading photos" data-i18n-label="Use my diet when reading photos">
+          </label>
+          <p class="hint" data-i18n="Photos you send to Bitey AI are read by Google&#x27;s Gemini. Nothing else leaves your phone, except your diet if you turn that on above.">Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.</p>
           <!-- Opens in the browser via native code, which holds the address. -->
           <button id="privacy-notice" class="link-btn" type="button" data-i18n="Privacy policy">Privacy policy</button>
           <!-- Only shown once consent has been given, so there is something to withdraw. -->
@@ -698,7 +706,7 @@
   <div class="consent-card">
     <h2 id="ai-consent-heading" data-i18n="How Bitey AI reads your photo">How Bitey AI reads your photo</h2>
     <p data-i18n="The photo you take or choose, and anything you type to correct it, is sent to Bitey&#x27;s server in Google Cloud (Belgium) and read by Google&#x27;s Gemini. A code from Google Play that confirms your subscription is sent with it.">The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.</p>
-    <p data-i18n="Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey&#x27;s server does not keep the photo.">Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.</p>
+    <p data-i18n="Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey&#x27;s server does not keep the photo.">Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.</p>
     <p class="hint" data-i18n="You can withdraw this at any time in Settings.">You can withdraw this at any time in Settings.</p>
     <div class="consent-actions">
       <button id="ai-consent-cancel" class="secondary" type="button" data-i18n="Not now">Not now</button>

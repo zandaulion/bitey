@@ -50,6 +50,9 @@ export const ANALYSE_ERRORS = {
  * opaque string: only Google can say whether it is real, and guessing at its
  * format here would reject tokens whenever Play changes it.
  */
+/** Diets the photo prompt knows how to use; kept in step with PROMPT_DIETS. */
+export const DIETS = ['vegetarian', 'vegan', 'pescatarian'];
+
 export function validateAnalyseRequest(body) {
   const purchaseToken = typeof body?.purchaseToken === 'string' ? body.purchaseToken.trim() : '';
   if (!purchaseToken) return { ok: false, error: 'no_token' };
@@ -73,7 +76,12 @@ export function validateAnalyseRequest(body) {
     ? body.locale.slice(0, 2)
     : 'en';
 
-  const request = { ok: true, mode: 'analyse', purchaseToken, image, mimeType, correction, locale };
+  // Sent only when the person turned on "Use my diet when reading photos".
+  // A closed list, because it is pasted into the prompt: anything else is
+  // dropped rather than passed through.
+  const diet = DIETS.includes(body?.diet) ? body.diet : null;
+
+  const request = { ok: true, mode: 'analyse', purchaseToken, image, mimeType, correction, locale, diet };
   if (body?.mode !== 'leftovers') return request;
 
   // Leftovers: `image` is the plate after eating, `original` the same plate
@@ -90,8 +98,10 @@ export function validateAnalyseRequest(body) {
     original,
     originalMimeType: body.originalMimeType === 'image/png' ? 'image/png' : 'image/jpeg',
     items,
-    // A leftovers reading has no correction; the prompt has no place for one.
-    correction: null
+    // A leftovers reading has no correction or diet; its prompt has no place
+    // for either.
+    correction: null,
+    diet: null
   };
 }
 

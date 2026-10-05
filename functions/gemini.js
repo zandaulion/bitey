@@ -23,12 +23,12 @@ export class AnalysisError extends Error {
 }
 
 export async function analysePhoto(
-  { apiKey, imageBase64, mimeType = 'image/jpeg', correction = null, locale = 'en' },
+  { apiKey, imageBase64, mimeType = 'image/jpeg', correction = null, locale = 'en', diet = null },
   fetchImpl = fetch
 ) {
   return call(apiKey, [
     { inline_data: { mime_type: mimeType, data: imageBase64 } },
-    { text: buildPrompt(correction, locale) }
+    { text: buildPrompt(correction, locale, diet) }
   ], RESPONSE_SCHEMA, fetchImpl, { think: false });
 }
 

@@ -400,8 +400,6 @@
   "Bitey AI will ask again before sending a photo.": "फोटो भेजने से पहले Bitey AI फिर से पूछेगा।",
   "Could not read that photo.": "वह फोटो पढ़ा नहीं जा सका।",
   "How Bitey AI reads your photo": "Bitey AI आपका फोटो कैसे पढ़ता है",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. Bitey's server does not keep the photo.": "इसके अलावा कुछ भी आपके फ़ोन से बाहर नहीं जाता: न आपकी डायरी, न वज़न, न प्रोफ़ाइल, न अन्य फोटो। Bitey का सर्वर फोटो नहीं रखता।",
-  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone.": "Bitey AI को भेजे गए फोटो Google का Gemini पढ़ता है। इसके अलावा कुछ भी आपके फ़ोन से बाहर नहीं जाता।",
   "This build cannot open the camera.": "यह वर्ज़न कैमरा नहीं खोल सकता।",
   "Withdraw consent to send photos": "फोटो भेजने की सहमति वापस लें",
   "You can withdraw this at any time in Settings.": "आप इसे कभी भी सेटिंग्स में वापस ले सकते हैं।",
@@ -488,5 +486,9 @@
   "Hide these fields": "ये फ़ील्ड छिपाएँ",
   "Type in the numbers instead": "इसके बजाय संख्याएँ लिखें",
   "Amount": "मात्रा",
-  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "आपके बैकअप में डायरी की प्रविष्टियाँ, वज़न, बारकोड से सहेजे गए खाद्य पदार्थ और फ़ोटो शामिल हैं। इसे किसी निजी जगह पर रखें।"
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "आपके बैकअप में डायरी की प्रविष्टियाँ, वज़न, बारकोड से सहेजे गए खाद्य पदार्थ और फ़ोटो शामिल हैं। इसे किसी निजी जगह पर रखें।",
+  "Use my diet when reading photos": "फ़ोटो पढ़ते समय मेरा आहार इस्तेमाल करें",
+  "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "जब कोई व्यंजन दोनों तरह से बन सकता हो, तो Bitey AI आपकी प्रोफ़ाइल के अनुसार उसे शाकाहारी, वीगन या पेस्केटेरियन मानता है। जो साफ़ तौर पर मांस या मछली है, वह फिर भी वैसा ही दर्ज होता है। जब तक यह चालू है, आपका आहार हर फ़ोटो के साथ भेजा जाता है।",
+  "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI को भेजी गई फ़ोटो Google का Gemini पढ़ता है। आपके फ़ोन से और कुछ नहीं जाता, सिवाय आपके आहार के, अगर आप ऊपर इसे चालू करें।",
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "आपके फ़ोन से और कुछ नहीं जाता: न आपकी डायरी, न वज़न, न प्रोफ़ाइल, न दूसरी फ़ोटो। एकमात्र अपवाद आपका आहार है, और वह भी तभी जब आप सेटिंग में “फ़ोटो पढ़ते समय मेरा आहार इस्तेमाल करें” चालू करें। Bitey का सर्वर फ़ोटो नहीं रखता।"
 }

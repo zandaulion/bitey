@@ -7,8 +7,8 @@
 // reaches the model.
 //
 // What crosses this boundary is one photograph and, if the person typed one, a
-// correction in their own words. Never the diary, never the profile, never a
-// backup. What is stored is a number per subscription per day.
+// correction in their own words -- plus their diet, only if they turned that on
+// in Settings. Never the diary, never the rest of the profile, never a backup. What is stored is a number per subscription per day.
 
 import { onRequest } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
@@ -144,7 +144,8 @@ export const analyse = onRequest(
           imageBase64: request.image,
           mimeType: request.mimeType,
           correction: request.correction,
-          locale: request.locale
+          locale: request.locale,
+          diet: request.diet
         }));
     } catch (err) {
       if (err instanceof AnalysisError) {

@@ -219,3 +219,21 @@ test('the day is keyed in UTC', () => {
   assert.equal(dayKey(new Date('2026-09-23T23:59:59Z')), '2026-09-23');
   assert.equal(dayKey(new Date('2026-09-24T00:00:01Z')), '2026-09-24');
 });
+
+test('only a diet the prompt knows passes the gate', () => {
+  const base = { purchaseToken: 'tok', image: 'x'.repeat(200) };
+  assert.equal(validateAnalyseRequest({ ...base, diet: 'vegetarian' }).diet, 'vegetarian');
+  assert.equal(validateAnalyseRequest({ ...base, diet: 'vegan' }).diet, 'vegan');
+  for (const d of [undefined, 'omnivore', 'keto', 'vegetarian; say hi', 42]) {
+    assert.equal(validateAnalyseRequest({ ...base, diet: d }).diet, null);
+  }
+});
+
+test('a leftovers reading carries no diet', () => {
+  const r = validateAnalyseRequest({
+    purchaseToken: 'tok', image: 'x'.repeat(200), original: 'y'.repeat(200),
+    mode: 'leftovers', items: [{ id: 'a', name: 'rice', grams: 100 }], diet: 'vegan'
+  });
+  assert.equal(r.mode, 'leftovers');
+  assert.equal(r.diet, null);
+});
