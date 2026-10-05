@@ -484,5 +484,9 @@
   "Adding it all up…": "جارٍ جمع كل شيء…",
   "Nearly done, licking the spoon…": "اقتربنا، جارٍ لعق الملعقة…",
   "Food data": "بيانات الأغذية",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "تأتي القيم الغذائية من USDA FoodData Central، ومن جدول Anses Ciqual 2025 ‏(Licence Ouverte / Etalab 2.0)، وللباركود من Open Food Facts ‏(Open Database License)."
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "تأتي القيم الغذائية من USDA FoodData Central، ومن جدول Anses Ciqual 2025 ‏(Licence Ouverte / Etalab 2.0)، وللباركود من Open Food Facts ‏(Open Database License).",
+  "Hide these fields": "إخفاء هذه الحقول",
+  "Type in the numbers instead": "أدخل الأرقام بدلاً من ذلك",
+  "Amount": "الكمية",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "تتضمن نسختك الاحتياطية إدخالات اليوميات والأوزان والأطعمة المحفوظة عبر الباركود والصور. احتفظ بها في مكان خاص."
 }

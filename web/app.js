@@ -3432,7 +3432,7 @@ let manualBasis = 'portion';
 /** Keeps the disclosure's own label honest about what it will do next. */
 function syncManualToggle() {
   const open = !$('manual-form').hidden;
-  $('manual-toggle').textContent = open ? 'Hide these fields' : 'Type in the numbers instead';
+  $('manual-toggle').textContent = open ? t('Hide these fields') : t('Type in the numbers instead');
   $('manual-toggle').setAttribute('aria-expanded', String(open));
 }
 

@@ -484,5 +484,9 @@
   "Adding it all up…": "正在全部加起来…",
   "Nearly done, licking the spoon…": "快好了，正在舔勺子…",
   "Food data": "食物数据",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "营养数值来自 USDA FoodData Central、Anses Ciqual 2025 数据表（Licence Ouverte / Etalab 2.0），条形码数据来自 Open Food Facts（Open Database License）。"
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "营养数值来自 USDA FoodData Central、Anses Ciqual 2025 数据表（Licence Ouverte / Etalab 2.0），条形码数据来自 Open Food Facts（Open Database License）。",
+  "Hide these fields": "隐藏这些字段",
+  "Type in the numbers instead": "改为手动输入数值",
+  "Amount": "份量",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "备份包含日记记录、体重记录、通过条形码保存的食物和照片。请将其存放在私密的地方。"
 }

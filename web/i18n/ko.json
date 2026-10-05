@@ -484,5 +484,9 @@
   "Adding it all up…": "모두 더하는 중…",
   "Nearly done, licking the spoon…": "거의 다 됐어요, 숟가락을 핥는 중…",
   "Food data": "식품 데이터",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "영양 정보는 USDA FoodData Central, Anses Ciqual 2025 표(Licence Ouverte / Etalab 2.0), 그리고 바코드의 경우 Open Food Facts(Open Database License)에서 가져옵니다."
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "영양 정보는 USDA FoodData Central, Anses Ciqual 2025 표(Licence Ouverte / Etalab 2.0), 그리고 바코드의 경우 Open Food Facts(Open Database License)에서 가져옵니다.",
+  "Hide these fields": "이 입력란 숨기기",
+  "Type in the numbers instead": "대신 숫자 직접 입력",
+  "Amount": "양",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "백업에는 식단 기록, 체중 기록, 바코드로 저장한 음식, 사진이 포함됩니다. 안전한 곳에 보관하세요."
 }

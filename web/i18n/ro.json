@@ -488,5 +488,9 @@
   "Adding it all up…": "Adun totul…",
   "Nearly done, licking the spoon…": "Aproape gata, ling lingurița…",
   "Food data": "Date despre alimente",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Valorile nutriționale provin din USDA FoodData Central, din tabelul Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0) și, pentru coduri de bare, din Open Food Facts (Open Database License)."
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Valorile nutriționale provin din USDA FoodData Central, din tabelul Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0) și, pentru coduri de bare, din Open Food Facts (Open Database License).",
+  "Hide these fields": "Ascunde aceste câmpuri",
+  "Type in the numbers instead": "Introdu valorile manual",
+  "Amount": "Cantitate",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Copia de rezervă include intrările din jurnal, cântăririle, alimentele salvate după codul de bare și fotografiile. Păstreaz-o într-un loc privat."
 }

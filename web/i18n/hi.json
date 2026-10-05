@@ -484,5 +484,9 @@
   "Adding it all up…": "सब कुछ जोड़ रहे हैं…",
   "Nearly done, licking the spoon…": "बस हो गया, चम्मच चाट रहे हैं…",
   "Food data": "खाद्य डेटा",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "पोषण मान USDA FoodData Central, Anses Ciqual 2025 तालिका (Licence Ouverte / Etalab 2.0) और बारकोड के लिए Open Food Facts (Open Database License) से आते हैं।"
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "पोषण मान USDA FoodData Central, Anses Ciqual 2025 तालिका (Licence Ouverte / Etalab 2.0) और बारकोड के लिए Open Food Facts (Open Database License) से आते हैं।",
+  "Hide these fields": "ये फ़ील्ड छिपाएँ",
+  "Type in the numbers instead": "इसके बजाय संख्याएँ लिखें",
+  "Amount": "मात्रा",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "आपके बैकअप में डायरी की प्रविष्टियाँ, वज़न, बारकोड से सहेजे गए खाद्य पदार्थ और फ़ोटो शामिल हैं। इसे किसी निजी जगह पर रखें।"
 }

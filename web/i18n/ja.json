@@ -484,5 +484,9 @@
   "Adding it all up…": "全部足し合わせています…",
   "Nearly done, licking the spoon…": "もうすぐ完了、スプーンをなめています…",
   "Food data": "食品データ",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "栄養値は USDA FoodData Central、Anses Ciqual 2025 表（Licence Ouverte / Etalab 2.0）、バーコードについては Open Food Facts（Open Database License）によるものです。"
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "栄養値は USDA FoodData Central、Anses Ciqual 2025 表（Licence Ouverte / Etalab 2.0）、バーコードについては Open Food Facts（Open Database License）によるものです。",
+  "Hide these fields": "これらの欄を隠す",
+  "Type in the numbers instead": "代わりに数値を入力",
+  "Amount": "量",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "バックアップには、日記の記録、体重の記録、バーコードで保存した食品、写真が含まれます。人に見られない場所に保管してください。"
 }

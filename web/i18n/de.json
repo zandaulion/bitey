@@ -486,5 +486,9 @@
   "Adding it all up…": "Ich rechne alles zusammen…",
   "Nearly done, licking the spoon…": "Fast fertig, ich schlecke den Löffel ab…",
   "Food data": "Lebensmitteldaten",
-  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Die Nährwerte stammen aus USDA FoodData Central, aus der Tabelle Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0) und bei Barcodes aus Open Food Facts (Open Database License)."
+  "Food values come from USDA FoodData Central, from the Anses Ciqual 2025 table (Licence Ouverte / Etalab 2.0) and, for barcodes, from Open Food Facts (Open Database License).": "Die Nährwerte stammen aus USDA FoodData Central, aus der Tabelle Anses Ciqual 2025 (Licence Ouverte / Etalab 2.0) und bei Barcodes aus Open Food Facts (Open Database License).",
+  "Hide these fields": "Diese Felder ausblenden",
+  "Type in the numbers instead": "Stattdessen die Werte eintippen",
+  "Amount": "Menge",
+  "Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.": "Deine Sicherung enthält Tagebucheinträge, Gewichtsmessungen, gespeicherte Barcode-Lebensmittel und Fotos. Bewahre sie an einem privaten Ort auf."
 }
