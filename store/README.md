@@ -21,16 +21,25 @@ Google Play.
 
 ## Upload artifacts
 
-**1.0.10** (`versionCode` 11) was sent for review on 4 October 2026: a
-clearer "Not what you ate?" flow, and a progress bar with playful messages
-while Bitey AI works. Its release notes are in `RELEASE_NOTES_1.0.10.md`, with
-the paste-ready tagged form in `release-notes-1.0.10.xml`.
+The next upload is **1.0.11** (`versionCode` 12): a far larger food table
+named in every app language, Bitey AI counting loose foods, and an opt-in
+switch that lets Bitey AI use a vegetarian, vegan or pescatarian diet. Its
+release notes are in `RELEASE_NOTES_1.0.11.md`, with the paste-ready tagged
+form in `release-notes-1.0.11.xml`. Before it goes out, upload the updated
+`plate-privacy.html` (5 October 2026) and add the Data safety row described in
+`MANUAL_RELEASE_GUIDE.md`. Record its hash here once built.
+
+The latest upload is **1.0.10** (`versionCode` 11), sent for review on 4
+October 2026: a clearer "Not what you ate?" flow, and a progress bar with
+playful messages while Bitey AI works. Its release notes are in
+`RELEASE_NOTES_1.0.10.md`, with the paste-ready tagged form in
+`release-notes-1.0.10.xml`.
 
 - 1.0.10 file SHA-256: `2EB6D3BE99F33B8C02AA992475FDE536C81883473817331F6F0C5FA3554D2314`
   (built 4 October 2026, 15:59)
 
-The latest upload is **1.0.9** (`versionCode` 10), sent for review on 3
-October 2026 and now in closed testing: the first month free, and what Bitey
+Before it, **1.0.9** (`versionCode` 10) was sent for review on 3 October
+2026 and is now in closed testing: the first month free, and what Bitey
 AI saw shown straight under the photo. Its release notes are in
 `RELEASE_NOTES_1.0.9.md`, with the paste-ready tagged form in
 `release-notes-1.0.9.xml`.
@@ -95,8 +104,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.10** (`versionCode` 11), in Play review
-- Latest upload artifact: `bitey-private-food-log-1.0.10.aab`
+- Current source version: **1.0.11** (`versionCode` 12), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.11.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
