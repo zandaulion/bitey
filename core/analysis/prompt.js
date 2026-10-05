@@ -22,6 +22,10 @@ export const RESPONSE_SCHEMA = {
         properties: {
           name: { type: 'STRING' },
           grams: { type: 'NUMBER' },
+          // Only for loose foods served as many like pieces. Optional, so a
+          // plated meal is not forced into a count it does not have.
+          count: { type: 'NUMBER' },
+          unit_grams: { type: 'NUMBER' },
           calories: { type: 'NUMBER' },
           protein_g: { type: 'NUMBER' },
           fat_g: { type: 'NUMBER' },
@@ -53,6 +57,13 @@ Rules:
     one entry rather than guessing at its components.
   - Use anything in the frame that helps you judge size: a plate is usually
     26 cm across, a fork about 19 cm long, a standard mug holds 250 ml.
+  - For a loose food made of many similar pieces -- grapes, berries, cherries,
+    nuts, olives, cherry tomatoes, sweets, crisps, dumplings -- count instead
+    of judging the weight by eye. Give "count", the number of pieces including
+    the ones hidden under the layer you can see, and "unit_grams", what one
+    piece weighs. A heap or a bunch is deeper than it looks from above: the
+    pieces on top are rarely more than half of it. Set "grams" to count times
+    unit_grams. Leave count and unit_grams out for every other kind of food.
   - If the photo does not show food, set is_food to false and return no items.
 
 In "note", say in one short sentence what limited your reading of the photo --

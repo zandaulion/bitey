@@ -113,7 +113,8 @@ export function fromModelResponse(raw) {
     const name = String(it?.name || '').trim();
     if (!name) continue;
 
-    // Per gram, so that editing the weight rescales the nutrition.
+    // Per gram, so that editing the weight rescales the nutrition. The rate
+    // is taken against the model's own grams, which its nutrition was for.
     const per = {
       calories: safeRate(it?.calories, grams),
       protein: safeRate(it?.protein_g ?? it?.protein, grams),
@@ -122,7 +123,20 @@ export function fromModelResponse(raw) {
       fiber: safeRate(it?.fiber_g ?? it?.fiber, grams)
     };
 
-    items.push({ id: nextId(), name, grams: round(grams, 0), per, source: 'photo' });
+    // A count is the stronger reading for a heap of like pieces: the weight
+    // judged by eye is the one that forgets the hidden layer. So where the
+    // model counted, the count decides the weight.
+    const counted = countedGrams(it);
+    const weight = round(counted ?? grams, 0);
+
+    items.push({
+      id: nextId(), name, grams: weight, per, source: 'photo',
+      // What the model said, kept apart from `grams` so a later correction
+      // does not overwrite it. Every correction then pairs a reading with the
+      // truth, which is what any calibration of the model has to be built on.
+      modelGrams: weight,
+      ...(counted ? { modelCount: Math.round(Number(it.count)), modelUnitGrams: round(Number(it.unit_grams), 1) } : {})
+    });
   }
 
   return {
@@ -131,6 +145,19 @@ export function fromModelResponse(raw) {
     portionConfirmed: false,
     note: typeof raw?.note === 'string' ? raw.note.trim() : ''
   };
+}
+
+/**
+ * count x unit_grams, when the model counted and both numbers are believable.
+ * The bounds only keep out a unit mix-up (a grape in kilograms) or a runaway
+ * count; anything inside them is the model's reading and is trusted as one.
+ */
+function countedGrams(it) {
+  const count = Number(it?.count);
+  const unit = Number(it?.unit_grams);
+  if (!Number.isFinite(count) || !Number.isFinite(unit)) return null;
+  if (count < 1 || count > 2000 || unit < 0.1 || unit > 1000) return null;
+  return count * unit;
 }
 
 function safeRate(value, grams) {

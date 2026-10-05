@@ -63,3 +63,10 @@ test('an overlong correction is trimmed rather than sent whole', () => {
   assert.ok(!p.includes('x'.repeat(201)), 'the quote is capped');
   assert.ok(p.includes('x'.repeat(200)), 'and capped at 200, not mangled');
 });
+
+test('loose foods are counted, and the count is optional for everything else', () => {
+  const item = RESPONSE_SCHEMA.properties.items.items;
+  assert.ok(item.properties.count && item.properties.unit_grams);
+  assert.ok(!item.required.includes('count') && !item.required.includes('unit_grams'));
+  assert.match(PROMPT, /count instead\s+of judging the weight by eye/);
+});

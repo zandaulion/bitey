@@ -291,3 +291,33 @@ test('an untouched plate is not treated as a leftover', () => {
   assert.equal(hasLeftovers(markEaten(plate(), 0.99)), true);
   assert.deepEqual(rangesOf(markEaten(plate(), 1)), rangesOf(plate()));
 });
+
+test('the model\'s own weight is kept apart from the one the user sets', () => {
+  const e = fromModelResponse(RESPONSE);
+  assert.equal(e.items[1].modelGrams, 200);
+  const one = setItemGrams(e, e.items[1].id, 260);
+  assert.equal(one.items[1].grams, 260);
+  assert.equal(one.items[1].modelGrams, 200, 'a correction does not overwrite the reading');
+  const all = setTotalGrams(e, 700);
+  assert.deepEqual(all.items.map((i) => i.modelGrams), [150, 200]);
+});
+
+test('a count of loose pieces decides the weight, and the rate follows the model\'s grams', () => {
+  const e = fromModelResponse({ items: [
+    { name: 'green grapes', grams: 600, count: 170, unit_grams: 8, calories: 414, protein_g: 4.3, fat_g: 1, carbs_g: 109, fiber_g: 5.4 }
+  ] });
+  const grapes = e.items[0];
+  assert.equal(grapes.grams, 1360);
+  assert.equal(grapes.modelGrams, 1360);
+  assert.equal(grapes.modelCount, 170);
+  assert.equal(grapes.modelUnitGrams, 8);
+  assert.equal(totalsOf(e).calories, Math.round(414 / 600 * 1360), 'kcal per gram is what the model gave');
+});
+
+test('an implausible count is ignored rather than trusted', () => {
+  for (const bad of [{ count: 0, unit_grams: 8 }, { count: 50, unit_grams: 5000 }, { count: 'many', unit_grams: 8 }, { count: 9000, unit_grams: 1 }]) {
+    const e = fromModelResponse({ items: [{ name: 'grapes', grams: 300, calories: 207, ...bad }] });
+    assert.equal(e.items[0].grams, 300);
+    assert.equal(e.items[0].modelCount, undefined);
+  }
+});
