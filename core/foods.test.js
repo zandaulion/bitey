@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  fromOpenFoodFacts, fromUsda, parseServing, rankResults, toItem, isPlausible, summariseRecent,
+  fromOpenFoodFacts, offProductLabel, fromUsda, parseServing, rankResults, toItem, isPlausible, summariseRecent,
   QUICK_BITES, createQuickBiteItem, getGrazingSuggestions, collapseRepeatable, foldText, tokenise, rankByMatch
 } from './foods.js';
 
@@ -307,4 +307,12 @@ test('a food found by an alias ranks on the alias but keeps its shown name', () 
   const [first] = rankByMatch(results, 'Brot');
   assert.equal(first.name, 'Weißbrot');
   assert.equal(first.matched, undefined, 'the match is not passed on');
+});
+
+test('a record with no nutrition still gives its name and pack size', () => {
+  assert.deepEqual(
+    offProductLabel({ product_name: 'mix nuci, merișoarele, migdale, stafide', brands: 'Mega', quantity: '150 g' }, 'ro'),
+    { name: 'mix nuci, merișoarele, migdale, stafide (Mega)', packageGrams: 150 });
+  assert.equal(offProductLabel({ product_name: 'Nuts', product_name_de: 'Nüsse' }, 'de').name, 'Nüsse');
+  assert.deepEqual(offProductLabel(null), { name: '', packageGrams: null });
 });

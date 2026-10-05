@@ -496,5 +496,21 @@
   "Use my diet when reading photos": "Враховувати мій раціон під час читання фото",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "Якщо страву можна приготувати по-різному, Bitey AI вважатиме її вегетаріанською, веганською чи пескетаріанською відповідно до вашого профілю. Те, що явно є м’ясом або рибою, усе одно записується як є. Поки це ввімкнено, ваш раціон надсилається з кожним фото.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Фото, які ви надсилаєте до Bitey AI, читає Gemini від Google. Ніщо інше не залишає телефон, окрім вашого раціону, якщо ви ввімкнете це вище.",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Ніщо інше не залишає телефон: ні щоденник, ні вага, ні профіль, ні інші фото. Єдиний виняток — ваш раціон, і лише якщо ви ввімкнете «Враховувати мій раціон під час читання фото» в Налаштуваннях. Сервер Bitey не зберігає фото."
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Ніщо інше не залишає телефон: ні щоденник, ні вага, ні профіль, ні інші фото. Єдиний виняток — ваш раціон, і лише якщо ви ввімкнете «Враховувати мій раціон під час читання фото» в Налаштуваннях. Сервер Bitey не зберігає фото.",
+  "Added, but this barcode could not be remembered.": "Додано, але цей штрихкод не вдалося запам’ятати.",
+  "Hold the barcode about 15 cm away. Tap to focus.": "Тримайте штрихкод приблизно за 15 см. Торкніться, щоб сфокусувати.",
+  "Light": "Ліхтарик",
+  "Light off": "Вимкнути ліхтарик",
+  "No lookup was made.": "Пошук не виконувався.",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts знає цей продукт, але не його поживну цінність.",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "Введіть значення на 100 г з етикетки. Bitey запам’ятає їх для цього штрихкоду.",
+  "Breakfast": "Сніданок",
+  "Lunch": "Обід",
+  "Dinner": "Вечеря",
+  "from a weighed portion": "зі зваженої порції",
+  "From the food database — exact for the weights you entered.": "З бази продуктів — точно для введеної ваги.",
+  "from your estimate of the weight": "з вашої оцінки ваги",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "Варто змінювати, лише якщо ви знаєте краще за фото — приблизна оцінка не точніша, ніж залишити як є.",
+  "Using your weight rather than the photo’s guess.": "Використовується ваша вага, а не оцінка з фото.",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "Зважені порції приблизно вдвічі точніші за оцінені на око."
 }

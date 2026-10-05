@@ -887,7 +887,11 @@ export async function localApi(path, options = {}) {
   if (barcode && method === 'PUT') {
     const code = decodeURIComponent(barcode[1]);
     const food = body.food;
-    if (!food || food.barcode !== code || food.source !== 'openfoodfacts' || !food.per100?.calories) {
+    // 'label' is nutrition the person typed from the packet for a code Open
+    // Food Facts could not supply; it is kept the same way, so the next scan
+    // of that product works offline and without typing.
+    if (!food || food.barcode !== code || !['openfoodfacts', 'label'].includes(food.source)
+        || !Number.isFinite(food.per100?.calories)) {
       throw new LocalApiError('That food result could not be saved locally.', { code: 'bad_food' });
     }
     // Do not retain Open Food Facts image URLs: fetching one later would be a

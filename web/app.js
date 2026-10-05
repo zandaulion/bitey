@@ -8,7 +8,7 @@ import {
   totalsOf, rangesOf, setTotalGrams, setItemGrams, removeItem, itemMacros,
   addManualItem, hasPhotoItems, markWeighed, portionSourceOf, markEaten, ateFraction
 } from '/core/analysis/estimate.js';
-import { fromOpenFoodFacts, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions } from '/core/foods.js';
+import { fromOpenFoodFacts, offProductLabel, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions } from '/core/foods.js';
 import { macroAgreement, ageFromBirthYear } from '/core/nutrition.js';
 import { readTakenOn } from '/core/exif.js';
 import { localDayKey } from '/core/day.js';
@@ -42,7 +42,9 @@ const state = {
   // avoids three near-identical editors drifting apart.
   mode: 'photo',    // 'photo' | 'manual' | 'edit'
   editingId: null,
-  existingPhotoId: null
+  existingPhotoId: null,
+  // A scanned code with no usable record, waiting for its label to be typed.
+  pendingBarcode: null
 };
 
 // -------------------------------------------------------------------- api
@@ -2796,6 +2798,7 @@ function teardownReview() {
   state.savedFromReview = false;
   if (state.photo?.objectUrl) URL.revokeObjectURL(state.photo.objectUrl);
   state.estimate = null;
+  state.pendingBarcode = null;
   state.photo = null;
   state.editingId = null;
   state.existingPhotoId = null;
@@ -2924,8 +2927,8 @@ function renderReview() {
     // happy with was the same reproach as the badge.
     const tail = {
       model: '',
-      estimated: ' \u2014 from your estimate of the weight',
-      weighed: ' \u2014 from a weighed portion'
+      estimated: ` \u2014 ${t('from your estimate of the weight')}`,
+      weighed: ` \u2014 ${t('from a weighed portion')}`
     }[source];
     $('review-range').textContent =
       t('Likely {0}–{1} kcal{2}', ranges.calories.low, ranges.calories.high, tail);
@@ -2935,16 +2938,15 @@ function renderReview() {
     // adjust": a guess worse than about 30% is no better than leaving the
     // model's own estimate alone.
     $('weight-hint').textContent = {
-      weighed: 'Weighed portions are roughly twice as accurate as an eyeballed one.',
-      estimated: 'Using your weight rather than the photo\u2019s guess.',
+      weighed: t('Weighed portions are roughly twice as accurate as an eyeballed one.'),
+      estimated: t('Using your weight rather than the photo\u2019s guess.'),
       // Permission not to act, which is the opposite of what the badge was
       // doing and the reason this line stays.
-      model: 'Only worth changing if you have a better idea than the photo does — '
-        + 'a rough guess is no more accurate than leaving it.'
+      model: t('Only worth changing if you have a better idea than the photo does \u2014 a rough guess is no more accurate than leaving it.')
     }[source];
   } else {
     $('review-range').textContent = totals.calories
-      ? 'From the food database \u2014 exact for the weights you entered.'
+      ? t('From the food database \u2014 exact for the weights you entered.')
       : '';
   }
   renderMacros($('review-macros'), totals);
@@ -3210,7 +3212,7 @@ function renderMealChips() {
   const meals = state.me?.meals || ['breakfast', 'lunch', 'dinner', 'snack'];
   $('meal-picker').innerHTML = meals.map((m) =>
     `<button type="button" class="chip" data-meal="${esc(m)}"
-       aria-pressed="${state.meal === m}">${esc(m[0].toUpperCase() + m.slice(1))}</button>`).join('');
+       aria-pressed="${state.meal === m}">${esc(mealName(m))}</button>`).join('');
 }
 
 $('meal-picker').addEventListener('click', (ev) => {
@@ -3425,6 +3427,13 @@ $('food-results').addEventListener('click', (ev) => {
   if (food) { track('search_pick', { rank: idx + 1, source: food.source }); addFood(food); }
 });
 
+/** A meal's name in the reader's language. */
+function mealName(meal) {
+  return {
+    breakfast: t('Breakfast'), lunch: t('Lunch'), dinner: t('Dinner'), snack: t('Snack')
+  }[meal] || meal;
+}
+
 // ---------------------------------------------------------- typed panel
 
 let manualBasis = 'portion';
@@ -3628,9 +3637,24 @@ $('m-add').addEventListener('click', () => {
   if (!parsed) return toast(t('Enter at least a weight and the calories.'));
   if (!parsed.name) return toast(t('Give it a name.'));
 
+  // A scanned code with no usable record: keep what was typed against it, so
+  // the next scan of this packet fills itself in. Saved per 100 g, as a
+  // label states it, whichever way the form was filled in.
+  const barcode = state.pendingBarcode;
+  state.pendingBarcode = null;
+  if (barcode) {
+    const food = {
+      id: `label:${barcode}`, source: 'label', barcode, name: parsed.name,
+      per100: parsed.per100, servingG: null
+    };
+    api(`/api/foods/barcode/${encodeURIComponent(barcode)}`, { method: 'PUT', body: JSON.stringify({ food }) })
+      .then(() => track('barcode_label_saved'))
+      .catch(() => toast(t('Added, but this barcode could not be remembered.')));
+  }
+
   // source stays 'manual', so no photo-error band is applied to it.
   state.estimate = addManualItem(
-    state.estimate || { items: [], portionSource: 'model', note: '' }, parsed);
+    state.estimate || { items: [], portionSource: 'model', note: '' }, { ...parsed, barcode });
 
   for (const id of ['m-name', 'm-grams', 'm-kcal', 'm-protein', 'm-fat', 'm-carbs', 'm-fiber']) if ($(id)) $(id).value = '';
   $('manual-warn').hidden = true;
@@ -3690,7 +3714,36 @@ $('barcode-consent-always').addEventListener('change', (event) => {
   event.currentTarget.setAttribute('aria-checked', String(event.currentTarget.checked));
 });
 
+/**
+ * A scanned code with nothing usable behind it: open the typed form ready for
+ * the label, with whatever Open Food Facts did know already filled in, and
+ * remember the code so what is typed is saved against it.
+ *
+ * Without this the scan was a dead end -- "enter it manually" -- and the next
+ * scan of the same packet was the same dead end again.
+ */
+function openManualForBarcode(code, product = null, reason = '') {
+  state.pendingBarcode = code;
+  $('manual-form').hidden = false;
+  syncManualToggle();
+  if (product?.name) $('m-name').value = product.name;
+  // The pack size is a hint for the amount, not a guess at it: a 150 g bag
+  // is often eaten whole, a 1 kg one never is.
+  $('m-grams').placeholder = product?.packageGrams ? String(product.packageGrams) : '';
+  // Labels give values per 100 g, so the form starts there.
+  manualBasis = 'per100';
+  document.querySelectorAll('#m-basis [data-basis]').forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.basis === 'per100'));
+  });
+  $('finder-hint').textContent = [reason,
+    t('Type the values per 100 g from the label. Bitey will remember them for this barcode.')]
+    .filter(Boolean).join(' ');
+  ($('m-name').value ? $('m-kcal') : $('m-name')).focus();
+  track('barcode_manual', { known: Boolean(product?.name) });
+}
+
 async function lookupBarcode(code) {
+  state.pendingBarcode = null;
   $('finder-hint').textContent = t('Looking up…');
   try {
     const { food } = await api(`/api/foods/barcode/${encodeURIComponent(code)}`);
@@ -3707,7 +3760,7 @@ async function lookupBarcode(code) {
     // the original explicit consent prompt.
     const allowed = alwaysAllowOpenFoodFacts() || await requestOpenFoodFactsConsent();
     if (!allowed) {
-      $('finder-hint').textContent = 'No lookup was made. You can enter the nutrition details manually.';
+      openManualForBarcode(code, null, t('No lookup was made.'));
       return;
     }
 
@@ -3720,7 +3773,11 @@ async function lookupBarcode(code) {
       $('finder-hint').textContent = '';
       addFood(food);
     } catch (lookupError) {
-      $('finder-hint').textContent = lookupError.message;
+      if (['not_found', 'no_nutrition'].includes(lookupError.code)) {
+        openManualForBarcode(code, lookupError.product, lookupError.message);
+      } else {
+        $('finder-hint').textContent = lookupError.message;
+      }
     }
   }
 }
@@ -3755,9 +3812,11 @@ async function lookupOpenFoodFactsOnDevice(code) {
   }
   const food = fromOpenFoodFacts(response.product, locale());
   if (!food) {
-    throw new LocalApiError('That product has no usable nutrition details. Enter it manually instead.', {
+    const err = new LocalApiError(t('Open Food Facts knows this product but not its nutrition.'), {
       code: 'no_nutrition', status: 422,
     });
+    err.product = offProductLabel(response.product, locale());
+    throw err;
   }
   return food;
 }
@@ -3775,7 +3834,12 @@ async function startScan() {
         delete window.__plateNativeBarcodeResult;
         resolve(value || null);
       };
-      window.PlateNative.scanBarcode();
+      window.PlateNative.scanBarcode(JSON.stringify({
+        hint: t('Hold the barcode about 15 cm away. Tap to focus.'),
+        cancel: t('Cancel'),
+        lightOn: t('Light'),
+        lightOff: t('Light off')
+      }));
     });
     if (code) lookupBarcode(code.trim());
     return;

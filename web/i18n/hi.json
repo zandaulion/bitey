@@ -490,5 +490,21 @@
   "Use my diet when reading photos": "फ़ोटो पढ़ते समय मेरा आहार इस्तेमाल करें",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "जब कोई व्यंजन दोनों तरह से बन सकता हो, तो Bitey AI आपकी प्रोफ़ाइल के अनुसार उसे शाकाहारी, वीगन या पेस्केटेरियन मानता है। जो साफ़ तौर पर मांस या मछली है, वह फिर भी वैसा ही दर्ज होता है। जब तक यह चालू है, आपका आहार हर फ़ोटो के साथ भेजा जाता है।",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI को भेजी गई फ़ोटो Google का Gemini पढ़ता है। आपके फ़ोन से और कुछ नहीं जाता, सिवाय आपके आहार के, अगर आप ऊपर इसे चालू करें।",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "आपके फ़ोन से और कुछ नहीं जाता: न आपकी डायरी, न वज़न, न प्रोफ़ाइल, न दूसरी फ़ोटो। एकमात्र अपवाद आपका आहार है, और वह भी तभी जब आप सेटिंग में “फ़ोटो पढ़ते समय मेरा आहार इस्तेमाल करें” चालू करें। Bitey का सर्वर फ़ोटो नहीं रखता।"
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "आपके फ़ोन से और कुछ नहीं जाता: न आपकी डायरी, न वज़न, न प्रोफ़ाइल, न दूसरी फ़ोटो। एकमात्र अपवाद आपका आहार है, और वह भी तभी जब आप सेटिंग में “फ़ोटो पढ़ते समय मेरा आहार इस्तेमाल करें” चालू करें। Bitey का सर्वर फ़ोटो नहीं रखता।",
+  "Added, but this barcode could not be remembered.": "जोड़ दिया गया, लेकिन यह बारकोड याद नहीं रखा जा सका।",
+  "Hold the barcode about 15 cm away. Tap to focus.": "बारकोड को लगभग 15 सेमी दूर रखें। फ़ोकस के लिए टैप करें।",
+  "Light": "टॉर्च",
+  "Light off": "टॉर्च बंद करें",
+  "No lookup was made.": "कोई खोज नहीं की गई।",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts इस उत्पाद को जानता है, लेकिन इसके पोषण मान नहीं।",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "लेबल से प्रति 100 ग्राम मान लिखें। Bitey इन्हें इस बारकोड के लिए याद रखेगा।",
+  "Breakfast": "नाश्ता",
+  "Lunch": "दोपहर का खाना",
+  "Dinner": "रात का खाना",
+  "from a weighed portion": "तौले गए हिस्से से",
+  "From the food database — exact for the weights you entered.": "खाद्य डेटाबेस से — आपके डाले गए वज़न के लिए सटीक।",
+  "from your estimate of the weight": "वज़न के आपके अनुमान से",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "तभी बदलें जब आपको फ़ोटो से बेहतर पता हो — मोटा अनुमान वैसे ही छोड़ देने से ज़्यादा सटीक नहीं होता।",
+  "Using your weight rather than the photo’s guess.": "फ़ोटो के अनुमान के बजाय आपका वज़न इस्तेमाल हो रहा है।",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "तौले गए हिस्से अंदाज़े से लगभग दोगुने सटीक होते हैं।"
 }

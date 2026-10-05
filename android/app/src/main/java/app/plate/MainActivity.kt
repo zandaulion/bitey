@@ -239,8 +239,11 @@ class MainActivity : ComponentActivity() {
         }
         plateWebView = PlateWebView(
             context = this,
-            onBarcodeScanRequested = {
-                barcodeScanner.launch(Intent(this, BarcodeScanActivity::class.java))
+            onBarcodeScanRequested = { labels ->
+                barcodeScanner.launch(
+                    Intent(this, BarcodeScanActivity::class.java)
+                        .putExtra(BarcodeScanActivity.EXTRA_LABELS, labels),
+                )
             },
             onBackupExportRequested = {
                 backupExporter.launch("plate-backup-${System.currentTimeMillis()}.zip")

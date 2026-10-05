@@ -128,6 +128,19 @@ export function fromOpenFoodFacts(product, locale = 'en') {
   };
 }
 
+/**
+ * What an Open Food Facts record can still tell us when it has no nutrition:
+ * the product's name and the size of the pack. Many records -- most of the
+ * Romanian ones scanned so far -- are exactly that, and a name already typed
+ * in is half the work of entering the label by hand.
+ */
+export function offProductLabel(product, locale = 'en') {
+  if (!product || typeof product !== 'object') return { name: '', packageGrams: null };
+  const name = cleanName(localisedName(product, locale),
+                         product.brands ? `(${product.brands})` : '');
+  return { name, packageGrams: parseServing(product.quantity) };
+}
+
 /** "30 g", "250ml", "1 bar (21 g)" -> grams, or null when unparseable. */
 export function parseServing(text) {
   if (!text) return null;

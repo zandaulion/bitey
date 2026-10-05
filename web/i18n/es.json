@@ -492,5 +492,21 @@
   "Use my diet when reading photos": "Usar mi dieta al leer las fotos",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "Cuando un plato puede prepararse de las dos maneras, Bitey AI lo interpreta como vegetariano, vegano o pescetariano según tu perfil. Lo que es claramente carne o pescado se registra igualmente tal cual. Mientras esté activado, tu dieta se envía con cada foto.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Las fotos que envías a Bitey AI las lee Gemini de Google. Nada más sale de tu teléfono, salvo tu dieta si lo activas arriba.",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Nada más sale de tu teléfono: ni tu diario, ni tu peso, ni tu perfil, ni otras fotos. La única excepción es tu dieta, y solo si activas «Usar mi dieta al leer las fotos» en Ajustes. El servidor de Bitey no guarda la foto."
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Nada más sale de tu teléfono: ni tu diario, ni tu peso, ni tu perfil, ni otras fotos. La única excepción es tu dieta, y solo si activas «Usar mi dieta al leer las fotos» en Ajustes. El servidor de Bitey no guarda la foto.",
+  "Added, but this barcode could not be remembered.": "Añadido, pero no se ha podido recordar este código de barras.",
+  "Hold the barcode about 15 cm away. Tap to focus.": "Sostén el código de barras a unos 15 cm. Toca para enfocar.",
+  "Light": "Linterna",
+  "Light off": "Apagar linterna",
+  "No lookup was made.": "No se ha hecho ninguna búsqueda.",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts conoce este producto, pero no su información nutricional.",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "Escribe los valores por 100 g de la etiqueta. Bitey los recordará para este código de barras.",
+  "Breakfast": "Desayuno",
+  "Lunch": "Almuerzo",
+  "Dinner": "Cena",
+  "from a weighed portion": "de una porción pesada",
+  "From the food database — exact for the weights you entered.": "De la base de datos de alimentos: exacto para los pesos introducidos.",
+  "from your estimate of the weight": "de tu estimación del peso",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "Solo merece la pena cambiarlo si lo sabes mejor que la foto: una estimación aproximada no es más precisa que dejarlo así.",
+  "Using your weight rather than the photo’s guess.": "Se usa tu peso en lugar de la estimación de la foto.",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "Las porciones pesadas son aproximadamente el doble de precisas que las calculadas a ojo."
 }

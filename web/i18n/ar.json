@@ -490,5 +490,21 @@
   "Use my diet when reading photos": "استخدام نظامي الغذائي عند قراءة الصور",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "عندما يمكن تحضير الطبق بأي من الطريقتين، يقرأه Bitey AI على أنه نباتي أو نباتي صرف أو نباتي يأكل السمك، بما يتوافق مع ملفك الشخصي. أما ما هو لحم أو سمك بوضوح فيُسجَّل كما هو. ما دام هذا الخيار مفعّلًا، يُرسَل نظامك الغذائي مع كل صورة.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "الصور التي ترسلها إلى Bitey AI يقرؤها Gemini من Google. لا يغادر هاتفك أي شيء آخر، باستثناء نظامك الغذائي إذا فعّلت ذلك أعلاه.",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "لا يغادر هاتفك أي شيء آخر: لا يومياتك ولا وزنك ولا ملفك الشخصي ولا صورك الأخرى. الاستثناء الوحيد هو نظامك الغذائي، وفقط إذا فعّلت «استخدام نظامي الغذائي عند قراءة الصور» في الإعدادات. لا يحتفظ خادم Bitey بالصورة."
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "لا يغادر هاتفك أي شيء آخر: لا يومياتك ولا وزنك ولا ملفك الشخصي ولا صورك الأخرى. الاستثناء الوحيد هو نظامك الغذائي، وفقط إذا فعّلت «استخدام نظامي الغذائي عند قراءة الصور» في الإعدادات. لا يحتفظ خادم Bitey بالصورة.",
+  "Added, but this barcode could not be remembered.": "تمت الإضافة، لكن تعذّر حفظ هذا الباركود.",
+  "Hold the barcode about 15 cm away. Tap to focus.": "أمسك الباركود على بُعد 15 سم تقريبًا. المس للتركيز.",
+  "Light": "المصباح",
+  "Light off": "إطفاء المصباح",
+  "No lookup was made.": "لم يتم إجراء أي بحث.",
+  "Open Food Facts knows this product but not its nutrition.": "يعرف Open Food Facts هذا المنتج، لكن ليس قيمه الغذائية.",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "اكتب القيم لكل 100 غ من الملصق. سيتذكرها Bitey لهذا الباركود.",
+  "Breakfast": "الفطور",
+  "Lunch": "الغداء",
+  "Dinner": "العشاء",
+  "from a weighed portion": "من حصة موزونة",
+  "From the food database — exact for the weights you entered.": "من قاعدة بيانات الأطعمة — دقيق للأوزان التي أدخلتها.",
+  "from your estimate of the weight": "من تقديرك للوزن",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "لا يستحق التغيير إلا إذا كانت لديك فكرة أفضل من الصورة — فالتخمين التقريبي ليس أدق من تركه كما هو.",
+  "Using your weight rather than the photo’s guess.": "يُستخدم وزنك بدلًا من تقدير الصورة.",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "الحصص الموزونة أدق بنحو الضعف من المقدّرة بالعين."
 }

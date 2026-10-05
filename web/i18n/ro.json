@@ -494,5 +494,21 @@
   "Use my diet when reading photos": "Folosește dieta mea la citirea fotografiilor",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "Când un preparat poate fi făcut în ambele feluri, Bitey AI îl citește ca vegetarian, vegan sau pescetarian, după profilul tău. Mâncarea care e clar carne sau pește este înregistrată așa cum este. Cât timp opțiunea e pornită, dieta ta este trimisă cu fiecare fotografie.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Fotografiile trimise către Bitey AI sunt citite de Gemini de la Google. Nimic altceva nu părăsește telefonul, în afară de dieta ta, dacă pornești opțiunea de mai sus.",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Nimic altceva nu părăsește telefonul: nici jurnalul, nici greutatea, nici profilul, nici alte fotografii. Singura excepție este dieta ta, și doar dacă pornești „Folosește dieta mea la citirea fotografiilor” în Setări. Serverul Bitey nu păstrează fotografia."
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "Nimic altceva nu părăsește telefonul: nici jurnalul, nici greutatea, nici profilul, nici alte fotografii. Singura excepție este dieta ta, și doar dacă pornești „Folosește dieta mea la citirea fotografiilor” în Setări. Serverul Bitey nu păstrează fotografia.",
+  "Added, but this barcode could not be remembered.": "Adăugat, dar codul de bare nu a putut fi reținut.",
+  "Hold the barcode about 15 cm away. Tap to focus.": "Ține codul de bare la aproximativ 15 cm. Atinge ca să focalizezi.",
+  "Light": "Lanternă",
+  "Light off": "Stinge lanterna",
+  "No lookup was made.": "Nu s-a făcut nicio căutare.",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts cunoaște produsul, dar nu și valorile nutriționale.",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "Scrie valorile la 100 g de pe etichetă. Bitey le va reține pentru acest cod de bare.",
+  "Breakfast": "Mic dejun",
+  "Lunch": "Prânz",
+  "Dinner": "Cină",
+  "from a weighed portion": "dintr-o porție cântărită",
+  "From the food database — exact for the weights you entered.": "Din baza de date de alimente — exact pentru greutățile introduse.",
+  "from your estimate of the weight": "din estimarea ta a greutății",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "Merită schimbat doar dacă știi mai bine decât fotografia — o estimare aproximativă nu e mai exactă decât dacă o lași așa.",
+  "Using your weight rather than the photo’s guess.": "Se folosește greutatea ta, nu estimarea din fotografie.",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "Porțiile cântărite sunt de aproximativ două ori mai exacte decât cele estimate din ochi."
 }

@@ -101,7 +101,7 @@ private class PlateAssetClient(
  * exposing broad Android APIs to JavaScript.
  */
 private class PlateNativeBridge(
-    private val onBarcodeScanRequested: () -> Unit,
+    private val onBarcodeScanRequested: (String) -> Unit,
     private val onOpenFoodFactsLookupRequested: (String) -> Unit,
     private val onCachedFoodReadRequested: (String) -> Unit,
     private val onCachedFoodWriteRequested: (String, String) -> Unit,
@@ -129,7 +129,13 @@ private class PlateNativeBridge(
 
     @JavascriptInterface
     fun scanBarcode() {
-        onBarcodeScanRequested()
+        onBarcodeScanRequested("")
+    }
+
+    /** The same, with the overlay's words in the app's language, as JSON. */
+    @JavascriptInterface
+    fun scanBarcode(labelsJson: String) {
+        onBarcodeScanRequested(labelsJson.take(2_000))
     }
 
     @JavascriptInterface
@@ -249,7 +255,7 @@ private class PlateNativeBridge(
 @SuppressLint("SetJavaScriptEnabled")
 class PlateWebView(
     context: Context,
-    onBarcodeScanRequested: () -> Unit,
+    onBarcodeScanRequested: (String) -> Unit,
     onBackupExportRequested: () -> Unit,
     onBackupImportRequested: () -> Unit,
     onPrimaryActionLabelsChanged: (String, String, String, String) -> Unit,
@@ -812,8 +818,14 @@ class PlateWebView(
 
     private fun openFoodFactsResult(barcode: String): String {
         val fields = listOf(
+            // A name in every app language Open Food Facts may hold, and the
+            // pack size: when a record has no nutrition, the name and size
+            // still fill in the form the label is typed into.
             "code", "product_name", "product_name_en", "product_name_ro",
-            "brands", "serving_size", "nutriments",
+            "product_name_de", "product_name_fr", "product_name_es", "product_name_pt",
+            "product_name_uk", "product_name_ar", "product_name_hi", "product_name_ja",
+            "product_name_ko", "product_name_zh",
+            "brands", "quantity", "serving_size", "nutriments",
         ).joinToString(",")
         val connection = (URL(
             "https://world.openfoodfacts.org/api/v2/product/$barcode.json?fields=$fields",

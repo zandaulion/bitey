@@ -490,5 +490,21 @@
   "Use my diet when reading photos": "写真を読み取るときに食事スタイルを使う",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "どちらの作り方もあり得る料理は、プロフィールに合わせてベジタリアン、ヴィーガン、ペスカタリアンとして読み取ります。明らかに肉や魚のものは、そのまま記録します。オンの間は、写真ごとに食事スタイルが送信されます。",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI に送った写真は Google の Gemini が読み取ります。上でオンにした場合の食事スタイルを除き、それ以外のものがスマホから送られることはありません。",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "それ以外のものはスマホから送られません。日記、体重、プロフィール、ほかの写真も送られません。唯一の例外は食事スタイルで、設定で「写真を読み取るときに食事スタイルを使う」をオンにした場合だけです。Bitey のサーバーは写真を保存しません。"
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "それ以外のものはスマホから送られません。日記、体重、プロフィール、ほかの写真も送られません。唯一の例外は食事スタイルで、設定で「写真を読み取るときに食事スタイルを使う」をオンにした場合だけです。Bitey のサーバーは写真を保存しません。",
+  "Added, but this barcode could not be remembered.": "追加しましたが、このバーコードは記憶できませんでした。",
+  "Hold the barcode about 15 cm away. Tap to focus.": "バーコードを約 15 cm 離してください。タップでピントを合わせます。",
+  "Light": "ライト",
+  "Light off": "ライトを消す",
+  "No lookup was made.": "検索は行われませんでした。",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts にこの商品はありますが、栄養成分はありません。",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "ラベルの 100 g あたりの値を入力してください。Bitey がこのバーコード用に記憶します。",
+  "Breakfast": "朝食",
+  "Lunch": "昼食",
+  "Dinner": "夕食",
+  "from a weighed portion": "量った分量から",
+  "From the food database — exact for the weights you entered.": "食品データベースより — 入力した重さに対して正確です。",
+  "from your estimate of the weight": "あなたが見積もった重さから",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "写真より正確にわかる場合だけ変更してください。大まかな推測は、そのままにするより正確とは限りません。",
+  "Using your weight rather than the photo’s guess.": "写真の推定ではなく、あなたの重さを使っています。",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "量った分量は、目分量のおよそ 2 倍正確です。"
 }

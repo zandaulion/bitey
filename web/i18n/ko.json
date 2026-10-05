@@ -490,5 +490,21 @@
   "Use my diet when reading photos": "사진을 읽을 때 내 식단 사용",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "어느 쪽으로도 만들 수 있는 요리는 프로필에 맞춰 채식, 비건 또는 페스코 채식으로 읽습니다. 분명히 고기나 생선인 음식은 그대로 기록됩니다. 이 설정이 켜져 있는 동안 사진마다 식단이 함께 전송됩니다.",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "Bitey AI로 보낸 사진은 Google의 Gemini가 읽습니다. 위에서 켠 경우의 식단을 제외하면 그 밖의 어떤 것도 휴대폰 밖으로 나가지 않습니다.",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "그 밖의 어떤 것도 휴대폰 밖으로 나가지 않습니다. 일지, 체중, 프로필, 다른 사진도 마찬가지입니다. 유일한 예외는 식단이며, 설정에서 ‘사진을 읽을 때 내 식단 사용’을 켠 경우에만 전송됩니다. Bitey 서버는 사진을 보관하지 않습니다."
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "그 밖의 어떤 것도 휴대폰 밖으로 나가지 않습니다. 일지, 체중, 프로필, 다른 사진도 마찬가지입니다. 유일한 예외는 식단이며, 설정에서 ‘사진을 읽을 때 내 식단 사용’을 켠 경우에만 전송됩니다. Bitey 서버는 사진을 보관하지 않습니다.",
+  "Added, but this barcode could not be remembered.": "추가했지만 이 바코드를 기억하지 못했습니다.",
+  "Hold the barcode about 15 cm away. Tap to focus.": "바코드를 약 15cm 떨어뜨려 주세요. 탭하면 초점을 맞춥니다.",
+  "Light": "손전등",
+  "Light off": "손전등 끄기",
+  "No lookup was made.": "조회하지 않았습니다.",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts에 이 제품은 있지만 영양 정보는 없습니다.",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "라벨의 100g당 값을 입력하세요. Bitey가 이 바코드에 대해 기억합니다.",
+  "Breakfast": "아침",
+  "Lunch": "점심",
+  "Dinner": "저녁",
+  "from a weighed portion": "계량한 양 기준",
+  "From the food database — exact for the weights you entered.": "음식 데이터베이스 기준 — 입력한 무게에 대해 정확합니다.",
+  "from your estimate of the weight": "내가 추정한 무게 기준",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "사진보다 더 잘 알 때만 바꾸세요. 대충 짐작한 값은 그대로 두는 것보다 정확하지 않습니다.",
+  "Using your weight rather than the photo’s guess.": "사진 추정 대신 입력한 무게를 사용합니다.",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "계량한 양은 눈대중보다 약 두 배 정확합니다."
 }

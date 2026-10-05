@@ -490,5 +490,21 @@
   "Use my diet when reading photos": "识别照片时参考我的饮食习惯",
   "When a dish could be made either way, Bitey AI reads it as vegetarian, vegan or pescatarian to match your profile. Food that is clearly meat or fish is still logged as it is. Your diet is sent with each photo while this is on.": "当一道菜两种做法都有可能时，Bitey AI 会按照你的个人资料将其识别为素食、纯素或鱼素版本。明显是肉或鱼的食物仍会按原样记录。开启期间，你的饮食习惯会随每张照片一起发送。",
   "Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.": "你发送给 Bitey AI 的照片由 Google 的 Gemini 识别。除非你在上方开启饮食习惯选项，否则不会有其他内容离开你的手机。",
-  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "不会有其他内容离开你的手机：不包括你的日记、体重、个人资料或其他照片。唯一的例外是你的饮食习惯，且仅当你在设置中开启“识别照片时参考我的饮食习惯”时才会发送。Bitey 的服务器不会保留照片。"
+  "Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.": "不会有其他内容离开你的手机：不包括你的日记、体重、个人资料或其他照片。唯一的例外是你的饮食习惯，且仅当你在设置中开启“识别照片时参考我的饮食习惯”时才会发送。Bitey 的服务器不会保留照片。",
+  "Added, but this barcode could not be remembered.": "已添加，但无法记住这个条形码。",
+  "Hold the barcode about 15 cm away. Tap to focus.": "将条形码保持在约 15 厘米外。轻点屏幕对焦。",
+  "Light": "手电筒",
+  "Light off": "关闭手电筒",
+  "No lookup was made.": "未进行查询。",
+  "Open Food Facts knows this product but not its nutrition.": "Open Food Facts 收录了这个产品，但没有它的营养信息。",
+  "Type the values per 100 g from the label. Bitey will remember them for this barcode.": "请输入标签上每 100 克的数值。Bitey 会为这个条形码记住它们。",
+  "Breakfast": "早餐",
+  "Lunch": "午餐",
+  "Dinner": "晚餐",
+  "from a weighed portion": "来自称重的分量",
+  "From the food database — exact for the weights you entered.": "来自食物数据库 — 按你输入的重量计算，数值准确。",
+  "from your estimate of the weight": "来自你估计的重量",
+  "Only worth changing if you have a better idea than the photo does — a rough guess is no more accurate than leaving it.": "只有在你比照片更清楚时才值得修改 — 粗略的猜测并不比保持原样更准确。",
+  "Using your weight rather than the photo’s guess.": "正在使用你输入的重量，而不是照片的估计。",
+  "Weighed portions are roughly twice as accurate as an eyeballed one.": "称重的分量大约比目测准确一倍。"
 }
