@@ -3,11 +3,12 @@
 // Backs up the SQLite database before making any changes.
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 
 const dbPath = process.argv[2]
-  || '~/.local/share/containers/storage/volumes/plate-data/_data/plate.db';
+  || path.join(os.homedir(), '.local/share/containers/storage/volumes/plate-data/_data/plate.db');
 
 if (!fs.existsSync(dbPath)) {
   console.error(`Database not found at ${dbPath}`);
