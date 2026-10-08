@@ -21,7 +21,15 @@ Google Play.
 
 ## Upload artifacts
 
-**1.0.11** (`versionCode` 12) was sent for review on 5 October 2026: a far
+The next upload is **1.0.12** (`versionCode` 13): the first Bitey AI reading
+after opening the app no longer waits for, or fails on, the app's start-up
+checks, and each reading logs where its time went. Its release notes are in
+`RELEASE_NOTES_1.0.12.md`, with the paste-ready tagged form in
+`release-notes-1.0.12.xml`. Deploy the `analyse` function too
+(`firebase deploy --only functions:analyse`) for its timing logs. Record its
+hash here once built.
+
+The latest upload is **1.0.11** (`versionCode` 12), sent for review on 5 October 2026: a far
 larger food table named in every app language, Bitey AI counting loose foods,
 and an opt-in switch that lets Bitey AI use a vegetarian, vegan or pescatarian
 diet. The updated `plate-privacy.html` (5 October 2026) and the Data safety
@@ -107,8 +115,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.11** (`versionCode` 12), in Play review
-- Latest upload artifact: `bitey-private-food-log-1.0.11.aab`
+- Current source version: **1.0.12** (`versionCode` 13), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.12.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
