@@ -40,6 +40,10 @@ const PLAY_PACKAGE = (process.env.PLAY_PACKAGE || 'com.zandaulion.bitey').trim()
 // switch, for an App Check outage that is refusing genuine phones.
 const APPCHECK_ENFORCE = process.env.APPCHECK_ENFORCE !== 'false';
 
+// False until this instance has served its first request, so the timings
+// say which readings paid for starting an instance.
+let warm = false;
+
 const fail = (res, status, code, message, extra = {}) =>
   res.status(status).json({ error: code, message, ...extra });
 
@@ -72,6 +76,13 @@ export const analyse = onRequest(
   async (req, res) => {
     if (req.method !== 'POST') return fail(res, 405, 'method', 'POST only.');
 
+    // Milliseconds per step, logged with the outcome: a slow reading should
+    // say where the time went. Durations only -- nothing about the photo.
+    const ms = { cold: !warm };
+    warm = true;
+    let last = Date.now();
+    const lap = (step) => { const now = Date.now(); ms[step] = now - last; last = now; };
+
     // Always checked and logged, so a rise in "absent" or "invalid" shows up
     // in the logs; refused unless APPCHECK_ENFORCE has been set to false.
     const appCheckToken = req.header('X-Firebase-AppCheck');
@@ -84,6 +95,7 @@ export const analyse = onRequest(
         appCheck = 'invalid';
       }
     }
+    lap('appCheck');
     logger.info('app check', { appCheck, enforced: APPCHECK_ENFORCE });
     if (APPCHECK_ENFORCE && appCheck !== 'valid') {
       return fail(res, 401, appCheck === 'absent' ? 'no_app_check' : 'bad_app_check',
@@ -103,6 +115,7 @@ export const analyse = onRequest(
     let subscription;
     try {
       subscription = await readSubscription(PLAY_PACKAGE, request.purchaseToken);
+      lap('play');
     } catch (err) {
       if (err instanceof PlayError) {
         logger.error('play verification failed', { code: err.code, detail: err.detail, entitlementId });
@@ -119,6 +132,7 @@ export const analyse = onRequest(
     }
 
     const quota = await claim(entitlementId);
+    lap('quota');
     if (!quota.allowed) {
       return fail(res, 429, 'daily_limit', ANALYSE_ERRORS.daily_limit,
         { used: quota.used, limit: quota.limit, remaining: 0 });
@@ -147,12 +161,14 @@ export const analyse = onRequest(
           locale: request.locale,
           diet: request.diet
         }));
+      lap('model');
     } catch (err) {
+      lap('model');
       if (err instanceof AnalysisError) {
         // Nothing was spent if the request never got as far as the model, so
         // the reading goes back into today's allowance.
         if (err.status === 503 || err.status === 429) await refund(entitlementId);
-        logger.error('analysis failed', { code: err.code, entitlementId });
+        logger.error('analysis failed', { code: err.code, entitlementId, ms });
         return fail(res, err.status, err.code, err.message);
       }
       await refund(entitlementId);
@@ -175,6 +191,7 @@ export const analyse = onRequest(
       }
       logger.info('leftovers read', {
         entitlementId,
+        ms,
         promptTokens: usage.promptTokens,
         outputTokens: usage.outputTokens,
         remaining: quota.remaining
@@ -205,6 +222,7 @@ export const analyse = onRequest(
     // somebody ate is theirs; what the feature costs to run is ours to watch.
     logger.info('analysed', {
       entitlementId,
+      ms,
       promptTokens: usage.promptTokens,
       outputTokens: usage.outputTokens,
       remaining: quota.remaining

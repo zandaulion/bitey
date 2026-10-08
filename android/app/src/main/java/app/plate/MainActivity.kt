@@ -9,7 +9,9 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Gravity
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.WindowInsets
@@ -297,7 +299,13 @@ class MainActivity : ComponentActivity() {
                 // page asked, so a subscription that lapsed in between is not
                 // presented. The server re-verifies regardless.
                 analysisExecutor.execute {
-                    val result = analysis.analyse(playBilling.activePurchaseToken(), payload)
+                    // Just after start-up Play may not have answered yet; a
+                    // short wait beats refusing a subscriber.
+                    val started = SystemClock.elapsedRealtime()
+                    val token = playBilling.awaitPurchaseToken(5_000)
+                    Log.i("BiteyAnalysis", "purchase token ${if (token != null) "ready" else "absent"} " +
+                        "after ${SystemClock.elapsedRealtime() - started} ms")
+                    val result = analysis.analyse(token, payload)
                     plateWebView.deliverAnalysisResult(requestId, result)
                 }
             },

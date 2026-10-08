@@ -17,6 +17,8 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /**
  * The Play side of Bitey AI access.
@@ -123,6 +125,25 @@ class PlayBilling(
 
     fun activePurchaseToken(): String? = activePurchaseToken
 
+    /** Opened once Play has answered the first purchase query since start-up,
+     * whatever the answer, so nothing waits on it longer than that. */
+    private val firstAnswer = CountDownLatch(1)
+
+    /**
+     * The purchase token for a reading, waiting up to [timeoutMs] for Play's
+     * first answer if it has not come yet.
+     *
+     * Reading [activePurchaseToken] straight away refused a photo taken just
+     * after opening the app: the purchase query was still on its way, so a
+     * subscriber looked like nobody. Blocking -- call it off the main thread.
+     */
+    fun awaitPurchaseToken(timeoutMs: Long): String? {
+        activePurchaseToken?.let { return it }
+        if (!engaged()) return null
+        runCatching { firstAnswer.await(timeoutMs, TimeUnit.MILLISECONDS) }
+        return activePurchaseToken
+    }
+
     private val billingClient: BillingClient = BillingClient.newBuilder(context)
         .setListener(this)
         // Required by current Billing Library releases. Bitey presently sells a
@@ -164,6 +185,7 @@ class PlayBilling(
         ensureConnected { connected ->
             if (!connected) {
                 setEntitlement(Status.UNAVAILABLE)
+                firstAnswer.countDown()
                 callback?.invoke(Status.UNAVAILABLE)
                 return@ensureConnected
             }
@@ -172,11 +194,13 @@ class PlayBilling(
                 .build()
             billingClient.queryPurchasesAsync(params) { result, purchases ->
                 if (result.responseCode != BillingClient.BillingResponseCode.OK) {
+                    firstAnswer.countDown()
                     callback?.invoke(Status.ERROR)
                     return@queryPurchasesAsync
                 }
                 val next = statusFor(purchases)
                 setEntitlement(next)
+                firstAnswer.countDown()
                 callback?.invoke(next)
             }
         }

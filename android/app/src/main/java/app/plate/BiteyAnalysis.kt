@@ -1,6 +1,8 @@
 package com.zandaulion.bitey
 
 import android.content.Context
+import android.os.SystemClock
+import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -29,6 +31,8 @@ class BiteyAnalysis(
     private val endpoint: String = ANALYSE_URL,
 ) {
     companion object {
+        private const val TAG = "BiteyAnalysis"
+
         const val ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyse"
 
         /** Just above the server's own ceiling, so an oversized photograph is
@@ -104,6 +108,9 @@ class BiteyAnalysis(
         }
         val payload = body.toString()
 
+        val appCheckStarted = SystemClock.elapsedRealtime()
+        val appCheck = appCheckToken()
+        val appCheckMs = SystemClock.elapsedRealtime() - appCheckStarted
         val connection = try {
             (URL(endpoint).openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
@@ -115,7 +122,7 @@ class BiteyAnalysis(
                 readTimeout = 95_000
                 setRequestProperty("Content-Type", "application/json; charset=utf-8")
                 setRequestProperty("Accept", "application/json")
-                appCheckToken()?.let { setRequestProperty("X-Firebase-AppCheck", it) }
+                appCheck?.let { setRequestProperty("X-Firebase-AppCheck", it) }
                 // Identifies the software, never the person or the device.
                 setRequestProperty("User-Agent", "Bitey-Android (photo analysis)")
             }
@@ -123,9 +130,14 @@ class BiteyAnalysis(
             return unreachable()
         }
 
+        val sent = SystemClock.elapsedRealtime()
         return try {
             connection.outputStream.use { it.write(payload.toByteArray(Charsets.UTF_8)) }
             val status = connection.responseCode
+            // Durations and the status only: where a slow reading spent its
+            // time, never what was photographed or who sent it.
+            Log.i(TAG, "app check ${if (appCheck != null) "token" else "none"} in $appCheckMs ms; " +
+                "server answered $status in ${SystemClock.elapsedRealtime() - sent} ms")
             val stream = if (status in 200..299) connection.inputStream else connection.errorStream
             val text = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
             val parsed = runCatching { JSONObject(text) }.getOrNull()

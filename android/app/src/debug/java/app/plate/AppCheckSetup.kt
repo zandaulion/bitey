@@ -26,6 +26,8 @@ internal object AppCheckSetup {
         }
         val appCheck = FirebaseAppCheck.getInstance()
         appCheck.installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance())
+        // As in release: kept fresh, so a reading never waits for a token.
+        appCheck.setTokenAutoRefreshEnabled(true)
         // Asked for once at start-up, so a debug build shows straight away
         // whether it can obtain a token -- and so the debug secret is logged
         // before anyone needs it, rather than on the first paid reading. The
