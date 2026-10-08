@@ -26,8 +26,10 @@ after opening the app no longer waits for, or fails on, the app's start-up
 checks, and each reading logs where its time went. Its release notes are in
 `RELEASE_NOTES_1.0.12.md`, with the paste-ready tagged form in
 `release-notes-1.0.12.xml`. Deploy the `analyse` function too
-(`firebase deploy --only functions:analyse`) for its timing logs. Record its
-hash here once built.
+(`firebase deploy --only functions:analyse`) for its timing logs.
+
+- 1.0.12 file SHA-256: `13C77B0EA2E3E00C1BE2D7CF746106A1F4A7941C5EE674677B24F6A29675A59C`
+  (built 8 October 2026, 09:02)
 
 The latest upload is **1.0.11** (`versionCode` 12), sent for review on 5 October 2026: a far
 larger food table named in every app language, Bitey AI counting loose foods,
