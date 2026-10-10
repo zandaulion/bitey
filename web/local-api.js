@@ -261,8 +261,13 @@ async function nativeAnalyse(body, extra = null) {
   }
   // A leftovers reading compares two photos of a meal already read; the diet
   // has nothing to add there.
-  const diet = extra ? null : await dietForAnalysis();
-  const request = {
+  const textMode = body?.mode === 'text';
+  const diet = extra || textMode ? null : await dietForAnalysis();
+  const request = textMode ? {
+    mode: 'text',
+    description: typeof body.description === 'string' ? body.description : '',
+    locale: document.documentElement.lang || 'en'
+  } : {
     image: typeof body?.image === 'string' ? body.image : '',
     mimeType: body?.mimeType === 'image/png' ? 'image/png' : 'image/jpeg',
     correction: typeof body?.correction === 'string' ? body.correction : '',
@@ -284,7 +289,8 @@ async function nativeAnalyse(body, extra = null) {
   const answer = result?.body || {};
   const answered = request.mode === 'leftovers' ? answer.eaten : answer.estimate;
   if (status >= 200 && status < 300 && answered) return answer;
-  throw new LocalApiError(answer.message || answer.note || 'The photo could not be read. Try again.', {
+  throw new LocalApiError(answer.message || answer.note || (textMode
+    ? 'The meal could not be estimated. Try again.' : 'The photo could not be read. Try again.'), {
     code: answer.error || 'analysis_failed',
     // 0 is "never reached the server"; reported as 503 like any other outage.
     status: status || 503,

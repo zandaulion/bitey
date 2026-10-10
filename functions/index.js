@@ -21,7 +21,7 @@ import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';
 import { fromModelResponse, totalsOf, rangesOf } from './core/analysis/estimate.js';
 import { readSubscription, PlayError, AI_SUBSCRIPTION_ID } from './play.js';
 import { entitlementIdFor, claim, refund } from './quota.js';
-import { analysePhoto, readLeftovers, AnalysisError } from './gemini.js';
+import { analysePhoto, analyseText, readLeftovers, AnalysisError } from './gemini.js';
 
 initializeApp();
 
@@ -104,7 +104,8 @@ export const analyse = onRequest(
 
     const request = validateAnalyseRequest(req.body);
     if (!request.ok) {
-      const shape = ['no_image', 'image_too_large', 'no_original', 'no_items'].includes(request.error);
+      const shape = ['no_image', 'image_too_large', 'no_original', 'no_items',
+        'no_description', 'description_too_long', 'bad_mode'].includes(request.error);
       return fail(res, shape ? 400 : 401, request.error, ANALYSE_ERRORS[request.error]);
     }
 
@@ -153,6 +154,8 @@ export const analyse = onRequest(
           items: request.items,
           locale: request.locale
         })
+        : request.mode === 'text'
+        ? await analyseText({ apiKey: GEMINI_API_KEY.value(), description: request.description, locale: request.locale })
         : await analysePhoto({
           apiKey: GEMINI_API_KEY.value(),
           imageBase64: request.image,
@@ -211,7 +214,8 @@ export const analyse = onRequest(
       });
     }
 
-    const estimate = fromModelResponse({ items: parsed.items, note: parsed.note });
+    const estimate = fromModelResponse({ items: parsed.items, note: parsed.note },
+      request.mode === 'text' ? 'text' : 'photo');
     if (!estimate.items.length) {
       return res.status(422).json({
         error: 'nothing_found', note: parsed.note, usage, model, remaining: quota.remaining

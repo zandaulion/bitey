@@ -14,14 +14,32 @@ Google Play.
 - `assets/feature-graphic-base.png` — 1280 × 720 feature-graphic artwork.
 - `assets/feature-graphic-play.png` — flattened 1024 × 500 feature graphic
   ready for Google Play upload.
-- `screenshots/` — authentic Android screenshots and their capture guide.
+- `screenshots/` — screenshot inventory and capture guide, including the
+  1.0.13 entry flow rendered from the app with synthetic fixtures. The guide
+  distinguishes browser captures from older Android captures.
 - `releases/` — local signed Play App Bundles ready for Play Console upload.
   Do not commit keystores or signed bundles here or anywhere else in the
   repository.
 
 ## Upload artifacts
 
-The next upload is **1.0.12** (`versionCode` 13): the first Bitey AI reading
+The next upload is **1.0.13** (`versionCode` 14): describe a meal to estimate
+calories and macros with Bitey AI, then review and adjust portions before
+saving. Text estimates require the same subscription and share the daily
+allowance with photo estimates. Food search and entering nutrition numbers
+remain free. Release notes for all twelve languages are in
+`RELEASE_NOTES_1.0.13.md`, with the paste-ready tagged form in
+`release-notes-1.0.13.xml`.
+
+Before rolling out 1.0.13, deploy the updated `analyse` function
+(`firebase deploy --only functions:analyse`) for text analysis, and publish
+the updated `plate-privacy.html` dated 10 October 2026. Building this bundle
+does not deploy the backend or publish the privacy page.
+
+- 1.0.13 file SHA-256: `16B76B0CCF9DF09F83BF5C33301BD8AA3E1F97C1965F00A74BB54E92EBAF36A5`
+  (built 10 October 2026; Play upload signature verified)
+
+The preceding build was **1.0.12** (`versionCode` 13): the first Bitey AI reading
 after opening the app no longer waits for, or fails on, the app's start-up
 checks, and each reading logs where its time went. Its release notes are in
 `RELEASE_NOTES_1.0.12.md`, with the paste-ready tagged form in
@@ -117,8 +135,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.12** (`versionCode` 13), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.12.aab`
+- Current source version: **1.0.13** (`versionCode` 14), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.0.13.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do

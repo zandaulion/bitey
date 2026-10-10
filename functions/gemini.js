@@ -7,7 +7,7 @@
 // copy runs where a Secret Manager secret is available and the other does not.
 
 import {
-  buildPrompt, RESPONSE_SCHEMA, buildLeftoversPrompt, LEFTOVERS_SCHEMA
+  buildPrompt, buildTextPrompt, RESPONSE_SCHEMA, buildLeftoversPrompt, LEFTOVERS_SCHEMA
 } from './core/analysis/prompt.js';
 
 const ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
@@ -30,6 +30,13 @@ export async function analysePhoto(
     { inline_data: { mime_type: mimeType, data: imageBase64 } },
     { text: buildPrompt(correction, locale, diet) }
   ], RESPONSE_SCHEMA, fetchImpl, { think: false });
+}
+
+export async function analyseText({ apiKey, description, locale = 'en' }, fetchImpl = fetch) {
+  return call(apiKey, [
+    { text: buildTextPrompt(description, locale) },
+    { text: JSON.stringify({ meal_description: description }) }
+  ], RESPONSE_SCHEMA, fetchImpl);
 }
 
 /**

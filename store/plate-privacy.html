@@ -19,7 +19,7 @@
                 <h1>Bitey — Private Food Log: Privacy Policy</h1>
 
                 <p>
-                    <strong>Last updated:</strong> 5 October 2026<br>
+                    <strong>Last updated:</strong> 10 October 2026<br>
                     <strong>Developer:</strong> Zandaulion<br>
                     <strong>Privacy contact:</strong> <a href="mailto:zandaulion@gmail.com"><strong>zandaulion@gmail.com</strong></a>
                 </p>
@@ -32,7 +32,7 @@
 
                 <ul>
                     <li><strong>Barcode lookups</strong> send a barcode you scanned directly to Open Food Facts.</li>
-                    <li><strong>Bitey AI</strong>, an optional paid feature, sends a food photograph you choose — and any correction you type, and your diet if you turn that on — to Bitey’s analysis server, where Google’s Gemini reads it. Bitey asks for your consent before the first photograph is sent.</li>
+                    <li><strong>Bitey AI</strong>, an optional paid feature, sends a meal description you type or a food photograph you choose — and any correction you type, and your diet if you turn that on — to Bitey’s analysis server, where Google’s Gemini reads it. Bitey asks for your consent before the first photograph is sent, and separately before the first meal description is sent.</li>
                 </ul>
 
                 <p>Using Bitey AI also involves two Google services, Google Play's billing and Google's app-verification check, which are described below. Nothing else leaves your device: not your diary, weight, other photos, or your profile — apart from your diet, and only if you choose to send it as described below.</p>
@@ -56,7 +56,9 @@
 
                 <p>Bitey requests camera access only when you choose a feature that needs it, such as scanning a barcode or taking a food photograph. Barcode reading happens on-device. Food photographs are stored on your device when you save the associated diary entry. A photograph leaves your device only if you send it to Bitey AI, as described next.</p>
 
-                <h2>Bitey AI photo analysis</h2>
+                <h2>Bitey AI meal analysis</h2>
+
+                <p>Text entry is another optional Bitey AI route. When you tap Estimate meal, the meal description you typed is sent instead of a photograph. Bitey asks for separate consent before the first description is sent. Text requests send your app language and subscription token through the same verified analysis service and share the daily allowance with photo requests. No photograph, diet or profile accompanies a text request. The description is processed by Gemini under the same terms described below, and is not stored in Bitey’s server database or application logs. You can withdraw both photo and text consent in Settings. Food search and entering exact nutrition values do not use Bitey AI.</p>
 
                 <p>Bitey AI is an optional paid subscription, bought and managed through Google Play. When you use it, Bitey estimates what is on your plate from a photograph. Before the first photograph is sent, Bitey shows what will be sent and asks for your consent. You can withdraw consent at any time in Bitey’s Settings; the next photograph will ask again.</p>
 
@@ -79,11 +81,11 @@
 
                 <h2>Google services used with Bitey AI</h2>
 
-                <p>Two Google libraries built into Bitey contact Google, and only in connection with Bitey AI. Neither receives your photographs, diary, weight, or profile.</p>
+                <p>Two Google libraries built into Bitey contact Google, and only in connection with Bitey AI. Neither receives your meal descriptions, photographs, diary, weight, or profile.</p>
 
-                <p><strong>Google Play Billing.</strong> Bitey AI is bought and managed through Google Play. Bitey connects to Google Play's billing service only after you first use a Bitey AI feature — a photo action, the plans, Restore or Manage — and from then on it checks your subscription when Bitey opens. When it connects, Google's billing library sends Google technical information such as your device model and Android version, country, mobile network and language. Google uses it to operate Play billing; Bitey does not receive it. If you only keep a diary, Bitey never connects to Google Play's billing service.</p>
+                <p><strong>Google Play Billing.</strong> Bitey AI is bought and managed through Google Play. Bitey connects to Google Play's billing service only after you first use a Bitey AI feature — a photo or text-estimation action, the plans, Restore or Manage — and from then on it checks your subscription when Bitey opens. When it connects, Google's billing library sends Google technical information such as your device model and Android version, country, mobile network and language. Google uses it to operate Play billing; Bitey does not receive it. If you only keep a diary, Bitey never connects to Google Play's billing service.</p>
 
-                <p><strong>App verification (Firebase App Check with Google Play Integrity).</strong> Before a photograph is sent to Bitey AI, Bitey asks Google Play to confirm that the request comes from the genuine Bitey app, installed from Google Play, on a genuine device. To answer, Google Play checks the app's package, version, signing certificate and licence, and an attestation from your device; Firebase, Google's app platform, then issues a short-lived token that Bitey's server checks before it accepts the photograph. Firebase also receives technical details such as the library and Android versions. This keeps the paid service from being used by copies of the app or by scripts. Bitey does not create an identifier for you or your device for this, and Bitey's server does not store the token.</p>
+                <p><strong>App verification (Firebase App Check with Google Play Integrity).</strong> Before a photograph or meal description is sent to Bitey AI, Bitey asks Google Play to confirm that the request comes from the genuine Bitey app, installed from Google Play, on a genuine device. To answer, Google Play checks the app's package, version, signing certificate and licence, and an attestation from your device; Firebase, Google's app platform, then issues a short-lived token that Bitey's server checks before it accepts the photograph. Firebase also receives technical details such as the library and Android versions. This keeps the paid service from being used by copies of the app or by scripts. Bitey does not create an identifier for you or your device for this, and Bitey's server does not store the token.</p>
 
                 <p>Google handles this information under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</p>
 

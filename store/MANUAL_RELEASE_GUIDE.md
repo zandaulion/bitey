@@ -154,9 +154,16 @@ Use `LISTINGS.md` as the source of truth.
 - **Tags:** Dieting and Weight loss
 - **Health feature:** Nutrition and weight management only
 - **App icon:** `assets/app-icon-512.png` (512 × 512 PNG)
-- **Phone screenshots:** `screenshots/00-fresh.png` through
-  `screenshots/04-private-backup.png`
-- **Tablet screenshots:** the five `tablet-7-*` and five `tablet-10-*` images
+- **Entry screenshots for 1.0.13:** `screenshots/02-manual-entry.png`,
+  `screenshots/05-text-review.png`, and `screenshots/06-exact-numbers.png`
+  show description, editable estimate, and free exact-number entry.
+- **Tablet entry screenshots:** `tablet-7-01-manual-entry.png` and
+  `tablet-10-01-manual-entry.png` show the updated composer.
+- **Capture provenance and final listing selection:** see
+  [`screenshots/README.md`](screenshots/README.md). The refreshed entry images
+  are browser captures of the real UI with synthetic fixtures. Verify and
+  recapture the final listing set on Android before uploading. The remaining
+  phone and tablet images show older layouts.
 
 Use `assets/feature-graphic-play.png` for upload: it is a flattened **1024 ×
 500 24-bit PNG** with no alpha channel. Keep `feature-graphic-v2.png` as the

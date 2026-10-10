@@ -18,10 +18,10 @@ Implemented local-first slices:
 4. Typed generic-food search uses the bundled SQLite table through a narrow
    native bridge; it has no network dependency.
 
-The AI photo paths are visibly marked as premium. The Android client now uses
+The AI photo and meal-description paths are visibly marked as premium. The Android client now uses
 Google Play Billing 9.1 to restore and acknowledge the `bitey_ai` subscription
 on the user's Google Play account. All camera, gallery, correction, leftovers,
-and shared-photo paths ask the same native entitlement gate first. The rest of
+shared-photo and text-description paths ask the same native entitlement gate first. The rest of
 the log continues to work locally without an account.
 
 ## Play Billing launch checklist
@@ -52,6 +52,17 @@ The billing bridge does not expose Play account details or purchase tokens to
 the WebView, and it does not send diary data or photos to Google Play.
 
 ## Local release signing
+
+Debug APKs use `com.zandaulion.bitey.debug` and the launcher name **Bitey Debug**,
+so they install alongside the Play version with separate app data. The Play
+version's subscription does not carry over to this package. Production AI
+entitlement checks remain enforced, and live text analysis also requires the
+updated analysis function to be deployed.
+
+Shared debug builds can use the local sideload key through the ignored
+`android/debug-keystore.properties`, with `storeFile`, `storePassword`,
+`keyAlias`, and `keyPassword` entries. Without this file, Gradle uses its
+ordinary debug key. Never put the Play upload key in this file.
 
 Before `bundleRelease`, copy `keystore.properties.example` to the ignored
 `keystore.properties` file and replace the three `REPLACE_*` values using the

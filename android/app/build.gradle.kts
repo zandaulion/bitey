@@ -44,6 +44,13 @@ val releaseSigningReady = missingSigningInputs.isEmpty()
 // directory the build happened to be started in.
 val resolvedStoreFile = releaseStoreFile?.let(rootProject::file)
 
+// Optional sideload signing for shared debug APKs, independent of Play's
+// upload key. Without this local file, Android Studio uses its debug key.
+val debugSigningFile = rootProject.file("debug-keystore.properties")
+val debugSigning = Properties().apply {
+    if (debugSigningFile.isFile) debugSigningFile.inputStream().use(::load)
+}
+
 /**
  * Firebase's identifiers for this app, read from the ignored
  * app/google-services.json (`firebase apps:sdkconfig ANDROID <appId>`).
@@ -89,10 +96,30 @@ android {
         applicationId = "com.zandaulion.bitey"
         minSdk = 26
         targetSdk = 36
-        versionCode = 13
-        versionName = "1.0.12"
+        versionCode = 14
+        versionName = "1.0.13"
+        resValue("string", "app_name", "Bitey")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
+    }
+
+    buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            resValue("string", "app_name", "Bitey Debug")
+        }
+    }
+    if (debugSigningFile.isFile) {
+        signingConfigs.getByName("debug") {
+            fun required(name: String): String = requireNotNull(debugSigning.getProperty(name)) {
+                "Missing $name in debug-keystore.properties"
+            }
+            storeFile = rootProject.file(required("storeFile"))
+            storePassword = required("storePassword")
+            keyAlias = required("keyAlias")
+            keyPassword = required("keyPassword")
+        }
     }
 
     if (releaseSigningReady) {

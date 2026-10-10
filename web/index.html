@@ -193,7 +193,7 @@
               stroke-width="1.7" stroke-linejoin="round"/>
         <path d="M14 7.5 17 10.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
       </svg>
-      <span data-i18n="Manual">Manual</span>
+      <span data-i18n="Type">Type</span>
     </button>
 
     <button id="add-barcode" class="action" type="button">
@@ -231,6 +231,22 @@
       </header>
 
       <div id="review-body">
+        <section id="text-entry" class="text-entry" hidden>
+          <span class="text-entry-brand">Bitey AI</span>
+          <h3 data-i18n="What did you eat?">What did you eat?</h3>
+          <p data-i18n="Describe your meal. Get estimated calories and macros.">Describe your meal. Get estimated calories and macros.</p>
+          <label class="sr-only" for="meal-description" data-i18n="Describe your meal">Describe your meal</label>
+          <textarea id="meal-description" rows="3" maxlength="1000" placeholder="e.g. Two eggs and a slice of cheese" data-i18n-placeholder="e.g. Two eggs and a slice of cheese"></textarea>
+          <button id="estimate-text" class="primary ai-locked" type="button" disabled data-i18n="Estimate meal">Estimate meal</button>
+          <p class="hint" data-i18n="You can check and adjust before saving.">You can check and adjust before saving.</p>
+          <p id="text-error" class="error" role="alert" hidden></p>
+          <div class="text-entry-routes">
+            <button id="text-search" type="button"><span><strong data-i18n="Search foods">Search foods</strong><small data-i18n="Find a food or log a recent one again">Find a food or log a recent one again</small></span><span aria-hidden="true">›</span></button>
+            <button id="text-numbers" type="button"><span><strong data-i18n="Enter exact numbers">Enter exact numbers</strong><small data-i18n="Use the nutrition on a label or menu">Use the nutrition on a label or menu</small></span><span aria-hidden="true">›</span></button>
+          </div>
+        </section>
+        <button id="entry-back" class="link-btn" type="button" hidden data-i18n="Back">Back</button>
+        <button id="text-edit" class="link-btn" type="button" hidden data-i18n="Edit meal description">Edit meal description</button>
         <img id="review-photo" class="review-photo" alt="The meal you photographed">
         <p id="photo-day-note" class="photo-day-note" hidden></p>
         <!-- What the photo was read as, straight under the photo: the foods
@@ -314,7 +330,7 @@
 
         <ul id="review-items" class="items"></ul>
 
-        <section class="finder">
+        <section class="finder" id="food-finder">
           <div class="finder-row">
             <input id="food-q" type="search" placeholder="Add a food by name" data-i18n-placeholder="Add a food by name"
                    autocomplete="off" spellcheck="false" aria-label="Search for a food" data-i18n-label="Search for a food">
@@ -597,11 +613,11 @@
             <input id="ai-use-diet" type="checkbox" role="switch"
                    aria-label="Use my diet when reading photos" data-i18n-label="Use my diet when reading photos">
           </label>
-          <p class="hint" data-i18n="Photos you send to Bitey AI are read by Google&#x27;s Gemini. Nothing else leaves your phone, except your diet if you turn that on above.">Photos you send to Bitey AI are read by Google's Gemini. Nothing else leaves your phone, except your diet if you turn that on above.</p>
+          <p class="hint" data-i18n="Photos and meal descriptions you send to Bitey AI are read by Google&#x27;s Gemini. Your diary stays on this device.">Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.</p>
           <!-- Opens in the browser via native code, which holds the address. -->
           <button id="privacy-notice" class="link-btn" type="button" data-i18n="Privacy policy">Privacy policy</button>
           <!-- Only shown once consent has been given, so there is something to withdraw. -->
-          <button id="ai-consent-withdraw" class="secondary" type="button" hidden data-i18n="Withdraw consent to send photos">Withdraw consent to send photos</button>
+          <button id="ai-consent-withdraw" class="secondary" type="button" hidden data-i18n="Withdraw AI consent">Withdraw AI consent</button>
         </section>
 
         <!-- Where the numbers come from. Ciqual's Licence Ouverte asks for the
@@ -705,8 +721,11 @@
 <div id="ai-consent" class="consent" hidden role="dialog" aria-modal="true" aria-labelledby="ai-consent-heading">
   <div class="consent-card">
     <h2 id="ai-consent-heading" data-i18n="How Bitey AI reads your photo">How Bitey AI reads your photo</h2>
+    <p id="ai-text-consent-copy" hidden data-i18n="Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.">Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.</p>
+    <div id="ai-photo-consent-copy">
     <p data-i18n="The photo you take or choose, and anything you type to correct it, is sent to Bitey&#x27;s server in Google Cloud (Belgium) and read by Google&#x27;s Gemini. A code from Google Play that confirms your subscription is sent with it.">The photo you take or choose, and anything you type to correct it, is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini. A code from Google Play that confirms your subscription is sent with it.</p>
     <p data-i18n="Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey&#x27;s server does not keep the photo.">Nothing else leaves your phone: not your diary, weight, profile or other photos. The one exception is your diet, and only if you turn on “Use my diet when reading photos” in Settings. Bitey's server does not keep the photo.</p>
+    </div>
     <p class="hint" data-i18n="You can withdraw this at any time in Settings.">You can withdraw this at any time in Settings.</p>
     <div class="consent-actions">
       <button id="ai-consent-cancel" class="secondary" type="button" data-i18n="Not now">Not now</button>

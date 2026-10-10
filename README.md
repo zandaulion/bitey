@@ -168,8 +168,34 @@ Build the image from `deploy/Containerfile`, install
 proxy that strips `X-Admin` and blocks `/api/admin/*`. The service reads its
 secrets from an environment file outside this repo.
 
-Bump `CACHE_NAME` in `web/sw.js` on every shell change, or installed clients
-keep serving the old build.
+The server derives the service-worker cache version from `web/` at startup;
+restart it after deploying shell changes so installed clients receive the update.
+
+## Describe a meal
+
+The **Type** action opens a meal description, with food search and exact
+nutrition entry as separate free routes. **Estimate meal** sends up to 1,000
+characters, then opens the existing editable review before anything is saved.
+The model lists assumptions about unstated foods and portions.
+
+On Android, text goes through the same Play entitlement and App Check gates
+as photos, and shares their 20-analysis daily allowance. The native bridge
+adds the purchase token; the page never receives it. Text has its own upload
+consent, and sends no photo, diet, profile or diary. The private, invite-only
+PWA retains its existing authenticated account budget, as for photo analysis.
+
+Text items persist with `source: 'text'`, including when reused from recent
+foods. Their estimates have no numerical accuracy band: `rangesOf` returns
+null bounds and `unmeasured` confidence until text accuracy is measured.
+
+Deploy the updated analysis function before distributing the updated Android
+client. Older functions reject text requests; client changes alone do not
+enable the feature. The privacy notice sources also describe text analysis
+and should be published with the release.
+
+The screenshot inventory and capture instructions are in
+[`store/screenshots/README.md`](store/screenshots/README.md). The text-entry
+examples use synthetic meal data, including the review's assumed portions.
 
 ## Recent foods
 

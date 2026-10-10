@@ -14,7 +14,8 @@ import {
   listDevices, revokeDevice, listAllDevices, setDeviceRevoked, setDeviceLabel,
   ThrottledError
 } from './auth.js';
-import { analysePhoto, readLeftovers, AnalysisError, isConfigured, getModel } from './gemini.js';
+import { analysePhoto, analyseText, readLeftovers, AnalysisError, isConfigured, getModel } from './gemini.js';
+import { validateDescription, ANALYSE_ERRORS } from '../core/ai/gate.js';
 
 /**
  * The interface language of the device making the request.
@@ -356,14 +357,19 @@ app.put('/api/profile', requireDevice, (req, res) => {
 
 app.post('/api/analyse', requireDevice, asyncRoute(async (req, res) => {
   const { image, mimeType, correction } = req.body || {};
-  if (typeof image !== 'string' || image.length < 100) {
+  const textMode = req.body?.mode === 'text';
+  const description = textMode ? validateDescription(req.body.description) : null;
+  if (textMode && !description.ok) {
+    return res.status(400).json({ error: description.error, message: ANALYSE_ERRORS[description.error] });
+  }
+  if (!textMode && (typeof image !== 'string' || image.length < 100)) {
     return res.status(400).json({ error: 'no_image', message: 'No photo was received.' });
   }
 
   charge(req.device.account_id);
   let raw, usage, model;
   try {
-    ({ raw, usage, model } = await analysePhoto(
+    ({ raw, usage, model } = textMode ? await analyseText(description.description, localeOf(req)) : await analysePhoto(
       image, mimeType || 'image/jpeg',
       typeof correction === 'string' ? correction.slice(0, 200) : null,
       localeOf(req)));
@@ -380,7 +386,7 @@ app.post('/api/analyse', requireDevice, asyncRoute(async (req, res) => {
     return res.status(422).json({ error: parsed.reason, note: parsed.note, usage, model });
   }
 
-  const estimate = fromModelResponse({ items: parsed.items, note: parsed.note });
+  const estimate = fromModelResponse({ items: parsed.items, note: parsed.note }, textMode ? 'text' : 'photo');
   if (!estimate.items.length) {
     return res.status(422).json({ error: 'nothing_found', note: parsed.note, usage, model });
   }

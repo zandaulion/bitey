@@ -100,6 +100,40 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 
 /* --------------------------------------------------------------- topbar */
 
+/* Text entry shares the existing review sheet; reveal one task at a time. */
+#review[data-entry-route="describe"] #review-body > :not(#text-entry),
+#review[data-entry-route="describe"] .sheet-foot,
+#review[data-entry-route="search"] #review-body > :not(#food-finder):not(#entry-back),
+#review[data-entry-route="numbers"] #review-body > :not(#food-finder):not(#entry-back),
+#review[data-entry-route="search"] .sheet-foot,
+#review[data-entry-route="numbers"] .sheet-foot,
+#review[data-entry-route="numbers"] .finder-row,
+#review[data-entry-route="numbers"] #food-results,
+#review[data-entry-route="numbers"] #manual-toggle { display: none; }
+.text-entry { padding: 8px 0 14px; }
+.text-entry-brand { color: var(--accent); font-size: .8rem; font-weight: 650; }
+.text-entry h3 { margin: 12px 0 10px; font-size: 1.55rem; letter-spacing: -.03em; }
+.text-entry > p { color: var(--ink-2); margin: 0 0 12px; }
+.text-entry textarea {
+  display: block; width: 100%; min-height: 112px; resize: vertical;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px; margin: 22px 0 12px; font: inherit;
+}
+.text-entry textarea::placeholder { color: var(--ink-3); }
+.text-entry > .primary { width: 100%; }
+.text-entry > .hint { margin-top: 10px; font-size: .82rem; }
+.text-entry > .error { color: var(--danger); }
+.text-entry-routes { margin-top: 28px; border-top: 1px solid var(--line); }
+.text-entry-routes button {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  width: 100%; padding: 17px 0; border: 0; border-bottom: 1px solid var(--line);
+  background: none; text-align: start;
+}
+.text-entry-routes strong { display: block; font-size: .92rem; }
+.text-entry-routes small { display: block; color: var(--ink-2); font-size: .78rem; margin-top: 3px; }
+#text-error { margin-top: 12px; }
+#text-edit { margin-bottom: 10px; }
+
 .topbar {
   position: sticky; top: 0; z-index: 10;
   display: grid; grid-template-columns: 40px 1fr 40px 46px 46px;

@@ -38,6 +38,44 @@ const api = (p, opts = {}) => fetch(base + p, {
   headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) }
 });
 
+test('private PWA text analysis requires authentication and validates descriptions before calling AI', async () => {
+  const options = { method: 'POST', body: JSON.stringify({ mode: 'text', description: 'two eggs' }) };
+  assert.equal((await api('/api/analyse', options)).status, 401);
+  const { auth } = await registerDevice();
+  for (const description of ['', ' ', 'x'.repeat(1001)]) {
+    const response = await api('/api/analyse', {
+      method: 'POST', headers: auth, body: JSON.stringify({ mode: 'text', description })
+    });
+    assert.equal(response.status, 400);
+  }
+  const saved = process.env.GEMINI_API_KEY;
+  delete process.env.GEMINI_API_KEY;
+  try {
+    const response = await api('/api/analyse', { ...options, headers: auth });
+    assert.equal(response.status, 503, 'text uses the configured AI transport, not a photo requirement');
+    assert.equal((await response.json()).error, 'not_configured');
+  } finally {
+    if (saved !== undefined) process.env.GEMINI_API_KEY = saved;
+  }
+});
+
+test('text estimates retain their source and assumptions when saved, reopened and exported', async () => {
+  const { auth } = await registerDevice();
+  const items = [{ id: 'synthetic-text-item', name: 'Synthetic meal', grams: 100,
+    source: 'text', per: { calories: 2, protein: 0.1, fat: 0.1, carbs: 0.1, fiber: 0 } }];
+  const response = await api('/api/entries', { method: 'POST', headers: auth,
+    body: JSON.stringify({ day: '2026-10-10', meal: 'lunch', items, note: 'Assumed a 100 g portion.', portionSource: 'model' }) });
+  assert.equal(response.status, 201);
+  const day = await (await api('/api/entries?day=2026-10-10', { headers: auth })).json();
+  assert.equal(day.entries[0].photoId, null);
+  assert.equal(day.entries[0].items[0].source, 'text');
+  assert.equal(day.entries[0].note, 'Assumed a 100 g portion.');
+  const recent = await (await api('/api/foods/recent', { headers: auth })).json();
+  assert.equal(recent.recent[0].nutritionSource, 'text');
+  const exported = await (await api('/api/export.json', { headers: auth })).json();
+  assert.equal(exported.entries[0].items[0].source, 'text');
+});
+
 async function registerDevice() {
   const { code } = createInvite('test');
   const res = await api('/api/auth/redeem', { method: 'POST', body: JSON.stringify({ code }) });

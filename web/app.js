@@ -6,7 +6,7 @@
 
 import {
   totalsOf, rangesOf, setTotalGrams, setItemGrams, removeItem, itemMacros,
-  addManualItem, hasPhotoItems, markWeighed, portionSourceOf, markEaten, ateFraction
+  addManualItem, hasPhotoItems, hasTextItems, markWeighed, portionSourceOf, markEaten, ateFraction
 } from '/core/analysis/estimate.js';
 import { fromOpenFoodFacts, offProductLabel, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions } from '/core/foods.js';
 import { macroAgreement, ageFromBirthYear } from '/core/nutrition.js';
@@ -41,6 +41,8 @@ const state = {
   // filled by search, or loaded from a saved entry. Keeping them in one place
   // avoids three near-identical editors drifting apart.
   mode: 'photo',    // 'photo' | 'manual' | 'edit'
+  reviewSession: 0,
+  textPending: false,
   editingId: null,
   existingPhotoId: null,
   // A scanned code with no usable record, waiting for its label to be typed.
@@ -427,6 +429,7 @@ function renderSplit(split) {
  * set.
  */
 function badgeFor(entry) {
+  if (hasTextItems(entry)) return `<span class="badge-est">${esc(t('Estimated from text'))}</span>`;
   const fromPhoto = (entry.items || []).some((i) => i.source === 'photo');
   if (!fromPhoto) return '';
   if (entry.portionSource === 'weighed') return '<span class="badge-est badge-weighed">weighed</span>';
@@ -2103,8 +2106,8 @@ async function prepareImage(file) {
 //
 // AI actions remain ordinary PWA actions in the browser. In the installed
 // Android app, though, each route has to cross the native Play entitlement
-// boundary first. This is a UI gate only: the future Firebase/Gemini endpoint
-// must enforce the same entitlement before it accepts an image.
+// boundary first. The Firebase endpoint independently verifies entitlement
+// and quota before sending either a photo or description to Gemini.
 const nativeAiWaiters = new Map();
 let nativeAiSequence = 0;
 let aiPlanRequestId = null;
@@ -2235,7 +2238,7 @@ async function requestAiAccess(action) {
   // Paying for the feature is not agreeing to send photographs. Every photo
   // route -- camera, gallery, leftovers, a correction, a shared image --
   // passes through here, so this is the one place the consent is enforced.
-  if (status === 'active') return ensureAiPhotoConsent();
+  if (status === 'active') return ensureAiPhotoConsent(action === 'text' ? 'text' : 'photo');
   if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
   else if (status === 'cancelled') toast(t('Your Bitey AI purchase was cancelled.'));
   else if (status === 'unavailable') toast(t('Bitey AI is not available to buy yet.'));
@@ -2259,23 +2262,26 @@ window.__plateNativeAiEntitlement = (status) => {
  * nuisance, sending without asking is not something to risk.
  */
 const AI_PHOTO_CONSENT_KEY = 'bitey-ai-photo-consent';
+const AI_TEXT_CONSENT_KEY = 'bitey-ai-text-consent';
 let aiConsentResolve = null;
+let aiConsentKind = 'photo';
 
-function aiPhotoConsentGiven() {
-  try { return localStorage.getItem(AI_PHOTO_CONSENT_KEY) === 'granted'; } catch { return false; }
+function aiPhotoConsentGiven(kind = 'photo') {
+  try { return localStorage.getItem(kind === 'text' ? AI_TEXT_CONSENT_KEY : AI_PHOTO_CONSENT_KEY) === 'granted'; } catch { return false; }
 }
 
-function setAiPhotoConsent(granted) {
+function setAiPhotoConsent(granted, kind = 'photo') {
+  const key = kind === 'text' ? AI_TEXT_CONSENT_KEY : AI_PHOTO_CONSENT_KEY;
   try {
-    if (granted) localStorage.setItem(AI_PHOTO_CONSENT_KEY, 'granted');
-    else localStorage.removeItem(AI_PHOTO_CONSENT_KEY);
+    if (granted) localStorage.setItem(key, 'granted');
+    else localStorage.removeItem(key);
   } catch { /* storage unavailable: the next photo simply asks again */ }
   syncAiConsentControls();
 }
 
 function syncAiConsentControls() {
   const withdraw = $('ai-consent-withdraw');
-  if (withdraw) withdraw.hidden = !aiPhotoConsentGiven();
+  if (withdraw) withdraw.hidden = !aiPhotoConsentGiven() && !aiPhotoConsentGiven('text');
 }
 
 function finishAiConsent(allowed) {
@@ -2283,14 +2289,19 @@ function finishAiConsent(allowed) {
   const resolve = aiConsentResolve;
   aiConsentResolve = null;
   $('ai-consent').hidden = true;
-  if (allowed) setAiPhotoConsent(true);
+  if (allowed) setAiPhotoConsent(true, aiConsentKind);
   resolve(allowed);
 }
 
-async function ensureAiPhotoConsent() {
-  if (aiPhotoConsentGiven()) return true;
+async function ensureAiPhotoConsent(kind = 'photo') {
+  if (aiPhotoConsentGiven(kind)) return true;
   // A second tap while the card is already open waits on the same answer.
   if (aiConsentResolve) return false;
+  aiConsentKind = kind;
+  $('ai-text-consent-copy').hidden = kind !== 'text';
+  $('ai-photo-consent-copy').hidden = kind === 'text';
+  $('ai-consent-heading').textContent = kind === 'text'
+    ? t('How Bitey AI estimates your meal') : t('How Bitey AI reads your photo');
   $('ai-consent').hidden = false;
   return new Promise((resolve) => { aiConsentResolve = resolve; });
 }
@@ -2300,7 +2311,8 @@ $('ai-consent-allow').addEventListener('click', () => finishAiConsent(true));
 $('privacy-notice')?.addEventListener('click', () => window.PlateNative?.openPrivacyNotice?.());
 $('ai-consent-withdraw')?.addEventListener('click', () => {
   setAiPhotoConsent(false);
-  toast(t('Bitey AI will ask again before sending a photo.'));
+  setAiPhotoConsent(false, 'text');
+  toast(t('Bitey AI will ask again before sending a photo or description.'));
 });
 
 $('ai-plan-close').addEventListener('click', closeAiPlanPicker);
@@ -2702,6 +2714,11 @@ const SHEET_TITLES = {
 };
 
 function openReview(mode, entry = null) {
+  state.reviewSession++;
+  state.textPending = false;
+  $('meal-description').value = '';
+  $('text-error').hidden = true;
+  syncTextButton();
   state.mode = mode;
   state.editingId = entry?.id || null;
   state.existingPhotoId = entry?.photoId || null;
@@ -2775,20 +2792,78 @@ function openReview(mode, entry = null) {
   openScreen('review', teardownReview);
   showRecent();
 
-  // "Manual" means the user intends to enter it themselves, so both routes to
-  // that -- searching by name and typing the numbers -- are open on arrival
-  // rather than one behind a disclosure.
-  //
-  // Deliberately no autofocus. Focusing the search box raises the keyboard,
-  // which covers the typed-numbers form directly below it -- so the app would
-  // be quietly choosing one of the two routes on the user's behalf, which is
-  // the opposite of what an explicit "Manual" button is for.
-  $('manual-form').hidden = mode !== 'manual';
+  $('manual-form').hidden = true;
   syncManualToggle();
+  setEntryRoute(mode === 'manual' ? 'describe' : 'review');
 }
+
+function syncTextButton() {
+  $('estimate-text').disabled = state.textPending || !$('meal-description').value.trim();
+  $('text-search').disabled = state.textPending;
+  $('text-numbers').disabled = state.textPending;
+  $('estimate-text').textContent = state.textPending ? t('Estimating meal…') : t('Estimate meal');
+  $('meal-description').readOnly = state.textPending;
+  $('text-entry').setAttribute('aria-busy', String(state.textPending));
+}
+
+function setEntryRoute(route) {
+  $('review').dataset.entryRoute = route;
+  $('text-entry').hidden = route !== 'describe';
+  $('entry-back').hidden = !['search', 'numbers'].includes(route);
+  $('text-edit').hidden = route !== 'review' || state.mode !== 'manual'
+    || !hasTextItems(state.estimate) || !$('meal-description').value.trim();
+  if (route === 'numbers' || route === 'search') {
+    $('manual-form').hidden = route !== 'numbers';
+    syncManualToggle();
+  }
+  $('review-heading').textContent = route === 'describe' ? t('Add food')
+    : route === 'search' ? t('Search foods')
+    : route === 'numbers' ? t('Enter exact numbers')
+    : hasTextItems(state.estimate) ? t('Check your meal') : t(SHEET_TITLES[state.mode]);
+}
+
+$('meal-description').addEventListener('input', syncTextButton);
+$('text-search').addEventListener('click', () => { setEntryRoute('search'); $('food-q').focus(); });
+$('text-numbers').addEventListener('click', () => { setEntryRoute('numbers'); $('m-name').focus(); });
+$('entry-back').addEventListener('click', () => setEntryRoute(state.estimate ? 'review' : 'describe'));
+$('text-edit').addEventListener('click', () => setEntryRoute('describe'));
+$('estimate-text').addEventListener('click', async () => {
+  const description = $('meal-description').value.trim();
+  if (!description || state.textPending) return;
+  const session = state.reviewSession;
+  const current = () => session === state.reviewSession && screenIsOpen('review');
+  state.textPending = true;
+  $('text-error').hidden = true;
+  syncTextButton();
+  try {
+    if (!await requestAiAccess('text') || !current()) return;
+    // Only an explicit Estimate action sends text; typing and searching do not.
+    const data = await api('/api/analyse', {
+      method: 'POST', body: JSON.stringify({ mode: 'text', description })
+    });
+    if (!current()) return;
+    state.estimate = data.estimate;
+    renderReview();
+    $('review-body').scrollTop = 0;
+  } catch (err) {
+    if (!current()) return;
+    $('text-error').textContent = ['not_food', 'nothing_found'].includes(err.code)
+      ? t('No food was recognised. Try describing your meal differently.')
+      : err.code === 'not_entitled' || err.code === 'no_token'
+      ? t('Bitey AI is not active. Tap Estimate meal to check your subscription again.')
+      : err.code === 'daily_limit'
+      ? t('You have used today’s meal analyses. Try again tomorrow.')
+      : t('The meal could not be estimated. Check your connection and try again.');
+    $('text-error').hidden = false;
+  } finally {
+    if (current()) { state.textPending = false; syncTextButton(); }
+  }
+});
 
 /** Tears the sheet down. Only ever called by the navigation layer. */
 function teardownReview() {
+  state.reviewSession++;
+  state.textPending = false;
   if (state.closeReviewScreen) {
     // Whether the sheet produced an entry is the whole question.
     state.closeReviewScreen({ items: state.estimate?.items?.length || 0, saved: Boolean(state.savedFromReview) });
@@ -2852,8 +2927,9 @@ function closeReview() {
   const sheet = $('review');
   if (sheet && !sheet.hidden && !sheet.classList.contains('closing')) {
     sheet.classList.add('closing');
+    const session = state.reviewSession;
     setTimeout(() => {
-      teardownReview();
+      if (session === state.reviewSession) teardownReview();
     }, 180);
   } else {
     teardownReview();
@@ -2875,6 +2951,7 @@ $('add-manual').addEventListener('click', () => openReview('manual'));
 // and the scanner starts immediately, so scanning a packet is one tap.
 $('add-barcode').addEventListener('click', async () => {
   openReview('manual');
+  setEntryRoute('search');
   $('manual-form').hidden = true;
   syncManualToggle();
   await startScan();
@@ -2894,6 +2971,7 @@ function initWeightSlider() {
 function renderReview() {
   const est = state.estimate;
   if (!est) return;
+  setEntryRoute('review');
 
   const totals = totalsOf(est);
   const ranges = rangesOf(est);
@@ -2920,7 +2998,10 @@ function renderReview() {
   $('weight-out').textContent = `${Math.round(totals.grams)} g`;
   $('review-kcal').textContent = Math.round(totals.calories);
 
-  if (photoBased) {
+  if (hasTextItems(est)) {
+    $('review-range').textContent = t('Estimated from your description. Check the assumed portions below.');
+    $('weight-block').hidden = true;
+  } else if (photoBased) {
     const source = portionSourceOf(est);
     // Nothing at all for an unset weight. The range is already the honest
     // statement about it, and appending a job to a number the app is perfectly
@@ -2951,6 +3032,7 @@ function renderReview() {
   }
   renderMacros($('review-macros'), totals);
 
+  $('review-note').hidden = !est.note;
   if (est.note) {
     $('review-note').textContent = est.note;
     $('review-note').hidden = false;
@@ -3316,6 +3398,7 @@ async function showRecent() {
     renderResults(recent.map((f) => ({
       name: f.name,
       source: 'recent',
+      nutritionSource: f.nutritionSource,
       per100: null,
       // Recents carry per-gram rates already, and the weight last used.
       per: f.per,
@@ -3394,7 +3477,8 @@ function addFood(food) {
       ...base,
       items: [...base.items, {
         id: `re${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-        name: food.name, grams: food.grams, per: food.per, source: 'manual',
+        name: food.name, grams: food.grams, per: food.per,
+        source: food.nutritionSource === 'text' ? 'text' : 'manual',
         ...(food.barcode ? { barcode: food.barcode } : {})
       }]
     };
@@ -3723,6 +3807,7 @@ $('barcode-consent-always').addEventListener('change', (event) => {
  * scan of the same packet was the same dead end again.
  */
 function openManualForBarcode(code, product = null, reason = '') {
+  setEntryRoute('numbers');
   state.pendingBarcode = code;
   $('manual-form').hidden = false;
   syncManualToggle();
@@ -4413,7 +4498,7 @@ if (!window.__PLATE_NATIVE__) {
 
 /** Keep Android's stable native action bar in the same language as the page. */
 function syncNativeActionLabels() {
-  window.PlateNative?.setPrimaryActionLabels?.(t('Manual'), t('Barcode'), t('Gallery'), t('Photo'));
+  window.PlateNative?.setPrimaryActionLabels?.(t('Type'), t('Barcode'), t('Gallery'), t('Photo'));
 }
 
 let profileSavedTimer = null;

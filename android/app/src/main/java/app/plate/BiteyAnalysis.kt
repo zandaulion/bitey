@@ -38,6 +38,7 @@ class BiteyAnalysis(
         /** Just above the server's own ceiling, so an oversized photograph is
          * refused here without being uploaded to be refused there. */
         const val MAX_IMAGE_CHARS = 7 * 1024 * 1024
+        const val MAX_DESCRIPTION_CHARS = 1000
 
         /** The server's own cap on foods compared in one leftovers reading. */
         const val MAX_LEFTOVER_ITEMS = 40
@@ -60,25 +61,37 @@ class BiteyAnalysis(
         val request = runCatching { JSONObject(pageRequest) }.getOrNull()
             ?: return answer(400, "no_image", "No photo was received.")
 
+        val textMode = request.optString("mode") == "text"
+        val description = request.opt("description") as? String ?: ""
+        if (textMode && description.isBlank()) {
+            return answer(400, "no_description", "Describe what you ate first.")
+        }
+        if (textMode && description.length > MAX_DESCRIPTION_CHARS) {
+            return answer(400, "description_too_long", "Keep the meal description to 1,000 characters.")
+        }
         val image = request.optString("image")
-        if (image.length < 100) return answer(400, "no_image", "No photo was received.")
-        if (image.length > MAX_IMAGE_CHARS) {
+        if (!textMode && image.length < 100) return answer(400, "no_image", "No photo was received.")
+        if (!textMode && image.length > MAX_IMAGE_CHARS) {
             return answer(400, "image_too_large", "That photo is too large to read.")
         }
 
         val body = JSONObject()
             .put("purchaseToken", purchaseToken)
-            .put("image", image)
-            .put("mimeType", if (request.optString("mimeType") == "image/png") "image/png" else "image/jpeg")
             .apply {
-                request.optString("correction").trim().takeIf { it.isNotEmpty() }
-                    ?.let { put("correction", it.take(200)) }
                 request.optString("locale").takeIf { LOCALE.matches(it) }
                     ?.let { put("locale", it) }
-                // Present only when the person turned on "Use my diet when
-                // reading photos"; the server re-checks it against its list.
-                request.optString("diet").takeIf { it in DIETS }
-                    ?.let { put("diet", it) }
+                if (textMode) {
+                    put("mode", "text")
+                    put("description", description.trim())
+                } else {
+                    put("image", image)
+                    put("mimeType", if (request.optString("mimeType") == "image/png") "image/png" else "image/jpeg")
+                    request.optString("correction").trim().takeIf { it.isNotEmpty() }
+                        ?.let { put("correction", it.take(200)) }
+                    // The diet consent covers photos only, not descriptions.
+                    request.optString("diet").takeIf { it in DIETS }
+                        ?.let { put("diet", it) }
+                }
             }
         // Leftovers: the photo just taken is `image`, and the meal's original
         // photo and its served foods travel with it. Only those; names and
@@ -124,7 +137,7 @@ class BiteyAnalysis(
                 setRequestProperty("Accept", "application/json")
                 appCheck?.let { setRequestProperty("X-Firebase-AppCheck", it) }
                 // Identifies the software, never the person or the device.
-                setRequestProperty("User-Agent", "Bitey-Android (photo analysis)")
+                setRequestProperty("User-Agent", "Bitey-Android (meal analysis)")
             }
         } catch (_: IOException) {
             return unreachable()

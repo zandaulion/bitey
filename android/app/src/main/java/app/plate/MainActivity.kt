@@ -425,7 +425,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            manualAction = actionButton("Manual", R.drawable.ic_action_manual, false, "manual")
+            manualAction = actionButton("Type", R.drawable.ic_action_manual, false, "manual")
             barcodeAction = actionButton("Barcode", R.drawable.ic_action_barcode, false, "barcode")
             // The gallery beside the camera rather than a chooser in front of
             // it: both stay one tap (PrimeTestLab report 7991, S-01). It used

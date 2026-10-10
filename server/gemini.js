@@ -3,7 +3,7 @@
 // The prompt and response schema live in core/analysis/prompt.js so the
 // Android app can send exactly the same request; only transport belongs here.
 
-import { buildPrompt, RESPONSE_SCHEMA, buildLeftoversPrompt, LEFTOVERS_SCHEMA } from '../core/analysis/prompt.js';
+import { buildPrompt, buildTextPrompt, RESPONSE_SCHEMA, buildLeftoversPrompt, LEFTOVERS_SCHEMA } from '../core/analysis/prompt.js';
 
 const ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
@@ -36,6 +36,13 @@ export async function analysePhoto(imageBase64, mimeType = 'image/jpeg', correct
     RESPONSE_SCHEMA,
     { think: false }
   );
+}
+
+export async function analyseText(description, locale = 'en') {
+  return call([
+    { text: buildTextPrompt(description, locale) },
+    { text: JSON.stringify({ meal_description: description }) }
+  ], RESPONSE_SCHEMA);
 }
 
 /**

@@ -100,7 +100,8 @@ const nextId = () => `it${++seq}${Math.random().toString(36).slice(2, 6)}`;
  * macros are absent are kept with zero rates rather than discarded, so the
  * food still appears and can be corrected by hand.
  */
-export function fromModelResponse(raw) {
+export function fromModelResponse(raw, source = 'photo') {
+  if (!['photo', 'text'].includes(source)) throw new TypeError('Unknown estimate source');
   const src = Array.isArray(raw?.items) ? raw.items : [];
   const items = [];
 
@@ -128,7 +129,7 @@ export function fromModelResponse(raw) {
     const weight = round(counted ?? grams, 0);
 
     items.push({
-      id: nextId(), name, grams: weight, per, source: 'photo',
+      id: nextId(), name, grams: weight, per, source,
       // What the model said, kept apart from `grams` so a later correction
       // does not overwrite it. Every correction then pairs a reading with the
       // truth, which is what any calibration of the model has to be built on.
@@ -216,6 +217,14 @@ export function totalsOf(estimate) {
  */
 export function rangesOf(estimate) {
   const items = estimate?.items || [];
+  // Photo-derived error bands have not been validated for text. Null bounds
+  // keep text (and mixed meals containing it) from being reported as exact.
+  if (hasTextItems(estimate)) {
+    const totals = totalsOf(estimate);
+    return Object.fromEntries(NUTRIENTS.map((n) => [n, {
+      value: totals[n], low: null, high: null, confidence: 'unmeasured'
+    }]));
+  }
   const base = ERROR_BANDS[portionSourceOf(estimate)] || ERROR_BANDS.model;
 
   // Saying how much was left is a second estimate stacked on the first, so the
@@ -256,6 +265,10 @@ export function rangesOf(estimate) {
 /** True when any part of this estimate came from a photograph. */
 export function hasPhotoItems(estimate) {
   return (estimate?.items || []).some((i) => i.source === 'photo');
+}
+
+export function hasTextItems(estimate) {
+  return (estimate?.items || []).some((i) => i.source === 'text');
 }
 
 /**

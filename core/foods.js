@@ -350,6 +350,7 @@ export function summariseRecent(rows, { now = Date.now(), limit = 12 } = {}) {
         // if a food was corrected last time, that correction is the better
         // starting point than an older one.
         per: item.per || null,
+        ...(item.source === 'text' ? { nutritionSource: 'text' } : {}),
         grams: Math.round(grams),
         barcode: item.barcode || null,
         uses: 1,
@@ -362,6 +363,8 @@ export function summariseRecent(rows, { now = Date.now(), limit = 12 } = {}) {
     if (Number.isFinite(loggedAt) && loggedAt > existing.lastUsed) {
       existing.lastUsed = loggedAt;
       existing.per = item.per || existing.per;
+      if (item.source === 'text') existing.nutritionSource = 'text';
+      else delete existing.nutritionSource;
       existing.grams = Math.round(grams);
       existing.barcode = item.barcode || existing.barcode;
     }

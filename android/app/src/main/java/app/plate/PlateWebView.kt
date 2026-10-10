@@ -197,7 +197,7 @@ private class PlateNativeBridge(
      * It cannot grant itself access by merely changing WebView state. */
     @JavascriptInterface
     fun requestAiAccess(action: String, requestId: String) {
-        if (action !in setOf("camera", "gallery", "correction", "leftovers", "shared") ||
+        if (action !in setOf("camera", "gallery", "correction", "leftovers", "shared", "text") ||
             !requestId.matches(Regex("[A-Za-z0-9_-]{1,80}"))
         ) return
         onAiAccessRequested(action, requestId)

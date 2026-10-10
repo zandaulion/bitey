@@ -29,6 +29,13 @@ export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
  * encoded string. Checked before decoding: a body that would blow the limit
  * should be refused without first being expanded in memory. */
 export const MAX_IMAGE_CHARS = Math.ceil(MAX_IMAGE_BYTES / 3) * 4;
+export const MAX_DESCRIPTION_CHARS = 1000;
+
+export function validateDescription(value) {
+  if (typeof value !== 'string' || !value.trim()) return { ok: false, error: 'no_description' };
+  if (value.length > MAX_DESCRIPTION_CHARS) return { ok: false, error: 'description_too_long' };
+  return { ok: true, description: value.trim() };
+}
 
 /** Most foods one leftovers reading compares. A plate holds a handful; the
  * cap only bounds what a request can put into the prompt. */
@@ -38,11 +45,14 @@ export const ANALYSE_ERRORS = {
   no_token: 'This device has no Bitey AI subscription.',
   bad_token: 'This device has no Bitey AI subscription.',
   no_image: 'No photo was received.',
+  no_description: 'Describe what you ate first.',
+  description_too_long: 'Keep the meal description to 1,000 characters.',
+  bad_mode: 'That analysis mode is not supported.',
   image_too_large: 'That photo is too large to read.',
   no_original: 'The photo of the meal before eating was not received.',
   no_items: 'This entry has no foods to compare.',
   not_entitled: 'Bitey AI is not active on this Google Play account.',
-  daily_limit: 'That is all the photo readings for today. They come back tomorrow.'
+  daily_limit: 'That is all the meal analyses for today. They come back tomorrow.'
 };
 
 /**
@@ -60,6 +70,19 @@ export function validateAnalyseRequest(body) {
   if (!purchaseToken) return { ok: false, error: 'no_token' };
   if (purchaseToken.length > 1024 || /[^\w.~-]/.test(purchaseToken)) {
     return { ok: false, error: 'bad_token' };
+  }
+
+  if (body?.mode != null && !['analyse', 'leftovers', 'text'].includes(body.mode)) {
+    return { ok: false, error: 'bad_mode' };
+  }
+  if (body?.mode === 'text') {
+    const description = validateDescription(body.description);
+    if (!description.ok) return description;
+    return {
+      ...description, mode: 'text', purchaseToken,
+      locale: typeof body.locale === 'string' && /^[a-z]{2}(-[A-Za-z]{2})?$/.test(body.locale)
+        ? body.locale.slice(0, 2) : 'en'
+    };
   }
 
   const image = typeof body?.image === 'string' ? body.image : '';
