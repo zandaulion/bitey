@@ -32,15 +32,20 @@ device where you use it:
 
 - Food diary entries, including food names, portions, meal times, nutrition
   values, and whether an item was entered manually, from a barcode, or as a
-  quick bite.
+  quick bite. For an item Bitey AI estimated, the weight it first suggested is
+  kept alongside any weight you set.
 - Weigh-ins and the trend calculations made from them.
 - Profile details you choose to enter, such as height, weight, birth year,
-  activity level, dietary preference, and nutrition goal. These are health-
-  related details.
+  activity level, dietary preference, and nutrition goal. These are
+  health-related details.
 - Food photographs that you choose to save with diary entries.
-- Cached food and nutrition information for barcodes you have looked up.
-- Your app language and your preference for whether future Open Food Facts
-  lookups may proceed without being asked again.
+- Cached food and nutrition information for barcodes you have looked up, and
+  nutrition values you typed for a barcode that Open Food Facts could not
+  supply.
+- Your app language; whether future Open Food Facts lookups may proceed
+  without being asked again; whether you have agreed to send photographs and
+  meal descriptions to Bitey AI; and whether your diet is used when reading
+  photographs.
 
 This information is used only to provide Bitey’s diary, nutrition, trend,
 search, language, and backup features on your device. We do not receive a
@@ -55,8 +60,6 @@ associated diary entry. A photograph leaves your device only if you send it to
 Bitey AI, as described next.
 
 ## Bitey AI meal analysis
-
-Text entry is another optional Bitey AI route. When you tap Estimate meal, the meal description you typed is sent instead of a photograph. Bitey asks for separate consent before the first description is sent. Text requests send your app language and subscription token through the same verified analysis service and share the daily allowance with photo requests. No photograph, diet or profile accompanies a text request. The description is processed by Gemini under the same terms described below, and is not stored in Bitey’s server database or application logs. You can withdraw both photo and text consent in Settings. Food search and entering exact nutrition values do not use Bitey AI.
 
 Bitey AI is an optional paid subscription, bought and managed through Google
 Play. When you use it, Bitey estimates what is on your plate from a photograph.
@@ -103,10 +106,22 @@ the date, and the number of readings used. The token itself is not stored. The
 counters are held in Belgium too, and each is deleted automatically seven days
 after its day ends. The server’s
 own logs record technical details — the hash, token counts, and whether a
-request succeeded — but not the photograph, your correction, or the estimate.
+request succeeded — but not the photograph, a description, your correction,
+or the estimate.
 Separately, Google Cloud keeps standard request logs for the server, which
 record each request’s IP address, time, and outcome, for 30 days. Bitey does
 not use them to work out where you are.
+
+**Meal descriptions.** Bitey AI can also estimate a meal from a description
+you type, when you tap Estimate meal, instead of from a photograph. Bitey asks
+for separate consent before the first description is sent. A text request
+sends the description, your app language and the Google Play purchase token to
+the same analysis server, which checks them the same way; it counts towards
+the same daily limit as photographs. No photograph, diet or profile goes with
+it. Gemini processes the description under the same terms as a photograph, and
+Bitey’s server does not store it, in its database or in its logs. You can
+withdraw consent for photographs and for descriptions in Settings. Searching
+the food table and typing exact nutrition values do not use Bitey AI.
 
 ## Google services used with Bitey AI
 
@@ -127,7 +142,7 @@ request comes from the genuine Bitey app, installed from Google Play, on a
 genuine device. To answer, Google Play checks the app's package, version,
 signing certificate and licence, and an attestation from your device; Firebase,
 Google's app platform, then issues a short-lived token that Bitey's server
-checks before it accepts the photograph. Firebase also receives technical
+checks before it accepts the photograph or description. Firebase also receives technical
 details such as the library and Android versions. This keeps the paid service
 from being used by copies of the app or by scripts. Bitey does not create an
 identifier for you or your device for this, and Bitey's server does not store
