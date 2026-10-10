@@ -29,6 +29,10 @@ view can be closed, and stays closed. Its release notes are in
 `release-notes-1.0.14.xml`. It goes with the updated `plate-privacy.html`
 (10 October 2026, meal descriptions in their own paragraph).
 
+- 1.0.14 file SHA-256: `3C305DD29F0A6F0CF877C1BC34179725492FBE4BE63A9D029C8B2AE60B47B8C6`
+  (built 10 October 2026, 20:50, on the Lenovo; signed with the Play upload key,
+  `CN=Daniel Marin`)
+
 Before it, **1.0.13** (`versionCode` 14): describe a meal to estimate
 calories and macros with Bitey AI, then review and adjust portions before
 saving. Text estimates require the same subscription and share the daily
@@ -142,7 +146,7 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
 - Current source version: **1.0.14** (`versionCode` 15), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.13.aab`
+- Next upload artifact: `bitey-private-food-log-1.0.14.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
