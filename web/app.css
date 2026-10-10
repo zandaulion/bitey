@@ -1847,13 +1847,21 @@ input[type="range"]::-moz-range-thumb {
 /* --------------------------------------------------------------- banner */
 
 .banner {
+  position: relative;
   display: flex; align-items: flex-start; gap: 12px;
   background: color-mix(in srgb, var(--warn) 10%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--warn) 34%, transparent);
   border-radius: var(--radius); padding: 14px; margin-bottom: 14px;
 }
 .banner .ico { flex: 0 0 auto; color: var(--warn); margin-top: 1px; }
-.banner .body { flex: 1; min-width: 0; }
+.banner .body { flex: 1; min-width: 0; padding-right: 28px; }
+.banner-close {
+  position: absolute; top: 6px; right: 6px;
+  width: 36px; height: 36px; border: 0; border-radius: 50%;
+  background: transparent; color: var(--ink-2);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+}
+.banner-close:hover, .banner-close:focus-visible { background: color-mix(in srgb, var(--warn) 14%, transparent); }
 .banner h2 { margin: 0 0 3px; font-size: .95rem; font-weight: 650; }
 .banner p { margin: 0; font-size: .85rem; line-height: 1.45; color: var(--ink-2); }
 .banner .act {

@@ -306,11 +306,31 @@ function shiftDay(key, delta) {
  * does not claim the details make the estimate accurate: they make it
  * possible, and logging is what makes it accurate.
  */
+const PROFILE_BANNER_DISMISSED_KEY = 'bitey.profileBanner.dismissed';
+
+/**
+ * The fields that were missing when the banner was closed, or null.
+ *
+ * Closing it is an answer -- "not now" -- and has to stick: a card that only
+ * goes away once every field is filled reads as a demand, and on a new install
+ * it sat on top of the day until the whole profile was typed in. It comes back
+ * only if something goes missing that was not missing when it was closed.
+ */
+function dismissedProfileFields() {
+  try {
+    const raw = localStorage.getItem(PROFILE_BANNER_DISMISSED_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
 function renderProfileBanner(expenditure) {
   const el = $('profile-banner');
   const missing = expenditure?.method === 'formula' ? (expenditure.profileMissing || []) : [];
+  const dismissed = dismissedProfileFields();
+  const stillDismissed = Array.isArray(dismissed)
+    && missing.every((f) => dismissed.includes(f.id));
 
-  if (!missing.length) { el.hidden = true; return; }
+  if (!missing.length || stillDismissed) { el.hidden = true; return; }
 
   // The labels come from core in English and are translated here, like every
   // other server-supplied label: core has no locale of its own.
@@ -328,6 +348,8 @@ function renderProfileBanner(expenditure) {
         <circle cx="12" cy="16.1" r="1.05" fill="currentColor"/>
       </svg>
     </span>
+    <button class="banner-close" type="button" id="banner-close"
+            aria-label="${esc(t('Close'))}">&times;</button>
     <div class="body">
       <h2>${esc(t('Add your {0}', list))}</h2>
       <p>${esc(t("Without them the app cannot work out what you burn, so a day's total has nothing to sit against. Real numbers, not round ones — the estimate is only as good as what it is given."))}</p>
@@ -335,6 +357,13 @@ function renderProfileBanner(expenditure) {
     </div>`;
 
   $('banner-open').addEventListener('click', () => $('open-profile').click());
+  $('banner-close').addEventListener('click', () => {
+    try {
+      localStorage.setItem(PROFILE_BANNER_DISMISSED_KEY, JSON.stringify(missing.map((f) => f.id)));
+    } catch { /* storage unavailable: it hides for this session only */ }
+    el.hidden = true;
+    track('profile_banner_dismissed', { missing: missing.length });
+  });
 }
 
 function renderMaintenance(summary, expenditure) {
