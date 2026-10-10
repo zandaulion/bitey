@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { validateAnalyseRequest, MAX_DESCRIPTION_CHARS } from '../core/ai/gate.js';
 import { fromModelResponse, rangesOf, setItemGrams, totalsOf, hasTextItems } from '../core/analysis/estimate.js';
 import { summariseRecent } from '../core/foods.js';
@@ -52,6 +53,7 @@ test('text estimates rescale but never acquire photo accuracy bands or exact con
 
 test('the actual cloud handler gates text requests before any AI call', () => {
   const child = spawnSync(process.execPath, ['--experimental-vm-modules',
-    new URL('./fixtures/text-handler-check.mjs', import.meta.url).pathname], { encoding: 'utf8' });
+    // fileURLToPath, not .pathname: on Windows the latter is "/C:/...".
+    fileURLToPath(new URL('./fixtures/text-handler-check.mjs', import.meta.url))], { encoding: 'utf8' });
   assert.equal(child.status, 0, child.stderr || child.stdout);
 });
