@@ -23,7 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.1.0** (`versionCode` 17), the **production release**:
+**1.1.0** (`versionCode` 17), the **production release**, has been in closed
+testing since 11 October 2026, waiting for production access to be granted:
 the remaining English translated (profile form, empty charts, backup texts,
 waits), with the production listing (`LISTINGS.md`, `listing-import.txt`) and
 the new screenshots (`screenshots/`). Its release notes, written as a launch
@@ -165,8 +166,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.0** (`versionCode` 17), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.1.0.aab`
+- Current source version: **1.1.0** (`versionCode` 17), in closed testing; production access pending
+- Latest upload artifact: `bitey-private-food-log-1.1.0.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
