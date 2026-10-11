@@ -1,65 +1,71 @@
 # Bitey screenshot inventory
 
-The entry screenshots were refreshed for **1.0.13** on **10 October 2026**.
-They show the running application UI with synthetic fixtures in an isolated
-Chromium browser using the Android WebView layout. They are browser captures,
-not captures from an Android phone or emulator. No screen artwork, device frame
-or marketing overlay has been added.
+Redone for the production listing on **11 October 2026** from the running
+Android app (the 1.0.15 code, debug build) on a Motorola Edge 30 Neo, with
+synthetic data. They show the real native layout, including the bottom action
+bar. No device frame, artwork or marketing overlay has been added. All are
+English, light theme, 24-bit PNG without transparency.
 
-## Current entry screens
+## Files
 
-| File | Pixels | Content and alt text |
-| --- | --- | --- |
-| `02-manual-entry.png` | 1080 × 2400 | “Describe a meal to estimate calories and macros with Bitey AI, or choose free food search or exact-number entry.” Replaces the old combined manual editor; the lock on Estimate meal shows the subscription requirement. |
-| `05-text-review.png` | 1080 × 2400 | “Review an estimated meal, its assumed portions, calories and macros; adjust each food before saving.” |
-| `06-exact-numbers.png` | 1080 × 2400 | “Enter a food's portion and nutrition values directly from a label or menu.” This route does not request AI access. |
-| `tablet-7-01-manual-entry.png` | 1200 × 1920 | “Meal description, Bitey AI estimate action, food search and exact-number entry at a small tablet width.” |
-| `tablet-10-01-manual-entry.png` | 1600 × 2560 | “Meal description, Bitey AI estimate action, food search and exact-number entry at a large tablet width.” |
+Phones are portrait; tablets are **landscape**, because that is where the
+tablet layout shows: at 840 dp and wider the day becomes two columns (totals,
+weight and quick bites on the left, meals on the right) and sheets open as
+centred dialogs. A 7″ tablet in portrait is 600 dp wide and gets the phone
+layout by design, so a portrait tablet capture would look like a large phone.
 
-The phone entry sequence is **02 → 05 → 06**: describe, review, or use the free
-manual route. The tablet filenames retain the existing inventory's size labels;
-they describe viewport presets, not measured physical screen sizes.
+| Phone, 1080 × 1920 | 7″ tablet, 1920 × 1200 | 10″ tablet, 2560 × 1600 | Shows |
+| --- | --- | --- | --- |
+| `phone-01-day.png` | `tablet-7-01-day.png` | `tablet-10-01-day.png` | The day: total, what you burn (measured), macros, Bitey, weight trend, quick bites; on tablets, the meals beside them |
+| `phone-02-meals.png` | — | — | The day's meals, one estimated from text |
+| `phone-03-describe.png` | `tablet-7-03-describe.png` | `tablet-10-03-describe.png` | Describing a meal for Bitey AI, with search and exact numbers below |
+| `phone-04-estimate.png` | `tablet-7-04-estimate.png` | `tablet-10-04-estimate.png` | The estimate to check and adjust: 659 kcal, wrap and latte |
+| `phone-05-search.png` | `tablet-7-05-search.png` | `tablet-10-05-search.png` | Food search ("salmon") in the bundled table |
+| `phone-06-trends.png` | `tablet-7-06-trends.png` | `tablet-10-06-trends.png` | 30-day weight and intake trends against what you burn |
+| `phone-07-privacy.png` | `tablet-7-07-privacy.png` | `tablet-10-07-privacy.png` | Settings: Bitey AI, the diet switch, privacy |
 
-## Synthetic data and capture method
+The tablets have no separate meals shot: the two-column day already shows them.
+The phone images are 9:16 because Play refuses a screenshot whose long side is
+more than twice its short side, which ruled out the phone's native 1080 × 2400.
 
-The description is “Two eggs and a slice of cheese”. The review uses a fixed
-fixture of 100 g eggs and 30 g cheddar, totalling 266 kcal, with the note
-“Assumed two large eggs and 30 g cheddar.” These values illustrate the review UI;
-they are not a live model result or a nutrition accuracy benchmark. The exact
-entry uses “Example yogurt”, 170 g, 150 kcal, 10 g protein, 4 g fat, 18 g carbs
-and 0 g fiber. None of these records belongs to a person.
+## Synthetic data
 
-[`scripts/capture-entry-screenshots.cjs`](../../scripts/capture-entry-screenshots.cjs)
-loads the repository's `web/` and `core/` files, intercepts every network request,
-and supplies an in-memory native bridge fixture. It has no live purchase token,
-profile, diary, device identifier, subscription or AI connection. The simulated
-entitlement response is confined to this documentation harness; production
-billing, App Check and server entitlement checks remain enforced. The script
-also checks that exact-number entry makes no AI request and the review renders
-the expected fixture total without JavaScript errors.
+Nothing belongs to a person. `scripts/store-screenshots/seed.js` makes a profile
+(172 cm, born 1987, light activity), five weeks of weigh-ins drifting from
+74.2 kg to about 72.3 kg, and five weeks of ordinary meals from a fixed list.
+The estimate is a fixed stand-in (`stub.js`): an active subscription and a
+2.5-second "server" that returns a chicken salad wrap (260 g) and a latte
+(300 g). No purchase token, AI request or network call is involved.
 
-With Playwright and its Chromium browser available, run from the repository root:
+## How they were captured
 
-```sh
-node scripts/capture-entry-screenshots.cjs
-```
+On the Lenovo, with the debug app installed on the test phone and the files in
+`scripts/store-screenshots/` copied to `/tmp` (`stub.js` as
+`/tmp/bitey-shots-stub.js`):
 
-If Playwright is installed outside the repository, set `PLAYWRIGHT_MODULE` to
-its module directory when running the command. It rewrites only the five files
-listed above. Phone captures use a 360 × 800 CSS-pixel viewport at 3×; tablet
-captures use 600 × 960 and 800 × 1280 at 2×. All use English and the light theme.
+1. Seed once: open the app, then evaluate `seed.js` in its WebView through the
+   devtools socket (`node /tmp/cdp-eval.mjs "$(cat /tmp/seed.js)"`).
+2. Run `capture.sh <prefix> <width> <height> <status-bar> <nav-bar>`. It sets
+   the display to the screenshot size plus the system bars, captures the seven
+   screens, and the bars are cropped off afterwards:
+   - phone: `capture.sh phone 1080 1920 100 126`
+   - 7″ landscape: `wm density 320`, then `capture.sh tablet7 1920 1200 88 0`
+     (960 × 617 dp)
+   - 10″ landscape: `wm density 320`, then `capture.sh tablet10 2560 1600 88 0`
+     (1280 × 809 dp)
 
-## Older captures and Play listing use
+   A display wider than it is tall puts the app in landscape; the phone does not
+   need to be turned.
+3. Reset the phone: `wm size reset` and `wm density reset`.
 
-`00-fresh.png`, `01-your-day.png`, `03-trends.png`, `04-private-backup.png`, and
-the other tablet images predate the new Type entry flow. Keep them as historical
-references, not as evidence of the 1.0.13 layout. The trends screenshot shows an
-empty state; the fresh screenshot is an internal reference rather than a listing
-recommendation. A barcode-consent screenshot is still missing.
+Launch the app with `am start`, never `monkey -p … 1`: monkey sends one random
+input event after launching, which once logged a quick bite into the sample data.
 
-Before replacing live Play listing images, verify the entry sequence on Android
-and capture the final set from the running Android build, including native
-controls, keyboard behaviour and system insets. Use synthetic diary data, a
-clean status bar and no notifications. Review every image and its metadata for
-personal information before publishing it. Capture each listing's language in
-the app; do not attach these English images to translated listings.
+`scripts/capture-entry-screenshots.cjs` is the earlier browser-based harness
+(1.0.13). It no longer matches these files and is kept only for reference.
+
+## Before publishing
+
+Look at every image before uploading. These are English captures: attach them
+to the English listing, and capture other languages in the app rather than
+reusing these for translated listings.
