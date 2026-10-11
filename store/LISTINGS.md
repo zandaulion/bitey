@@ -13,9 +13,11 @@ the same locale when publishing.
 
 **Tagline:** Nutrition, privately.
 
-**Short description:** Private food log: snap or describe a meal, scan barcodes, track macros & weight.
+**Short description:** Food diary for real life: snap or describe meals. Consistent beats perfect.
 
 **Full description:**
+
+Consistent beats perfect. Bitey is for everyday eating, not for weighing every gram. Log your meals roughly but regularly — a photo, a few words, a quick bite — and the small misses even out over the weeks. An imperfect log you keep beats a perfect one you give up on.
 
 Bitey is a private food log that keeps your diary on your device. Record meals your way, track calories, protein, carbs, fat and fiber, and follow your weight — without creating an account.
 
@@ -61,9 +63,11 @@ Welcome to Bitey — Private Food Log.
 
 **Tagline:** التغذية، بخصوصية.
 
-**Short description:** سجل طعام خاص: صوّر وجبتك أو صفها، امسح الباركود، وتابع العناصر الغذائية والوزن.
+**Short description:** يوميات طعام للحياة الواقعية: صوّر وجباتك أو صفها. الاستمرارية أهم من الكمال.
 
 **Full description:**
+
+الاستمرارية أهم من الكمال. Bitey مصمم للأكل اليومي، لا لوزن كل غرام. سجّل وجباتك بشكل تقريبي لكن منتظم — صورة، بضع كلمات، وجبة خفيفة سريعة — وستتوازن الأخطاء الصغيرة على مدى الأسابيع. سجل غير مثالي تحافظ عليه أفضل من سجل مثالي تتخلى عنه.
 
 Bitey سجل طعام خاص يحتفظ بيومياتك على جهازك. سجّل وجباتك بطريقتك، وتابع السعرات والبروتين والكربوهيدرات والدهون والألياف، وراقب وزنك — دون إنشاء حساب.
 
@@ -109,9 +113,11 @@ Bitey ليس جهازًا طبيًا ولا يقدم نصائح طبية.
 
 **Tagline:** 私密记录营养。
 
-**Short description:** 私密饮食记录：拍照或描述一餐，扫描条形码，追踪营养素和体重。
+**Short description:** 为真实生活而设计的饮食日记：拍照或描述每一餐。坚持胜过完美。
 
 **Full description:**
+
+坚持胜过完美。Bitey 为日常饮食而设计，而不是为了称量每一克。大致但规律地记录每一餐——一张照片、几句话、一份小零食——小小的误差会在几周里自然抵消。一份你坚持下来的不完美记录，胜过一份半途而废的完美记录。
 
 Bitey 是一款私密的饮食记录应用，日记只保存在你的设备上。按你喜欢的方式记录每一餐，追踪热量、蛋白质、碳水化合物、脂肪和膳食纤维，关注体重变化——无需注册账户。
 
@@ -157,9 +163,11 @@ Bitey 不是医疗器械，不提供医疗建议。
 
 **Tagline:** La nutrition, en privé.
 
-**Short description:** Journal alimentaire privé : photo ou description, codes-barres, macros et poids.
+**Short description:** Journal alimentaire du quotidien : photo ou description. Régulier > parfait.
 
 **Full description:**
+
+La régularité vaut mieux que la perfection. Bitey est fait pour le quotidien, pas pour peser chaque gramme. Notez vos repas à peu près, mais régulièrement — une photo, quelques mots, un en-cas — et les petites erreurs s’équilibrent au fil des semaines. Un journal imparfait que l’on tient vaut mieux qu’un journal parfait que l’on abandonne.
 
 Bitey est un journal alimentaire privé qui garde votre journal sur votre appareil. Notez vos repas comme vous voulez, suivez calories, protéines, glucides, lipides et fibres, et votre poids — sans créer de compte.
 
@@ -205,9 +213,11 @@ Bienvenue dans Bitey — Journal alimentaire privé.
 
 **Tagline:** Ernährung, ganz privat.
 
-**Short description:** Privates Ernährungstagebuch: Foto oder Beschreibung, Barcodes, Makros & Gewicht.
+**Short description:** Essenstagebuch für den Alltag: Foto oder Beschreibung. Regelmäßig > perfekt.
 
 **Full description:**
+
+Regelmäßig schlägt perfekt. Bitey ist für den Alltag gemacht, nicht dafür, jedes Gramm abzuwiegen. Erfasse deine Mahlzeiten ungefähr, aber regelmäßig — ein Foto, ein paar Worte, ein schneller Snack — und kleine Ungenauigkeiten gleichen sich über die Wochen aus. Ein unvollkommenes Tagebuch, das du führst, ist mehr wert als ein perfektes, das du aufgibst.
 
 Bitey ist ein privates Ernährungstagebuch, das deine Einträge auf deinem Gerät behält. Erfasse Mahlzeiten, wie du willst, verfolge Kalorien, Eiweiß, Kohlenhydrate, Fett und Ballaststoffe und behalte dein Gewicht im Blick — ganz ohne Konto.
 
@@ -253,9 +263,11 @@ Willkommen bei Bitey — Privates Ernährungstagebuch.
 
 **Tagline:** पोषण, निजी तौर पर।
 
-**Short description:** निजी फ़ूड लॉग: भोजन की फ़ोटो लें या बताएँ, बारकोड स्कैन करें, पोषण व वज़न देखें।
+**Short description:** असल ज़िंदगी के लिए फ़ूड डायरी: फ़ोटो लें या बताएँ। निरंतरता परफ़ेक्शन से बेहतर।
 
 **Full description:**
+
+निरंतरता परफ़ेक्शन से बेहतर है। Bitey रोज़ के खाने के लिए है, हर ग्राम तौलने के लिए नहीं। अपना भोजन मोटे तौर पर पर नियमित रूप से दर्ज करें — एक फ़ोटो, कुछ शब्द, एक झटपट स्नैक — और छोटी-मोटी चूकें हफ़्तों में बराबर हो जाती हैं। जो अधूरा लॉग आप जारी रखते हैं, वह उस परफ़ेक्ट लॉग से बेहतर है जिसे आप छोड़ देते हैं।
 
 Bitey एक निजी फ़ूड लॉग है जो आपकी डायरी आपके डिवाइस पर रखता है। अपने तरीके से भोजन दर्ज करें, कैलोरी, प्रोटीन, कार्ब्स, वसा और फ़ाइबर पर नज़र रखें, और अपना वज़न देखें — बिना कोई खाता बनाए।
 
@@ -301,9 +313,11 @@ Bitey — निजी फूड लॉग में आपका स्वा�
 
 **Tagline:** 栄養を、プライベートに。
 
-**Short description:** プライベートな食事記録：写真や文章で食事を記録、バーコード読み取り、栄養素と体重管理。
+**Short description:** 毎日のための食事記録：写真や文章で記録。完璧より、続けること。
 
 **Full description:**
+
+完璧より、続けること。Bitey は毎日の食事のためのアプリで、1 グラム単位で量るためのものではありません。写真、ひとこと、ちょっとした間食など、おおまかでも毎日記録すれば、小さなズレは数週間で平均化されます。完璧でも続かない記録より、不完全でも続く記録のほうがずっと価値があります。
 
 Bitey は、日記をあなたの端末に保存するプライベートな食事記録アプリです。好きな方法で食事を記録し、カロリー、たんぱく質、炭水化物、脂質、食物繊維、そして体重を確認できます。アカウント登録は不要です。
 
@@ -349,9 +363,11 @@ Bitey — プライベート食事記録へようこそ。
 
 **Tagline:** 영양 기록을 더 프라이빗하게.
 
-**Short description:** 나만의 식단 기록: 사진이나 설명으로 식사 기록, 바코드 스캔, 영양소와 체중 관리.
+**Short description:** 일상을 위한 식단 기록: 사진이나 설명으로 기록하세요. 완벽보다 꾸준함.
 
 **Full description:**
+
+완벽보다 꾸준함. Bitey는 1그램까지 재는 앱이 아니라 매일의 식사를 위한 앱입니다. 사진 한 장, 몇 마디, 간단한 간식처럼 대충이라도 꾸준히 기록하면 작은 오차는 몇 주에 걸쳐 평균이 맞춰집니다. 포기한 완벽한 기록보다 계속 이어가는 불완전한 기록이 훨씬 낫습니다.
 
 Bitey는 일지를 기기에만 보관하는 개인 식단 기록 앱입니다. 원하는 방식으로 식사를 기록하고 칼로리, 단백질, 탄수화물, 지방, 식이섬유와 체중을 확인하세요. 계정은 필요 없습니다.
 
@@ -397,9 +413,11 @@ Bitey — 개인 식사 기록에 오신 것을 환영합니다.
 
 **Tagline:** Nutrição, em privado.
 
-**Short description:** Diário alimentar privado: foto ou descrição, código de barras, macros e peso.
+**Short description:** Diário alimentar para a vida real: foto ou descrição. Constância > perfeição.
 
 **Full description:**
+
+Constância vale mais que perfeição. O Bitey é feito para o dia a dia, não para pesar cada grama. Registre suas refeições de forma aproximada, mas regular — uma foto, algumas palavras, um lanchinho — e os pequenos erros se compensam ao longo das semanas. Um diário imperfeito que você mantém vale mais que um perfeito que você abandona.
 
 Bitey é um diário alimentar privado que mantém seus registros no seu aparelho. Registre refeições do seu jeito, acompanhe calorias, proteínas, carboidratos, gorduras e fibras, e siga seu peso — sem criar conta.
 
@@ -445,9 +463,11 @@ Boas-vindas ao Bitey — Diário alimentar privado.
 
 **Tagline:** Nutriție, în privat.
 
-**Short description:** Jurnal alimentar privat: poză sau descriere, cod de bare, macro-uri, greutate.
+**Short description:** Jurnal alimentar de zi cu zi: poză sau descriere. Constanța bate perfecțiunea.
 
 **Full description:**
+
+Constanța bate perfecțiunea. Bitey e făcut pentru mâncarea de zi cu zi, nu pentru cântărit fiecare gram. Notează-ți mesele aproximativ, dar regulat — o fotografie, câteva cuvinte, o gustare — iar micile greșeli se echilibrează de-a lungul săptămânilor. Un jurnal imperfect pe care îl ții valorează mai mult decât unul perfect la care renunți.
 
 Bitey este un jurnal alimentar privat care îți păstrează jurnalul pe dispozitiv. Notează mesele cum vrei, urmărește caloriile, proteinele, carbohidrații, grăsimile și fibrele, și greutatea — fără să creezi un cont.
 
@@ -493,9 +513,11 @@ Bun venit la Bitey — Jurnal alimentar privat.
 
 **Tagline:** Nutrición, en privado.
 
-**Short description:** Diario de comidas privado: foto o descripción, códigos de barras, macros y peso.
+**Short description:** Diario de comidas del día a día: foto o descripción. Constancia > perfección.
 
 **Full description:**
+
+La constancia gana a la perfección. Bitey está pensado para el día a día, no para pesar cada gramo. Registra tus comidas de forma aproximada pero regular — una foto, unas palabras, un picoteo — y los pequeños errores se compensan con las semanas. Un diario imperfecto que mantienes vale más que uno perfecto que abandonas.
 
 Bitey es un diario de comidas privado que guarda tu diario en tu dispositivo. Registra tus comidas a tu manera, sigue calorías, proteínas, carbohidratos, grasas y fibra, y controla tu peso — sin crear una cuenta.
 
@@ -541,9 +563,11 @@ Te damos la bienvenida a Bitey — Diario de comida privado.
 
 **Tagline:** Харчування — приватно.
 
-**Short description:** Приватний щоденник їжі: фото чи опис страви, штрихкоди, нутрієнти та вага.
+**Short description:** Щоденник їжі для реального життя: фото чи опис. Регулярність понад досконалість.
 
 **Full description:**
+
+Регулярність важливіша за досконалість. Bitey створено для щоденного харчування, а не для зважування кожного грама. Записуйте їжу приблизно, але регулярно — фото, кілька слів, швидкий перекус — і дрібні неточності врівноважаться за кілька тижнів. Неідеальний щоденник, який ви ведете, кращий за ідеальний, який ви покинули.
 
 Bitey — приватний щоденник харчування, що зберігає записи на вашому пристрої. Записуйте їжу як зручно, стежте за калоріями, білками, вуглеводами, жирами, клітковиною та вагою — без створення облікового запису.
 
