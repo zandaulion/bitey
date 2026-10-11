@@ -1,6 +1,8 @@
 # Bitey — Google Play listings
 
-This file is the source copy for the first Play release. The Play Console title
+This file is the source copy for the Play listing, last revised on 11 October
+2026 for production (Bitey AI photo and text estimates, the multilingual food
+table). The release notes below are from the first release. The Play Console title
 limit is 30 characters; each short description is within its 80-character
 limit. Keep the title, short description, full description, and screenshots in
 the same locale when publishing.
@@ -11,21 +13,37 @@ the same locale when publishing.
 
 **Tagline:** Nutrition, privately.
 
-**Short description:** A private, on-device food log for meals, macros, weigh-ins and barcodes.
+**Short description:** Private food log: snap or describe a meal, scan barcodes, track macros & weight.
 
 **Full description:**
 
-Bitey is a private food log that keeps your diary on your device. Record meals
-your way: add food manually, scan a barcode, save quick bites, and track
-calories and macros without creating an account.
+Bitey is a private food log that keeps your diary on your device. Record meals your way, track calories, protein, carbs, fat and fiber, and follow your weight — without creating an account.
 
-Record weigh-ins and see your history and trends over time. Your diary, photos,
-weight history, and cached barcode foods stay on your device. Back up your data
-when you want to move or restore it.
+Log food your way
+• Search a built-in table of more than 16,000 foods, with common foods and dishes named in your language
+• Scan a barcode — it is read on your phone, and an optional Open Food Facts lookup asks you first
+• Type the numbers from a label or a menu; Bitey remembers them for that barcode
+• Save quick bites for grazing, and log your usual meals again in one tap
 
-Barcode scanning works on-device. When a product is not already cached, Bitey
-asks before making an optional direct lookup with Open Food Facts. You stay in
-control of that choice.
+Bitey AI (optional subscription)
+• Photograph your plate, or simply describe your meal, and get an estimate of the foods, portions and nutrition
+• Check and adjust every portion before you save
+• Photograph what is left, so only what you ate is counted
+• If you choose, it reads dishes that could go either way as vegetarian, vegan or pescatarian
+Bitey AI is a monthly or yearly Google Play subscription, and the first month is free. Bitey asks before the first photo or description is sent, and your diary never leaves your phone.
+
+Follow your progress
+• See your day against what you burn, worked out from your weigh-ins and what you log
+• Weight and intake trends over 14, 30 and 90 days
+• Bitey, a small dinosaur, keeps you company along the way
+
+Private by design
+• No account, no ads, no analytics
+• Your diary, photos and weight history stay on your device
+• Back up and restore whenever you like
+• Available in 12 languages
+
+Bitey is not a medical device and does not give medical advice.
 
 **First release notes:**
 
@@ -43,20 +61,37 @@ Welcome to Bitey — Private Food Log.
 
 **Tagline:** التغذية، بخصوصية.
 
-**Short description:** سجل طعام خاص على جهازك للوجبات والمغذيات والوزن والباركود.
+**Short description:** سجل طعام خاص: صوّر وجبتك أو صفها، امسح الباركود، وتابع العناصر الغذائية والوزن.
 
 **Full description:**
 
-Bitey هو سجل طعام خاص يحفظ يومياتك على جهازك. سجّل وجباتك بالطريقة التي تناسبك:
-أضف الطعام يدويًا، امسح الباركود، احفظ الوجبات السريعة، وتابع السعرات والمغذيات
-من دون إنشاء حساب.
+Bitey سجل طعام خاص يحتفظ بيومياتك على جهازك. سجّل وجباتك بطريقتك، وتابع السعرات والبروتين والكربوهيدرات والدهون والألياف، وراقب وزنك — دون إنشاء حساب.
 
-سجّل قياسات وزنك وشاهد تاريخك واتجاهاتك مع الوقت. تبقى يومياتك وصورك وسجل وزنك
-وأطعمة الباركود المخزنة مؤقتًا على جهازك. أنشئ نسخة احتياطية عندما تريد نقل بياناتك
-أو استعادتها.
+سجّل طعامك بطريقتك
+• ابحث في جدول مدمج يضم أكثر من 16,000 طعام، مع أسماء الأطعمة والأطباق الشائعة بلغتك
+• امسح الباركود — تتم قراءته على هاتفك، ويطلب إذنك قبل أي بحث اختياري في Open Food Facts
+• اكتب الأرقام من الملصق أو قائمة الطعام، وسيتذكرها Bitey لذلك الباركود
+• احفظ وجبات خفيفة سريعة، وسجّل وجباتك المعتادة مجددًا بلمسة واحدة
 
-يعمل مسح الباركود على الجهاز. عندما لا يكون المنتج محفوظًا، يطلب Bitey إذنك قبل
-إجراء بحث مباشر اختياري عبر Open Food Facts. القرار بيدك دائمًا.
+Bitey AI (اشتراك اختياري)
+• صوّر طبقك أو صف وجبتك ببساطة، واحصل على تقدير للأطعمة والكميات والقيم الغذائية
+• راجع كل كمية وعدّلها قبل الحفظ
+• صوّر ما تبقى، ليُحسب فقط ما أكلته
+• إن أردت، يقرأ الأطباق المحتملة على أنها نباتية أو نباتية صرفة أو بحرية حسب نظامك
+Bitey AI اشتراك شهري أو سنوي عبر Google Play، والشهر الأول مجاني. يسألك Bitey قبل إرسال أول صورة أو وصف، ولا تغادر يومياتك هاتفك أبدًا.
+
+تابع تقدمك
+• قارن يومك بما تحرقه، محسوبًا من أوزانك وما تسجله
+• اتجاهات الوزن والطعام على مدى 14 و30 و90 يومًا
+• Bitey، ديناصور صغير، يرافقك طوال الطريق
+
+الخصوصية أولًا
+• بلا حساب ولا إعلانات ولا تحليلات
+• تبقى يومياتك وصورك وسجل وزنك على جهازك
+• أنشئ نسخة احتياطية واستعدها متى شئت
+• متوفر بـ 12 لغة
+
+Bitey ليس جهازًا طبيًا ولا يقدم نصائح طبية.
 
 **First release notes:**
 
@@ -74,19 +109,37 @@ Bitey هو سجل طعام خاص يحفظ يومياتك على جهازك. س�
 
 **Tagline:** 私密记录营养。
 
-**Short description:** 在设备上私密记录餐食、宏量营养素、体重和条码食品。
+**Short description:** 私密饮食记录：拍照或描述一餐，扫描条形码，追踪营养素和体重。
 
 **Full description:**
 
-Bitey 是一款将饮食日记保存在设备上的私密饮食记录工具。按自己的方式
-记录餐食：手动添加食物、扫描条码、保存快捷小食，并记录热量和宏量营养素，
-无需创建账户。
+Bitey 是一款私密的饮食记录应用，日记只保存在你的设备上。按你喜欢的方式记录每一餐，追踪热量、蛋白质、碳水化合物、脂肪和膳食纤维，关注体重变化——无需注册账户。
 
-记录体重并随时间查看历史和趋势。你的日记、照片、体重记录和已缓存的条码
-食品都保留在设备上。需要迁移或恢复数据时，再创建备份即可。
+按你的方式记录
+• 搜索内置的 16,000 多种食物，常见食物和菜肴都有你的语言的名称
+• 扫描条形码——在手机上识别，可选的 Open Food Facts 查询会先征求你的同意
+• 输入标签或菜单上的数值，Bitey 会为这个条形码记住它们
+• 保存零食快捷项，常吃的餐食一键再次记录
 
-条码扫描在设备上完成。若产品尚未缓存，Bitey 会在通过 Open Food Facts
-进行可选直接查询前征求你的同意。是否查询由你决定。
+Bitey AI（可选订阅）
+• 拍下你的餐盘，或简单描述你吃了什么，即可估算食物、份量和营养
+• 保存前可检查并调整每一份的份量
+• 拍下剩下的部分，只计算你实际吃掉的
+• 如果你愿意，它会把可能两种做法的菜肴按素食、纯素或鱼素来识别
+Bitey AI 是通过 Google Play 的月度或年度订阅，首月免费。发送第一张照片或第一段描述前，Bitey 会先征求你的同意，你的日记永远不会离开手机。
+
+关注你的进展
+• 对比当天摄入与消耗，消耗根据你的体重记录和饮食记录计算
+• 14 天、30 天和 90 天的体重与摄入趋势
+• 小恐龙 Bitey 一路陪伴你
+
+隐私优先
+• 无需账户，没有广告，没有数据分析
+• 你的日记、照片和体重记录都留在设备上
+• 随时备份和恢复
+• 支持 12 种语言
+
+Bitey 不是医疗器械，不提供医疗建议。
 
 **First release notes:**
 
@@ -100,27 +153,41 @@ Bitey 是一款将饮食日记保存在设备上的私密饮食记录工具。�
 
 ## French (fr-FR)
 
-**App name:** Bitey — Journal alimentaire privé
+**App name:** Bitey — Journal alimentaire
 
 **Tagline:** La nutrition, en privé.
 
-**Short description:** Journal privé sur votre appareil : repas, macros, poids et codes-barres.
+**Short description:** Journal alimentaire privé : photo ou description, codes-barres, macros et poids.
 
 **Full description:**
 
-Bitey est un journal alimentaire privé qui conserve votre suivi sur votre
-appareil. Notez vos repas comme vous le souhaitez : ajoutez un aliment à la
-main, scannez un code-barres, enregistrez des petites collations et suivez les
-calories et les macronutriments, sans créer de compte.
+Bitey est un journal alimentaire privé qui garde votre journal sur votre appareil. Notez vos repas comme vous voulez, suivez calories, protéines, glucides, lipides et fibres, et votre poids — sans créer de compte.
 
-Enregistrez vos pesées et consultez votre historique et vos tendances au fil du
-temps. Votre journal, vos photos, votre historique de poids et les aliments
-scannés en cache restent sur votre appareil. Créez une sauvegarde lorsque vous
-voulez déplacer ou restaurer vos données.
+Notez vos repas à votre façon
+• Cherchez dans une table intégrée de plus de 16 000 aliments, avec les aliments et plats courants nommés dans votre langue
+• Scannez un code-barres — il est lu sur votre téléphone, et une recherche facultative dans Open Food Facts vous demande d’abord votre accord
+• Saisissez les valeurs d’une étiquette ou d’un menu ; Bitey les retient pour ce code-barres
+• Enregistrez des en-cas rapides et notez à nouveau vos repas habituels d’un geste
 
-Le scan de codes-barres fonctionne sur l'appareil. Si un produit n'est pas déjà
-en cache, Bitey demande votre accord avant une recherche directe facultative
-auprès d'Open Food Facts. Vous gardez le contrôle.
+Bitey AI (abonnement facultatif)
+• Photographiez votre assiette, ou décrivez simplement votre repas, et obtenez une estimation des aliments, des portions et des nutriments
+• Vérifiez et ajustez chaque portion avant d’enregistrer
+• Photographiez les restes, pour ne compter que ce que vous avez mangé
+• Si vous le souhaitez, il lit les plats ambigus en version végétarienne, végane ou pescétarienne
+Bitey AI est un abonnement Google Play mensuel ou annuel, et le premier mois est offert. Bitey vous demande votre accord avant l’envoi de la première photo ou description, et votre journal ne quitte jamais votre téléphone.
+
+Suivez vos progrès
+• Comparez votre journée à ce que vous dépensez, calculé à partir de vos pesées et de ce que vous notez
+• Tendances du poids et des apports sur 14, 30 et 90 jours
+• Bitey, un petit dinosaure, vous accompagne en chemin
+
+Privé par conception
+• Pas de compte, pas de publicité, pas d’analytique
+• Votre journal, vos photos et votre historique de poids restent sur votre appareil
+• Sauvegardez et restaurez quand vous voulez
+• Disponible en 12 langues
+
+Bitey n’est pas un dispositif médical et ne donne pas de conseils médicaux.
 
 **First release notes:**
 
@@ -134,27 +201,41 @@ Bienvenue dans Bitey — Journal alimentaire privé.
 
 ## German (de-DE)
 
-**App name:** Bitey — Privates Ernährungstagebuch
+**App name:** Bitey — Ernährungstagebuch
 
 **Tagline:** Ernährung, ganz privat.
 
-**Short description:** Privates Ernährungslog auf deinem Gerät: Mahlzeiten, Makros, Gewicht, Barcodes.
+**Short description:** Privates Ernährungstagebuch: Foto oder Beschreibung, Barcodes, Makros & Gewicht.
 
 **Full description:**
 
-Bitey ist ein privates Ernährungstagebuch, das deine Daten auf deinem Gerät
-speichert. Erfasse Mahlzeiten so, wie es für dich passt: Lebensmittel manuell
-hinzufügen, Barcodes scannen, schnelle Snacks speichern und Kalorien sowie
-Makronährstoffe verfolgen — ohne Konto.
+Bitey ist ein privates Ernährungstagebuch, das deine Einträge auf deinem Gerät behält. Erfasse Mahlzeiten, wie du willst, verfolge Kalorien, Eiweiß, Kohlenhydrate, Fett und Ballaststoffe und behalte dein Gewicht im Blick — ganz ohne Konto.
 
-Trage dein Gewicht ein und sieh dir Verlauf und Trends mit der Zeit an. Dein
-Tagebuch, Fotos, Gewichtsverlauf und zwischengespeicherte Barcode-Lebensmittel
-bleiben auf deinem Gerät. Erstelle eine Sicherung, wenn du Daten umziehen oder
-wiederherstellen möchtest.
+Erfasse Essen auf deine Art
+• Durchsuche eine eingebaute Tabelle mit über 16.000 Lebensmitteln, gängige Lebensmittel und Gerichte in deiner Sprache benannt
+• Scanne einen Barcode — er wird auf dem Handy gelesen, und eine optionale Abfrage bei Open Food Facts fragt dich vorher
+• Tippe die Werte von Etikett oder Speisekarte ein; Bitey merkt sie sich für diesen Barcode
+• Speichere schnelle Snacks und erfasse deine üblichen Mahlzeiten mit einem Tipp erneut
 
-Das Barcode-Scannen funktioniert auf dem Gerät. Ist ein Produkt nicht im Cache,
-fragt Bitey vor einer optionalen direkten Suche bei Open Food Facts nach deiner
-Zustimmung. Du behältst die Kontrolle.
+Bitey AI (optionales Abo)
+• Fotografiere deinen Teller oder beschreibe einfach deine Mahlzeit und erhalte eine Schätzung von Lebensmitteln, Portionen und Nährwerten
+• Prüfe und passe jede Portion vor dem Speichern an
+• Fotografiere die Reste, damit nur zählt, was du gegessen hast
+• Auf Wunsch liest es mehrdeutige Gerichte als vegetarisch, vegan oder pescetarisch
+Bitey AI ist ein monatliches oder jährliches Google-Play-Abo, und der erste Monat ist kostenlos. Bitey fragt, bevor das erste Foto oder die erste Beschreibung gesendet wird, und dein Tagebuch verlässt dein Handy nie.
+
+Verfolge deine Fortschritte
+• Sieh deinen Tag im Vergleich zu deinem Verbrauch, berechnet aus deinen Wiegungen und deinen Einträgen
+• Gewichts- und Ernährungstrends über 14, 30 und 90 Tage
+• Bitey, ein kleiner Dinosaurier, begleitet dich dabei
+
+Privat von Grund auf
+• Kein Konto, keine Werbung, keine Analysen
+• Tagebuch, Fotos und Gewichtsverlauf bleiben auf deinem Gerät
+• Sichern und wiederherstellen, wann du willst
+• In 12 Sprachen verfügbar
+
+Bitey ist kein Medizinprodukt und gibt keine medizinischen Ratschläge.
 
 **First release notes:**
 
@@ -172,21 +253,37 @@ Willkommen bei Bitey — Privates Ernährungstagebuch.
 
 **Tagline:** पोषण, निजी तौर पर।
 
-**Short description:** भोजन, मैक्रोज़, वज़न और बारकोड के लिए आपके डिवाइस पर निजी फूड लॉग।
+**Short description:** निजी फ़ूड लॉग: भोजन की फ़ोटो लें या बताएँ, बारकोड स्कैन करें, पोषण व वज़न देखें।
 
 **Full description:**
 
-Bitey एक निजी फूड लॉग है जो आपकी डायरी आपके डिवाइस पर रखता है। अपनी सुविधा से
-भोजन दर्ज करें: खाना हाथ से जोड़ें, बारकोड स्कैन करें, छोटे स्नैक्स सहेजें और बिना
-खाता बनाए कैलोरी व मैक्रोज़ ट्रैक करें।
+Bitey एक निजी फ़ूड लॉग है जो आपकी डायरी आपके डिवाइस पर रखता है। अपने तरीके से भोजन दर्ज करें, कैलोरी, प्रोटीन, कार्ब्स, वसा और फ़ाइबर पर नज़र रखें, और अपना वज़न देखें — बिना कोई खाता बनाए।
 
-अपना वज़न दर्ज करें और समय के साथ इतिहास व रुझान देखें। आपकी डायरी, फ़ोटो, वज़न
-इतिहास और कैश किए गए बारकोड खाद्य आपके डिवाइस पर ही रहते हैं। डेटा को स्थानांतरित
-या पुनर्स्थापित करना हो तो बैकअप बनाएं।
+अपने तरीके से भोजन दर्ज करें
+• 16,000 से ज़्यादा खाद्य पदार्थों की इन-बिल्ट तालिका में खोजें, आम खाद्य पदार्थ और व्यंजन आपकी भाषा में
+• बारकोड स्कैन करें — यह आपके फ़ोन पर पढ़ा जाता है, और Open Food Facts में वैकल्पिक खोज से पहले आपसे पूछा जाता है
+• लेबल या मेन्यू से संख्याएँ लिखें; Bitey उन्हें उस बारकोड के लिए याद रखता है
+• झटपट स्नैक्स सहेजें, और अपने रोज़ के भोजन एक टैप में फिर से दर्ज करें
 
-बारकोड स्कैनिंग डिवाइस पर होती है। अगर उत्पाद पहले से कैश में नहीं है, तो Bitey
-Open Food Facts पर वैकल्पिक सीधे खोज से पहले आपकी अनुमति मांगता है। नियंत्रण आपके
-पास रहता है।
+Bitey AI (वैकल्पिक सदस्यता)
+• अपनी प्लेट की फ़ोटो लें, या बस अपने भोजन का विवरण दें, और खाद्य पदार्थों, मात्रा और पोषण का अनुमान पाएँ
+• सहेजने से पहले हर मात्रा जाँचें और बदलें
+• बचे हुए खाने की फ़ोटो लें, ताकि सिर्फ़ वही गिना जाए जो आपने खाया
+• चाहें तो यह दोनों तरह से बन सकने वाले व्यंजनों को शाकाहारी, वीगन या पेस्केटेरियन मानता है
+Bitey AI Google Play के ज़रिए मासिक या वार्षिक सदस्यता है, और पहला महीना मुफ़्त है। पहली फ़ोटो या विवरण भेजने से पहले Bitey आपसे पूछता है, और आपकी डायरी कभी आपके फ़ोन से बाहर नहीं जाती।
+
+अपनी प्रगति देखें
+• अपने दिन की तुलना खर्च हुई ऊर्जा से करें, जो आपके वज़न और दर्ज भोजन से निकाली जाती है
+• 14, 30 और 90 दिनों के वज़न और भोजन के रुझान
+• Bitey, एक छोटा डायनासोर, पूरे रास्ते आपका साथ देता है
+
+डिज़ाइन से निजी
+• कोई खाता नहीं, कोई विज्ञापन नहीं, कोई एनालिटिक्स नहीं
+• आपकी डायरी, फ़ोटो और वज़न का इतिहास आपके डिवाइस पर रहता है
+• जब चाहें बैकअप लें और बहाल करें
+• 12 भाषाओं में उपलब्ध
+
+Bitey कोई चिकित्सा उपकरण नहीं है और चिकित्सा सलाह नहीं देता।
 
 **First release notes:**
 
@@ -204,21 +301,37 @@ Bitey — निजी फूड लॉग में आपका स्वा�
 
 **Tagline:** 栄養を、プライベートに。
 
-**Short description:** 食事、マクロ栄養素、体重、バーコード食品を端末内で記録する食事ログ。
+**Short description:** プライベートな食事記録：写真や文章で食事を記録、バーコード読み取り、栄養素と体重管理。
 
 **Full description:**
 
-Bitey は、食事日記を端末内に保存するプライベートな食事ログです。手入力、
-バーコードのスキャン、手軽な軽食の登録で、自分のやり方に合わせて食事を
-記録できます。アカウントを作らずにカロリーとマクロ栄養素を確認できます。
+Bitey は、日記をあなたの端末に保存するプライベートな食事記録アプリです。好きな方法で食事を記録し、カロリー、たんぱく質、炭水化物、脂質、食物繊維、そして体重を確認できます。アカウント登録は不要です。
 
-体重を記録し、履歴と推移を時間とともに確認できます。日記、写真、体重履歴、
-キャッシュされたバーコード食品は端末内に残ります。データを移行または復元
-したいときだけ、バックアップを作成してください。
+好きな方法で記録
+• 16,000 品目以上を収録した内蔵の食品表を検索。よく食べる食品や料理はあなたの言語で表示されます
+• バーコードを読み取り — 読み取りはスマホ内で行われ、Open Food Facts での任意の検索は事前に確認します
+• ラベルやメニューの数値を入力すると、Bitey がそのバーコード用に記憶します
+• 間食をすばやく保存し、いつもの食事をワンタップで再記録
 
-バーコードの読み取りは端末上で行われます。商品がキャッシュされていない場合、
-Bitey は Open Food Facts への任意の直接照会の前に許可を求めます。選択する
-のはあなたです。
+Bitey AI（任意のサブスクリプション）
+• お皿を撮影するか、食事を文章で説明するだけで、食品・量・栄養を推定
+• 保存前に、すべての量を確認・調整できます
+• 残った分を撮影すれば、食べた分だけを記録
+• 必要なら、どちらの作り方もあり得る料理をベジタリアン、ヴィーガン、ペスカタリアンとして読み取ります
+Bitey AI は Google Play の月額または年額のサブスクリプションで、最初の 1 か月は無料です。最初の写真や説明を送る前に確認があり、日記がスマホから出ることはありません。
+
+進み具合を確認
+• その日の摂取量を消費量と比較。消費量は体重記録と食事記録から算出
+• 14 日・30 日・90 日の体重と摂取の推移
+• 小さな恐竜 Bitey がずっと寄り添います
+
+プライバシー重視の設計
+• アカウントなし、広告なし、分析ツールなし
+• 日記、写真、体重の履歴は端末に保存
+• いつでもバックアップと復元が可能
+• 12 か国語に対応
+
+Bitey は医療機器ではなく、医学的な助言は行いません。
 
 **First release notes:**
 
@@ -236,21 +349,37 @@ Bitey — プライベート食事記録へようこそ。
 
 **Tagline:** 영양 기록을 더 프라이빗하게.
 
-**Short description:** 식사, 영양소, 체중, 바코드 식품을 기기 안에 기록하는 개인 식사 로그.
+**Short description:** 나만의 식단 기록: 사진이나 설명으로 식사 기록, 바코드 스캔, 영양소와 체중 관리.
 
 **Full description:**
 
-Bitey는 식사 일기를 기기에 보관하는 개인 식사 기록 앱입니다. 음식을 직접
-추가하고, 바코드를 스캔하고, 간단한 간식을 저장하며, 계정을 만들지 않고
-칼로리와 주요 영양소를 기록할 수 있습니다.
+Bitey는 일지를 기기에만 보관하는 개인 식단 기록 앱입니다. 원하는 방식으로 식사를 기록하고 칼로리, 단백질, 탄수화물, 지방, 식이섬유와 체중을 확인하세요. 계정은 필요 없습니다.
 
-체중을 기록하고 시간에 따른 기록과 추세를 확인하세요. 일기, 사진, 체중 기록,
-캐시된 바코드 식품은 기기에 남습니다. 데이터를 옮기거나 복원하고 싶을 때만
-백업을 만들면 됩니다.
+원하는 방식으로 기록
+• 16,000가지 이상의 음식이 담긴 내장 표에서 검색하세요. 자주 먹는 음식과 요리가 내 언어로 표시됩니다
+• 바코드 스캔 — 휴대폰에서 읽으며, 선택 사항인 Open Food Facts 조회는 먼저 물어봅니다
+• 라벨이나 메뉴의 숫자를 입력하면 Bitey가 그 바코드에 대해 기억합니다
+• 간식을 빠르게 저장하고, 자주 먹는 식사를 한 번의 탭으로 다시 기록하세요
 
-바코드 스캔은 기기에서 작동합니다. 제품이 캐시되어 있지 않으면 Bitey가
-Open Food Facts에 선택적으로 직접 조회하기 전에 허용을 요청합니다. 선택권은
-항상 사용자에게 있습니다.
+Bitey AI (선택 구독)
+• 접시를 찍거나 식사를 간단히 설명하면 음식, 양, 영양을 추정해 드립니다
+• 저장하기 전에 모든 양을 확인하고 조정하세요
+• 남은 음식을 찍어 실제로 먹은 만큼만 기록하세요
+• 원하면 어느 쪽으로도 만들 수 있는 요리를 채식, 비건, 페스코 채식으로 읽습니다
+Bitey AI는 Google Play 월간 또는 연간 구독이며, 첫 달은 무료입니다. 첫 사진이나 설명을 보내기 전에 Bitey가 먼저 묻고, 일지는 휴대폰 밖으로 나가지 않습니다.
+
+진행 상황 확인
+• 체중 기록과 식사 기록으로 계산한 소비량과 오늘 하루를 비교하세요
+• 14일, 30일, 90일 동안의 체중과 섭취 추이
+• 작은 공룡 Bitey가 늘 함께합니다
+
+처음부터 개인정보 보호
+• 계정, 광고, 분석 도구 없음
+• 일지, 사진, 체중 기록은 기기에 보관됩니다
+• 언제든 백업하고 복원하세요
+• 12개 언어 지원
+
+Bitey는 의료기기가 아니며 의학적 조언을 제공하지 않습니다.
 
 **First release notes:**
 
@@ -264,27 +393,41 @@ Bitey — 개인 식사 기록에 오신 것을 환영합니다.
 
 ## Portuguese, Brazil (pt-BR)
 
-**App name:** Bitey — Diário alimentar privado
+**App name:** Bitey — Diário alimentar
 
 **Tagline:** Nutrição, em privado.
 
-**Short description:** Diário alimentar privado no dispositivo: refeições, macros, peso e códigos.
+**Short description:** Diário alimentar privado: foto ou descrição, código de barras, macros e peso.
 
 **Full description:**
 
-Bitey é um diário alimentar privado que guarda os seus registos no seu
-dispositivo. Registe refeições à sua maneira: adicione alimentos manualmente,
-leia códigos de barras, guarde lanches rápidos e acompanhe calorias e
-macronutrientes sem criar uma conta.
+Bitey é um diário alimentar privado que mantém seus registros no seu aparelho. Registre refeições do seu jeito, acompanhe calorias, proteínas, carboidratos, gorduras e fibras, e siga seu peso — sem criar conta.
 
-Registe o peso e veja o histórico e as tendências ao longo do tempo. O diário,
-as fotos, o histórico de peso e os alimentos de código de barras em cache ficam
-no seu dispositivo. Crie uma cópia de segurança quando quiser mover ou
-restaurar os dados.
+Registre do seu jeito
+• Pesquise em uma tabela integrada com mais de 16.000 alimentos, com alimentos e pratos comuns no seu idioma
+• Escaneie um código de barras — a leitura é feita no celular, e uma busca opcional no Open Food Facts pede sua permissão antes
+• Digite os números de um rótulo ou cardápio; o Bitey os guarda para aquele código de barras
+• Salve lanchinhos rápidos e registre de novo suas refeições de sempre com um toque
 
-A leitura de códigos de barras funciona no dispositivo. Se um produto ainda não
-estiver em cache, o Bitey pede autorização antes de uma consulta direta opcional
-ao Open Food Facts. A escolha é sua.
+Bitey AI (assinatura opcional)
+• Fotografe seu prato, ou simplesmente descreva sua refeição, e receba uma estimativa dos alimentos, porções e nutrientes
+• Confira e ajuste cada porção antes de salvar
+• Fotografe o que sobrou, para contar só o que você comeu
+• Se quiser, ele interpreta pratos ambíguos como vegetarianos, veganos ou pescetarianos
+O Bitey AI é uma assinatura mensal ou anual pelo Google Play, e o primeiro mês é grátis. O Bitey pergunta antes de enviar a primeira foto ou descrição, e seu diário nunca sai do celular.
+
+Acompanhe seu progresso
+• Compare seu dia com o que você gasta, calculado a partir das suas pesagens e do que você registra
+• Tendências de peso e consumo em 14, 30 e 90 dias
+• Bitey, um pequeno dinossauro, faz companhia no caminho
+
+Privado por natureza
+• Sem conta, sem anúncios, sem análises
+• Seu diário, fotos e histórico de peso ficam no seu aparelho
+• Faça backup e restaure quando quiser
+• Disponível em 12 idiomas
+
+O Bitey não é um dispositivo médico e não oferece aconselhamento médico.
 
 **First release notes:**
 
@@ -298,27 +441,41 @@ Boas-vindas ao Bitey — Diário alimentar privado.
 
 ## Romanian (ro)
 
-**App name:** Bitey — Jurnal alimentar privat
+**App name:** Bitey — Jurnal alimentar
 
 **Tagline:** Nutriție, în privat.
 
-**Short description:** Jurnal privat pe dispozitiv: mese, macro-uri, greutate și coduri de bare.
+**Short description:** Jurnal alimentar privat: poză sau descriere, cod de bare, macro-uri, greutate.
 
 **Full description:**
 
-Bitey este un jurnal alimentar privat care îți păstrează datele pe dispozitiv.
-Înregistrează mesele cum preferi: adaugă alimente manual, scanează coduri de
-bare, salvează gustări rapide și urmărește caloriile și macronutrienții fără să
-creezi un cont.
+Bitey este un jurnal alimentar privat care îți păstrează jurnalul pe dispozitiv. Notează mesele cum vrei, urmărește caloriile, proteinele, carbohidrații, grăsimile și fibrele, și greutatea — fără să creezi un cont.
 
-Înregistrează cântăririle și urmărește istoricul și tendințele în timp. Jurnalul,
-fotografiile, istoricul greutății și alimentele cu cod de bare din cache rămân
-pe dispozitiv. Creează o copie de siguranță când vrei să muți sau să restaurezi
-datele.
+Notează mâncarea cum vrei
+• Caută într-un tabel inclus cu peste 16.000 de alimente, cu alimentele și preparatele obișnuite numite în limba ta
+• Scanează un cod de bare — e citit pe telefon, iar o căutare opțională în Open Food Facts îți cere mai întâi acordul
+• Scrie valorile de pe etichetă sau din meniu; Bitey le reține pentru acel cod de bare
+• Salvează gustări rapide și notează din nou mesele obișnuite cu o atingere
 
-Scanarea codurilor de bare funcționează pe dispozitiv. Dacă un produs nu este
-deja în cache, Bitey îți cere acordul înainte de o căutare directă opțională în
-Open Food Facts. Tu decizi.
+Bitey AI (abonament opțional)
+• Fotografiază farfuria sau descrie pur și simplu masa și primești o estimare a alimentelor, porțiilor și valorilor nutriționale
+• Verifică și ajustează fiecare porție înainte să salvezi
+• Fotografiază ce a rămas, ca să se numere doar ce ai mâncat
+• Dacă vrei, citește preparatele care pot fi făcute în ambele feluri ca vegetariene, vegane sau pescetariene
+Bitey AI este un abonament Google Play lunar sau anual, iar prima lună este gratuită. Bitey te întreabă înainte de trimiterea primei fotografii sau descrieri, iar jurnalul tău nu părăsește niciodată telefonul.
+
+Urmărește-ți progresul
+• Vezi ziua ta față de ce consumi, calculat din cântăriri și din ce notezi
+• Tendințele greutății și ale alimentației pe 14, 30 și 90 de zile
+• Bitey, un mic dinozaur, îți ține companie pe drum
+
+Privat de la început
+• Fără cont, fără reclame, fără analize
+• Jurnalul, fotografiile și istoricul greutății rămân pe dispozitiv
+• Fă copii de rezervă și restaurează-le oricând
+• Disponibil în 12 limbi
+
+Bitey nu este un dispozitiv medical și nu oferă sfaturi medicale.
 
 **First release notes:**
 
@@ -332,27 +489,41 @@ Bun venit la Bitey — Jurnal alimentar privat.
 
 ## Spanish (es-ES)
 
-**App name:** Bitey — Diario de comida privado
+**App name:** Bitey — Diario de comidas
 
 **Tagline:** Nutrición, en privado.
 
-**Short description:** Diario privado en tu dispositivo: comidas, macros, peso y códigos de barras.
+**Short description:** Diario de comidas privado: foto o descripción, códigos de barras, macros y peso.
 
 **Full description:**
 
-Bitey es un diario de comida privado que guarda tu registro en el dispositivo.
-Anota las comidas a tu manera: añade alimentos manualmente, escanea códigos de
-barras, guarda tentempiés rápidos y sigue las calorías y los macronutrientes sin
-crear una cuenta.
+Bitey es un diario de comidas privado que guarda tu diario en tu dispositivo. Registra tus comidas a tu manera, sigue calorías, proteínas, carbohidratos, grasas y fibra, y controla tu peso — sin crear una cuenta.
 
-Registra tus pesajes y consulta el historial y las tendencias con el tiempo. Tu
-diario, fotos, historial de peso y alimentos de códigos de barras almacenados
-en caché permanecen en el dispositivo. Crea una copia de seguridad cuando
-quieras mover o restaurar los datos.
+Registra a tu manera
+• Busca en una tabla integrada con más de 16.000 alimentos, con los alimentos y platos habituales en tu idioma
+• Escanea un código de barras — se lee en el móvil, y una búsqueda opcional en Open Food Facts te pide permiso antes
+• Escribe los valores de una etiqueta o una carta; Bitey los recuerda para ese código de barras
+• Guarda picoteos rápidos y vuelve a registrar tus comidas habituales con un toque
 
-El escaneo de códigos de barras funciona en el dispositivo. Si un producto no
-está en caché, Bitey pide permiso antes de hacer una consulta directa opcional
-a Open Food Facts. Tú mantienes el control.
+Bitey AI (suscripción opcional)
+• Fotografía tu plato, o simplemente describe tu comida, y obtén una estimación de los alimentos, las raciones y los nutrientes
+• Revisa y ajusta cada ración antes de guardar
+• Fotografía lo que sobró, para contar solo lo que comiste
+• Si quieres, interpreta los platos ambiguos como vegetarianos, veganos o pescetarianos
+Bitey AI es una suscripción mensual o anual de Google Play, y el primer mes es gratis. Bitey te pregunta antes de enviar la primera foto o descripción, y tu diario nunca sale del móvil.
+
+Sigue tu progreso
+• Compara tu día con lo que gastas, calculado a partir de tus pesajes y de lo que registras
+• Tendencias de peso e ingesta en 14, 30 y 90 días
+• Bitey, un pequeño dinosaurio, te acompaña por el camino
+
+Privado por diseño
+• Sin cuenta, sin anuncios, sin analíticas
+• Tu diario, tus fotos y tu historial de peso se quedan en tu dispositivo
+• Haz copias de seguridad y restáuralas cuando quieras
+• Disponible en 12 idiomas
+
+Bitey no es un dispositivo médico y no ofrece consejo médico.
 
 **First release notes:**
 
@@ -366,26 +537,41 @@ Te damos la bienvenida a Bitey — Diario de comida privado.
 
 ## Ukrainian (uk)
 
-**App name:** Bitey — Приватний щоденник харчування
+**App name:** Bitey — Щоденник харчування
 
 **Tagline:** Харчування — приватно.
 
-**Short description:** Приватний журнал їжі на вашому пристрої: страви, макроси, вага й штрихкоди.
+**Short description:** Приватний щоденник їжі: фото чи опис страви, штрихкоди, нутрієнти та вага.
 
 **Full description:**
 
-Bitey — це приватний щоденник харчування, який зберігає ваші записи на
-пристрої. Записуйте страви так, як вам зручно: додавайте їжу вручну, скануйте
-штрихкоди, зберігайте швидкі перекуси та відстежуйте калорії й макронутрієнти
-без створення облікового запису.
+Bitey — приватний щоденник харчування, що зберігає записи на вашому пристрої. Записуйте їжу як зручно, стежте за калоріями, білками, вуглеводами, жирами, клітковиною та вагою — без створення облікового запису.
 
-Записуйте вагу та переглядайте історію і тенденції з часом. Ваш щоденник,
-фотографії, історія ваги й кешовані штрихкодові продукти залишаються на
-пристрої. Створюйте резервну копію, коли потрібно перенести або відновити дані.
+Записуйте по-своєму
+• Шукайте у вбудованій таблиці з понад 16 000 продуктів; поширені продукти й страви названо вашою мовою
+• Скануйте штрихкод — він зчитується на телефоні, а необов’язковий пошук в Open Food Facts спершу питає вашого дозволу
+• Введіть значення з етикетки чи меню — Bitey запам’ятає їх для цього штрихкоду
+• Зберігайте швидкі перекуси й повторно записуйте звичні страви одним дотиком
 
-Сканування штрихкодів працює на пристрої. Якщо продукту ще немає в кеші,
-Bitey попросить дозвіл перед необов'язковим прямим запитом до Open Food Facts.
-Ви завжди контролюєте цей вибір.
+Bitey AI (необов’язкова підписка)
+• Сфотографуйте тарілку або просто опишіть страву й отримайте оцінку продуктів, порцій і поживності
+• Перевірте й змініть кожну порцію перед збереженням
+• Сфотографуйте залишки, щоб урахувати лише з’їдене
+• За бажанням він сприймає неоднозначні страви як вегетаріанські, веганські чи пескетаріанські
+Bitey AI — щомісячна або щорічна підписка Google Play, перший місяць безкоштовний. Bitey питає перед надсиланням першого фото чи опису, а ваш щоденник ніколи не залишає телефон.
+
+Стежте за прогресом
+• Порівнюйте день із витратою енергії, розрахованою з ваших зважувань і записів
+• Тенденції ваги та харчування за 14, 30 і 90 днів
+• Bitey, маленький динозавр, складає вам компанію
+
+Приватність за задумом
+• Без облікового запису, реклами й аналітики
+• Щоденник, фото та історія ваги залишаються на пристрої
+• Резервне копіювання й відновлення будь-коли
+• 12 мов інтерфейсу
+
+Bitey не є медичним виробом і не надає медичних порад.
 
 **First release notes:**
 
