@@ -26,8 +26,11 @@ Google Play.
 The next upload is **1.0.15** (`versionCode` 16): Estimate meal gets the same
 lively wait as a photo, and a failed estimate says why instead of always
 blaming the connection. Its release notes are in `RELEASE_NOTES_1.0.15.md`,
-with the paste-ready tagged form in `release-notes-1.0.15.xml`. Record its
-hash here once built.
+with the paste-ready tagged form in `release-notes-1.0.15.xml`.
+
+- 1.0.15 file SHA-256: `60DD2BBE4266F221A9F7B2F0FF450BCEB8470EA1FCD3F6786E36C32874EBE341`
+  (built 11 October 2026, 15:14, on the Lenovo from c466952; signed with the
+  Play upload key, `CN=Daniel Marin`)
 
 Before it, **1.0.14** (`versionCode` 15): the profile card on the day
 view can be closed, and stays closed. Its release notes are in
