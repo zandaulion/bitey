@@ -23,7 +23,7 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.0.15** (`versionCode` 16): Estimate meal gets the same
+**1.0.15** (`versionCode` 16) was sent for review on 11 October 2026: Estimate meal gets the same
 lively wait as a photo, and a failed estimate says why instead of always
 blaming the connection. Its release notes are in `RELEASE_NOTES_1.0.15.md`,
 with the paste-ready tagged form in `release-notes-1.0.15.xml`.
@@ -154,8 +154,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.15** (`versionCode` 16), not yet uploaded
-- Next upload artifact: `bitey-private-food-log-1.0.15.aab`
+- Current source version: **1.0.15** (`versionCode` 16), in Play review
+- Latest upload artifact: `bitey-private-food-log-1.0.15.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
