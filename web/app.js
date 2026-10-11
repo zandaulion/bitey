@@ -603,7 +603,7 @@ function renderQuickBiteTray(recents) {
       <div class="tile-glyph plus-glyph">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       </div>
-      <div class="tile-name">Custom</div>
+      <div class="tile-name">${esc(t('Custom'))}</div>
     </button>`;
 
   container.innerHTML = presetHtml + recentHtml + customHtml;
@@ -925,7 +925,7 @@ function showDerivedAge() {
   const input = $('p-birth-year');
   if (!hint || !input) return;
   const age = ageFromBirthYear(input.value);
-  hint.textContent = age === null || age < 0 ? 'year' : `${age} yrs`;
+  hint.textContent = age === null || age < 0 ? t('year') : t('{0} yrs', age);
 }
 
 $('p-birth-year')?.addEventListener('input', showDerivedAge);
@@ -1590,7 +1590,7 @@ function renderWeightChart2(days, trend) {
   // below already says when the trend will appear.
   if (!points.length) {
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}"><text class="empty" x="0" y="${H / 2}">`
-      + 'No weigh-ins in this range yet.</text></svg>';
+      + `${esc(t('No weigh-ins in this range yet.'))}</text></svg>`;
     return;
   }
 
@@ -1652,7 +1652,7 @@ function renderIntakeChart(days, expenditure) {
 
   if (!logged.length) {
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}"><text class="empty" x="0" y="${H / 2}">`
-      + 'Nothing logged in this range.</text></svg>';
+      + `${esc(t('Nothing logged in this range.'))}</text></svg>`;
     return;
   }
 
@@ -2447,7 +2447,7 @@ async function startPhotoEntry(file) {
   const takenOn = await photoTakenOn(file);
 
   openReview('photo');
-  busy('Reading the photo…');
+  busy(t('Reading the photo…'));
 
   try {
     state.photo = await prepareImage(file);
@@ -4164,7 +4164,7 @@ $('save-entry').addEventListener('click', async () => {
   }
   state.busy = true;
   $('save-entry').disabled = true;
-  busy('Saving…');
+  busy(t('Saving…'));
 
   const body = {
     meal: state.meal,
@@ -4259,7 +4259,7 @@ $('dup-entry')?.addEventListener('click', async () => {
   state.busy = true;
   if ($('dup-entry')) $('dup-entry').disabled = true;
   $('save-entry').disabled = true;
-  busy('Duplicating…');
+  busy(t('Duplicating…'));
 
   const body = {
     day: state.day,
@@ -4513,9 +4513,9 @@ if (window.__PLATE_NATIVE__) {
     $('backup-export').disabled = true;
     try {
       const result = await nativeBackup('export');
-      if (result.ok) toast(`Backup saved (${result.summary.entries} entries, ${result.summary.photos} photos).`);
+      if (result.ok) toast(t('Backup saved ({0} entries, {1} photos).', result.summary.entries, result.summary.photos));
     } catch (err) {
-      toast(err.message || 'Could not save the backup.');
+      toast(err.message || t('Could not save the backup.'));
     } finally {
       $('backup-export').disabled = false;
     }
@@ -4529,9 +4529,9 @@ if (window.__PLATE_NATIVE__) {
       if (!result.ok) return;
       state.me = await api('/api/me');
       await loadDay();
-      toast(`Backup restored (${result.summary.entries} entries, ${result.summary.photos} photos).`);
+      toast(t('Backup restored ({0} entries, {1} photos).', result.summary.entries, result.summary.photos));
     } catch (err) {
-      toast(err.message || 'Could not restore the backup.');
+      toast(err.message || t('Could not restore the backup.'));
     } finally {
       $('backup-import').disabled = false;
     }
@@ -4557,9 +4557,9 @@ if (!window.__PLATE_NATIVE__) {
       });
       state.me = await api('/api/me');
       await loadDay();
-      toast(`Backup restored (${result.summary.entries} entries, ${result.summary.photos} photos).`);
+      toast(t('Backup restored ({0} entries, {1} photos).', result.summary.entries, result.summary.photos));
     } catch (err) {
-      toast(err.message || 'Could not restore the backup.');
+      toast(err.message || t('Could not restore the backup.'));
     } finally {
       importButton.disabled = false;
     }
@@ -4782,7 +4782,7 @@ async function loadWeight() {
       $('weight-trend').textContent = t('A trend needs at least 3 weigh-ins spread over a week.');
     }
     if (weights.length) {
-      $('w-kg').placeholder = `Last: ${weights[weights.length - 1].kg} kg`;
+      $('w-kg').placeholder = t('Last: {0} kg', weights[weights.length - 1].kg);
       state.me = state.me || {};
       state.me.weightUsedKg = weights[weights.length - 1].kg;
       if (state.me.maintenance) showMaintenanceResult(state.me.maintenance, state.me.weightUsedKg);

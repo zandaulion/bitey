@@ -85,6 +85,12 @@ const INDIRECT = [
   'Desk job, little or no exercise', 'Light exercise, 1-3 days a week',
   'Moderate exercise, 3-5 days a week', 'Hard exercise, 6-7 days a week',
   'Physical job, or training twice a day',
+  // Diets and focuses, offered in the profile selects; the labels come from
+  // local-api.js and reach t() through a variable.
+  'Omnivore (anything goes)', 'Vegetarian (no meat/fish)', 'Vegan (100% plant-based)',
+  'Pescatarian (vegetarian + seafood)', 'Keto / Low-carb',
+  'Balanced (standard split)', 'High protein (satiety & muscle)',
+  'Lower fat (heart & calorie density)', 'Low carbohydrate',
   'none of it', 'a quarter', 'half', 'three quarters', 'all of it',
   'none', 'all',
   // Quick bites: named in core, rendered by label on the tile and by name in

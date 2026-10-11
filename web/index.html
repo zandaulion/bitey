@@ -467,27 +467,27 @@
              and having a second copy in this form meant two numbers for the
              same thing on one screen, disagreeing with each other. -->
         <div class="field-row">
-          <label for="p-height">Height<span class="unit-tag" data-i18n="cm">cm</span>
+          <label for="p-height"><span data-i18n="Height">Height</span><span class="unit-tag" data-i18n="cm">cm</span>
             <input id="p-height" type="number" inputmode="numeric" min="90" max="260" step="1"></label>
           <!-- The year, not the age. An age is right once and wrong every year
                afterwards; the year keeps the maintenance estimate honest
                without anyone having to remember to update it. -->
-          <label for="p-birth-year">Born<span id="p-age-hint" class="unit-tag" data-i18n="year">year</span>
+          <label for="p-birth-year"><span data-i18n="Born">Born</span><span id="p-age-hint" class="unit-tag" data-i18n="year">year</span>
             <input id="p-birth-year" type="number" inputmode="numeric" step="1"></label>
         </div>
 
-        <label for="p-sex">Sex
+        <label for="p-sex"><span data-i18n="Sex">Sex</span>
           <select id="p-sex">
             <option value="" data-i18n="Prefer not to say">Prefer not to say</option>
             <option value="female" data-i18n="Female">Female</option>
             <option value="male" data-i18n="Male">Male</option>
           </select></label>
 
-        <label for="p-activity">Typical week
+        <label for="p-activity"><span data-i18n="Typical week">Typical week</span>
           <select id="p-activity"></select></label>
 
         <div class="field-row">
-          <label for="p-diet">Diet
+          <label for="p-diet"><span data-i18n="Diet">Diet</span>
             <select id="p-diet">
               <option value="omnivore" data-i18n="Omnivore">Omnivore</option>
               <option value="vegetarian" data-i18n="Vegetarian">Vegetarian</option>
@@ -495,7 +495,7 @@
               <option value="pescatarian" data-i18n="Pescatarian">Pescatarian</option>
               <option value="keto" data-i18n="Keto">Keto</option>
             </select></label>
-          <label for="p-goal">Focus
+          <label for="p-goal"><span data-i18n="Focus">Focus</span>
             <select id="p-goal">
               <option value="balanced" data-i18n="Balanced">Balanced</option>
               <option value="high_protein" data-i18n="High protein">High protein</option>
@@ -576,7 +576,7 @@
         </div>
         <div id="native-backup-actions" class="export-row" hidden>
           <p class="hint" data-i18n="Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.">Your backup includes diary entries, weigh-ins, cached barcode foods, and photos. Keep it somewhere private.</p>
-          <button id="backup-export" class="secondary" type="button">Everything, with photos</button>
+          <button id="backup-export" class="secondary" type="button" data-i18n="Everything, with photos">Everything, with photos</button>
           <button id="backup-import" class="secondary" type="button" data-i18n="Restore from a backup">Restore from a backup</button>
         </div>
 
