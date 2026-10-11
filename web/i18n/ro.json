@@ -527,10 +527,16 @@
   "No food was recognised. Try describing your meal differently.": "Nu a fost recunoscut niciun aliment. Încearcă să descrii masa altfel.",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI nu este activ. Apasă Estimează masa pentru a verifica din nou abonamentul.",
   "You have used today’s meal analyses. Try again tomorrow.": "Ai folosit analizele de mese disponibile azi. Încearcă din nou mâine.",
-  "The meal could not be estimated. Check your connection and try again.": "Masa nu a putut fi estimată. Verifică conexiunea și încearcă din nou.",
   "How Bitey AI estimates your meal": "Cum estimează Bitey AI masa",
   "Withdraw AI consent": "Retrage consimțământul pentru AI",
   "Bitey AI will ask again before sending a photo or description.": "Bitey AI va cere din nou acordul înainte de a trimite o fotografie sau o descriere.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "Descrierea mesei este trimisă serverului Bitey din Google Cloud (Belgia) și citită de Gemini de la Google, împreună cu un cod de abonament Google Play. Jurnalul și profilul rămân pe telefon. Serverul Bitey nu stochează descrierea.",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Fotografiile și descrierile meselor trimise către Bitey AI sunt citite de Gemini de la Google. Jurnalul rămâne pe acest dispozitiv."
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Fotografiile și descrierile meselor trimise către Bitey AI sunt citite de Gemini de la Google. Jurnalul rămâne pe acest dispozitiv.",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI nu a putut confirma că aceasta este aplicația Bitey din Google Play. Încearcă din nou sau reinstaleaz-o din Google Play.",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI nu a putut estima masa: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "Bitey AI nu a putut fi contactat. Verifică conexiunea și încearcă din nou.",
+  "Describe what you ate first.": "Descrie mai întâi ce ai mâncat.",
+  "Keep the meal description to 1,000 characters.": "Descrierea mesei poate avea cel mult 1.000 de caractere.",
+  "no reason given": "niciun motiv indicat",
+  "Estimating your meal…": "Estimez masa…"
 }

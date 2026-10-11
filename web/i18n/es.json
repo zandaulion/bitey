@@ -525,10 +525,16 @@
   "No food was recognised. Try describing your meal differently.": "No se reconoció ningún alimento. Prueba a describir la comida de otra manera.",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI no está activo. Pulsa Estimar comida para volver a comprobar tu suscripción.",
   "You have used today’s meal analyses. Try again tomorrow.": "Has usado los análisis de comidas de hoy. Inténtalo mañana.",
-  "The meal could not be estimated. Check your connection and try again.": "No se pudo estimar la comida. Comprueba tu conexión e inténtalo de nuevo.",
   "How Bitey AI estimates your meal": "Cómo estima Bitey AI tu comida",
   "Withdraw AI consent": "Retirar consentimiento para la IA",
   "Bitey AI will ask again before sending a photo or description.": "Bitey AI volverá a pedir permiso antes de enviar una foto o descripción.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "La descripción de tu comida se envía al servidor de Bitey en Google Cloud (Bélgica) y la lee Gemini de Google, junto con un código de suscripción de Google Play. Tu diario y perfil se quedan en tu teléfono. El servidor de Bitey no almacena tu descripción.",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Las fotos y descripciones de comidas que envías a Bitey AI las lee Gemini de Google. Tu diario permanece en este dispositivo."
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Las fotos y descripciones de comidas que envías a Bitey AI las lee Gemini de Google. Tu diario permanece en este dispositivo.",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI no ha podido confirmar que esta sea la app Bitey de Google Play. Vuelve a intentarlo o reinstálala desde Google Play.",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI no ha podido estimar esta comida: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "No se ha podido conectar con Bitey AI. Comprueba la conexión y vuelve a intentarlo.",
+  "Describe what you ate first.": "Describe primero lo que has comido.",
+  "Keep the meal description to 1,000 characters.": "La descripción de la comida puede tener como máximo 1000 caracteres.",
+  "no reason given": "sin motivo indicado",
+  "Estimating your meal…": "Estimando tu comida…"
 }

@@ -523,10 +523,16 @@
   "No food was recognised. Try describing your meal differently.": "未识别到食物。请换一种方式描述餐食。",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI 未启用。点击“估算餐食”以重新检查订阅。",
   "You have used today’s meal analyses. Try again tomorrow.": "今天的餐食分析次数已用完，请明天再试。",
-  "The meal could not be estimated. Check your connection and try again.": "无法估算餐食。请检查网络连接后重试。",
   "How Bitey AI estimates your meal": "Bitey AI 如何估算餐食",
   "Withdraw AI consent": "撤回 AI 授权",
   "Bitey AI will ask again before sending a photo or description.": "发送照片或描述前，Bitey AI 会再次征求同意。",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "你的餐食描述会连同 Google Play 订阅代码发送至 Google Cloud（比利时）上的 Bitey 服务器，并由 Google Gemini 读取。日记和个人资料保留在手机上。Bitey 服务器不会存储你的描述。",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "发送给 Bitey AI 的照片和餐食描述由 Google Gemini 读取。日记保留在此设备上。"
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "发送给 Bitey AI 的照片和餐食描述由 Google Gemini 读取。日记保留在此设备上。",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI 无法确认这是来自 Google Play 的 Bitey 应用。请重试，或从 Google Play 重新安装。",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI 无法估算这顿饭：{0}（{1}）",
+  "Could not reach Bitey AI. Check your connection and try again.": "无法连接 Bitey AI。请检查网络连接后重试。",
+  "Describe what you ate first.": "请先描述你吃了什么。",
+  "Keep the meal description to 1,000 characters.": "餐食描述最多 1,000 个字符。",
+  "no reason given": "未说明原因",
+  "Estimating your meal…": "正在估算你的这餐…"
 }

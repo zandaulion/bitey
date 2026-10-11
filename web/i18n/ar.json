@@ -523,10 +523,16 @@
   "No food was recognised. Try describing your meal differently.": "لم يتم التعرف على أي طعام. جرّب وصف وجبتك بطريقة أخرى.",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI غير نشط. اضغط على تقدير الوجبة للتحقق من اشتراكك مجدداً.",
   "You have used today’s meal analyses. Try again tomorrow.": "استخدمت تحليلات الوجبات المتاحة اليوم. حاول مجدداً غداً.",
-  "The meal could not be estimated. Check your connection and try again.": "تعذّر تقدير الوجبة. تحقق من اتصالك وحاول مجدداً.",
   "How Bitey AI estimates your meal": "كيف يقدّر Bitey AI وجبتك",
   "Withdraw AI consent": "سحب الموافقة على الذكاء الاصطناعي",
   "Bitey AI will ask again before sending a photo or description.": "سيطلب Bitey AI موافقتك مجدداً قبل إرسال صورة أو وصف.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "يُرسل وصف وجبتك إلى خادم Bitey في Google Cloud (بلجيكا) ويقرؤه Gemini من Google، مع رمز اشتراك Google Play. تبقى يومياتك وملفك الشخصي على هاتفك. لا يحتفظ خادم Bitey بوصفك.",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "يقرأ Gemini من Google الصور وأوصاف الوجبات التي ترسلها إلى Bitey AI. تبقى يومياتك على هذا الجهاز."
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "يقرأ Gemini من Google الصور وأوصاف الوجبات التي ترسلها إلى Bitey AI. تبقى يومياتك على هذا الجهاز.",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "تعذّر على Bitey AI التأكد من أن هذا هو تطبيق Bitey من Google Play. حاول مرة أخرى أو أعد تثبيته من Google Play.",
+  "Bitey AI could not estimate this meal: {0} ({1})": "تعذّر على Bitey AI تقدير هذه الوجبة: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "تعذّر الوصول إلى Bitey AI. تحقق من اتصالك وحاول مرة أخرى.",
+  "Describe what you ate first.": "صف ما أكلته أولًا.",
+  "Keep the meal description to 1,000 characters.": "يجب ألا يتجاوز وصف الوجبة 1000 حرف.",
+  "no reason given": "لم يُذكر سبب",
+  "Estimating your meal…": "جارٍ تقدير وجبتك…"
 }

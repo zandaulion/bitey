@@ -523,10 +523,16 @@
   "No food was recognised. Try describing your meal differently.": "कोई खाद्य पदार्थ पहचाना नहीं गया। भोजन को दूसरे तरीके से बताएं।",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI सक्रिय नहीं है। सदस्यता फिर से जांचने के लिए भोजन का अनुमान लगाएं पर टैप करें।",
   "You have used today’s meal analyses. Try again tomorrow.": "आज के भोजन विश्लेषण पूरे हो गए हैं। कल फिर कोशिश करें।",
-  "The meal could not be estimated. Check your connection and try again.": "भोजन का अनुमान नहीं लगाया जा सका। कनेक्शन जांचें और फिर कोशिश करें।",
   "How Bitey AI estimates your meal": "Bitey AI भोजन का अनुमान कैसे लगाता है",
   "Withdraw AI consent": "AI की सहमति वापस लें",
   "Bitey AI will ask again before sending a photo or description.": "फोटो या विवरण भेजने से पहले Bitey AI फिर से अनुमति मांगेगा।",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "आपके भोजन का विवरण Google Play सदस्यता कोड के साथ Google Cloud (बेल्जियम) में Bitey के सर्वर पर भेजा जाता है और Google का Gemini उसे पढ़ता है। आपकी डायरी और प्रोफाइल फोन पर रहती हैं। Bitey का सर्वर आपका विवरण सहेजता नहीं है।",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI को भेजी गई फोटो और भोजन के विवरण Google का Gemini पढ़ता है। आपकी डायरी इसी डिवाइस पर रहती है।"
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI को भेजी गई फोटो और भोजन के विवरण Google का Gemini पढ़ता है। आपकी डायरी इसी डिवाइस पर रहती है।",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI पुष्टि नहीं कर सका कि यह Google Play से इंस्टॉल किया गया Bitey ऐप है। फिर से कोशिश करें, या Google Play से दोबारा इंस्टॉल करें।",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI इस भोजन का अनुमान नहीं लगा सका: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "Bitey AI से संपर्क नहीं हो सका। अपना कनेक्शन जाँचें और फिर से कोशिश करें।",
+  "Describe what you ate first.": "पहले बताएँ कि आपने क्या खाया।",
+  "Keep the meal description to 1,000 characters.": "भोजन का विवरण अधिकतम 1,000 अक्षरों का हो सकता है।",
+  "no reason given": "कोई कारण नहीं बताया गया",
+  "Estimating your meal…": "आपके भोजन का अनुमान लगाया जा रहा है…"
 }

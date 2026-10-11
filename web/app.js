@@ -2856,6 +2856,45 @@ $('text-search').addEventListener('click', () => { setEntryRoute('search'); $('f
 $('text-numbers').addEventListener('click', () => { setEntryRoute('numbers'); $('m-name').focus(); });
 $('entry-back').addEventListener('click', () => setEntryRoute(state.estimate ? 'review' : 'describe'));
 $('text-edit').addEventListener('click', () => setEntryRoute('describe'));
+/**
+ * Why a meal description could not be estimated, in words that point at the
+ * real cause.
+ *
+ * Only an unreachable server is a connection problem. Everything else is an
+ * answer from Bitey AI, and calling it "check your connection" sent people to
+ * fix their Wi-Fi when the server had turned the request down -- as it did
+ * while the cloud function predated text estimates. A refusal this page has
+ * no sentence for is shown with the server's own words and its code, so it
+ * can be reported precisely.
+ */
+function textEstimateError(err) {
+  switch (err?.code) {
+    case 'network':
+      return t('Could not reach Bitey AI. Check your connection and try again.');
+    case 'not_food':
+    case 'nothing_found':
+      return t('No food was recognised. Try describing your meal differently.');
+    case 'not_entitled':
+    case 'no_token':
+    case 'bad_token':
+      return t('Bitey AI is not active. Tap Estimate meal to check your subscription again.');
+    case 'daily_limit':
+      return t('You have used today’s meal analyses. Try again tomorrow.');
+    case 'no_description':
+      return t('Describe what you ate first.');
+    case 'description_too_long':
+      return t('Keep the meal description to 1,000 characters.');
+    case 'no_app_check':
+    case 'bad_app_check':
+      return t('Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.');
+    default: {
+      const detail = [err?.code, err?.status].filter(Boolean).join(', ');
+      return t('Bitey AI could not estimate this meal: {0} ({1})',
+        err?.message || t('no reason given'), detail || 'unknown');
+    }
+  }
+}
+
 $('estimate-text').addEventListener('click', async () => {
   const description = $('meal-description').value.trim();
   if (!description || state.textPending) return;
@@ -2866,23 +2905,25 @@ $('estimate-text').addEventListener('click', async () => {
   syncTextButton();
   try {
     if (!await requestAiAccess('text') || !current()) return;
-    // Only an explicit Estimate action sends text; typing and searching do not.
-    const data = await api('/api/analyse', {
-      method: 'POST', body: JSON.stringify({ mode: 'text', description })
-    });
+    // The same wait as a photo: a progress bar and a new playful line every
+    // two seconds, so a description is not a frozen button for five seconds.
+    aiBusy(t('Estimating your meal…'));
+    let data;
+    try {
+      // Only an explicit Estimate action sends text; typing and searching do not.
+      data = await api('/api/analyse', {
+        method: 'POST', body: JSON.stringify({ mode: 'text', description })
+      });
+    } finally {
+      idle();
+    }
     if (!current()) return;
     state.estimate = data.estimate;
     renderReview();
     $('review-body').scrollTop = 0;
   } catch (err) {
     if (!current()) return;
-    $('text-error').textContent = ['not_food', 'nothing_found'].includes(err.code)
-      ? t('No food was recognised. Try describing your meal differently.')
-      : err.code === 'not_entitled' || err.code === 'no_token'
-      ? t('Bitey AI is not active. Tap Estimate meal to check your subscription again.')
-      : err.code === 'daily_limit'
-      ? t('You have used today’s meal analyses. Try again tomorrow.')
-      : t('The meal could not be estimated. Check your connection and try again.');
+    $('text-error').textContent = textEstimateError(err);
     $('text-error').hidden = false;
   } finally {
     if (current()) { state.textPending = false; syncTextButton(); }

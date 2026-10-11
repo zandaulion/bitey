@@ -523,10 +523,16 @@
   "No food was recognised. Try describing your meal differently.": "食品を認識できませんでした。別の言葉で食事を説明してください。",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI は有効ではありません。「食事を推定」を押してサブスクリプションを再確認してください。",
   "You have used today’s meal analyses. Try again tomorrow.": "本日の食事分析回数を使い切りました。明日もう一度お試しください。",
-  "The meal could not be estimated. Check your connection and try again.": "食事を推定できませんでした。接続を確認して再試行してください。",
   "How Bitey AI estimates your meal": "Bitey AI による食事の推定について",
   "Withdraw AI consent": "AI への同意を撤回",
   "Bitey AI will ask again before sending a photo or description.": "写真や説明を送信する前に、Bitey AI が再度同意を求めます。",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "食事の説明は Google Play のサブスクリプションコードとともに Google Cloud（ベルギー）の Bitey サーバーに送信され、Google の Gemini が読み取ります。日記とプロフィールは端末内に残ります。Bitey サーバーは説明を保存しません。",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI に送信した写真と食事の説明は Google の Gemini が読み取ります。日記はこの端末内に残ります。"
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI に送信した写真と食事の説明は Google の Gemini が読み取ります。日記はこの端末内に残ります。",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Google Play からインストールした Bitey アプリであることを Bitey AI が確認できませんでした。もう一度試すか、Google Play から再インストールしてください。",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI はこの食事を推定できませんでした：{0}（{1}）",
+  "Could not reach Bitey AI. Check your connection and try again.": "Bitey AI に接続できませんでした。接続を確認して、もう一度お試しください。",
+  "Describe what you ate first.": "先に食べたものを入力してください。",
+  "Keep the meal description to 1,000 characters.": "食事の説明は 1,000 文字以内にしてください。",
+  "no reason given": "理由は示されていません",
+  "Estimating your meal…": "食事を推定しています…"
 }

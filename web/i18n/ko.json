@@ -523,10 +523,16 @@
   "No food was recognised. Try describing your meal differently.": "음식을 인식하지 못했어요. 다른 말로 식사를 설명해 주세요.",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI가 활성화되어 있지 않아요. 식사 추정을 눌러 구독을 다시 확인하세요.",
   "You have used today’s meal analyses. Try again tomorrow.": "오늘의 식사 분석 횟수를 모두 사용했어요. 내일 다시 시도하세요.",
-  "The meal could not be estimated. Check your connection and try again.": "식사를 추정하지 못했어요. 연결을 확인하고 다시 시도하세요.",
   "How Bitey AI estimates your meal": "Bitey AI의 식사 추정 방식",
   "Withdraw AI consent": "AI 동의 철회",
   "Bitey AI will ask again before sending a photo or description.": "사진이나 설명을 보내기 전에 Bitey AI가 다시 동의를 요청해요.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "식사 설명은 Google Play 구독 코드와 함께 Google Cloud(벨기에)의 Bitey 서버로 전송되어 Google Gemini가 읽습니다. 일지와 프로필은 휴대전화에 남습니다. Bitey 서버는 설명을 저장하지 않습니다.",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI에 보낸 사진과 식사 설명은 Google Gemini가 읽습니다. 일지는 이 기기에 남습니다."
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Bitey AI에 보낸 사진과 식사 설명은 Google Gemini가 읽습니다. 일지는 이 기기에 남습니다.",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI가 Google Play에서 설치한 Bitey 앱인지 확인하지 못했습니다. 다시 시도하거나 Google Play에서 다시 설치하세요.",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI가 이 식사를 추정하지 못했습니다: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "Bitey AI에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.",
+  "Describe what you ate first.": "먼저 무엇을 먹었는지 설명해 주세요.",
+  "Keep the meal description to 1,000 characters.": "식사 설명은 1,000자 이내로 입력해 주세요.",
+  "no reason given": "이유가 제공되지 않음",
+  "Estimating your meal…": "식사를 추정하는 중…"
 }

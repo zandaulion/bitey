@@ -529,10 +529,16 @@
   "No food was recognised. Try describing your meal differently.": "Продуктів не розпізнано. Спробуйте описати страву інакше.",
   "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI не активний. Натисніть «Оцінити страву», щоб знову перевірити підписку.",
   "You have used today’s meal analyses. Try again tomorrow.": "Ви використали всі аналізи страв на сьогодні. Спробуйте завтра.",
-  "The meal could not be estimated. Check your connection and try again.": "Не вдалося оцінити страву. Перевірте з’єднання й спробуйте ще раз.",
   "How Bitey AI estimates your meal": "Як Bitey AI оцінює вашу страву",
   "Withdraw AI consent": "Відкликати згоду на ШІ",
   "Bitey AI will ask again before sending a photo or description.": "Bitey AI знову запитає дозвіл перед надсиланням фото чи опису.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "Опис страви надсилається на сервер Bitey у Google Cloud (Бельгія) та зчитується Gemini від Google разом із кодом підписки Google Play. Щоденник і профіль залишаються на телефоні. Сервер Bitey не зберігає ваш опис.",
-  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Фото й описи страв, надіслані до Bitey AI, зчитує Gemini від Google. Щоденник залишається на цьому пристрої."
+  "Photos and meal descriptions you send to Bitey AI are read by Google's Gemini. Your diary stays on this device.": "Фото й описи страв, надіслані до Bitey AI, зчитує Gemini від Google. Щоденник залишається на цьому пристрої.",
+  "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI не вдалося підтвердити, що це застосунок Bitey з Google Play. Спробуйте ще раз або перевстановіть його з Google Play.",
+  "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI не вдалося оцінити цю страву: {0} ({1})",
+  "Could not reach Bitey AI. Check your connection and try again.": "Не вдалося зв’язатися з Bitey AI. Перевірте з’єднання та спробуйте ще раз.",
+  "Describe what you ate first.": "Спершу опишіть, що ви з’їли.",
+  "Keep the meal description to 1,000 characters.": "Опис страви може мати не більше 1000 символів.",
+  "no reason given": "причину не вказано",
+  "Estimating your meal…": "Оцінюю вашу страву…"
 }
