@@ -28,7 +28,11 @@ the remaining English translated (profile form, empty charts, backup texts,
 waits), with the production listing (`LISTINGS.md`, `listing-import.txt`) and
 the new screenshots (`screenshots/`). Its release notes, written as a launch
 note, are in `RELEASE_NOTES_1.1.0.md`, with the paste-ready tagged form in
-`release-notes-1.1.0.xml`. Record its hash here once built.
+`release-notes-1.1.0.xml`.
+
+- 1.1.0 file SHA-256: `F97FEDD8B74AA0D02F4BD6C4D0E16267122C1E4BECD77A7298CEED90CB08168F`
+  (built 11 October 2026, 16:49, on the Lenovo from 7dad136; signed with the
+  Play upload key, `CN=Daniel Marin`)
 
 Before it, **1.0.15** (`versionCode` 16) was sent for review on 11 October 2026: Estimate meal gets the same
 lively wait as a photo, and a failed estimate says why instead of always
