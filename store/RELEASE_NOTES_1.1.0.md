@@ -1,0 +1,133 @@
+# Bitey 1.1.0 (`versionCode` 17) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.1.0.xml` beside this file is that paste-ready form, and
+this copy is generated from it. Play allows 500 characters per locale; the
+longest here, French, is 447.
+
+1.1.0 is the production release. Its notes introduce the app as a whole --
+"consistent beats perfect", Bitey AI by photo or description, the food table
+named in every language, barcodes, weight and burn over time, the diary on the
+phone -- because production users meet Bitey here for the first time. The code
+change since 1.0.15 is the translation of the remaining English (the profile
+form, empty charts, backup texts, waits).
+
+## English (en-US)
+
+Bitey is here: a food diary for real life. Consistent beats perfect.
+
+- Snap or describe a meal and Bitey AI estimates it (optional subscription, first month free)
+- Search over 16,000 foods named in your language, or scan a barcode
+- Follow your weight and what you burn over time
+- Every screen now speaks your language
+- Your diary stays on your phone
+
+## Arabic (ar)
+
+Bitey هنا: يوميات طعام للحياة الواقعية. الاستمرارية أهم من الكمال.
+
+- صوّر وجبتك أو صفها ويقدّرها Bitey AI (اشتراك اختياري، والشهر الأول مجاني)
+- ابحث في أكثر من 16,000 طعام بأسمائها بلغتك، أو امسح الباركود
+- تابع وزنك وما تحرقه بمرور الوقت
+- كل الشاشات الآن بلغتك
+- تبقى يومياتك على هاتفك
+
+## Chinese, Simplified (zh-CN)
+
+Bitey 来了：为真实生活设计的饮食日记。坚持胜过完美。
+
+- 拍下或描述一餐，Bitey AI 帮你估算（可选订阅，首月免费）
+- 搜索 16,000 多种以你的语言命名的食物，或扫描条形码
+- 长期关注体重和消耗
+- 所有界面现在都使用你的语言
+- 你的日记留在手机上
+
+## French (fr-FR)
+
+Bitey est là : un journal alimentaire pour la vraie vie. La régularité vaut mieux que la perfection.
+
+- Photographiez ou décrivez un repas, Bitey AI l'estime (abonnement facultatif, premier mois offert)
+- Cherchez parmi plus de 16 000 aliments nommés dans votre langue, ou scannez un code-barres
+- Suivez votre poids et ce que vous dépensez au fil du temps
+- Tous les écrans parlent désormais votre langue
+- Votre journal reste sur votre téléphone
+
+## German (de-DE)
+
+Bitey ist da: ein Ernährungstagebuch für den Alltag. Regelmäßig schlägt perfekt.
+
+- Fotografiere oder beschreibe eine Mahlzeit, Bitey AI schätzt sie (optionales Abo, erster Monat gratis)
+- Durchsuche über 16.000 Lebensmittel in deiner Sprache oder scanne einen Barcode
+- Verfolge dein Gewicht und deinen Verbrauch über die Zeit
+- Alle Bildschirme sprechen jetzt deine Sprache
+- Dein Tagebuch bleibt auf deinem Handy
+
+## Hindi (hi-IN)
+
+Bitey आ गया: असल ज़िंदगी के लिए फ़ूड डायरी। निरंतरता परफ़ेक्शन से बेहतर है।
+
+- भोजन की फ़ोटो लें या बताएँ, Bitey AI अनुमान लगाता है (वैकल्पिक सदस्यता, पहला महीना मुफ़्त)
+- आपकी भाषा में 16,000 से ज़्यादा खाद्य पदार्थ खोजें, या बारकोड स्कैन करें
+- समय के साथ अपना वज़न और खर्च हुई ऊर्जा देखें
+- हर स्क्रीन अब आपकी भाषा में
+- आपकी डायरी आपके फ़ोन पर रहती है
+
+## Japanese (ja-JP)
+
+Bitey 登場：毎日のための食事記録。完璧より、続けること。
+
+- 食事を撮影するか説明すると、Bitey AI が推定します（任意のサブスクリプション、最初の 1 か月無料）
+- あなたの言語で 16,000 品目以上の食品を検索、またはバーコードを読み取り
+- 体重と消費量の推移を確認
+- すべての画面があなたの言語に対応
+- 日記はスマホの中に保存
+
+## Korean (ko-KR)
+
+Bitey 출시: 일상을 위한 식단 기록. 완벽보다 꾸준함.
+
+- 식사를 찍거나 설명하면 Bitey AI가 추정합니다 (선택 구독, 첫 달 무료)
+- 내 언어로 된 16,000가지 이상의 음식을 검색하거나 바코드를 스캔하세요
+- 체중과 소비량의 변화를 꾸준히 확인하세요
+- 이제 모든 화면이 내 언어로 표시됩니다
+- 일지는 휴대폰에만 보관됩니다
+
+## Portuguese, Brazil (pt-BR)
+
+O Bitey chegou: um diário alimentar para a vida real. Constância vale mais que perfeição.
+
+- Fotografe ou descreva uma refeição e o Bitey AI estima (assinatura opcional, primeiro mês grátis)
+- Pesquise mais de 16.000 alimentos no seu idioma, ou escaneie um código de barras
+- Acompanhe seu peso e o que você gasta ao longo do tempo
+- Todas as telas agora falam o seu idioma
+- Seu diário fica no seu celular
+
+## Romanian (ro)
+
+Bitey e aici: un jurnal alimentar pentru viața reală. Constanța bate perfecțiunea.
+
+- Fotografiază sau descrie o masă și Bitey AI o estimează (abonament opțional, prima lună gratuită)
+- Caută printre peste 16.000 de alimente numite în limba ta sau scanează un cod de bare
+- Urmărește-ți greutatea și ce consumi în timp
+- Toate ecranele vorbesc acum limba ta
+- Jurnalul rămâne pe telefonul tău
+
+## Spanish (es-ES)
+
+Llega Bitey: un diario de comidas para el día a día. La constancia gana a la perfección.
+
+- Fotografía o describe una comida y Bitey AI la estima (suscripción opcional, primer mes gratis)
+- Busca entre más de 16.000 alimentos en tu idioma o escanea un código de barras
+- Sigue tu peso y lo que gastas a lo largo del tiempo
+- Todas las pantallas hablan ya tu idioma
+- Tu diario se queda en tu móvil
+
+## Ukrainian (uk)
+
+Bitey тут: щоденник харчування для реального життя. Регулярність важливіша за досконалість.
+
+- Сфотографуйте або опишіть страву, і Bitey AI її оцінить (необов'язкова підписка, перший місяць безкоштовно)
+- Шукайте понад 16 000 продуктів вашою мовою або скануйте штрихкод
+- Стежте за вагою та витратою енергії з часом
+- Усі екрани тепер вашою мовою
+- Ваш щоденник залишається на телефоні

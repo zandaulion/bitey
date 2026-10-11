@@ -23,7 +23,14 @@ Google Play.
 
 ## Upload artifacts
 
-**1.0.15** (`versionCode` 16) was sent for review on 11 October 2026: Estimate meal gets the same
+The next upload is **1.1.0** (`versionCode` 17), the **production release**:
+the remaining English translated (profile form, empty charts, backup texts,
+waits), with the production listing (`LISTINGS.md`, `listing-import.txt`) and
+the new screenshots (`screenshots/`). Its release notes, written as a launch
+note, are in `RELEASE_NOTES_1.1.0.md`, with the paste-ready tagged form in
+`release-notes-1.1.0.xml`. Record its hash here once built.
+
+Before it, **1.0.15** (`versionCode` 16) was sent for review on 11 October 2026: Estimate meal gets the same
 lively wait as a photo, and a failed estimate says why instead of always
 blaming the connection. Its release notes are in `RELEASE_NOTES_1.0.15.md`,
 with the paste-ready tagged form in `release-notes-1.0.15.xml`.
@@ -154,8 +161,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.0.15** (`versionCode` 16), in Play review
-- Latest upload artifact: `bitey-private-food-log-1.0.15.aab`
+- Current source version: **1.1.0** (`versionCode` 17), not yet uploaded
+- Next upload artifact: `bitey-private-food-log-1.1.0.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
