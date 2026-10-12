@@ -28,7 +28,11 @@ The next upload is **1.1.1** (`versionCode` 18), which replaces 1.1.0 as the
 at once, so the padlocks return and the plans are offered instead of a
 dead-end error. Its release notes keep 1.1.0's launch note and are in
 `RELEASE_NOTES_1.1.1.md`, with the paste-ready tagged form in
-`release-notes-1.1.1.xml`. Record its hash here once built.
+`release-notes-1.1.1.xml`.
+
+- 1.1.1 file SHA-256: `3DB044E58D09D47D0A726795F32828A4C9066AB2F3EE48AC3A370C0C2D35C456`
+  (built 12 October 2026, 14:49, on the Lenovo from 9ac37c5; signed with the
+  Play upload key, `CN=Daniel Marin`)
 
 Before it, **1.1.0** (`versionCode` 17) went to closed testing on 11 October
 2026, waiting for production access to be granted:
