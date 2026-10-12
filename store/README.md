@@ -23,8 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.1** (`versionCode` 18) was uploaded to production on 12 October 2026
-and is under review. It replaces 1.1.0, the first production release, as the
+**1.1.1** (`versionCode` 18) is live in production since 12 October 2026. It
+replaces 1.1.0, the first production release, as the
 **production release**: a subscription the server no longer honours is dropped
 at once, so the padlocks return and the plans are offered instead of a
 dead-end error; the refusal is remembered across restarts, and if Play then
@@ -182,7 +182,7 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.1** (`versionCode` 18), in production review
+- Current source version: **1.1.1** (`versionCode` 18), live in production
 - Last upload artifact: `bitey-private-food-log-1.1.1.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
