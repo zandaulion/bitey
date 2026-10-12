@@ -521,7 +521,6 @@
   "Estimated from text": "विवरण से अनुमानित",
   "Estimated from your description. Check the assumed portions below.": "आपके विवरण से अनुमानित। नीचे मानी गई मात्रा जांचें।",
   "No food was recognised. Try describing your meal differently.": "कोई खाद्य पदार्थ पहचाना नहीं गया। भोजन को दूसरे तरीके से बताएं।",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI सक्रिय नहीं है। सदस्यता फिर से जांचने के लिए भोजन का अनुमान लगाएं पर टैप करें।",
   "You have used today’s meal analyses. Try again tomorrow.": "आज के भोजन विश्लेषण पूरे हो गए हैं। कल फिर कोशिश करें।",
   "How Bitey AI estimates your meal": "Bitey AI भोजन का अनुमान कैसे लगाता है",
   "Withdraw AI consent": "AI की सहमति वापस लें",
@@ -560,5 +559,10 @@
   "Sex": "लिंग",
   "Typical week": "सामान्य सप्ताह",
   "Vegan (100% plant-based)": "वीगन (100% वनस्पति-आधारित)",
-  "Vegetarian (no meat/fish)": "शाकाहारी (मांस/मछली नहीं)"
+  "Vegetarian (no meat/fish)": "शाकाहारी (मांस/मछली नहीं)",
+  "Could not read the leftovers": "बचा हुआ खाना पढ़ा नहीं जा सका",
+  "Nothing recognisable in that photo. Try a clearer one.": "फ़ोटो में कुछ पहचाना नहीं जा सका। कोई साफ़ फ़ोटो आज़माएँ।",
+  "That does not look like food. Try another photo.": "यह खाना नहीं लगता। कोई दूसरी फ़ोटो आज़माएँ।",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "आपकी Bitey AI सदस्यता अब सक्रिय नहीं है। प्लान देखने के लिए फिर से Bitey AI बटन पर टैप करें।",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "आपकी Bitey AI सदस्यता अब सक्रिय नहीं है। प्लान देखने के लिए फिर से भोजन का अनुमान लगाएं पर टैप करें।"
 }

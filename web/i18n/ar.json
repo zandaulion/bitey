@@ -521,7 +521,6 @@
   "Estimated from text": "تقدير من النص",
   "Estimated from your description. Check the assumed portions below.": "تقدير بناءً على وصفك. راجع الكميات المفترضة أدناه.",
   "No food was recognised. Try describing your meal differently.": "لم يتم التعرف على أي طعام. جرّب وصف وجبتك بطريقة أخرى.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI غير نشط. اضغط على تقدير الوجبة للتحقق من اشتراكك مجدداً.",
   "You have used today’s meal analyses. Try again tomorrow.": "استخدمت تحليلات الوجبات المتاحة اليوم. حاول مجدداً غداً.",
   "How Bitey AI estimates your meal": "كيف يقدّر Bitey AI وجبتك",
   "Withdraw AI consent": "سحب الموافقة على الذكاء الاصطناعي",
@@ -560,5 +559,10 @@
   "Sex": "الجنس",
   "Typical week": "أسبوع عادي",
   "Vegan (100% plant-based)": "نباتي صرف (100% نباتي)",
-  "Vegetarian (no meat/fish)": "نباتي (بدون لحم أو سمك)"
+  "Vegetarian (no meat/fish)": "نباتي (بدون لحم أو سمك)",
+  "Could not read the leftovers": "تعذّرت قراءة بقايا الطعام",
+  "Nothing recognisable in that photo. Try a clearer one.": "لا يمكن التعرف على أي شيء في الصورة. جرّب صورة أوضح.",
+  "That does not look like food. Try another photo.": "لا يبدو هذا طعامًا. جرّب صورة أخرى.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "اشتراكك في Bitey AI لم يعد نشطًا. المس زر Bitey AI مرة أخرى لعرض الخطط.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "اشتراكك في Bitey AI لم يعد نشطًا. المس «تقدير الوجبة» مرة أخرى لعرض الخطط."
 }

@@ -521,7 +521,6 @@
   "Estimated from text": "テキストから推定",
   "Estimated from your description. Check the assumed portions below.": "説明から推定しました。下の想定量を確認してください。",
   "No food was recognised. Try describing your meal differently.": "食品を認識できませんでした。別の言葉で食事を説明してください。",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI は有効ではありません。「食事を推定」を押してサブスクリプションを再確認してください。",
   "You have used today’s meal analyses. Try again tomorrow.": "本日の食事分析回数を使い切りました。明日もう一度お試しください。",
   "How Bitey AI estimates your meal": "Bitey AI による食事の推定について",
   "Withdraw AI consent": "AI への同意を撤回",
@@ -560,5 +559,10 @@
   "Sex": "性別",
   "Typical week": "普段の1週間",
   "Vegan (100% plant-based)": "ヴィーガン（100% 植物性）",
-  "Vegetarian (no meat/fish)": "ベジタリアン（肉・魚なし）"
+  "Vegetarian (no meat/fish)": "ベジタリアン（肉・魚なし）",
+  "Could not read the leftovers": "残りを読み取れませんでした",
+  "Nothing recognisable in that photo. Try a clearer one.": "写真から何も認識できませんでした。もっと鮮明な写真でお試しください。",
+  "That does not look like food. Try another photo.": "食べ物ではないようです。別の写真でお試しください。",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Bitey AI のサブスクリプションは有効ではなくなりました。もう一度 Bitey AI のボタンをタップするとプランが表示されます。",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Bitey AI のサブスクリプションは有効ではなくなりました。もう一度「食事を推定」をタップするとプランが表示されます。"
 }

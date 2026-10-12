@@ -2481,11 +2481,11 @@ async function startPhotoEntry(file) {
     if (!screenIsOpen('review')) return;
     track('analyse_fail', { code: err.code || 'unknown' });
     if (err.code === 'not_food') {
-      failed(err.note || 'That does not look like food. Try another photo.');
+      failed(err.note || t('That does not look like food. Try another photo.'));
     } else if (err.code === 'nothing_found') {
-      failed(err.note || 'Nothing recognisable in that photo. Try a clearer one.');
+      failed(err.note || t('Nothing recognisable in that photo. Try a clearer one.'));
     } else if (err.message !== 'not_registered') {
-      failed(err.message);
+      failed(aiRefusal(err) || err.message);
     }
   }
 }
@@ -2867,6 +2867,31 @@ $('text-edit').addEventListener('click', () => setEntryRoute('describe'));
  * no sentence for is shown with the server's own words and its code, so it
  * can be reported precisely.
  */
+/**
+ * The words for a Bitey AI refusal on the photo, correction and leftovers
+ * routes, or null when the error is not one of these.
+ *
+ * A subscription the server no longer honours used to end in "Bitey AI is not
+ * active on this Google Play account" and nothing else: the padlocks stayed
+ * open and nothing offered a way back. Native code now drops the refused
+ * purchase, so the padlocks return and the next Bitey AI tap shows the plans
+ * -- and this says so.
+ */
+function aiRefusal(err) {
+  switch (err?.code) {
+    case 'not_entitled':
+    case 'no_token':
+    case 'bad_token':
+      return t('Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.');
+    case 'daily_limit':
+      return t('You have used today’s meal analyses. Try again tomorrow.');
+    case 'network':
+      return t('Could not reach Bitey AI. Check your connection and try again.');
+    default:
+      return null;
+  }
+}
+
 function textEstimateError(err) {
   switch (err?.code) {
     case 'network':
@@ -2877,7 +2902,7 @@ function textEstimateError(err) {
     case 'not_entitled':
     case 'no_token':
     case 'bad_token':
-      return t('Bitey AI is not active. Tap Estimate meal to check your subscription again.');
+      return t('Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.');
     case 'daily_limit':
       return t('You have used today’s meal analyses. Try again tomorrow.');
     case 'no_description':
@@ -3285,7 +3310,7 @@ async function useLeftoversPhoto(file) {
     toast(out.note ? out.note.slice(0, 90) : 'Read what was left');
   } catch (err) {
     idle();
-    toast(err.message || 'Could not read the leftovers');
+    toast(aiRefusal(err) || err.message || t('Could not read the leftovers'));
   } finally {
     btn.disabled = false;
   }
@@ -3665,7 +3690,7 @@ async function submitCorrection() {
     toast(t('Read again'));
   } catch (err) {
     track('correct_fail', { code: err.code || 'unknown' });
-    failed(err.message);
+    failed(aiRefusal(err) || err.message);
   } finally {
     $('correct-go').disabled = false;
   }

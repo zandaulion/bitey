@@ -125,6 +125,36 @@ class PlayBilling(
 
     fun activePurchaseToken(): String? = activePurchaseToken
 
+    /**
+     * A purchase the analysis server has refused, or null.
+     *
+     * Play on the phone can keep listing a subscription as purchased for a
+     * while after it has ended -- a test subscription renews every few minutes
+     * and then expires, and the device's copy catches up later. The server asks
+     * Google Play directly, so its answer wins: the refused purchase stops
+     * counting here until Play hands over a different one, which is what a
+     * renewal or a new purchase produces.
+     */
+    @Volatile
+    private var refusedToken: String? = null
+
+    /**
+     * The server said the subscription behind [token] is not active.
+     *
+     * Drops it at once, so the padlocks come back and the next Bitey AI tap
+     * goes to the plans instead of sending the same purchase to be refused
+     * again, then asks Play afresh.
+     */
+    fun serverRefused(token: String?) {
+        if (token.isNullOrBlank()) return
+        refusedToken = token
+        if (activePurchaseToken == token) {
+            activePurchaseToken = null
+            setEntitlement(Status.INACTIVE)
+        }
+        refresh()
+    }
+
     /** Opened once Play has answered the first purchase query since start-up,
      * whatever the answer, so nothing waits on it longer than that. */
     private val firstAnswer = CountDownLatch(1)
@@ -423,7 +453,7 @@ class PlayBilling(
     private fun statusFor(purchases: List<Purchase>): Status {
         val matching = purchases.filter { AI_SUBSCRIPTION_ID in it.products }
         val purchased = matching.firstOrNull {
-            it.purchaseState == Purchase.PurchaseState.PURCHASED
+            it.purchaseState == Purchase.PurchaseState.PURCHASED && it.purchaseToken != refusedToken
         }
         if (purchased != null) {
             acknowledgeIfNeeded(purchased)

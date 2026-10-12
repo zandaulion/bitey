@@ -525,7 +525,6 @@
   "Estimated from text": "Estimat din text",
   "Estimated from your description. Check the assumed portions below.": "Estimat din descrierea ta. Verifică porțiile presupuse mai jos.",
   "No food was recognised. Try describing your meal differently.": "Nu a fost recunoscut niciun aliment. Încearcă să descrii masa altfel.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI nu este activ. Apasă Estimează masa pentru a verifica din nou abonamentul.",
   "You have used today’s meal analyses. Try again tomorrow.": "Ai folosit analizele de mese disponibile azi. Încearcă din nou mâine.",
   "How Bitey AI estimates your meal": "Cum estimează Bitey AI masa",
   "Withdraw AI consent": "Retrage consimțământul pentru AI",
@@ -564,5 +563,10 @@
   "Sex": "Sex",
   "Typical week": "Săptămâna obișnuită",
   "Vegan (100% plant-based)": "Vegan (100% vegetal)",
-  "Vegetarian (no meat/fish)": "Vegetarian (fără carne/pește)"
+  "Vegetarian (no meat/fish)": "Vegetarian (fără carne/pește)",
+  "Could not read the leftovers": "Resturile nu au putut fi citite",
+  "Nothing recognisable in that photo. Try a clearer one.": "Nu se recunoaște nimic în fotografie. Încearcă una mai clară.",
+  "That does not look like food. Try another photo.": "Nu pare să fie mâncare. Încearcă altă fotografie.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Abonamentul Bitey AI nu mai este activ. Atinge din nou un buton Bitey AI ca să vezi planurile.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Abonamentul Bitey AI nu mai este activ. Atinge din nou Estimează masa ca să vezi planurile."
 }

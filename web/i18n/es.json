@@ -523,7 +523,6 @@
   "Estimated from text": "Estimado a partir del texto",
   "Estimated from your description. Check the assumed portions below.": "Estimado a partir de tu descripción. Revisa las porciones supuestas abajo.",
   "No food was recognised. Try describing your meal differently.": "No se reconoció ningún alimento. Prueba a describir la comida de otra manera.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI no está activo. Pulsa Estimar comida para volver a comprobar tu suscripción.",
   "You have used today’s meal analyses. Try again tomorrow.": "Has usado los análisis de comidas de hoy. Inténtalo mañana.",
   "How Bitey AI estimates your meal": "Cómo estima Bitey AI tu comida",
   "Withdraw AI consent": "Retirar consentimiento para la IA",
@@ -562,5 +561,10 @@
   "Sex": "Sexo",
   "Typical week": "Semana típica",
   "Vegan (100% plant-based)": "Vegano (100 % vegetal)",
-  "Vegetarian (no meat/fish)": "Vegetariano (sin carne ni pescado)"
+  "Vegetarian (no meat/fish)": "Vegetariano (sin carne ni pescado)",
+  "Could not read the leftovers": "No se han podido leer las sobras",
+  "Nothing recognisable in that photo. Try a clearer one.": "No se reconoce nada en la foto. Prueba con una más nítida.",
+  "That does not look like food. Try another photo.": "Esto no parece comida. Prueba con otra foto.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Tu suscripción a Bitey AI ya no está activa. Vuelve a tocar un botón de Bitey AI para ver los planes.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Tu suscripción a Bitey AI ya no está activa. Vuelve a tocar «Estimar comida» para ver los planes."
 }

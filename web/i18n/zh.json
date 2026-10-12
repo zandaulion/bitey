@@ -521,7 +521,6 @@
   "Estimated from text": "根据文字估算",
   "Estimated from your description. Check the assumed portions below.": "根据你的描述估算。请检查下方假定的份量。",
   "No food was recognised. Try describing your meal differently.": "未识别到食物。请换一种方式描述餐食。",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI 未启用。点击“估算餐食”以重新检查订阅。",
   "You have used today’s meal analyses. Try again tomorrow.": "今天的餐食分析次数已用完，请明天再试。",
   "How Bitey AI estimates your meal": "Bitey AI 如何估算餐食",
   "Withdraw AI consent": "撤回 AI 授权",
@@ -560,5 +559,10 @@
   "Sex": "性别",
   "Typical week": "平常的一周",
   "Vegan (100% plant-based)": "纯素（100% 植物性）",
-  "Vegetarian (no meat/fish)": "素食（不吃肉和鱼）"
+  "Vegetarian (no meat/fish)": "素食（不吃肉和鱼）",
+  "Could not read the leftovers": "无法读取剩余的食物",
+  "Nothing recognisable in that photo. Try a clearer one.": "照片中无法识别任何内容。请换一张更清晰的照片。",
+  "That does not look like food. Try another photo.": "这看起来不像食物。请换一张照片。",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "你的 Bitey AI 订阅已不再有效。再次轻点 Bitey AI 按钮即可查看方案。",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "你的 Bitey AI 订阅已不再有效。再次轻点“估算餐食”即可查看方案。"
 }

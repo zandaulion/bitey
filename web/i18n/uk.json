@@ -527,7 +527,6 @@
   "Estimated from text": "Оцінено за текстом",
   "Estimated from your description. Check the assumed portions below.": "Оцінено за вашим описом. Перевірте припущені порції нижче.",
   "No food was recognised. Try describing your meal differently.": "Продуктів не розпізнано. Спробуйте описати страву інакше.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI не активний. Натисніть «Оцінити страву», щоб знову перевірити підписку.",
   "You have used today’s meal analyses. Try again tomorrow.": "Ви використали всі аналізи страв на сьогодні. Спробуйте завтра.",
   "How Bitey AI estimates your meal": "Як Bitey AI оцінює вашу страву",
   "Withdraw AI consent": "Відкликати згоду на ШІ",
@@ -566,5 +565,10 @@
   "Sex": "Стать",
   "Typical week": "Звичайний тиждень",
   "Vegan (100% plant-based)": "Веганський (100% рослинний)",
-  "Vegetarian (no meat/fish)": "Вегетаріанський (без м’яса і риби)"
+  "Vegetarian (no meat/fish)": "Вегетаріанський (без м’яса і риби)",
+  "Could not read the leftovers": "Не вдалося прочитати залишки",
+  "Nothing recognisable in that photo. Try a clearer one.": "На фото нічого не розпізнано. Спробуйте чіткіше.",
+  "That does not look like food. Try another photo.": "Це не схоже на їжу. Спробуйте інше фото.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Підписка Bitey AI більше не активна. Торкніться кнопки Bitey AI ще раз, щоб побачити плани.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Підписка Bitey AI більше не активна. Торкніться «Оцінити страву» ще раз, щоб побачити плани."
 }

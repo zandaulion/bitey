@@ -167,6 +167,14 @@ class MainActivity : ComponentActivity() {
 
     /** Opened by native code because a WebView file chooser needs a user
      * gesture the entitlement check has already spent. */
+    /** True when the server turned a reading down because the subscription
+     * is not active (403 not_entitled), rather than for anything in it. */
+    private fun subscriptionRefused(result: String): Boolean = runCatching {
+        val answer = JSONObject(result)
+        answer.optInt("httpStatus") == 403 &&
+            answer.optJSONObject("body")?.optString("error") == "not_entitled"
+    }.getOrDefault(false)
+
     private fun startCapture(source: String, requestId: String) {
         runOnUiThread {
             // A request already waiting is answered before it is replaced.
@@ -306,6 +314,9 @@ class MainActivity : ComponentActivity() {
                     Log.i("BiteyAnalysis", "purchase token ${if (token != null) "ready" else "absent"} " +
                         "after ${SystemClock.elapsedRealtime() - started} ms")
                     val result = analysis.analyse(token, payload)
+                    // Refused by the server for the subscription, not for the
+                    // photo: Play on the phone is behind, so stop presenting it.
+                    if (subscriptionRefused(result)) playBilling.serverRefused(token)
                     plateWebView.deliverAnalysisResult(requestId, result)
                 }
             },

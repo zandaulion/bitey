@@ -523,7 +523,6 @@
   "Estimated from text": "Aus Text geschätzt",
   "Estimated from your description. Check the assumed portions below.": "Aus deiner Beschreibung geschätzt. Prüfe unten die angenommenen Portionen.",
   "No food was recognised. Try describing your meal differently.": "Keine Lebensmittel erkannt. Beschreibe deine Mahlzeit anders.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI ist nicht aktiv. Tippe auf Mahlzeit schätzen, um dein Abo erneut zu prüfen.",
   "You have used today’s meal analyses. Try again tomorrow.": "Die Mahlzeitanalysen für heute sind aufgebraucht. Versuche es morgen erneut.",
   "How Bitey AI estimates your meal": "So schätzt Bitey AI deine Mahlzeit",
   "Withdraw AI consent": "KI-Einwilligung widerrufen",
@@ -562,5 +561,10 @@
   "Sex": "Geschlecht",
   "Typical week": "Typische Woche",
   "Vegan (100% plant-based)": "Vegan (100 % pflanzlich)",
-  "Vegetarian (no meat/fish)": "Vegetarisch (kein Fleisch/Fisch)"
+  "Vegetarian (no meat/fish)": "Vegetarisch (kein Fleisch/Fisch)",
+  "Could not read the leftovers": "Die Reste konnten nicht gelesen werden",
+  "Nothing recognisable in that photo. Try a clearer one.": "Auf dem Foto ist nichts zu erkennen. Versuche ein schärferes.",
+  "That does not look like food. Try another photo.": "Das sieht nicht nach Essen aus. Versuche ein anderes Foto.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Dein Bitey-AI-Abo ist nicht mehr aktiv. Tippe erneut auf eine Bitey-AI-Schaltfläche, um die Abos zu sehen.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Dein Bitey-AI-Abo ist nicht mehr aktiv. Tippe erneut auf „Mahlzeit schätzen“, um die Abos zu sehen."
 }

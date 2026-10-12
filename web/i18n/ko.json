@@ -521,7 +521,6 @@
   "Estimated from text": "텍스트 기반 추정",
   "Estimated from your description. Check the assumed portions below.": "설명을 바탕으로 추정했어요. 아래에서 가정한 양을 확인하세요.",
   "No food was recognised. Try describing your meal differently.": "음식을 인식하지 못했어요. 다른 말로 식사를 설명해 주세요.",
-  "Bitey AI is not active. Tap Estimate meal to check your subscription again.": "Bitey AI가 활성화되어 있지 않아요. 식사 추정을 눌러 구독을 다시 확인하세요.",
   "You have used today’s meal analyses. Try again tomorrow.": "오늘의 식사 분석 횟수를 모두 사용했어요. 내일 다시 시도하세요.",
   "How Bitey AI estimates your meal": "Bitey AI의 식사 추정 방식",
   "Withdraw AI consent": "AI 동의 철회",
@@ -560,5 +559,10 @@
   "Sex": "성별",
   "Typical week": "평소 일주일",
   "Vegan (100% plant-based)": "비건 (100% 식물성)",
-  "Vegetarian (no meat/fish)": "채식 (고기·생선 제외)"
+  "Vegetarian (no meat/fish)": "채식 (고기·생선 제외)",
+  "Could not read the leftovers": "남은 음식을 읽을 수 없습니다",
+  "Nothing recognisable in that photo. Try a clearer one.": "사진에서 아무것도 인식하지 못했습니다. 더 선명한 사진으로 시도해 보세요.",
+  "That does not look like food. Try another photo.": "음식처럼 보이지 않습니다. 다른 사진으로 시도해 보세요.",
+  "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Bitey AI 구독이 더 이상 활성 상태가 아닙니다. Bitey AI 버튼을 다시 탭하면 요금제가 표시됩니다.",
+  "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Bitey AI 구독이 더 이상 활성 상태가 아닙니다. 식사 추정을 다시 탭하면 요금제가 표시됩니다."
 }
