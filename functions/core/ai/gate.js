@@ -199,7 +199,11 @@ export function subscriptionFromPlay(body) {
     basePlanId: line?.offerDetails?.basePlanId ?? null,
     // Support and metrics only. Play's own opaque id for the purchase, not a
     // Google account and not a person.
-    orderId: body?.latestOrderId ?? null
+    orderId: body?.latestOrderId ?? null,
+    // A licence tester's purchase: free, and on a compressed clock -- a
+    // monthly plan renews every few minutes and ends within the hour. Logged
+    // so those readings and refusals are not mistaken for customers'.
+    test: Boolean(body?.testPurchase)
   };
 }
 

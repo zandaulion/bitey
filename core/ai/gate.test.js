@@ -188,6 +188,12 @@ test('Play\'s subscription body is flattened to the facts the rule uses', () => 
   assert.equal(out.basePlanId, 'monthly');
   assert.equal(out.expiryTimeMillis, Date.parse('2026-10-23T18:04:12.345Z'));
   assert.equal(out.orderId, 'GPA.1234-5678-9012-34567');
+  assert.equal(out.test, false);
+});
+
+test('a licence tester\'s purchase is flagged as a test', () => {
+  // Play marks one with an empty testPurchase object.
+  assert.equal(subscriptionFromPlay({ ...playBody, testPurchase: {} }).test, true);
 });
 
 test('a flattened active subscription is entitled before its expiry, not after', () => {

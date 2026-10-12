@@ -131,6 +131,7 @@ export const analyse = onRequest(
       // one the daily counter uses.
       logger.warn('not entitled', {
         entitlementId,
+        test: subscription?.test ?? false,
         state: subscription?.state ?? null,
         productId: subscription?.productId ?? null,
         basePlanId: subscription?.basePlanId ?? null,
@@ -204,6 +205,7 @@ export const analyse = onRequest(
       }
       logger.info('leftovers read', {
         entitlementId,
+        test: subscription.test,
         ms,
         promptTokens: usage.promptTokens,
         outputTokens: usage.outputTokens,
@@ -236,6 +238,7 @@ export const analyse = onRequest(
     // somebody ate is theirs; what the feature costs to run is ours to watch.
     logger.info('analysed', {
       entitlementId,
+      test: subscription.test,
       ms,
       promptTokens: usage.promptTokens,
       outputTokens: usage.outputTokens,

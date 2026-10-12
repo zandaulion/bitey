@@ -9,6 +9,8 @@
 //
 // What a day shows:
 //   readings     answers that reached the model ("analysed" + "leftovers read")
+//   test         of those, readings on a licence tester's purchase (logged
+//                from 12 October 2026; earlier days show 0)
 //   subscribers  distinct subscriptions behind them (hashed ids, never tokens)
 //   tokens       Gemini input / output tokens, as the function logged them
 //   model s      median seconds spent waiting on Gemini
@@ -43,7 +45,7 @@ const byDay = new Map();
 const day = (entry) => (entry.timestamp || entry.receiveTimestamp).slice(0, 10);
 const bucket = (d) => {
   if (!byDay.has(d)) {
-    byDay.set(d, { readings: 0, leftovers: 0, subs: new Set(), inTok: 0, outTok: 0, model: [],
+    byDay.set(d, { readings: 0, leftovers: 0, test: 0, subs: new Set(), inTok: 0, outTok: 0, model: [],
       cold: 0, atLimit: 0, status: {} });
   }
   return byDay.get(d);
@@ -54,6 +56,7 @@ for (const e of answers) {
   const b = bucket(day(e));
   b.readings++;
   if (p.message === 'leftovers read') b.leftovers++;
+  if (p.test === true) b.test++;
   if (p.entitlementId) b.subs.add(p.entitlementId);
   b.inTok += Number(p.promptTokens) || 0;
   b.outTok += Number(p.outputTokens) || 0;
@@ -77,30 +80,32 @@ const median = (xs) => {
 const n = (x) => x.toLocaleString('en-US');
 const pad = (s, w, right = false) => (right ? String(s).padStart(w) : String(s).padEnd(w));
 
-const header = ['day (UTC)', 'readings', 'subs', 'in tokens', 'out tokens', 'model s', 'cold', 'at limit',
+const header = ['day (UTC)', 'readings', 'test', 'subs', 'in tokens', 'out tokens', 'model s', 'cold', 'at limit',
   '400', '401', '403', '422', '429', '5xx'];
-const widths = [10, 8, 5, 11, 10, 7, 5, 8, 4, 4, 4, 4, 4, 4];
+const widths = [10, 8, 4, 5, 11, 10, 7, 5, 8, 4, 4, 4, 4, 4, 4];
 console.log(`Bitey AI usage, project ${PROJECT}, last ${days} days\n`);
 console.log(header.map((h, i) => pad(h, widths[i], i > 0)).join('  '));
 console.log(widths.map((w) => '-'.repeat(w)).join('  '));
 
-const totals = { readings: 0, subs: new Set(), inTok: 0, outTok: 0, status: {} };
+const totals = { readings: 0, test: 0, subs: new Set(), inTok: 0, outTok: 0, status: {} };
 for (const d of [...byDay.keys()].sort()) {
   const b = byDay.get(d);
   const m = median(b.model);
-  const row = [d, b.readings + (b.leftovers ? ` (${b.leftovers} lo)` : ''), b.subs.size, n(b.inTok), n(b.outTok),
+  const row = [d, b.readings + (b.leftovers ? ` (${b.leftovers} lo)` : ''), b.test, b.subs.size, n(b.inTok), n(b.outTok),
     m === null ? '-' : (m / 1000).toFixed(1), b.cold, b.atLimit,
     b.status['400'] || 0, b.status['401'] || 0, b.status['403'] || 0, b.status['422'] || 0,
     b.status['429'] || 0, b.status['5xx'] || 0];
   console.log(row.map((v, i) => pad(v, widths[i], i > 0)).join('  '));
   totals.readings += b.readings;
+  totals.test += b.test;
   b.subs.forEach((s) => totals.subs.add(s));
   totals.inTok += b.inTok;
   totals.outTok += b.outTok;
   for (const [k, v] of Object.entries(b.status)) totals.status[k] = (totals.status[k] || 0) + v;
 }
 
-console.log(`\nTotal: ${n(totals.readings)} readings by ${totals.subs.size} subscriptions, ` +
+console.log(`\nTotal: ${n(totals.readings)} readings (${n(totals.test)} on test purchases) ` +
+  `by ${totals.subs.size} subscriptions, ` +
   `${n(totals.inTok)} input and ${n(totals.outTok)} output tokens.`);
 const refused = Object.entries(totals.status).map(([k, v]) => `${k}: ${v}`).join(', ');
 console.log(`Refused: ${refused || 'none'}.`);
