@@ -26,13 +26,17 @@ Google Play.
 The next upload is **1.1.1** (`versionCode` 18), which replaces 1.1.0 as the
 **production release**: a subscription the server no longer honours is dropped
 at once, so the padlocks return and the plans are offered instead of a
-dead-end error. Its release notes keep 1.1.0's launch note and are in
+dead-end error; the refusal is remembered across restarts, and if Play then
+refuses a new purchase as "already owned" (its copy on the phone is behind),
+Bitey opens Play's subscriptions page and says why. Its release notes keep
+1.1.0's launch note and are in
 `RELEASE_NOTES_1.1.1.md`, with the paste-ready tagged form in
 `release-notes-1.1.1.xml`.
 
-- 1.1.1 file SHA-256: `3DB044E58D09D47D0A726795F32828A4C9066AB2F3EE48AC3A370C0C2D35C456`
-  (built 12 October 2026, 14:49, on the Lenovo from 9ac37c5; signed with the
-  Play upload key, `CN=Daniel Marin`)
+- 1.1.1 file SHA-256: `B339F874BBCAADB8F85D0A7A7CC9AD5D001DA2E7420B9CAF7960D6F51B386D51`
+  (built 12 October 2026, 16:42, on the Lenovo from 4e95600; signed with the
+  Play upload key, `CN=Daniel Marin`). It replaces an earlier 1.1.1 build from
+  9ac37c5 that was never uploaded.
 
 Before it, **1.1.0** (`versionCode` 17) went to closed testing on 11 October
 2026, waiting for production access to be granted:

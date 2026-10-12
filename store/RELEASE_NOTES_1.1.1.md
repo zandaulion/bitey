@@ -9,7 +9,9 @@ longest here, French, is 447.
 production users meet Bitey here for the first time. The code change since
 1.1.0: when the server refuses a subscription that has ended, the app drops it
 at once (padlocks return, the next Bitey AI tap shows the plans) instead of
-staying unlocked with a dead-end error, and the last English messages on the
+staying unlocked with a dead-end error; if Play still lists the ended
+subscription as owned, the app opens Play's subscriptions page and says so; and
+the last English messages on the
 photo routes are translated.
 
 ## English (en-US)
