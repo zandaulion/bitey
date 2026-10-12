@@ -24,7 +24,7 @@ Google Play.
 ## Upload artifacts
 
 **1.1.1** (`versionCode` 18) was uploaded to production on 12 October 2026
-and is under review. It replaces 1.1.0, live since 11 October, as the
+and is under review. It replaces 1.1.0, the first production release, as the
 **production release**: a subscription the server no longer honours is dropped
 at once, so the padlocks return and the plans are offered instead of a
 dead-end error; the refusal is remembered across restarts, and if Play then
