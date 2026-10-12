@@ -2270,6 +2270,9 @@ async function requestAiAccess(action) {
   if (status === 'active') return ensureAiPhotoConsent(action === 'text' ? 'text' : 'photo');
   if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
   else if (status === 'cancelled') toast(t('Your Bitey AI purchase was cancelled.'));
+  // Play still lists the subscription the server refused; native code has
+  // opened Play's subscriptions page so the phone can catch up.
+  else if (status === 'owned') toast(t('Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.'));
   else if (status === 'unavailable') toast(t('Bitey AI is not available to buy yet.'));
   else toast(t('Could not connect to Google Play. Try again.'));
   return false;

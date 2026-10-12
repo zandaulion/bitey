@@ -17,6 +17,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import org.json.JSONArray
 import org.json.JSONObject
+import java.security.MessageDigest
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -49,6 +50,12 @@ class PlayBilling(
         private val BASE_PLAN_ORDER = listOf(MONTHLY_BASE_PLAN_ID, YEARLY_BASE_PLAN_ID)
         private const val PREFS = "bitey_billing"
         private const val KEY_ENGAGED = "ai_engaged"
+        private const val KEY_REFUSED = "ai_refused"
+
+        /** A purchase token is a credential, so only its hash is written down. */
+        private fun hashOf(token: String): String =
+            MessageDigest.getInstance("SHA-256").digest(token.toByteArray())
+                .joinToString("") { "%02x".format(it) }
     }
 
     enum class Status(val wireValue: String) {
@@ -57,6 +64,10 @@ class PlayBilling(
         PENDING("pending"),
         UNAVAILABLE("unavailable"),
         CANCELLED("cancelled"),
+        /** Play refused a purchase because it still lists one on this account
+         * -- one the server has refused. Its subscriptions page is opened so
+         * the phone's copy can catch up. */
+        OWNED("owned"),
         ERROR("error"),
     }
 
@@ -102,6 +113,8 @@ class PlayBilling(
      * reconnect ("already in the process of connecting"). */
     private var connectedOnce = false
     private var purchaseFlowInFlight = false
+    /** The activity a purchase was started from, until it finishes. */
+    private var purchaseActivity: Activity? = null
     /** Read by the page's bridge on a binder thread as well as here. */
     @Volatile
     private var entitlement = Status.INACTIVE
@@ -126,17 +139,17 @@ class PlayBilling(
     fun activePurchaseToken(): String? = activePurchaseToken
 
     /**
-     * A purchase the analysis server has refused, or null.
+     * The hash of a purchase the analysis server has refused, or null.
      *
-     * Play on the phone can keep listing a subscription as purchased for a
-     * while after it has ended -- a test subscription renews every few minutes
-     * and then expires, and the device's copy catches up later. The server asks
-     * Google Play directly, so its answer wins: the refused purchase stops
-     * counting here until Play hands over a different one, which is what a
-     * renewal or a new purchase produces.
+     * Play on the phone can keep listing a subscription as purchased for hours
+     * after it has ended, through a restart -- a test subscription renews every
+     * few minutes and then expires, and the device's copy catches up later.
+     * The server asks Google Play directly, so its answer wins: the refused
+     * purchase stops counting here, across restarts, until a new purchase
+     * replaces it or Play says it still owns it (see [OWNED][Status.OWNED]).
      */
-    @Volatile
-    private var refusedToken: String? = null
+    private fun isRefused(token: String): Boolean =
+        prefs.getString(KEY_REFUSED, null) == hashOf(token)
 
     /**
      * The server said the subscription behind [token] is not active.
@@ -147,7 +160,7 @@ class PlayBilling(
      */
     fun serverRefused(token: String?) {
         if (token.isNullOrBlank()) return
-        refusedToken = token
+        prefs.edit().putString(KEY_REFUSED, hashOf(token)).apply()
         if (activePurchaseToken == token) {
             activePurchaseToken = null
             setEntitlement(Status.INACTIVE)
@@ -270,6 +283,7 @@ class PlayBilling(
         accessCallbacks += { status -> callback(AccessResponse.Entitlement(status)) }
         if (purchaseFlowInFlight) return
         purchaseFlowInFlight = true
+        purchaseActivity = activity
         refresh { restored ->
             when (restored) {
                 Status.ACTIVE, Status.PENDING -> finishAccess(restored)
@@ -308,6 +322,9 @@ class PlayBilling(
             }
             BillingClient.BillingResponseCode.USER_CANCELED -> {
                 if (purchaseFlowInFlight) finishAccess(Status.CANCELLED)
+            }
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                if (purchaseFlowInFlight) alreadyOwned()
             }
             else -> {
                 if (purchaseFlowInFlight) finishAccess(Status.ERROR)
@@ -445,15 +462,33 @@ class PlayBilling(
             .setIsOfferPersonalized(false)
             .build()
         val result = billingClient.launchBillingFlow(activity, params)
-        if (result.responseCode != BillingClient.BillingResponseCode.OK) {
-            finishAccess(Status.ERROR)
+        when (result.responseCode) {
+            BillingClient.BillingResponseCode.OK -> Unit
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> alreadyOwned(activity)
+            else -> finishAccess(Status.ERROR)
         }
+    }
+
+    /**
+     * Play will not sell what it believes this account already has: the
+     * purchase the server refused, still on the phone's stale list.
+     *
+     * Bitey cannot settle that disagreement itself, so it forgets the refusal
+     * -- if Play is right, say a payment problem was fixed, the next reading
+     * goes through; if not, the server refuses it again -- and opens Play's
+     * subscriptions page, which also makes Play fetch the account afresh.
+     */
+    private fun alreadyOwned(activity: Activity? = purchaseActivity) {
+        prefs.edit().remove(KEY_REFUSED).apply()
+        activity?.let { manageSubscription(it) }
+        finishAccess(Status.OWNED)
+        refresh()
     }
 
     private fun statusFor(purchases: List<Purchase>): Status {
         val matching = purchases.filter { AI_SUBSCRIPTION_ID in it.products }
         val purchased = matching.firstOrNull {
-            it.purchaseState == Purchase.PurchaseState.PURCHASED && it.purchaseToken != refusedToken
+            it.purchaseState == Purchase.PurchaseState.PURCHASED && !isRefused(it.purchaseToken)
         }
         if (purchased != null) {
             acknowledgeIfNeeded(purchased)
@@ -485,6 +520,7 @@ class PlayBilling(
 
     private fun finishAccess(result: Status) {
         purchaseFlowInFlight = false
+        purchaseActivity = null
         val callbacks = accessCallbacks.toList()
         accessCallbacks.clear()
         callbacks.forEach { it(result) }
