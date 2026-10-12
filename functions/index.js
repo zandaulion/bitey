@@ -126,6 +126,16 @@ export const analyse = onRequest(
     }
 
     if (!subscription || subscription.productId !== AI_SUBSCRIPTION_ID || !isEntitled(subscription)) {
+      // What Play said, so a refusal can be explained: the state, product,
+      // plan and expiry. The token is not logged; the hashed id is the same
+      // one the daily counter uses.
+      logger.warn('not entitled', {
+        entitlementId,
+        state: subscription?.state ?? null,
+        productId: subscription?.productId ?? null,
+        basePlanId: subscription?.basePlanId ?? null,
+        expiry: subscription?.expiryTimeMillis ? new Date(subscription.expiryTimeMillis).toISOString() : null
+      });
       // Deliberately the same answer for "never bought", "expired" and "a
       // token for something else": the client shows the plans either way, and
       // distinguishing them here only helps somebody probing tokens.
