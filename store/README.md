@@ -28,7 +28,11 @@ The weight trend is fitted over up to six weeks instead of four, the profile
 formula is weighed in while the evidence is thin, today is left out until it is
 over, and the weight chart in You draws the same trend as the estimate. Its
 release notes are in `RELEASE_NOTES_1.1.2.md`, with the paste-ready tagged
-form in `release-notes-1.1.2.xml`. Record its hash here once built.
+form in `release-notes-1.1.2.xml`.
+
+- 1.1.2 file SHA-256: `B7C7BD2897428A37E6B2E1C66BAEF57D402731BB75C0DA37FE617BBA377992EF`
+  (built 14 October 2026, 18:56, on the Lenovo from 5bccc65; signed with the
+  Play upload key).
 
 Before it, **1.1.1** (`versionCode` 18) went live in production on 12 October 2026. It
 replaces 1.1.0, the first production release, as the
