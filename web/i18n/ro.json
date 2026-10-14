@@ -151,6 +151,7 @@
   "Look up this barcode?": "Cauți acest cod de bare?",
   "Likely {0}–{1} kcal{2}": "Probabil {0}–{1} kcal{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "Probabil {0}–{1}. Calculat din ce ai mâncat și din cum ți-a evoluat greutatea, nu dintr-o formulă.",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "Probabil {0}–{1}. Calculat din ce ai mâncat și din cum ți-a evoluat greutatea, cu formula contând încă {2}% cât timp se adună datele.",
   "Link a device": "Leagă un dispozitiv",
   "Link code": "Cod de legare",
   "Log": "Notează",
@@ -386,8 +387,16 @@
   },
   "{0} over {1} days": "{0} în {1} zile",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{0} cântăriri în {1} zile — în scădere cu {2} kg pe săptămână.",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{0} cântăriri în {1} zile — tendință de scădere cu {2} kg pe săptămână.",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} cântăriri în {1} zile — tendință de creștere cu {2} kg pe săptămână.",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": {
+    "one": "o cântărire începând cu {1} — tendință de scădere cu {2} kg pe săptămână.",
+    "few": "{0} cântăriri începând cu {1} — tendință de scădere cu {2} kg pe săptămână.",
+    "other": "{0} de cântăriri începând cu {1} — tendință de scădere cu {2} kg pe săptămână."
+  },
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": {
+    "one": "o cântărire începând cu {1} — tendință de creștere cu {2} kg pe săptămână.",
+    "few": "{0} cântăriri începând cu {1} — tendință de creștere cu {2} kg pe săptămână.",
+    "other": "{0} de cântăriri începând cu {1} — tendință de creștere cu {2} kg pe săptămână."
+  },
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} cântăriri în {1} zile — în creștere cu {2} kg pe săptămână.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "few": "{0} cântăriri până acum. Răspândite pe o săptămână, și apare linia de tendință.",

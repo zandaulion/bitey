@@ -151,6 +151,7 @@
   "Look up this barcode?": "Procurar este código de barras?",
   "Likely {0}–{1} kcal{2}": "Provavelmente {0}–{1} kcal{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "Provavelmente {0}–{1}. Calculado a partir do que você comeu e como seu peso mudou, não a partir de uma fórmula.",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "Provavelmente {0}–{1}. Calculado a partir do que você comeu e de como seu peso mudou, com a fórmula ainda contando {2}% enquanto os dados se acumulam.",
   "Link a device": "Vincular um dispositivo",
   "Link code": "Código do link",
   "Log": "Registro",
@@ -386,8 +387,8 @@
   },
   "{0} over {1} days": "{0} mais de {1} dias",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{0} pesagens em {1} dias — perda de {2} kg por semana.",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{0} pesagens em {1} dias — tendência de queda de {2} kg por semana.",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} pesagens em {1} dias — tendência de aumento de {2} kg por semana.",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "{0} pesagens desde {1} — tendência de queda de {2} kg por semana.",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "{0} pesagens desde {1} — tendência de aumento de {2} kg por semana.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} pesagens em {1} dias — até {2} kg por semana.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "one": "{0} pesagem até agora. Distribuídas ao longo de uma semana, as pesagens fazem aparecer uma linha de tendência.",

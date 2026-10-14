@@ -151,6 +151,7 @@
   "Look up this barcode?": "ابحث عن هذا الباركود؟",
   "Likely {0}–{1} kcal{2}": "من المحتمل {0}–{1} سعر حراري{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "من المحتمل {0}–{1}. تم حسابه بناءً على ما أكلته وكيفية تحرك وزنك، وليس من خلال صيغة.",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "من المحتمل {0}–{1}. تم حسابه بناءً على ما أكلته وكيفية تحرك وزنك، مع بقاء الصيغة مؤثرة بنسبة {2}% ريثما تتراكم البيانات.",
   "Link a device": "ربط جهاز",
   "Link code": "رمز الرابط",
   "Log": "سجل",
@@ -386,8 +387,8 @@
   "Who needs a personal trainer when you have a personal sauropod? 🦖🏋️": "من يحتاج إلى مدرب شخصي عندما يكون لديك صوروبود شخصي؟ 🦖🏋️",
   "{0} over {1} days": "{0} على مدار {1} يومًا",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{0} وزن إضافي على مدار {1} يومًا - انخفاض بمقدار {2} كجم في الأسبوع.",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{0} عدد مرات الوزن على مدار {1} يومًا - يتجه نحو الانخفاض بمقدار {2} كجم في الأسبوع.",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{0} عدد مرات الوزن على مدار {1} يومًا - يتجه نحو الارتفاع بمقدار {2} كجم في الأسبوع.",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "عدد مرات الوزن منذ {1}: {0} - يتجه نحو الانخفاض بمقدار {2} كجم في الأسبوع.",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "عدد مرات الوزن منذ {1}: {0} - يتجه نحو الارتفاع بمقدار {2} كجم في الأسبوع.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{0} وزن إضافي على مدى {1} يومًا - ما يصل إلى {2} كجم في الأسبوع.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "other": "عدد مرات قياس الوزن حتى الآن: {0}. وزّعها على أسبوع ليظهر خط الاتجاه."

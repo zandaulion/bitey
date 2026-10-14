@@ -9,7 +9,7 @@
 import { totalsOf, portionSourceOf, hasPhotoItems } from '/core/analysis/estimate.js';
 import { summariseDay, macroSplit, MEALS } from '/core/day.js';
 import { ACTIVITY_LEVELS, ageFromBirthYear, maintenanceEnergy } from '/core/nutrition.js';
-import { adaptiveExpenditure } from '/core/expenditure.js';
+import { adaptiveExpenditure, REQUIREMENTS } from '/core/expenditure.js';
 import { smoothSeries, weightTrend, trendGap } from '/core/weight.js';
 import { summariseRecent, collapseRepeatable, rankByMatch } from '/core/foods.js';
 
@@ -472,7 +472,7 @@ function publicEntry(row) {
 }
 
 async function expenditure() {
-  const from = new Date(Date.now() - 40 * 86400000).toISOString().slice(0, 10);
+  const from = new Date(Date.now() - (REQUIREMENTS.windowDays + 1) * 86400000).toISOString().slice(0, 10);
   const entries = (await diaryEntries())
     .filter((e) => e.day >= from)
     .map(publicEntry);

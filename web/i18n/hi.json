@@ -151,6 +151,7 @@
   "Look up this barcode?": "इस बारकोड को देखें?",
   "Likely {0}–{1} kcal{2}": "संभवतः {0}–{1} किलो कैलोरी{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "संभवतः {0}–{1}. आपने क्या खाया और आपका वजन कैसे बढ़ा, इससे पता लगाया गया, किसी फॉर्मूले से नहीं।",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "संभवतः {0}–{1}. आपने क्या खाया और आपका वजन कैसे बदला, इससे पता लगाया गया; जब तक डेटा जुटता है, फॉर्मूला अभी भी {2}% गिना जाता है।",
   "Link a device": "किसी डिवाइस को लिंक करें",
   "Link code": "लिंक कोड",
   "Log": "लॉग करें",
@@ -386,8 +387,8 @@
   },
   "{0} over {1} days": "{0} {1} दिनों में",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{0} वज़न {1} दिनों में - प्रति सप्ताह {2} किलो कम।",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{1} दिनों में {0} वज़न - प्रति सप्ताह {2} किलोग्राम कम हो रहा है।",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1} दिनों में {0} वजन - प्रति सप्ताह {2} किलोग्राम तक बढ़ रहा है।",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "{1} से {0} बार वज़न — प्रति सप्ताह {2} किलोग्राम घटने का रुझान।",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "{1} से {0} बार वज़न — प्रति सप्ताह {2} किलोग्राम बढ़ने का रुझान।",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{1} दिनों में {0} वजन - प्रति सप्ताह {2} किलोग्राम तक।",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "other": "अब तक {0} बार वज़न दर्ज हुआ। इन्हें एक हफ़्ते में फैलाएँ, फिर ट्रेंड लाइन दिखेगी।"

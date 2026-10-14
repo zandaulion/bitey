@@ -13,7 +13,7 @@ import { macroAgreement, ageFromBirthYear } from '/core/nutrition.js';
 import { readTakenOn } from '/core/exif.js';
 import { localDayKey } from '/core/day.js';
 import { start as startTracking, track, screen } from '/track.js';
-import { smoothSeries } from '/core/weight.js';
+import { smoothSeries, weightTrend } from '/core/weight.js';
 import { getMacroRecommendation } from '/core/recommendations.js';
 import { installUpdates } from '/pwa-update.js';
 import {
@@ -4735,7 +4735,10 @@ function renderWeightChart(rows, trend) {
     // Clamped to the drawn range: an extrapolated fit can sit well outside the
     // measured weights and would otherwise leave the plot entirely.
     const clamp = (kg) => Math.min(yHi, Math.max(yLo, kg));
-    line = `<path class="trend" d="M${px(x0).toFixed(1)},${py(clamp(fitAt(x0))).toFixed(1)}`
+    // Drawn only across the days it was fitted to: extending it back over
+    // older readings would claim they belong to the trend.
+    const start = Math.max(x0, trend.fitFrom);
+    line = `<path class="trend" d="M${px(start).toFixed(1)},${py(clamp(fitAt(start))).toFixed(1)}`
       + ` L${px(x1).toFixed(1)},${py(clamp(fitAt(x1))).toFixed(1)}"/>`;
   }
 
@@ -4775,13 +4778,20 @@ function renderExpenditure(exp) {
   }
 
   const b = exp.basis;
+  // The measurement is weighed against the formula until it is sure enough to
+  // stand alone. Saying "not from a formula" while one is a third of the
+  // figure would be untrue, so the share is stated instead.
+  const blended = Number.isFinite(exp.measuredShare) && exp.measuredShare < 0.95;
   const rate = Math.abs(b.slopeKgPerWeek).toFixed(2);
   const movement = b.slopeKgPerWeek < 0
     ? t('losing {0} kg/week', rate)
     : t('gaining {0} kg/week', rate);
   el.innerHTML = `
     <div class="big">${exp.kcal} kcal <span class="method measured">${esc(t('measured'))}</span></div>
-    <p class="progress">${esc(t('Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.', exp.low, exp.high))}</p>
+    <p class="progress">${esc(blended
+      ? t('Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.',
+          exp.low, exp.high, Math.round((1 - exp.measuredShare) * 100))
+      : t('Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.', exp.low, exp.high))}</p>
     <dl>
       <dt>${esc(t('Weight'))}</dt><dd>${esc(movement)}</dd>
       <dt>${esc(t('You ate'))}</dt><dd>${esc(t('{0} kcal/day on {1} days', b.meanIntake, b.loggedDays))}</dd>
@@ -4792,20 +4802,29 @@ function renderExpenditure(exp) {
 
 async function loadWeight() {
   try {
-    const [{ weights, trend }, exp] = await Promise.all([
+    const [{ weights }, exp] = await Promise.all([
       api('/api/weights'),
       api('/api/expenditure')
     ]);
     state.expenditure = exp;
+
+    // The line is fitted to the weigh-ins inside the estimate's window, so it
+    // is the same line the burn figure below was computed from. Every reading
+    // is still drawn; the older ones just sit outside the fit.
+    const from = exp?.window?.from;
+    const recent = from ? weights.filter((w) => w.day >= from) : weights;
+    const trend = weightTrend(recent);
     renderWeightChart(weights, trend);
     renderExpenditure(exp);
 
     if (trend) {
+      // A date rather than a day count: it is where the line starts on the
+      // chart, and it leaves one number to agree with its noun.
+      const since = dayLabel(from || recent[0].day);
+      const rate = Math.abs(trend.slopeKgPerWeek).toFixed(2);
       $('weight-trend').textContent = trend.slopeKgPerWeek < 0
-        ? t('{0} weigh-ins over {1} days — trending down {2} kg a week.',
-            trend.readings, Math.round(trend.spanDays), Math.abs(trend.slopeKgPerWeek).toFixed(2))
-        : t('{0} weigh-ins over {1} days — trending up {2} kg a week.',
-            trend.readings, Math.round(trend.spanDays), Math.abs(trend.slopeKgPerWeek).toFixed(2));
+        ? plural('{0} weigh-ins since {1} — trending down {2} kg a week.', trend.readings, since, rate)
+        : plural('{0} weigh-ins since {1} — trending up {2} kg a week.', trend.readings, since, rate);
     } else {
       $('weight-trend').textContent = t('A trend needs at least 3 weigh-ins spread over a week.');
     }

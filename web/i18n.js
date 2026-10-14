@@ -101,6 +101,10 @@ const ENGLISH_ONE = {
     '{0} weigh-in so far. {1} more, spread over a week, and a trend line appears.',
   '{0} weigh-ins so far. Spread over a week, and a trend line appears.':
     '{0} weigh-in so far. Spread over a week, and a trend line appears.',
+  '{0} weigh-ins since {1} — trending down {2} kg a week.':
+    '{0} weigh-in since {1} — trending down {2} kg a week.',
+  '{0} weigh-ins since {1} — trending up {2} kg a week.':
+    '{0} weigh-in since {1} — trending up {2} kg a week.',
   '{0} more days logged': '{0} more day logged',
   '{0} more weigh-ins': '{0} more weigh-in',
   'Open Plate there, choose "Link a device", and type this in. It expires in {0} minutes and works once.':

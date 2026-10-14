@@ -151,6 +151,7 @@
   "Look up this barcode?": "このバーコードを調べてみませんか?",
   "Likely {0}–{1} kcal{2}": "おそらく {0}～{1} kcal{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "おそらく {0}～{1} です。公式ではなく、食べたものと体重の動きから計算します。",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "おそらく {0}～{1} です。食べたものと体重の動きから計算し、データがそろうまでは公式も {2}% 反映しています。",
   "Link a device": "デバイスをリンクする",
   "Link code": "リンクコード",
   "Log": "ログ",
@@ -311,8 +312,8 @@
   "Who needs a personal trainer when you have a personal sauropod? 🦖🏋️": "個人用の竜脚類を飼っているのに、パーソナル トレーナーが必要な人がいるでしょうか? 🦖🏋️",
   "{0} over {1} days": "{1} 日間で {0}",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{1} 日間で {0} 回の体重測定 - 1 週間で {2} kg 減少します。",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{1} 日間で {0} 回の計量 - 週あたり {2} kg 減少傾向にあります。",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1} 日間で {0} 回の体重測定 - 週あたり {2} kg 増加する傾向にあります。",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "{1} 以降 {0} 回の計量 - 週あたり {2} kg の減少傾向です。",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "{1} 以降 {0} 回の計量 - 週あたり {2} kg の増加傾向です。",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{1} 日間で {0} 回の体重測定 - 週に {2} kg 増加します。",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "other": "これまでの体重記録は {0} 回です。1 週間に分けて記録すると、傾向線が表示されます。"

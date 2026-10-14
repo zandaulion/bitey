@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { adaptiveExpenditure, dailyIntake, KCAL_PER_KG, REQUIREMENTS, MIN_PLAUSIBLE_KCAL } from './expenditure.js';
+import { weightTrend } from './weight.js';
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-08-30T12:00:00Z');
@@ -48,16 +49,18 @@ test('recovers a known expenditure from intake and weight change', () => {
   const { entries, weights } = simulate({ tdee: 2500, intake: 2000 });
   const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
 
+  // The measurement on its own; the published figure is it blended with the
+  // formula, tested separately below.
   assert.equal(out.method, 'measured');
-  assert.ok(Math.abs(out.kcal - 2500) < 25, `expected ~2500, got ${out.kcal}`);
-  assert.ok(out.low < 2500 && 2500 < out.high, 'the band must contain the truth');
+  assert.ok(Math.abs(out.measured.kcal - 2500) < 25, `expected ~2500, got ${out.measured.kcal}`);
+  assert.ok(out.measured.low < 2500 && 2500 < out.measured.high, 'the band must contain the truth');
   assert.ok(Math.abs(out.basis.slopeKgPerWeek + 0.455) < 0.02, `slope ${out.basis.slopeKgPerWeek}`);
 });
 
 test('recovers expenditure for someone gaining weight too', () => {
   const { entries, weights } = simulate({ tdee: 2200, intake: 2700 });
   const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
-  assert.ok(Math.abs(out.kcal - 2200) < 25, `expected ~2200, got ${out.kcal}`);
+  assert.ok(Math.abs(out.measured.kcal - 2200) < 25, `expected ~2200, got ${out.measured.kcal}`);
   assert.ok(out.basis.slopeKgPerWeek > 0, 'gaining weight must show a positive slope');
 });
 
@@ -67,10 +70,11 @@ test('weight noise widens the band without moving the estimate much', () => {
     ...simulate({ tdee: 2500, intake: 2000, noiseKg: 1.2 }), profile: PROFILE, now: NOW
   });
 
-  const width = (o) => o.high - o.low;
+  const width = (o) => o.measured.high - o.measured.low;
   assert.ok(width(noisy) > width(clean) * 1.5,
     `a noisy weigher must get a visibly wider band (${width(clean)} -> ${width(noisy)})`);
-  assert.ok(noisy.low < 2500 && 2500 < noisy.high, 'and it must still contain the truth');
+  assert.ok(Math.abs(noisy.measured.kcal - 2500) < width(noisy), 'and it must stay near the truth');
+  assert.ok(noisy.measuredShare < clean.measuredShare, 'and lean on the formula more');
 });
 
 test('refuses when too few days are logged, and says what is missing', () => {
@@ -163,5 +167,105 @@ test('history older than the window is ignored', () => {
   const out = adaptiveExpenditure({
     entries: [...stale, ...entries], weights, profile: PROFILE, now: NOW
   });
-  assert.ok(Math.abs(out.kcal - 2500) < 25, 'an old outlier must not reach the mean');
+  assert.ok(Math.abs(out.measured.kcal - 2500) < 25, 'an old outlier must not reach the mean');
+});
+
+test('a new user gets a measurement once two weeks are in, not after the whole window', () => {
+  // Fifteen days of history against a 42-day window: coverage is taken over
+  // the days since logging began, so this is fully covered.
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000, days: 15 });
+  const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  assert.ok(REQUIREMENTS.windowDays > 15);
+  assert.equal(out.method, 'measured', JSON.stringify(out.missing));
+  assert.equal(out.basis.windowDays, 15);
+  assert.equal(out.basis.coveragePct, 100);
+});
+
+test('today is left out, because it is still being eaten', () => {
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000 });
+  const base = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  // Breakfast so far. Counted as a day, it would drag the mean intake down.
+  const morning = entries.filter((e) => e.day !== dayKey(0))
+    .concat({ day: dayKey(0), portionSource: 'weighed', totals: { calories: 450 } });
+  const out = adaptiveExpenditure({ entries: morning, weights, profile: PROFILE, now: NOW });
+  assert.equal(out.kcal, base.kcal);
+  assert.equal(out.basis.meanIntake, 2000);
+});
+
+test('the window holds at most its length in days', () => {
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000, days: 80 });
+  const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  assert.equal(out.basis.windowDays, REQUIREMENTS.windowDays);
+  assert.equal(out.basis.loggedDays, REQUIREMENTS.windowDays);
+  assert.equal(out.basis.coveragePct, 100);
+});
+
+test('the formula is weighed in by how sure each side is', () => {
+  // A noisy weigher, so the measurement is uncertain enough to share.
+  const { entries, weights } = simulate({ tdee: 2300, intake: 2000, noiseKg: 1.2 });
+  const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  const lo = Math.min(out.measured.kcal, out.formula.kcal);
+  const hi = Math.max(out.measured.kcal, out.formula.kcal);
+  assert.ok(lo < out.kcal && out.kcal < hi, `${out.kcal} should sit between ${lo} and ${hi}`);
+  assert.ok(out.measuredShare > 0 && out.measuredShare < 1);
+  // Two readings together are surer than either alone.
+  assert.ok(out.high - out.low < out.measured.high - out.measured.low);
+  assert.ok(out.high - out.low < out.formula.high - out.formula.low);
+});
+
+test('starting to measure narrows the band rather than widening it', () => {
+  // The first day a measurement is possible, with noisy weighing: the figure
+  // must not jump to a band wider than the formula it replaces.
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000, days: 15, noiseKg: 1.5 });
+  const formula = adaptiveExpenditure({ entries: [], weights: [], profile: PROFILE, now: NOW });
+  const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  assert.equal(out.method, 'measured');
+  assert.ok(out.high - out.low <= formula.high - formula.low,
+    `${out.high - out.low} wide against the formula's ${formula.high - formula.low}`);
+});
+
+test('more weeks of evidence move the figure towards the measurement', () => {
+  const early = adaptiveExpenditure({
+    ...simulate({ tdee: 2300, intake: 2000, days: 15, noiseKg: 1 }), profile: PROFILE, now: NOW
+  });
+  const later = adaptiveExpenditure({
+    ...simulate({ tdee: 2300, intake: 2000, days: 42, noiseKg: 1 }), profile: PROFILE, now: NOW
+  });
+  assert.ok(later.measuredShare > early.measuredShare,
+    `${early.measuredShare} -> ${later.measuredShare}`);
+});
+
+test('without a profile the measurement stands alone', () => {
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000, noiseKg: 1 });
+  const out = adaptiveExpenditure({ entries, weights, profile: null, now: NOW });
+  assert.equal(out.method, 'measured');
+  assert.equal(out.measuredShare, 1);
+  assert.equal(out.kcal, out.measured.kcal);
+  assert.equal(out.formula, null);
+});
+
+test('a back-filled weigh-in counts on the day it is about', () => {
+  // Typed in today, but about a morning years ago. Its timestamp is recent;
+  // its day is not, and the day is what the reading describes.
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000 });
+  const old = { day: '2020-01-01', at: new Date(NOW).toISOString(), kg: 120 };
+  const out = adaptiveExpenditure({ entries, weights: [...weights.map((w) => ({ ...w, day: w.at.slice(0, 10) })), old], profile: PROFILE, now: NOW });
+  assert.ok(Math.abs(out.measured.kcal - 2500) < 25, `got ${out.measured.kcal}`);
+});
+
+test('the window it reports gives the chart the same line the figure used', () => {
+  // Readings from before the window pull an all-history fit another way; the
+  // chart fits only from window.from, and must land on the same slope.
+  const { entries, weights } = simulate({ tdee: 2500, intake: 2000, days: 60, noiseKg: 0.8 });
+  const out = adaptiveExpenditure({ entries, weights, profile: PROFILE, now: NOW });
+  const withDays = weights.map((w) => ({ ...w, day: w.at.slice(0, 10) }));
+  const chart = weightTrend(withDays.filter((w) => w.day >= out.window.from));
+  assert.equal(out.window.days, REQUIREMENTS.windowDays);
+  assert.equal(Math.round(chart.slopeKgPerWeek * 1000) / 1000, out.basis.slopeKgPerWeek);
+});
+
+test('the window is reported before a measurement is possible too', () => {
+  const out = adaptiveExpenditure({ entries: [], weights: [], profile: PROFILE, now: NOW });
+  assert.equal(out.method, 'formula');
+  assert.ok(out.window.from < dayKey(0));
 });

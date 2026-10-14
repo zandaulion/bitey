@@ -151,6 +151,7 @@
   "Look up this barcode?": "이 바코드를 찾아보시겠어요?",
   "Likely {0}–{1} kcal{2}": "아마도 {0}~{1}kcal{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "{0}~{1}일 가능성이 높습니다. 공식이 아닌, 무엇을 먹었는지, 체중이 어떻게 이동했는지를 토대로 계산했습니다.",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "{0}~{1}일 가능성이 높습니다. 무엇을 먹었는지와 체중이 어떻게 변했는지를 토대로 계산했으며, 데이터가 쌓이는 동안 공식이 아직 {2}% 반영됩니다.",
   "Link a device": "장치 연결",
   "Link code": "링크 코드",
   "Log": "로그",
@@ -386,8 +387,8 @@
   },
   "{0} over {1} days": "{1}일 동안 {0}",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{1}일 동안 {0}개의 체중 측정 — 일주일에 {2}kg 감소.",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{1}일 동안 {0}개의 체중 측정 — 주당 {2}kg 감소 추세입니다.",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1}일 동안 {0}개의 체중 측정 — 주당 {2}kg 증가 추세입니다.",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "{1} 이후 체중 측정 {0}회 — 주당 {2}kg 감소 추세입니다.",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "{1} 이후 체중 측정 {0}회 — 주당 {2}kg 증가 추세입니다.",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "{1}일에 걸쳐 {0}개의 체중 측정 — 주당 {2}kg 증가.",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "other": "지금까지 체중을 {0}번 기록했습니다. 일주일에 걸쳐 나누어 기록하면 추세선이 나타납니다."

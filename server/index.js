@@ -37,7 +37,7 @@ import {
 import { summariseRecent, collapseRepeatable } from '../core/foods.js';
 import { toJson, toCsv, weightsToCsv } from '../core/export.js';
 import { smoothSeries, weightTrend, trendGap } from '../core/weight.js';
-import { adaptiveExpenditure } from '../core/expenditure.js';
+import { adaptiveExpenditure, REQUIREMENTS } from '../core/expenditure.js';
 import { summariseUsage } from '../core/usage.js';
 import { cleanBatch, summariseEvents } from '../core/events.js';
 import { zip } from './zip.js';
@@ -999,7 +999,7 @@ function expenditureFor(accountId) {
   const entries = db.prepare(`
     SELECT day, portion_source, portion_confirmed, totals_json
     FROM entries WHERE account_id = ? AND day >= ?
-  `).all(accountId, new Date(Date.now() - 40 * 86400000).toISOString().slice(0, 10))
+  `).all(accountId, new Date(Date.now() - (REQUIREMENTS.windowDays + 1) * 86400000).toISOString().slice(0, 10))
     .map((r) => ({
       day: r.day,
       portionSource: r.portion_source,
@@ -1009,7 +1009,7 @@ function expenditureFor(accountId) {
 
   return adaptiveExpenditure({
     entries,
-    weights: weightRows(accountId, 40),
+    weights: weightRows(accountId, REQUIREMENTS.windowDays + 1),
     profile: effectiveProfile(accountId)
   });
 }

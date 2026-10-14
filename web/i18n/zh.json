@@ -201,6 +201,7 @@
   "Look up this barcode?": "查一下这个条形码？",
   "Likely {0}–{1} kcal{2}": "可能为 {0}–{1} 千卡{2}",
   "Likely {0}–{1}. Worked out from what you ate and how your weight moved, not from a formula.": "可能是 {0}–{1}。根据您的饮食和体重变化计算得出，而不是根据公式。",
+  "Likely {0}–{1}. Worked out from what you ate and how your weight moved, with the formula still counting for {2}% while the evidence builds.": "可能是 {0}–{1}。根据您的饮食和体重变化计算得出；在数据积累期间，公式仍占 {2}%。",
   "Link a device": "链接设备",
   "Link code": "链接代码",
   "Log": "日志",
@@ -311,8 +312,8 @@
   "Who needs a personal trainer when you have a personal sauropod? 🦖🏋️": "当你拥有私人蜥脚类恐龙时，谁还需要私人教练？ 🦖🏋️",
   "{0} over {1} days": "{0} 超过 {1} 天",
   "{0} weigh-ins over {1} days — down {2} kg a week.": "{1} 天称重 {0} 次 — 每周减重 {2} 公斤。",
-  "{0} weigh-ins over {1} days — trending down {2} kg a week.": "{1} 天称重 {0} 次 — 每周下降 {2} 公斤。",
-  "{0} weigh-ins over {1} days — trending up {2} kg a week.": "{1} 天称重 {0} 次 — 每周增加 {2} 公斤。",
+  "{0} weigh-ins since {1} — trending down {2} kg a week.": "自 {1} 起称重 {0} 次 — 每周下降 {2} 公斤。",
+  "{0} weigh-ins since {1} — trending up {2} kg a week.": "自 {1} 起称重 {0} 次 — 每周增加 {2} 公斤。",
   "{0} weigh-ins over {1} days — up {2} kg a week.": "在 {1} 天内称重 {0} 次 — 每周增加 {2} 公斤。",
   "{0} weigh-ins so far. Spread over a week, and a trend line appears.": {
     "other": "目前已称重 {0} 次。把称重分散在一周内，就会出现趋势线。"
