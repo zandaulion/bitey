@@ -23,8 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.2** (`versionCode` 19) was uploaded to production on 14 October 2026
-and is under review: a steadier burn estimate.
+**1.1.2** (`versionCode` 19) is live in production since 14 October 2026:
+a steadier burn estimate.
 The weight trend is fitted over up to six weeks instead of four, the profile
 formula is weighed in while the evidence is thin, today is left out until it is
 over, and the weight chart in You draws the same trend as the estimate. Its
@@ -35,7 +35,7 @@ form in `release-notes-1.1.2.xml`.
   (built 14 October 2026, 18:56, on the Lenovo from 5bccc65; signed with the
   Play upload key).
 
-Before it, **1.1.1** (`versionCode` 18) went live in production on 12 October 2026. It
+Before it, **1.1.1** (`versionCode` 18) was live in production from 12 October 2026. It
 replaces 1.1.0, the first production release, as the
 **production release**: a subscription the server no longer honours is dropped
 at once, so the padlocks return and the plans are offered instead of a
@@ -194,8 +194,7 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.2** (`versionCode` 19), in production review
-- Production: **1.1.1** (`versionCode` 18)
+- Current source version: **1.1.2** (`versionCode` 19), live in production
 - Last upload artifact: `bitey-private-food-log-1.1.2.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
