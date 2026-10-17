@@ -109,6 +109,18 @@ android {
             versionNameSuffix = "-debug"
             resValue("string", "app_name", "Bitey Debug")
         }
+        // R8 shrinks and obfuscates the release. Play marks an app whose DEX
+        // is under 25% optimised in any category as low quality. Upload
+        // build/outputs/mapping/release/mapping.txt with each bundle so crash
+        // traces in Play Console stay readable.
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
     }
     if (debugSigningFile.isFile) {
         signingConfigs.getByName("debug") {
