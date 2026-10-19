@@ -23,8 +23,13 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.3** (`versionCode` 20) was uploaded to production on 19 October 2026
-and is under review: a Bitey AI refusal stays on
+The next upload is **1.1.4** (`versionCode` 21): long-press shortcuts on the
+launcher icon (Photo, Gallery, Barcode, Type), a "Meal photo" Quick Settings
+tile, and a Settings button that adds the tile. Its release notes are in
+`RELEASE_NOTES_1.1.4.md`, with the paste-ready tagged form in
+`release-notes-1.1.4.xml`. Upload its R8 mapping file with the bundle.
+
+Before it, **1.1.3** (`versionCode` 20) went live in production: a Bitey AI refusal stays on
 screen instead of being replaced by a waiting joke, and the first release
 shrunk with R8 (bundle 12.2 MB → 7.95 MB). Upload its R8 mapping file with the
 bundle (App bundle explorer → the version → Downloads → ReTrace mapping file),
@@ -210,9 +215,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.3** (`versionCode` 20), in production review
-- Production: **1.1.2** (`versionCode` 19)
-- Last upload artifact: `bitey-private-food-log-1.1.3.aab`
+- Current source version: **1.1.4** (`versionCode` 21), not yet uploaded
+- Production: **1.1.3** (`versionCode` 20)
+- Next upload artifact: `bitey-private-food-log-1.1.4.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do

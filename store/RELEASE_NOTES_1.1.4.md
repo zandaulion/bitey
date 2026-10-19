@@ -1,0 +1,112 @@
+# Bitey 1.1.4 (`versionCode` 21) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.1.4.xml` beside this file is that paste-ready form, and
+this copy is generated from it. Play allows 500 characters per locale; the
+longest here, French, is 292.
+
+1.1.4 adds quicker ways into a log. Long-pressing the launcher icon offers
+Photo, Gallery, Barcode and Type as dynamic shortcuts, named with the action
+bar's labels so they follow the language chosen in Bitey. A "Meal photo"
+Quick Settings tile opens Bitey ready for a photo (reusing a running Bitey,
+asking for an unlock on a locked phone), and Settings → Quick Settings asks
+Android to add it (Android 13 and later). Every route hands its action to the
+page as the native action bar does, so Photo and Gallery still pass the Bitey
+AI entitlement gate. The tile's own name follows the phone's language, since
+Android reads it from the app's resources.
+
+## English (en-US)
+
+Log a meal in one tap, from anywhere.
+
+- Long-press the Bitey icon for Photo, Gallery, Barcode or Type
+- A new Meal photo tile in Quick Settings opens Bitey ready for a photo
+- Add the tile from Settings in one tap
+
+## Arabic (ar)
+
+سجّل وجبة بلمسة واحدة، من أي مكان.
+
+- اضغط مطولًا على أيقونة Bitey لاختيار الصورة أو المعرض أو الباركود أو اكتب
+- مربع جديد باسم «صورة وجبة» في الإعدادات السريعة يفتح Bitey جاهزًا للتصوير
+- أضف المربع من الإعدادات بلمسة واحدة
+
+## Chinese, Simplified (zh-CN)
+
+随时随地，一触记录一餐。
+
+- 长按 Bitey 图标，可直接选择照片、图库、条码或输入
+- 快捷设置中新增“餐食照片”图块，打开 Bitey 即可拍照
+- 在设置中一键添加该图块
+
+## French (fr-FR)
+
+Enregistrez un repas en un geste, où que vous soyez.
+
+- Appuyez longuement sur l'icône Bitey pour Photo, Galerie, Code à barres ou Saisir
+- Une nouvelle vignette Photo repas dans les Réglages rapides ouvre Bitey prêt pour une photo
+- Ajoutez la vignette depuis les Paramètres en un seul appui
+
+## German (de-DE)
+
+Eine Mahlzeit mit einem Tippen erfassen, von überall.
+
+- Halte das Bitey-Symbol gedrückt für Foto, Galerie, Barcode oder Eingeben
+- Eine neue Kachel „Mahlzeitfoto“ in den Schnelleinstellungen öffnet Bitey direkt für ein Foto
+- Füge die Kachel mit einem Tippen in den Einstellungen hinzu
+
+## Hindi (hi-IN)
+
+कहीं से भी, एक टैप में भोजन दर्ज करें।
+
+- फ़ोटो, गैलरी, बारकोड या लिखें के लिए Bitey आइकन को देर तक दबाएँ
+- क्विक सेटिंग में नई "भोजन फ़ोटो" टाइल Bitey को फ़ोटो के लिए तैयार खोलती है
+- सेटिंग से एक टैप में टाइल जोड़ें
+
+## Japanese (ja-JP)
+
+どこからでも、ワンタップで食事を記録。
+
+- Bitey のアイコンを長押しすると、写真・ギャラリー・バーコード・入力をすぐに選べます
+- クイック設定の新しい「食事の写真」タイルで、Bitey が写真を撮れる状態で開きます
+- 設定からワンタップでタイルを追加できます
+
+## Korean (ko-KR)
+
+어디서든 한 번의 탭으로 식사를 기록하세요.
+
+- Bitey 아이콘을 길게 눌러 사진, 갤러리, 바코드, 입력을 바로 선택하세요
+- 빠른 설정의 새 "식사 사진" 타일이 Bitey를 사진 촬영 준비 상태로 엽니다
+- 설정에서 한 번의 탭으로 타일을 추가하세요
+
+## Portuguese, Brazil (pt-BR)
+
+Registre uma refeição com um toque, de qualquer lugar.
+
+- Toque e segure o ícone do Bitey para Foto, Galeria, Código de barras ou Escrever
+- Um novo bloco Foto refeição nas Configurações rápidas abre o Bitey pronto para uma foto
+- Adicione o bloco nas Configurações com um toque
+
+## Romanian (ro)
+
+Înregistrează o masă dintr-o atingere, de oriunde.
+
+- Ține apăsat pe pictograma Bitey pentru Fotografie, Galerie, Cod de bare sau Scrie
+- Un nou buton Poză masă în Setări rapide deschide Bitey gata pentru o fotografie
+- Adaugă butonul din Setări cu o singură atingere
+
+## Spanish (es-ES)
+
+Registra una comida con un toque, desde cualquier lugar.
+
+- Mantén pulsado el icono de Bitey para Foto, Galería, Código de barras o Escribir
+- Un nuevo botón Foto comida en Ajustes rápidos abre Bitey listo para una foto
+- Añade el botón desde Ajustes con un solo toque
+
+## Ukrainian (uk)
+
+Записуйте страву одним дотиком, звідусіль.
+
+- Утримуйте значок Bitey, щоб вибрати «Фото», «Галерея», «Штрих-код» або «Ввести»
+- Нова плитка «Фото страви» у швидких налаштуваннях відкриває Bitey, готовий до фото
+- Додайте плитку з налаштувань одним дотиком
