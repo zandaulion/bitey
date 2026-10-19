@@ -23,7 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.1.4** (`versionCode` 21): long-press shortcuts on the
+**1.1.4** (`versionCode` 21) was uploaded to production on 19 October 2026
+and is under review: long-press shortcuts on the
 launcher icon (Photo, Gallery, Barcode, Type), a "Meal photo" Quick Settings
 tile, and a Settings button that adds the tile. Its release notes are in
 `RELEASE_NOTES_1.1.4.md`, with the paste-ready tagged form in
@@ -220,9 +221,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.4** (`versionCode` 21), not yet uploaded
+- Current source version: **1.1.4** (`versionCode` 21), in production review
 - Production: **1.1.3** (`versionCode` 20)
-- Next upload artifact: `bitey-private-food-log-1.1.4.aab`
+- Last upload artifact: `bitey-private-food-log-1.1.4.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
