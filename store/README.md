@@ -29,6 +29,12 @@ tile, and a Settings button that adds the tile. Its release notes are in
 `RELEASE_NOTES_1.1.4.md`, with the paste-ready tagged form in
 `release-notes-1.1.4.xml`. Upload its R8 mapping file with the bundle.
 
+- 1.1.4 file SHA-256: `3571CCB5AE3CD71976B43B0458499FA35CC5226287F0A8A5F0E3B59F545BFE5E`
+  (built 19 October 2026, 23:02, on the Lenovo from 4f06a67; signed with the
+  Play upload key). Mapping file from the same build, copied beside the bundle
+  in the APKs folder. R8 kept the tile service's name and both new bridge
+  methods (`canAddQuickTile`, `addQuickTile`).
+
 Before it, **1.1.3** (`versionCode` 20) went live in production: a Bitey AI refusal stays on
 screen instead of being replaced by a waiting joke, and the first release
 shrunk with R8 (bundle 12.2 MB → 7.95 MB). Upload its R8 mapping file with the
