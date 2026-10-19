@@ -189,9 +189,24 @@ export const analyse = onRequest(
       throw err;
     }
 
+    // A reading the model turned down, logged with the reason only: which
+    // refusal it was is the one thing the request log cannot show, and the
+    // model's note describes the meal, which stays private like the photo.
+    const refused = (reason) => logger.warn('refused by model', {
+      reason,
+      mode: leftovers ? 'leftovers' : request.mode === 'text' ? 'text' : 'photo',
+      entitlementId,
+      test: subscription.test,
+      ms,
+      promptTokens: usage.promptTokens,
+      outputTokens: usage.outputTokens,
+      remaining: quota.remaining
+    });
+
     if (leftovers) {
       const read = parseLeftovers(raw, request.items);
       if (!read.ok) {
+        refused(read.reason);
         // "That is a different meal" is the model doing its job, and it cost a
         // reading like any other answer. Rewriting an entry on the strength of
         // a photograph of something else would be the actual harm.
@@ -221,6 +236,7 @@ export const analyse = onRequest(
       // "Not food" and "found nothing" are different failures with different
       // remedies, so the client is told which one happened. Both cost a
       // reading: the model was asked and answered.
+      refused(parsed.reason);
       return res.status(422).json({
         error: parsed.reason, note: parsed.note, usage, model, remaining: quota.remaining
       });
@@ -229,6 +245,7 @@ export const analyse = onRequest(
     const estimate = fromModelResponse({ items: parsed.items, note: parsed.note },
       request.mode === 'text' ? 'text' : 'photo');
     if (!estimate.items.length) {
+      refused('nothing_found');
       return res.status(422).json({
         error: 'nothing_found', note: parsed.note, usage, model, remaining: quota.remaining
       });

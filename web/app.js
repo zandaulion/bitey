@@ -2646,10 +2646,16 @@ const AI_WAIT_LINES = [
 ];
 
 let aiWaitTimer = null;
+// The line swap fades out first and writes the new line 180 ms later. That
+// write has to be cancellable: a failure arriving inside the fade was being
+// overwritten by the next joke, which then sat in the error card in red.
+let aiWaitSwap = null;
 
 function stopAiWait() {
   clearInterval(aiWaitTimer);
   aiWaitTimer = null;
+  clearTimeout(aiWaitSwap);
+  aiWaitSwap = null;
   $('wait-bar').hidden = true;
   $('wait-msg').classList.remove('is-swapping');
 }
@@ -2684,7 +2690,9 @@ function aiBusy(text) {
       shown = due;
       const msg = $('wait-msg');
       msg.classList.add('is-swapping');
-      setTimeout(() => {
+      clearTimeout(aiWaitSwap);
+      aiWaitSwap = setTimeout(() => {
+        aiWaitSwap = null;
         msg.textContent = t(lines[(due - 1) % lines.length]);
         msg.classList.remove('is-swapping');
       }, 180);
@@ -2724,6 +2732,8 @@ function idle() {
     // The answer is in: the bar finishes before the card goes.
     clearInterval(aiWaitTimer);
     aiWaitTimer = null;
+    clearTimeout(aiWaitSwap);
+    aiWaitSwap = null;
     $('wait-bar').firstElementChild.style.width = '100%';
     setTimeout(() => {
       if (aiWaitTimer) return;
