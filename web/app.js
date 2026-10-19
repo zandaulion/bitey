@@ -4503,6 +4503,23 @@ if (window.__PLATE_NATIVE__) {
   $('native-ai-purchases').hidden = false;
   syncAiConsentControls();
 
+  // The Meal photo tile. Android shows its own prompt and adds nothing
+  // without a yes, so a "no" needs no message here.
+  if (window.PlateNative?.canAddQuickTile?.()) {
+    const tileButton = $('quick-tile-add');
+    $('native-quick-tile').hidden = false;
+    window.__plateNativeQuickTileResult = (result) => {
+      tileButton.disabled = false;
+      if (result === 'added') toast(t('Tile added. Pull down from the top of the screen to find it.'));
+      else if (result === 'already') toast(t('The tile is already in Quick Settings.'));
+      else if (result !== 'declined') toast(t('Could not add the tile. Add it from the Quick Settings editor instead.'));
+    };
+    tileButton.addEventListener('click', () => {
+      tileButton.disabled = true;
+      window.PlateNative.addQuickTile();
+    });
+  }
+
   const restoreButtons = [$('ai-restore'), $('ai-plan-restore')];
   window.__plateNativeAiRestoreResult = (status) => {
     restoreButtons.forEach((button) => { button.disabled = false; });

@@ -566,5 +566,11 @@
   "That does not look like food. Try another photo.": "لا يبدو هذا طعامًا. جرّب صورة أخرى.",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "اشتراكك في Bitey AI لم يعد نشطًا. المس زر Bitey AI مرة أخرى لعرض الخطط.",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "اشتراكك في Bitey AI لم يعد نشطًا. المس «تقدير الوجبة» مرة أخرى لعرض الخطط.",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "لا يزال Google Play يعرض اشتراكك السابق في Bitey AI. تحقّق منه هناك، ثم حاول مرة أخرى."
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "لا يزال Google Play يعرض اشتراكك السابق في Bitey AI. تحقّق منه هناك، ثم حاول مرة أخرى.",
+  "Quick Settings": "الإعدادات السريعة",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "أضف مربعًا إلى اللوحة التي تسحبها من أعلى الشاشة. لمسة واحدة تفتح Bitey جاهزًا لتصوير وجبة.",
+  "Add to Quick Settings": "إضافة إلى الإعدادات السريعة",
+  "Tile added. Pull down from the top of the screen to find it.": "تمت إضافة المربع. اسحب من أعلى الشاشة للعثور عليه.",
+  "The tile is already in Quick Settings.": "المربع موجود بالفعل في الإعدادات السريعة.",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "تعذّرت إضافة المربع. أضفه من محرر الإعدادات السريعة بدلًا من ذلك."
 }

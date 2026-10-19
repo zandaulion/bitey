@@ -1,11 +1,14 @@
 package com.zandaulion.bitey
 
 import android.Manifest
+import android.app.StatusBarManager
+import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +25,7 @@ import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import org.json.JSONObject
@@ -67,6 +71,13 @@ class MainActivity : ComponentActivity() {
     private lateinit var actionBar: View
     private lateinit var backCallback: OnBackPressedCallback
     private var backRequestInFlight = false
+
+    /** True once the page has sent its action labels, which it does when its
+     * scripts are running; before that an action has nowhere to go. */
+    private var pageReady = false
+
+    /** An action from a shortcut or the tile that arrived before the page. */
+    private var pendingLaunchAction: String? = null
 
     private val barcodeScanner = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
@@ -263,7 +274,15 @@ class MainActivity : ComponentActivity() {
             },
             onPrimaryActionLabelsChanged = { manual, barcode, gallery, photo ->
                 // JavaScript-interface calls are not made on the UI thread.
-                runOnUiThread { updatePrimaryActionLabels(manual, barcode, gallery, photo) }
+                runOnUiThread {
+                    updatePrimaryActionLabels(manual, barcode, gallery, photo)
+                    LaunchActions.publish(applicationContext, manual, barcode, gallery, photo)
+                    pageReady = true
+                    pendingLaunchAction?.let {
+                        pendingLaunchAction = null
+                        plateWebView.performPrimaryAction(it)
+                    }
+                }
             },
             aiEntitlementStatus = { playBilling.status().wireValue },
             onPrimaryActionsVisibilityChanged = { visible ->
@@ -330,6 +349,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             },
+            quickTileSupported = { Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU },
+            onQuickTileRequested = {
+                runOnUiThread {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) requestPhotoTile()
+                    else plateWebView.deliverQuickTileResult("failed")
+                }
+            },
             onFileChooserRequested = ::showFileChooser,
         )
         val root = FrameLayout(this)
@@ -362,6 +388,55 @@ class MainActivity : ComponentActivity() {
         }
         onBackPressedDispatcher.addCallback(this, backCallback)
         setContentView(root)
+        // Not after a rotation or process restore: the action was already run
+        // by the activity this one replaces.
+        if (savedInstanceState == null) runLaunchAction(intent)
+    }
+
+    /** A shortcut or the tile while Bitey is already open. */
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        runLaunchAction(intent)
+    }
+
+    /**
+     * Asks Android to put the Meal photo tile in Quick Settings. Android shows
+     * its own prompt with the tile's name and icon, and nothing is added
+     * without the person's yes; the answer goes back to the page.
+     */
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestPhotoTile() {
+        val statusBar = getSystemService(StatusBarManager::class.java)
+        if (statusBar == null) {
+            plateWebView.deliverQuickTileResult("failed")
+            return
+        }
+        runCatching {
+            statusBar.requestAddTileService(
+                ComponentName(this, PhotoTileService::class.java),
+                getString(R.string.tile_photo),
+                Icon.createWithResource(this, R.drawable.ic_action_photo),
+                mainExecutor,
+            ) { code ->
+                plateWebView.deliverQuickTileResult(
+                    when (code) {
+                        StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ADDED -> "added"
+                        StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> "already"
+                        StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_NOT_ADDED -> "declined"
+                        else -> "failed"
+                    },
+                )
+            }
+        }.onFailure { plateWebView.deliverQuickTileResult("failed") }
+    }
+
+    private fun runLaunchAction(intent: Intent?) {
+        val action = LaunchActions.from(intent) ?: return
+        // Consumed once: a later recreation must not open the camera again.
+        intent?.removeExtra(LaunchActions.EXTRA_ACTION)
+        if (pageReady) plateWebView.performPrimaryAction(action)
+        else pendingLaunchAction = action
     }
 
     override fun onResume() {

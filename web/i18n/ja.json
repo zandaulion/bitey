@@ -566,5 +566,11 @@
   "That does not look like food. Try another photo.": "食べ物ではないようです。別の写真でお試しください。",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Bitey AI のサブスクリプションは有効ではなくなりました。もう一度 Bitey AI のボタンをタップするとプランが表示されます。",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Bitey AI のサブスクリプションは有効ではなくなりました。もう一度「食事を推定」をタップするとプランが表示されます。",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play に以前の Bitey AI サブスクリプションがまだ表示されています。そちらで確認してから、もう一度お試しください。"
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play に以前の Bitey AI サブスクリプションがまだ表示されています。そちらで確認してから、もう一度お試しください。",
+  "Quick Settings": "クイック設定",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "画面上部から引き下ろすパネルにタイルを追加します。タップすると、Bitey が食事の写真を撮れる状態で開きます。",
+  "Add to Quick Settings": "クイック設定に追加",
+  "Tile added. Pull down from the top of the screen to find it.": "タイルを追加しました。画面上部から引き下ろすと表示されます。",
+  "The tile is already in Quick Settings.": "タイルはすでにクイック設定にあります。",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "タイルを追加できませんでした。クイック設定の編集画面から追加してください。"
 }

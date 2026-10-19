@@ -566,5 +566,11 @@
   "That does not look like food. Try another photo.": "यह खाना नहीं लगता। कोई दूसरी फ़ोटो आज़माएँ।",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "आपकी Bitey AI सदस्यता अब सक्रिय नहीं है। प्लान देखने के लिए फिर से Bitey AI बटन पर टैप करें।",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "आपकी Bitey AI सदस्यता अब सक्रिय नहीं है। प्लान देखने के लिए फिर से भोजन का अनुमान लगाएं पर टैप करें।",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play अब भी आपकी पिछली Bitey AI सदस्यता दिखा रहा है। उसे वहाँ जाँचें, फिर दोबारा कोशिश करें।"
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play अब भी आपकी पिछली Bitey AI सदस्यता दिखा रहा है। उसे वहाँ जाँचें, फिर दोबारा कोशिश करें।",
+  "Quick Settings": "क्विक सेटिंग",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "स्क्रीन के ऊपर से नीचे खींचे जाने वाले पैनल में एक टाइल जोड़ें। एक टैप से Bitey भोजन की फ़ोटो के लिए तैयार खुलता है।",
+  "Add to Quick Settings": "क्विक सेटिंग में जोड़ें",
+  "Tile added. Pull down from the top of the screen to find it.": "टाइल जोड़ दी गई। इसे देखने के लिए स्क्रीन के ऊपर से नीचे खींचें।",
+  "The tile is already in Quick Settings.": "टाइल पहले से क्विक सेटिंग में है।",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "टाइल नहीं जोड़ी जा सकी। इसे क्विक सेटिंग एडिटर से जोड़ें।"
 }

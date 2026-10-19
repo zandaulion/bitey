@@ -568,5 +568,11 @@
   "That does not look like food. Try another photo.": "Das sieht nicht nach Essen aus. Versuche ein anderes Foto.",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Dein Bitey-AI-Abo ist nicht mehr aktiv. Tippe erneut auf eine Bitey-AI-Schaltfläche, um die Abos zu sehen.",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Dein Bitey-AI-Abo ist nicht mehr aktiv. Tippe erneut auf „Mahlzeit schätzen“, um die Abos zu sehen.",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play zeigt dein früheres Bitey-AI-Abo noch an. Prüfe es dort und versuche es dann erneut."
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play zeigt dein früheres Bitey-AI-Abo noch an. Prüfe es dort und versuche es dann erneut.",
+  "Quick Settings": "Schnelleinstellungen",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "Füge eine Kachel zu dem Bereich hinzu, den du vom oberen Bildschirmrand herunterziehst. Ein Tippen öffnet Bitey direkt für ein Mahlzeitfoto.",
+  "Add to Quick Settings": "Zu Schnelleinstellungen hinzufügen",
+  "Tile added. Pull down from the top of the screen to find it.": "Kachel hinzugefügt. Zieh vom oberen Bildschirmrand nach unten, um sie zu finden.",
+  "The tile is already in Quick Settings.": "Die Kachel ist bereits in den Schnelleinstellungen.",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "Die Kachel konnte nicht hinzugefügt werden. Füge sie stattdessen im Editor der Schnelleinstellungen hinzu."
 }

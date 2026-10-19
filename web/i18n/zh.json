@@ -566,5 +566,11 @@
   "That does not look like food. Try another photo.": "这看起来不像食物。请换一张照片。",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "你的 Bitey AI 订阅已不再有效。再次轻点 Bitey AI 按钮即可查看方案。",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "你的 Bitey AI 订阅已不再有效。再次轻点“估算餐食”即可查看方案。",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play 仍显示你之前的 Bitey AI 订阅。请在那里查看，然后重试。"
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play 仍显示你之前的 Bitey AI 订阅。请在那里查看，然后重试。",
+  "Quick Settings": "快捷设置",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "在从屏幕顶部下拉的面板中添加一个图块。轻点一下即可打开 Bitey，直接拍摄餐食照片。",
+  "Add to Quick Settings": "添加到快捷设置",
+  "Tile added. Pull down from the top of the screen to find it.": "图块已添加。从屏幕顶部下拉即可找到。",
+  "The tile is already in Quick Settings.": "该图块已在快捷设置中。",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "无法添加图块。请改为在快捷设置编辑器中添加。"
 }

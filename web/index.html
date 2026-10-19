@@ -595,6 +595,17 @@
           </label>
         </section>
 
+        <!-- Android 13 and later only: Android itself asks before adding the
+             tile. On older versions the section stays hidden and the tile is
+             added by hand from the Quick Settings editor. -->
+        <section id="native-quick-tile" class="native-privacy" hidden>
+          <h3 class="section-head" data-i18n="Quick Settings">Quick Settings</h3>
+          <p class="hint" data-i18n="Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.">Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.</p>
+          <div class="export-row">
+            <button id="quick-tile-add" class="secondary" type="button" data-i18n="Add to Quick Settings">Add to Quick Settings</button>
+          </div>
+        </section>
+
         <!-- The entitlement itself belongs to the user's Google Play account,
              never to the diary. This stays Android-only: the hosted PWA has no
              Play Billing client. -->

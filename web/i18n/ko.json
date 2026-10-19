@@ -566,5 +566,11 @@
   "That does not look like food. Try another photo.": "음식처럼 보이지 않습니다. 다른 사진으로 시도해 보세요.",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Bitey AI 구독이 더 이상 활성 상태가 아닙니다. Bitey AI 버튼을 다시 탭하면 요금제가 표시됩니다.",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Bitey AI 구독이 더 이상 활성 상태가 아닙니다. 식사 추정을 다시 탭하면 요금제가 표시됩니다.",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play에 이전 Bitey AI 구독이 아직 표시됩니다. 그곳에서 확인한 후 다시 시도해 보세요."
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play에 이전 Bitey AI 구독이 아직 표시됩니다. 그곳에서 확인한 후 다시 시도해 보세요.",
+  "Quick Settings": "빠른 설정",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "화면 위에서 아래로 내리는 패널에 타일을 추가합니다. 한 번 탭하면 Bitey가 식사 사진을 찍을 준비가 된 상태로 열립니다.",
+  "Add to Quick Settings": "빠른 설정에 추가",
+  "Tile added. Pull down from the top of the screen to find it.": "타일을 추가했습니다. 화면 위에서 아래로 내려 확인하세요.",
+  "The tile is already in Quick Settings.": "타일이 이미 빠른 설정에 있습니다.",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "타일을 추가할 수 없습니다. 빠른 설정 편집 화면에서 추가하세요."
 }

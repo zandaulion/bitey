@@ -578,5 +578,11 @@
   "That does not look like food. Try another photo.": "Nu pare să fie mâncare. Încearcă altă fotografie.",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Abonamentul Bitey AI nu mai este activ. Atinge din nou un buton Bitey AI ca să vezi planurile.",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Abonamentul Bitey AI nu mai este activ. Atinge din nou Estimează masa ca să vezi planurile.",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play încă afișează abonamentul tău Bitey AI anterior. Verifică-l acolo, apoi încearcă din nou."
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play încă afișează abonamentul tău Bitey AI anterior. Verifică-l acolo, apoi încearcă din nou.",
+  "Quick Settings": "Setări rapide",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "Adaugă un buton în panoul pe care îl tragi în jos din partea de sus a ecranului. O atingere deschide Bitey gata pentru o poză cu masa.",
+  "Add to Quick Settings": "Adaugă în Setări rapide",
+  "Tile added. Pull down from the top of the screen to find it.": "Buton adăugat. Trage în jos din partea de sus a ecranului ca să-l găsești.",
+  "The tile is already in Quick Settings.": "Butonul e deja în Setări rapide.",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "Butonul nu a putut fi adăugat. Adaugă-l din editorul Setărilor rapide."
 }

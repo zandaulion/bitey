@@ -120,6 +120,8 @@ private class PlateNativeBridge(
     private val onCaptureRequested: (String, String) -> Unit,
     private val onAnalysisRequested: (String, String) -> Unit,
     private val onPrivacyNoticeRequested: () -> Unit,
+    private val quickTileSupported: () -> Boolean,
+    private val onQuickTileRequested: () -> Unit,
 ) {
     @JavascriptInterface
     fun platform(): String = "android"
@@ -250,6 +252,16 @@ private class PlateNativeBridge(
 
     @JavascriptInterface
     fun manageAiSubscription() = onAiSubscriptionManagementRequested()
+
+    /** Whether Android can add the Meal photo tile from inside the app
+     * (Android 13 and later); older versions add it by hand. */
+    @JavascriptInterface
+    fun canAddQuickTile(): Boolean = quickTileSupported()
+
+    /** Android shows its own confirmation; the answer comes back through
+     * [PlateWebView.deliverQuickTileResult]. */
+    @JavascriptInterface
+    fun addQuickTile() = onQuickTileRequested()
 }
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -268,6 +280,8 @@ class PlateWebView(
     onCaptureRequested: (String, String) -> Unit,
     onAnalysisRequested: (String, String) -> Unit,
     onPrivacyNoticeRequested: () -> Unit,
+    quickTileSupported: () -> Boolean,
+    onQuickTileRequested: () -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
     val captures = PlateCaptureStore(context)
@@ -367,6 +381,8 @@ class PlateWebView(
                 onCaptureRequested,
                 onAnalysisRequested,
                 onPrivacyNoticeRequested,
+                quickTileSupported,
+                onQuickTileRequested,
             ),
             "PlateNative",
         )
@@ -448,6 +464,16 @@ class PlateWebView(
         post {
             evaluateJavascript(
                 "window.__plateNativeAnalysisResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
+    }
+
+    /** One of "added", "already", "declined" or "failed". */
+    fun deliverQuickTileResult(result: String) {
+        post {
+            evaluateJavascript(
+                "window.__plateNativeQuickTileResult?.(${JSONObject.quote(result)})",
                 null,
             )
         }

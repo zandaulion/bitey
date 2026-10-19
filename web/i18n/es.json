@@ -568,5 +568,11 @@
   "That does not look like food. Try another photo.": "Esto no parece comida. Prueba con otra foto.",
   "Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.": "Tu suscripción a Bitey AI ya no está activa. Vuelve a tocar un botón de Bitey AI para ver los planes.",
   "Your Bitey AI subscription is no longer active. Tap Estimate meal again to see the plans.": "Tu suscripción a Bitey AI ya no está activa. Vuelve a tocar «Estimar comida» para ver los planes.",
-  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play todavía muestra tu suscripción anterior a Bitey AI. Revísala allí y vuelve a intentarlo."
+  "Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.": "Google Play todavía muestra tu suscripción anterior a Bitey AI. Revísala allí y vuelve a intentarlo.",
+  "Quick Settings": "Ajustes rápidos",
+  "Add a tile to the panel you pull down from the top of the screen. One tap opens Bitey ready for a meal photo.": "Añade un botón al panel que deslizas desde la parte superior de la pantalla. Un toque abre Bitey listo para una foto de comida.",
+  "Add to Quick Settings": "Añadir a Ajustes rápidos",
+  "Tile added. Pull down from the top of the screen to find it.": "Botón añadido. Desliza desde la parte superior de la pantalla para encontrarlo.",
+  "The tile is already in Quick Settings.": "El botón ya está en Ajustes rápidos.",
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "No se pudo añadir el botón. Añádelo desde el editor de Ajustes rápidos."
 }
