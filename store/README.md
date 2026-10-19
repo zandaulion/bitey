@@ -23,7 +23,21 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.2** (`versionCode` 19) is live in production since 14 October 2026:
+The next upload is **1.1.3** (`versionCode` 20): a Bitey AI refusal stays on
+screen instead of being replaced by a waiting joke, and the first release
+shrunk with R8 (bundle 12.2 MB → 7.95 MB). Upload its R8 mapping file with the
+bundle (App bundle explorer → the version → Downloads → ReTrace mapping file),
+and deploy the `analyse` function (`firebase deploy --only functions:analyse`),
+which now logs why the model refused a reading. Its release notes are in
+`RELEASE_NOTES_1.1.3.md`, with the paste-ready tagged form in
+`release-notes-1.1.3.xml`.
+
+- 1.1.3 file SHA-256: `4D1693A4C14DE9294A9AA5BF351FA7913DC815D6B9745C6B8CA263B0436C3B32`
+  (built 19 October 2026, 17:36, on the Lenovo from 19d0010; signed with the
+  Play upload key). Mapping file: `build/outputs/mapping/release/mapping.txt`
+  from the same build, copied beside the bundle in the APKs folder.
+
+Before it, **1.1.2** (`versionCode` 19) was live in production from 14 October 2026:
 a steadier burn estimate.
 The weight trend is fitted over up to six weeks instead of four, the profile
 formula is weighed in while the evidence is thin, today is left out until it is
@@ -194,8 +208,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.2** (`versionCode` 19), live in production
-- Last upload artifact: `bitey-private-food-log-1.1.2.aab`
+- Current source version: **1.1.3** (`versionCode` 20), not yet uploaded
+- Production: **1.1.2** (`versionCode` 19)
+- Next upload artifact: `bitey-private-food-log-1.1.3.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
