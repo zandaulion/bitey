@@ -10,7 +10,7 @@ joke line 180 ms after fading the old one out, and stopping the wait did not
 cancel that write, so a refusal arriving inside the fade was replaced by a
 joke shown in red as the error. It is also the first release built with R8
 (shrinking, optimisation and obfuscation), which took the bundle from 12.2 MB
-to 7.95 MB; upload its `mapping.txt` with the bundle. The `analyse` function
+to 7.95 MB; its mapping travels inside the bundle, where Play reads it. The `analyse` function
 now logs why the model refused a reading (reason, mode, timing, tokens; never
 the photo or the note); deploy it with
 `firebase deploy --only functions:bitey-ai:analyse`.

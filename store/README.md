@@ -27,19 +27,19 @@ The next upload is **1.1.4** (`versionCode` 21): long-press shortcuts on the
 launcher icon (Photo, Gallery, Barcode, Type), a "Meal photo" Quick Settings
 tile, and a Settings button that adds the tile. Its release notes are in
 `RELEASE_NOTES_1.1.4.md`, with the paste-ready tagged form in
-`release-notes-1.1.4.xml`. Upload its R8 mapping file with the bundle.
+`release-notes-1.1.4.xml`.
 
 - 1.1.4 file SHA-256: `3571CCB5AE3CD71976B43B0458499FA35CC5226287F0A8A5F0E3B59F545BFE5E`
   (built 19 October 2026, 23:02, on the Lenovo from 4f06a67; signed with the
-  Play upload key). Mapping file from the same build, copied beside the bundle
-  in the APKs folder. R8 kept the tile service's name and both new bridge
+  Play upload key). Its R8 mapping travels inside the bundle
+  (`BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map`), which
+  Play reads on upload. R8 kept the tile service's name and both new bridge
   methods (`canAddQuickTile`, `addQuickTile`).
 
 Before it, **1.1.3** (`versionCode` 20) went live in production: a Bitey AI refusal stays on
 screen instead of being replaced by a waiting joke, and the first release
-shrunk with R8 (bundle 12.2 MB → 7.95 MB). Upload its R8 mapping file with the
-bundle (App bundle explorer → the version → Downloads → ReTrace mapping file),
-The `analyse` function that logs why the model refused a reading was
+shrunk with R8 (bundle 12.2 MB → 7.95 MB). Its R8 mapping travels inside the
+bundle and Play reads it on upload; nothing is uploaded separately. The `analyse` function that logs why the model refused a reading was
 deployed on 19 October 2026 (`firebase deploy --only functions:bitey-ai:analyse`;
 the codebase prefix is required, plain `functions:analyse` matches nothing). Its release notes are in
 `RELEASE_NOTES_1.1.3.md`, with the paste-ready tagged form in
@@ -47,8 +47,7 @@ the codebase prefix is required, plain `functions:analyse` matches nothing). Its
 
 - 1.1.3 file SHA-256: `4D1693A4C14DE9294A9AA5BF351FA7913DC815D6B9745C6B8CA263B0436C3B32`
   (built 19 October 2026, 17:36, on the Lenovo from 19d0010; signed with the
-  Play upload key). Mapping file: `build/outputs/mapping/release/mapping.txt`
-  from the same build, copied beside the bundle in the APKs folder.
+  Play upload key), with its R8 mapping inside the bundle.
 
 Before it, **1.1.2** (`versionCode` 19) was live in production from 14 October 2026:
 a steadier burn estimate.

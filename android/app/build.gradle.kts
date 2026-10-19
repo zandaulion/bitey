@@ -110,9 +110,10 @@ android {
             resValue("string", "app_name", "Bitey Debug")
         }
         // R8 shrinks and obfuscates the release. Play marks an app whose DEX
-        // is under 25% optimised in any category as low quality. Upload
-        // build/outputs/mapping/release/mapping.txt with each bundle so crash
-        // traces in Play Console stay readable.
+        // is under 25% optimised in any category as low quality. The bundle
+        // carries its own mapping (BUNDLE-METADATA/.../obfuscation/proguard.map)
+        // and Play reads it on upload, so crash traces stay readable with no
+        // separate step.
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
