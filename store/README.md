@@ -27,8 +27,9 @@ The next upload is **1.1.3** (`versionCode` 20): a Bitey AI refusal stays on
 screen instead of being replaced by a waiting joke, and the first release
 shrunk with R8 (bundle 12.2 MB → 7.95 MB). Upload its R8 mapping file with the
 bundle (App bundle explorer → the version → Downloads → ReTrace mapping file),
-and deploy the `analyse` function (`firebase deploy --only functions:analyse`),
-which now logs why the model refused a reading. Its release notes are in
+The `analyse` function that logs why the model refused a reading was
+deployed on 19 October 2026 (`firebase deploy --only functions:bitey-ai:analyse`;
+the codebase prefix is required, plain `functions:analyse` matches nothing). Its release notes are in
 `RELEASE_NOTES_1.1.3.md`, with the paste-ready tagged form in
 `release-notes-1.1.3.xml`.
 
@@ -105,7 +106,7 @@ remain free. Release notes for all twelve languages are in
 `release-notes-1.0.13.xml`.
 
 Before rolling out 1.0.13, deploy the updated `analyse` function
-(`firebase deploy --only functions:analyse`) for text analysis, and publish
+(`firebase deploy --only functions:bitey-ai:analyse`) for text analysis, and publish
 the updated `plate-privacy.html` dated 10 October 2026. Building this bundle
 does not deploy the backend or publish the privacy page.
 
@@ -117,7 +118,7 @@ after opening the app no longer waits for, or fails on, the app's start-up
 checks, and each reading logs where its time went. Its release notes are in
 `RELEASE_NOTES_1.0.12.md`, with the paste-ready tagged form in
 `release-notes-1.0.12.xml`. Deploy the `analyse` function too
-(`firebase deploy --only functions:analyse`) for its timing logs.
+(`firebase deploy --only functions:bitey-ai:analyse`) for its timing logs.
 
 - 1.0.12 file SHA-256: `13C77B0EA2E3E00C1BE2D7CF746106A1F4A7941C5EE674677B24F6A29675A59C`
   (built 8 October 2026, 09:02)

@@ -13,7 +13,7 @@ joke shown in red as the error. It is also the first release built with R8
 to 7.95 MB; upload its `mapping.txt` with the bundle. The `analyse` function
 now logs why the model refused a reading (reason, mode, timing, tokens; never
 the photo or the note); deploy it with
-`firebase deploy --only functions:analyse`.
+`firebase deploy --only functions:bitey-ai:analyse`.
 
 ## English (en-US)
 
