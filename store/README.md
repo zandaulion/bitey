@@ -30,6 +30,11 @@ button that places it, and Bitey's head on the Meal photo tile. Its release
 notes are in `RELEASE_NOTES_1.1.5.md`, with the paste-ready tagged form in
 `release-notes-1.1.5.xml`.
 
+- 1.1.5 file SHA-256: `8FF8223C78B7C665DE4C97D88E78C117E70523A3C16F944612FDCAA454F76FC4`
+  (built 21 October 2026, 16:13, on the Lenovo from f30ea51; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
+  service and widget class names and every bridge method the page calls.
+
 Before it, **1.1.4** (`versionCode` 21) went live in production: long-press shortcuts on the
 launcher icon (Photo, Gallery, Barcode, Type), a "Meal photo" Quick Settings
 tile, and a Settings button that adds the tile. Its release notes are in
