@@ -572,5 +572,12 @@
   "Add to Quick Settings": "クイック設定に追加",
   "Tile added. Pull down from the top of the screen to find it.": "タイルを追加しました。画面上部から引き下ろすと表示されます。",
   "The tile is already in Quick Settings.": "タイルはすでにクイック設定にあります。",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "タイルを追加できませんでした。クイック設定の編集画面から追加してください。"
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "タイルを追加できませんでした。クイック設定の編集画面から追加してください。",
+  "{0} of ~{1} kcal": "{0} / 約{1} kcal",
+  "{0} kcal": "{0} kcal",
+  "Home screen widget": "ホーム画面ウィジェット",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "今日のカロリー、マクロ、すばやい記録ボタンをホーム画面に。縦に大きくすると Bitey のアドバイスも表示されます。",
+  "Add widget to home screen": "ホーム画面にウィジェットを追加",
+  "The widget is already on your home screen.": "ウィジェットはすでにホーム画面にあります。",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "ウィジェットを追加できませんでした。ホーム画面のウィジェット一覧から追加してください。"
 }

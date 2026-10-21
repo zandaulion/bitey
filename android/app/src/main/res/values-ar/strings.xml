@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">صورة وجبة</string>
+    <string name="widget_name">اليوم في Bitey</string>
+    <string name="widget_empty">افتح Bitey لرؤية يومك</string>
+    <string name="widget_description">سعرات اليوم والتسجيل السريع</string>
+    <string name="widget_photo">الصورة</string>
+    <string name="widget_barcode">الباركود</string>
+    <string name="widget_manual">اكتب</string>
 </resources>

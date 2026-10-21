@@ -588,5 +588,12 @@
   "Add to Quick Settings": "Додати до швидких налаштувань",
   "Tile added. Pull down from the top of the screen to find it.": "Плитку додано. Потягніть вниз від верхнього краю екрана, щоб її знайти.",
   "The tile is already in Quick Settings.": "Плитка вже є у швидких налаштуваннях.",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "Не вдалося додати плитку. Додайте її в редакторі швидких налаштувань."
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "Не вдалося додати плитку. Додайте її в редакторі швидких налаштувань.",
+  "{0} of ~{1} kcal": "{0} з ~{1} ккал",
+  "{0} kcal": "{0} ккал",
+  "Home screen widget": "Віджет головного екрана",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "Калорії, макроси за сьогодні та кнопки швидкого запису на головному екрані. Зробіть його вищим, щоб бачити поради Bitey.",
+  "Add widget to home screen": "Додати віджет на головний екран",
+  "The widget is already on your home screen.": "Віджет уже є на головному екрані.",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "Не вдалося додати віджет. Додайте його зі списку віджетів головного екрана."
 }

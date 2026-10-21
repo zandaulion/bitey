@@ -122,6 +122,10 @@ private class PlateNativeBridge(
     private val onPrivacyNoticeRequested: () -> Unit,
     private val quickTileSupported: () -> Boolean,
     private val onQuickTileRequested: () -> Unit,
+    private val onWidgetSnapshot: (String) -> Unit,
+    private val onWidgetBitey: (String) -> Unit,
+    private val widgetPinSupported: () -> Boolean,
+    private val onWidgetPinRequested: () -> Unit,
 ) {
     @JavascriptInterface
     fun platform(): String = "android"
@@ -262,6 +266,24 @@ private class PlateNativeBridge(
      * [PlateWebView.deliverQuickTileResult]. */
     @JavascriptInterface
     fun addQuickTile() = onQuickTileRequested()
+
+    /** Today's figures for the home-screen widget, as the page drew them:
+     * totals, the burn estimate and the words to show. No entries, no foods. */
+    @JavascriptInterface
+    fun setWidgetSnapshot(json: String) = onWidgetSnapshot(json)
+
+    /** Bitey's face for the widget, a base64 PNG the page drew from its SVG. */
+    @JavascriptInterface
+    fun setWidgetBitey(png: String) = onWidgetBitey(png)
+
+    /** Whether this launcher can place the widget when the app asks. */
+    @JavascriptInterface
+    fun canPinWidget(): Boolean = widgetPinSupported()
+
+    /** Android shows its own prompt; the answer comes back through
+     * [PlateWebView.deliverWidgetPinResult]. */
+    @JavascriptInterface
+    fun pinWidget() = onWidgetPinRequested()
 }
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -282,6 +304,10 @@ class PlateWebView(
     onPrivacyNoticeRequested: () -> Unit,
     quickTileSupported: () -> Boolean,
     onQuickTileRequested: () -> Unit,
+    onWidgetSnapshot: (String) -> Unit,
+    onWidgetBitey: (String) -> Unit,
+    widgetPinSupported: () -> Boolean,
+    onWidgetPinRequested: () -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
 ) : WebView(context) {
     val captures = PlateCaptureStore(context)
@@ -383,6 +409,10 @@ class PlateWebView(
                 onPrivacyNoticeRequested,
                 quickTileSupported,
                 onQuickTileRequested,
+                onWidgetSnapshot,
+                onWidgetBitey,
+                widgetPinSupported,
+                onWidgetPinRequested,
             ),
             "PlateNative",
         )
@@ -464,6 +494,16 @@ class PlateWebView(
         post {
             evaluateJavascript(
                 "window.__plateNativeAnalysisResult?.(${JSONObject.quote(requestId)}, ${JSONObject.quote(payload)})",
+                null,
+            )
+        }
+    }
+
+    /** One of "requested", "already" or "failed". */
+    fun deliverWidgetPinResult(result: String) {
+        post {
+            evaluateJavascript(
+                "window.__plateNativeWidgetPinResult?.(${JSONObject.quote(result)})",
                 null,
             )
         }

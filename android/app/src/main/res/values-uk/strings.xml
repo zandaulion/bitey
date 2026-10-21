@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">Фото страви</string>
+    <string name="widget_name">Сьогодні в Bitey</string>
+    <string name="widget_empty">Відкрийте Bitey, щоб побачити сьогоднішній день</string>
+    <string name="widget_description">Калорії за сьогодні та швидкий запис</string>
+    <string name="widget_photo">Фото</string>
+    <string name="widget_barcode">Штрих-код</string>
+    <string name="widget_manual">Ввести</string>
 </resources>

@@ -572,5 +572,12 @@
   "Add to Quick Settings": "빠른 설정에 추가",
   "Tile added. Pull down from the top of the screen to find it.": "타일을 추가했습니다. 화면 위에서 아래로 내려 확인하세요.",
   "The tile is already in Quick Settings.": "타일이 이미 빠른 설정에 있습니다.",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "타일을 추가할 수 없습니다. 빠른 설정 편집 화면에서 추가하세요."
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "타일을 추가할 수 없습니다. 빠른 설정 편집 화면에서 추가하세요.",
+  "{0} of ~{1} kcal": "{0} / 약 {1}칼로리",
+  "{0} kcal": "{0}칼로리",
+  "Home screen widget": "홈 화면 위젯",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "오늘의 칼로리, 매크로와 빠른 기록 버튼을 홈 화면에. 세로로 늘리면 Bitey의 조언도 보입니다.",
+  "Add widget to home screen": "홈 화면에 위젯 추가",
+  "The widget is already on your home screen.": "위젯이 이미 홈 화면에 있습니다.",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "위젯을 추가할 수 없습니다. 홈 화면의 위젯 목록에서 추가하세요."
 }

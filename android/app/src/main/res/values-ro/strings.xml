@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">Poză masă</string>
+    <string name="widget_name">Azi în Bitey</string>
+    <string name="widget_empty">Deschide Bitey ca să vezi ziua de azi</string>
+    <string name="widget_description">Caloriile de azi și înregistrare rapidă</string>
+    <string name="widget_photo">Fotografie</string>
+    <string name="widget_barcode">Cod de bare</string>
+    <string name="widget_manual">Scrie</string>
 </resources>

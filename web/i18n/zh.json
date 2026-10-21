@@ -572,5 +572,12 @@
   "Add to Quick Settings": "添加到快捷设置",
   "Tile added. Pull down from the top of the screen to find it.": "图块已添加。从屏幕顶部下拉即可找到。",
   "The tile is already in Quick Settings.": "该图块已在快捷设置中。",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "无法添加图块。请改为在快捷设置编辑器中添加。"
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "无法添加图块。请改为在快捷设置编辑器中添加。",
+  "{0} of ~{1} kcal": "{0} / 约 {1} 千卡",
+  "{0} kcal": "{0} 千卡",
+  "Home screen widget": "主屏幕小组件",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "在主屏幕上显示今日热量、宏量营养素和快速记录按钮。调高后可查看 Bitey 的建议。",
+  "Add widget to home screen": "将小组件添加到主屏幕",
+  "The widget is already on your home screen.": "该小组件已在主屏幕上。",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "无法添加小组件。请改为从主屏幕的小组件列表中添加。"
 }

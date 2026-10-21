@@ -584,5 +584,12 @@
   "Add to Quick Settings": "Adaugă în Setări rapide",
   "Tile added. Pull down from the top of the screen to find it.": "Buton adăugat. Trage în jos din partea de sus a ecranului ca să-l găsești.",
   "The tile is already in Quick Settings.": "Butonul e deja în Setări rapide.",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "Butonul nu a putut fi adăugat. Adaugă-l din editorul Setărilor rapide."
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "Butonul nu a putut fi adăugat. Adaugă-l din editorul Setărilor rapide.",
+  "{0} of ~{1} kcal": "{0} din ~{1} kcal",
+  "{0} kcal": "{0} kcal",
+  "Home screen widget": "Widget pentru ecranul principal",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "Caloriile, macronutrienții de azi și butoane de înregistrare rapidă pe ecranul principal. Fă-l mai înalt ca să vezi sfaturile lui Bitey.",
+  "Add widget to home screen": "Adaugă widgetul pe ecranul principal",
+  "The widget is already on your home screen.": "Widgetul e deja pe ecranul principal.",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "Widgetul nu a putut fi adăugat. Adaugă-l din lista de widgeturi a ecranului principal."
 }

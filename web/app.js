@@ -1073,6 +1073,7 @@ async function loadDay() {
   renderEntries(data.entries);
   await loadQuickBites();
   updateBiteyCompanion(data.summary, data.split, data.entries);
+  syncWidget(data.summary, data.split, data.entries);
 }
 
 $('quick-bite-chips')?.addEventListener('click', async (ev) => {
@@ -4503,6 +4504,22 @@ if (window.__PLATE_NATIVE__) {
   $('native-ai-purchases').hidden = false;
   syncAiConsentControls();
 
+  // The Today widget. The launcher shows its own prompt and places nothing
+  // without a yes, so a request needs no message of its own.
+  if (window.PlateNative?.canPinWidget?.()) {
+    const pinButton = $('widget-pin');
+    $('native-widget').hidden = false;
+    window.__plateNativeWidgetPinResult = (result) => {
+      pinButton.disabled = false;
+      if (result === 'already') toast(t('The widget is already on your home screen.'));
+      else if (result !== 'requested') toast(t('Could not add the widget. Add it from your home screen’s widget list instead.'));
+    };
+    pinButton.addEventListener('click', () => {
+      pinButton.disabled = true;
+      window.PlateNative.pinWidget();
+    });
+  }
+
   // The Meal photo tile. Android shows its own prompt and adds nothing
   // without a yes, so a "no" needs no message here.
   if (window.PlateNative?.canAddQuickTile?.()) {
@@ -4619,6 +4636,89 @@ if (!window.__PLATE_NATIVE__) {
       importButton.disabled = false;
     }
   });
+}
+
+/**
+ * The Android home-screen widget shows today as this page last drew it.
+ *
+ * Native code cannot work out the burn estimate, which lives here, so the page
+ * hands over the finished figures and the words to show, already in the
+ * chosen language. Only today is sent: browsing to last Tuesday must not put
+ * Tuesday on the home screen. "fresh" is the line for a new day, which the
+ * widget shows on its own after midnight, before Bitey is next opened -- a
+ * correct 0, since meals are only logged here.
+ */
+function syncWidget(summary, split = null, entries = []) {
+  if (typeof window.PlateNative?.setWidgetSnapshot !== 'function') return;
+  if (state.day !== localDayKey()) return;
+  const totals = summary.totals || {};
+  const kcal = Math.round(totals.calories || 0);
+  const burn = summary.maintenance?.kcal ? Math.round(summary.maintenance.kcal) : null;
+  const line = (n) => (burn ? t('{0} of ~{1} kcal', n, burn) : t('{0} kcal', n));
+  // Bitey's macro advice, worked out exactly as the card does. Not read from
+  // the card: just after a save the card is busy celebrating and has no
+  // advice yet. The greeting when there is none. Only a large widget shows it.
+  const rec = getMacroRecommendation({
+    totals: summary?.totals,
+    split,
+    diet: state.me?.profile?.diet || 'omnivore',
+    dietaryGoal: state.me?.profile?.dietaryGoal || 'balanced',
+    entriesCount: entries?.length ?? 0,
+    weightKg: state.me?.weightUsedKg || state.me?.profile?.weightKg || null
+  });
+  const greeting = t('Rawr! What are we eating today? Log your meals and Bitey will watch your macros!');
+  const mood = rec?.mood || 'happy';
+  window.PlateNative.setWidgetSnapshot(JSON.stringify({
+    day: state.day,
+    kcal,
+    burn,
+    protein: totals.protein || 0,
+    carbs: totals.carbs || 0,
+    fat: totals.fat || 0,
+    fiber: totals.fiber || 0,
+    mood,
+    text: {
+      today: t('Today'),
+      eaten: line(kcal),
+      fresh: line(0),
+      photo: t('Photo'),
+      barcode: t('Barcode'),
+      manual: t('Type'),
+      protein: t('Protein'),
+      carbs: t('Carbs'),
+      fat: t('Fat'),
+      fiber: t('Fiber'),
+      advice: recText(rec) || greeting,
+      greeting
+    }
+  }));
+  void syncWidgetBitey(mood);
+}
+
+let widgetBiteyMood = null;
+
+/**
+ * Bitey's face for the widget, drawn from the same SVG the card uses and
+ * handed over as a PNG: a widget cannot draw SVG. Sent only when the mood
+ * changes, since it is the one sizeable thing the widget is given.
+ */
+async function syncWidgetBitey(mood) {
+  if (mood === widgetBiteyMood || typeof window.PlateNative?.setWidgetBitey !== 'function') return;
+  try {
+    const url = URL.createObjectURL(new Blob([getBiteySvg(mood)], { type: 'image/svg+xml' }));
+    const img = new Image(258, 198);
+    img.src = url;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = 258;
+    canvas.height = 198;
+    canvas.getContext('2d').drawImage(img, 0, 0, 258, 198);
+    URL.revokeObjectURL(url);
+    window.PlateNative.setWidgetBitey(canvas.toDataURL('image/png').split(',')[1]);
+    widgetBiteyMood = mood;
+  } catch {
+    // The widget keeps its last face; the words still change.
+  }
 }
 
 /** Keep Android's stable native action bar in the same language as the page. */

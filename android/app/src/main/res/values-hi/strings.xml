@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">भोजन फ़ोटो</string>
+    <string name="widget_name">आज Bitey में</string>
+    <string name="widget_empty">आज देखने के लिए Bitey खोलें</string>
+    <string name="widget_description">आज की कैलोरी और तुरंत दर्ज करें</string>
+    <string name="widget_photo">फ़ोटो</string>
+    <string name="widget_barcode">बारकोड</string>
+    <string name="widget_manual">लिखें</string>
 </resources>

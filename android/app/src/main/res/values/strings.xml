@@ -2,4 +2,12 @@
 <resources>
     <!-- The Quick Settings tile: one or two words, it is cut short past ~14 characters. -->
     <string name="tile_photo">Meal photo</string>
+    <!-- The home-screen widget: its picker name, the line before Bitey has
+         sent any figures, and the picker description. -->
+    <string name="widget_name">Today in Bitey</string>
+    <string name="widget_empty">Open Bitey to see today</string>
+    <string name="widget_description">Today’s calories and quick logging</string>
+    <string name="widget_photo">Photo</string>
+    <string name="widget_barcode">Barcode</string>
+    <string name="widget_manual">Type</string>
 </resources>

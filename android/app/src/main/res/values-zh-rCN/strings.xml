@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">餐食照片</string>
+    <string name="widget_name">Bitey 今日</string>
+    <string name="widget_empty">打开 Bitey 查看今天</string>
+    <string name="widget_description">今日热量与快速记录</string>
+    <string name="widget_photo">照片</string>
+    <string name="widget_barcode">条码</string>
+    <string name="widget_manual">输入</string>
 </resources>

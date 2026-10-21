@@ -2,6 +2,7 @@ package com.zandaulion.bitey
 
 import android.Manifest
 import android.app.StatusBarManager
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -356,6 +357,12 @@ class MainActivity : ComponentActivity() {
                     else plateWebView.deliverQuickTileResult("failed")
                 }
             },
+            onWidgetSnapshot = { json -> TodayWidget.save(applicationContext, json) },
+            onWidgetBitey = { png -> TodayWidget.saveBitey(applicationContext, png) },
+            widgetPinSupported = {
+                AppWidgetManager.getInstance(this).isRequestPinAppWidgetSupported
+            },
+            onWidgetPinRequested = { runOnUiThread { requestWidgetPin() } },
             onFileChooserRequested = ::showFileChooser,
         )
         val root = FrameLayout(this)
@@ -416,7 +423,7 @@ class MainActivity : ComponentActivity() {
             statusBar.requestAddTileService(
                 ComponentName(this, PhotoTileService::class.java),
                 getString(R.string.tile_photo),
-                Icon.createWithResource(this, R.drawable.ic_action_photo),
+                Icon.createWithResource(this, R.drawable.ic_tile_bitey),
                 mainExecutor,
             ) { code ->
                 plateWebView.deliverQuickTileResult(
@@ -429,6 +436,23 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }.onFailure { plateWebView.deliverQuickTileResult("failed") }
+    }
+
+    /**
+     * Asks the launcher to place the Today widget. The launcher shows its own
+     * prompt and nothing is placed without a yes; one already on the home
+     * screen is reported rather than doubled.
+     */
+    private fun requestWidgetPin() {
+        val manager = AppWidgetManager.getInstance(this)
+        val provider = ComponentName(this, TodayWidget::class.java)
+        val result = when {
+            manager.getAppWidgetIds(provider).isNotEmpty() -> "already"
+            !manager.isRequestPinAppWidgetSupported -> "failed"
+            runCatching { manager.requestPinAppWidget(provider, null, null) }.getOrDefault(false) -> "requested"
+            else -> "failed"
+        }
+        plateWebView.deliverWidgetPinResult(result)
     }
 
     private fun runLaunchAction(intent: Intent?) {

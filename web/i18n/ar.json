@@ -572,5 +572,12 @@
   "Add to Quick Settings": "إضافة إلى الإعدادات السريعة",
   "Tile added. Pull down from the top of the screen to find it.": "تمت إضافة المربع. اسحب من أعلى الشاشة للعثور عليه.",
   "The tile is already in Quick Settings.": "المربع موجود بالفعل في الإعدادات السريعة.",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "تعذّرت إضافة المربع. أضفه من محرر الإعدادات السريعة بدلًا من ذلك."
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "تعذّرت إضافة المربع. أضفه من محرر الإعدادات السريعة بدلًا من ذلك.",
+  "{0} of ~{1} kcal": "{0} من ~{1} سعر حراري",
+  "{0} kcal": "{0} سعر حراري",
+  "Home screen widget": "أداة الشاشة الرئيسية",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "سعرات اليوم والمغذيات وأزرار التسجيل السريع على شاشتك الرئيسية. كبّرها لرؤية نصائح Bitey.",
+  "Add widget to home screen": "إضافة الأداة إلى الشاشة الرئيسية",
+  "The widget is already on your home screen.": "الأداة موجودة بالفعل على شاشتك الرئيسية.",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "تعذّرت إضافة الأداة. أضفها من قائمة الأدوات في الشاشة الرئيسية بدلًا من ذلك."
 }

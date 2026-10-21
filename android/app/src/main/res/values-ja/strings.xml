@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">食事の写真</string>
+    <string name="widget_name">今日の Bitey</string>
+    <string name="widget_empty">Bitey を開いて今日の記録を表示</string>
+    <string name="widget_description">今日のカロリーとすばやい記録</string>
+    <string name="widget_photo">写真</string>
+    <string name="widget_barcode">バーコード</string>
+    <string name="widget_manual">入力</string>
 </resources>

@@ -572,5 +572,12 @@
   "Add to Quick Settings": "क्विक सेटिंग में जोड़ें",
   "Tile added. Pull down from the top of the screen to find it.": "टाइल जोड़ दी गई। इसे देखने के लिए स्क्रीन के ऊपर से नीचे खींचें।",
   "The tile is already in Quick Settings.": "टाइल पहले से क्विक सेटिंग में है।",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "टाइल नहीं जोड़ी जा सकी। इसे क्विक सेटिंग एडिटर से जोड़ें।"
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "टाइल नहीं जोड़ी जा सकी। इसे क्विक सेटिंग एडिटर से जोड़ें।",
+  "{0} of ~{1} kcal": "~{1} में से {0} किलो कैलोरी",
+  "{0} kcal": "{0} किलो कैलोरी",
+  "Home screen widget": "होम स्क्रीन विजेट",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "आज की कैलोरी, मैक्रो और तुरंत दर्ज करने के बटन आपकी होम स्क्रीन पर। Bitey की सलाह देखने के लिए इसे लंबा करें।",
+  "Add widget to home screen": "होम स्क्रीन पर विजेट जोड़ें",
+  "The widget is already on your home screen.": "विजेट पहले से आपकी होम स्क्रीन पर है।",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "विजेट नहीं जोड़ा जा सका। इसे होम स्क्रीन की विजेट सूची से जोड़ें।"
 }

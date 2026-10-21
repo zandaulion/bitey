@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">Foto comida</string>
+    <string name="widget_name">Hoy en Bitey</string>
+    <string name="widget_empty">Abre Bitey para ver el día de hoy</string>
+    <string name="widget_description">Calorías de hoy y registro rápido</string>
+    <string name="widget_photo">Foto</string>
+    <string name="widget_barcode">Código de barras</string>
+    <string name="widget_manual">Escribir</string>
 </resources>

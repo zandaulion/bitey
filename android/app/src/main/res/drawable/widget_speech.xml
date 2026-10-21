@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bitey's speech bubble on the widget, in the app's soft accent colour. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_speech" />
+    <corners android:radius="14dp" />
+</shape>

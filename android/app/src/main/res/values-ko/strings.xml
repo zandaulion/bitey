@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="tile_photo">식사 사진</string>
+    <string name="widget_name">오늘의 Bitey</string>
+    <string name="widget_empty">Bitey를 열어 오늘 기록을 확인하세요</string>
+    <string name="widget_description">오늘의 칼로리와 빠른 기록</string>
+    <string name="widget_photo">사진</string>
+    <string name="widget_barcode">바코드</string>
+    <string name="widget_manual">입력</string>
 </resources>

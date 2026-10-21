@@ -31,13 +31,28 @@ the log continues to work locally without an account.
   Type (`LaunchActions.kt`). They are dynamic shortcuts, published whenever the
   page sends its action-bar labels, so they follow the language chosen in
   Bitey, and the debug build (a different package) gets its own.
-- **A "Meal photo" Quick Settings tile** (`PhotoTileService.kt`) opens Bitey
-  ready for a photo. It reuses a running Bitey through `onNewIntent` and asks
+- **A "Meal photo" Quick Settings tile** (`PhotoTileService.kt`), drawn as
+  Bitey's head (`ic_tile_bitey.xml`), opens Bitey ready for a photo. It reuses a running Bitey through `onNewIntent` and asks
   for an unlock first on a locked phone. Its name comes from the app's string
   resources, so it follows the phone's language.
 - **Settings → Quick Settings** asks Android to add the tile
   (`StatusBarManager.requestAddTileService`, Android 13 and later; Android
   shows its own prompt). On older versions the section stays hidden.
+
+- **A "Today in Bitey" home-screen widget** (`TodayWidget.kt`, 4x2 by
+  default): today's total as a large number against what you burn, a bar of
+  protein, carbs and fat by energy, a legend with fibre, and Photo, Barcode
+  and Type buttons. At one row it keeps only the buttons; from about three
+  rows it adds Bitey, in the mood the app last drew, with his macro advice.
+  The burn estimate and the advice live in the page, so the page sends a
+  snapshot (figures and words, already translated) whenever it draws today,
+  plus Bitey's face as a PNG when his mood changes. Meals are only logged in
+  Bitey, so after midnight the widget shows 0 for the new day on its own
+  (it is refreshed every 30 minutes) and the greeting instead of yesterday's
+  advice. No entries or foods reach the widget, only the day's totals.
+- **Settings → Home screen widget** asks the launcher to place it
+  (`requestPinAppWidget`; the launcher shows its own prompt) and says so if
+  one is already there.
 
 Every route hands its action to the page exactly as the native action bar
 does, so Photo and Gallery still pass the Bitey AI entitlement gate. An action

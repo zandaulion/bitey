@@ -574,5 +574,12 @@
   "Add to Quick Settings": "Adicionar às Configurações rápidas",
   "Tile added. Pull down from the top of the screen to find it.": "Bloco adicionado. Puxe do topo da tela para encontrá-lo.",
   "The tile is already in Quick Settings.": "O bloco já está nas Configurações rápidas.",
-  "Could not add the tile. Add it from the Quick Settings editor instead.": "Não foi possível adicionar o bloco. Adicione-o pelo editor das Configurações rápidas."
+  "Could not add the tile. Add it from the Quick Settings editor instead.": "Não foi possível adicionar o bloco. Adicione-o pelo editor das Configurações rápidas.",
+  "{0} of ~{1} kcal": "{0} de ~{1} kcal",
+  "{0} kcal": "{0} kcal",
+  "Home screen widget": "Widget da tela inicial",
+  "Today's calories, macros and quick logging buttons on your home screen. Make it taller to see Bitey's advice.": "As calorias, macros de hoje e o registro rápido na sua tela inicial. Deixe-o mais alto para ver as dicas do Bitey.",
+  "Add widget to home screen": "Adicionar widget à tela inicial",
+  "The widget is already on your home screen.": "O widget já está na sua tela inicial.",
+  "Could not add the widget. Add it from your home screen’s widget list instead.": "Não foi possível adicionar o widget. Adicione-o pela lista de widgets da tela inicial."
 }
