@@ -10,23 +10,25 @@ They share UI/calculation code but have different storage, accounts, network and
 AI/billing paths. The project was previously called Plate; internal package names
 and compatibility routes may retain that name.
 
-[Project overview](https://zandaulion.com/plate.html) · [PWA setup](#run-the-pwa-locally)
-· [Android guide](android/README.md) · [Design and implementation](DESIGN.md)
+[Project overview](https://zandaulion.com/plate.html) · [Get it on Google Play](https://play.google.com/store/apps/details?id=com.zandaulion.bitey)
+· [PWA setup](#run-the-pwa-locally) · [Android guide](android/README.md) · [Design and implementation](DESIGN.md)
 · [Security](SECURITY.md)
 
 ## Choose a platform
 
 | | Self-hosted PWA | Android |
 | --- | --- | --- |
-| Setup | Node.js server and private configuration | Android SDK/Gradle; see the native guide |
+| Setup | Node.js server and private configuration | Install from Google Play, or build from source (Android SDK/Gradle; see the native guide) |
 | Data | SQLite and photos on your server | App-private local data; see native storage boundaries |
 | Access | Device invitations and account recovery | Local diary; separate optional premium AI entitlement |
 | AI | Optional server-side provider key | Native entitlement/backend path described in the Android guide |
-| Distribution | Deploy your own HTTPS origin | Source and store materials; follow native release prerequisites |
+| Distribution | Deploy your own HTTPS origin | [Google Play](https://play.google.com/store/apps/details?id=com.zandaulion.bitey), in production; Bitey AI is an optional subscription |
 
-Do not assume a PWA account/database migrates automatically into the Android app.
-The native guide records implemented functionality and outstanding release work;
-this README does not claim a public Android release is available.
+The Android app is available on [Google Play](https://play.google.com/store/apps/details?id=com.zandaulion.bitey); the diary, food search,
+barcodes and weight work without an account, and Bitey AI (photo and description
+estimates) is an optional subscription. Do not assume a PWA account/database
+migrates automatically into the Android app. The native guide records implemented
+functionality and how releases are built.
 
 ## Run the PWA locally
 
