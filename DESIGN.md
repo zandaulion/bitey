@@ -332,24 +332,46 @@ expenditure = mean intake - (weight slope in kg/day x 7700 kcal/kg)
 ```
 
 `core/expenditure.js` fits a least-squares line through the weight readings,
-takes the mean of logged intake, and reports the result **with a band** built
+takes the mean of logged intake, and works out how sure that measurement is
 from three independent errors combined in quadrature: the mean of a noisy
 intake estimate, the uncertainty in the weight slope, and the energy density of
 the tissue being gained or lost (7,700 kcal/kg is an approximation — fat is
 nearer 9,400, lean tissue far less because it is mostly water).
 
-On a simulated user with a true expenditure of 2,500 kcal and a deliberately
-wobbly scale, it returns **2,487 (2,260–2,713)**, while Mifflin-St Jeor says
-2,759. Both numbers are shown, because a large disagreement between them is
-itself information — usually that intake is being under-logged.
+**The window grows to six weeks and then rolls.** Scale weight swings by a
+kilogram or two between mornings, and over four weeks a few heavy mornings near
+either end moved the answer by hundreds of kcal. A trend's uncertainty falls
+steeply with the span it is fitted over, so the window is now up to 42 days,
+counted from the first logged day: a new user still gets a measurement after
+two weeks, and the window keeps growing until it reaches six. Today is left
+out, because a day still being eaten is not a low-intake day.
+
+**The formula is weighed in, not thrown away.** The measurement and
+Mifflin-St Jeor are two independent readings of the same quantity, so each
+counts in proportion to how sure it is (the formula at ±10%). Early on the
+weight trend is barely known and the formula carries the figure; as the weeks
+add up the measurement takes it over. Without this the figure jumped from
+formula to raw measurement on the day the requirements were met, and its range
+widened instead of narrowing. The range shown is one standard deviation, the
+same reading of "likely" as the formula's own band. The detail view says how
+much the formula still counts.
+
+On a simulated user with a true expenditure of 2,500 kcal, a deliberately
+wobbly scale, and a formula that says 2,759, the figure moves from **2,775
+(2,570–2,979)** at two weeks, when the formula still counts for over half, to
+**2,584 (2,452–2,715)** at four and **2,530 (2,442–2,617)** at six, by then 90%
+measurement. The formula is shown alongside throughout, because a large
+disagreement between the two is itself information — usually that intake is
+being under-logged.
 
 **It refuses rather than guessing.** A measurement needs 14 logged days, 75%
-coverage of the 28-day window, and 6 weigh-ins spanning a fortnight. Coverage
-is the strict one and deliberately so: weight change reflects *every* day in
-the window, but mean intake can only be taken over the days that were logged,
-so using it assumes the missing days resembled the logged ones — and missed
-days are disproportionately the unusual meals. Below the threshold it falls
-back to the formula, labelled as such, and says exactly what is still needed.
+coverage of the days since logging began, and 6 weigh-ins spanning a
+fortnight. Coverage is the strict one and deliberately so: weight change
+reflects *every* day in the window, but mean intake can only be taken over the
+days that were logged, so using it assumes the missing days resembled the
+logged ones — and missed days are disproportionately the unusual meals. Below
+the threshold it falls back to the formula, labelled as such, and says exactly
+what is still needed.
 
 A day under 400 kcal is treated as partly logged and dropped, not as a day of
 near-fasting. Averaging those in would drag mean intake down and inflate
@@ -392,7 +414,9 @@ line. The dots are there to show that the scale really does jump around, which
 is the argument against reacting to any single morning. The line is the fit
 rather than a moving average because the fit is what the expenditure figure was
 computed from; drawing a different smoother would put a line on screen that
-disagrees with the number beside it.
+disagrees with the number beside it. For the same reason it is fitted over the
+estimate's own window and drawn only across it: older readings stay as dots,
+and the caption says since when ("17 weigh-ins since 2 Sep").
 
 ## Correcting what the model saw
 
@@ -498,9 +522,10 @@ receive says the app does not track anything.
 Tapping the totals card opens two charts over a shared date axis, at 14, 30 or
 90 days.
 
-**Weight** — readings as dots, the least-squares fit as the line. The same fit
-the expenditure figure is computed from, so the picture and the number cannot
-disagree.
+**Weight** — readings as dots, the least-squares fit over the chosen range as
+the line. This is the long view, so it follows the range rather than the
+estimate's six-week window; the chart in You is the one that matches the burn
+figure.
 
 The readings are drawn from the very first one. Only a genuinely empty range
 shows nothing: withholding the chart until a trend can be fitted hides

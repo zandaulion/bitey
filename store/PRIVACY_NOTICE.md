@@ -1,6 +1,6 @@
 # Bitey — Private Food Log: Privacy Policy
 
-**Last updated:** 10 October 2026
+**Last updated:** 21 October 2026
 **Developer:** Zandaulion
 **Privacy contact:** **zandaulion@gmail.com**
 
@@ -105,9 +105,11 @@ counter for each subscription and day: a one-way hash of the purchase token,
 the date, and the number of readings used. The token itself is not stored. The
 counters are held in Belgium too, and each is deleted automatically seven days
 after its day ends. The server’s
-own logs record technical details — the hash, token counts, and whether a
-request succeeded — but not the photograph, a description, your correction,
-or the estimate.
+own logs record technical details — the hash, token counts, whether a request
+succeeded, and, when Bitey AI turns a reading down, the reason (for example
+"no food found") and whether it was a photo, a description or a leftovers
+check — but not the photograph, a description, your correction, or the
+estimate.
 Separately, Google Cloud keeps standard request logs for the server, which
 record each request’s IP address, time, and outcome, for 30 days. Bitey does
 not use them to work out where you are.

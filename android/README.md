@@ -10,7 +10,8 @@ Implemented local-first slices:
    diary-entry metadata live in an app-private Room database. Attached photo
    bytes remain in the WebView's private IndexedDB, keyed by their entry, so
    the bridge never copies a large image payload into Room.
-2. CameraX + bundled ML Kit decode EAN, UPC and Code 128 barcodes on-device.
+2. CameraX + zxing-cpp decode EAN, UPC and Code 128 barcodes on-device, with
+   no network access and no telemetry (it replaced Google's ML Kit).
 3. Barcode cache records live in an app-private Room database, outside the
    WebView. A local cache hit works offline. On a miss, each direct Open Food Facts
    lookup has an explicit consent prompt; no request is relayed through Firebase
@@ -23,6 +24,25 @@ Google Play Billing 9.1 to restore and acknowledge the `bitey_ai` subscription
 on the user's Google Play account. All camera, gallery, correction, leftovers,
 shared-photo and text-description paths ask the same native entitlement gate first. The rest of
 the log continues to work locally without an account.
+
+## Quick ways in
+
+- **Long-press shortcuts** on the launcher icon: Photo, Gallery, Barcode and
+  Type (`LaunchActions.kt`). They are dynamic shortcuts, published whenever the
+  page sends its action-bar labels, so they follow the language chosen in
+  Bitey, and the debug build (a different package) gets its own.
+- **A "Meal photo" Quick Settings tile** (`PhotoTileService.kt`) opens Bitey
+  ready for a photo. It reuses a running Bitey through `onNewIntent` and asks
+  for an unlock first on a locked phone. Its name comes from the app's string
+  resources, so it follows the phone's language.
+- **Settings → Quick Settings** asks Android to add the tile
+  (`StatusBarManager.requestAddTileService`, Android 13 and later; Android
+  shows its own prompt). On older versions the section stays hidden.
+
+Every route hands its action to the page exactly as the native action bar
+does, so Photo and Gallery still pass the Bitey AI entitlement gate. An action
+that arrives before the page has loaded waits for the labels message and runs
+once; a rotation or a process restore does not repeat it.
 
 ## Play Billing launch checklist
 
@@ -72,6 +92,13 @@ instead of creating an unsigned AAB when those private inputs are absent.
 
 The interface assets are synchronised automatically by the Gradle
 `syncPlateAssets` task, so UI tuning in `web/` remains the source of truth.
+
+Release builds run **R8** (shrinking, optimisation and obfuscation) since
+1.1.3; the bundle went from 12.2 MB to 7.95 MB. `proguard-rules.pro` keeps the
+bridge's `@JavascriptInterface` methods, which the page calls by name. The
+mapping file travels inside the bundle
+(`BUNDLE-METADATA/com.android.tools.build.obfuscation/proguard.map`) and Play
+reads it on upload, so there is no separate mapping upload.
 
 ## Toolchain
 
