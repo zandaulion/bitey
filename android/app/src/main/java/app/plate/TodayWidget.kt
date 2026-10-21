@@ -88,9 +88,12 @@ class TodayWidget : AppWidgetProvider() {
             val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 110)
             val widthDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, 250)
 
-            // One row of height has room for the buttons only, so it gets a
-            // layout of its own rather than a squeezed copy of the full one.
-            val compact = heightDp < 90
+            // One row has room for the buttons only, so it gets a layout of its
+            // own rather than a clipped copy of the full one. The full layout
+            // needs about 175dp; a row is not a fixed height (One UI reports
+            // 100dp for one, 223dp for two on a Fold4 cover screen), so the
+            // line sits between them rather than at a guess of one row.
+            val compact = heightDp < 160
             val views = RemoteViews(
                 context.packageName,
                 if (compact) R.layout.widget_today_small else R.layout.widget_today,
