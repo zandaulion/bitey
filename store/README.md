@@ -23,7 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.1.5** (`versionCode` 22): the "Today in Bitey"
+**1.1.5** (`versionCode` 22) was uploaded to production on 21 October 2026
+and is under review: the "Today in Bitey"
 home-screen widget (today's calories against the burn, macros and fibre,
 Photo/Barcode/Type buttons, and Bitey's advice when made taller), a Settings
 button that places it, and Bitey's head on the Meal photo tile. Its release
@@ -232,9 +233,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.5** (`versionCode` 22), not yet uploaded
+- Current source version: **1.1.5** (`versionCode` 22), in production review
 - Production: **1.1.4** (`versionCode` 21)
-- Next upload artifact: `bitey-private-food-log-1.1.5.aab`
+- Last upload artifact: `bitey-private-food-log-1.1.5.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
