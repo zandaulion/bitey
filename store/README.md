@@ -23,8 +23,7 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.6** (`versionCode` 23) was uploaded to production on 22 October 2026
-and is under review: the Today widget fits every
+**1.1.6** (`versionCode` 23) is live in production: the Today widget fits every
 launcher and grid. It hands the launcher all its layouts and the launcher
 shows the largest that fits, with icon-only buttons when narrow; on HyperOS's
 4x6 grid it had overflowed, and on the Moto launcher shrunk to buttons only.
@@ -245,8 +244,7 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.6** (`versionCode` 23), in production review
-- Production: **1.1.5** (`versionCode` 22)
+- Current source version: **1.1.6** (`versionCode` 23), live in production
 - Last upload artifact: `bitey-private-food-log-1.1.6.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
