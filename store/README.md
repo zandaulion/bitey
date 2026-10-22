@@ -30,6 +30,11 @@ shows the largest that fits, with icon-only buttons when narrow; on HyperOS's
 Its release notes are in `RELEASE_NOTES_1.1.6.md`, with the paste-ready tagged
 form in `release-notes-1.1.6.xml`.
 
+- 1.1.6 file SHA-256: `406E4554CEFC19C0952B2651ABA74EFC8236E7E7CEAD954A22F15B3F06D5B8D4`
+  (built 22 October 2026, 10:18, on the Lenovo from fe814c7; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
+  service and widget class names and every bridge method the page calls.
+
 Before it, **1.1.5** (`versionCode` 22) went live in production: the "Today in Bitey"
 home-screen widget (today's calories against the burn, macros and fibre,
 Photo/Barcode/Type buttons, and Bitey's advice when made taller), a Settings
