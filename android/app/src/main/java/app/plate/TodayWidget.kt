@@ -15,8 +15,10 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.util.SizeF
 import android.view.View
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -82,59 +84,119 @@ class TodayWidget : AppWidgetProvider() {
             ids.forEach { draw(context, manager, it) }
         }
 
+        private enum class Size { SMALL, MEDIUM, FULL, LARGE }
+
+        /** The smallest width at which button labels fit beside their icons.
+         * Narrower (three columns), a cut label ("P…") says less than none, so
+         * the icons stay and the words move to what a screen reader announces. */
+        private const val LABELS_FROM_DP = 300f
+
+        /** The least height each layout needs, wide and narrow: narrow, the
+         * legend and Bitey's advice wrap onto more lines, so the same layout
+         * needs more height. Rows are not a fixed height (One UI: 100dp for
+         * one, 223dp for two on a Fold4 cover screen; HyperOS: about 180dp for
+         * two on a 4x6 grid; Moto: about 280dp for two). */
+        private fun minHeightDp(size: Size, narrow: Boolean): Float = when (size) {
+            Size.SMALL -> 40f
+            // Measured on a Moto launcher: about 171dp narrow, where the legend
+            // takes two lines, so it fits HyperOS's two rows of about 180dp.
+            Size.MEDIUM -> if (narrow) 170f else 155f
+            Size.FULL -> if (narrow) 220f else 200f
+            Size.LARGE -> if (narrow) 320f else 250f
+        }
+
         private fun draw(context: Context, manager: AppWidgetManager, id: Int) {
-            val options = manager.getAppWidgetOptions(id)
-            val density = context.resources.displayMetrics.density
-            val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 110)
-            val widthDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, 250)
-
-            // One row has room for the buttons only, so it gets a layout of its
-            // own rather than a clipped copy of the full one. The full layout
-            // needs about 175dp; a row is not a fixed height (One UI reports
-            // 100dp for one, 223dp for two on a Fold4 cover screen), so the
-            // line sits between them rather than at a guess of one row.
-            val compact = heightDp < 160
-            val views = RemoteViews(
-                context.packageName,
-                if (compact) R.layout.widget_today_small else R.layout.widget_today,
-            )
-
             val snapshot = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .getString(KEY, null)?.let { runCatching { JSONObject(it) }.getOrNull() }
+            // Drawn once and shared by every layout: a widget update has to
+            // stay under Binder's 1MB, and identical bitmaps are sent once.
+            val today = snapshot?.optString("day") == LocalDate.now().toString()
+            val bar = snapshot?.let { bar(context, it, today) }
+            val face = biteyFile(context).takeIf { it.isFile }?.let { BitmapFactory.decodeFile(it.path) }
+
+            val views = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                // Android 12 and later: every layout, each with the least size it
+                // needs, and the launcher shows the largest that fits. Launchers
+                // report sizes differently or not at all (the Moto launcher sent
+                // none), so the widget does not try to work out its own.
+                RemoteViews(
+                    Size.values().flatMap { size ->
+                        listOf(180f, LABELS_FROM_DP).map { width ->
+                            val narrow = width < LABELS_FROM_DP
+                            SizeF(width, minHeightDp(size, narrow)) to
+                                build(context, size, narrow, snapshot, today, bar, face)
+                        }
+                    }.toMap(),
+                )
+            } else {
+                // Before 12, one layout from the size the launcher reports: the
+                // smaller of each pair (portrait and landscape), and the default
+                // 4x2 when it reports nothing.
+                val options = manager.getAppWidgetOptions(id)
+                fun smaller(a: String, b: String): Int? = listOf(options.getInt(a, 0), options.getInt(b, 0))
+                    .filter { it > 0 }.minOrNull()
+                val heightDp = smaller(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) ?: 223
+                val widthDp = smaller(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) ?: 359
+                val narrow = widthDp < LABELS_FROM_DP
+                val size = Size.values().last { heightDp >= minHeightDp(it, narrow) }
+                build(context, size, narrow, snapshot, today, bar, face)
+            }
+            manager.updateAppWidget(id, views)
+        }
+
+        private fun build(
+            context: Context, size: Size, narrow: Boolean, snapshot: JSONObject?,
+            today: Boolean, bar: Bitmap?, face: Bitmap?,
+        ): RemoteViews {
+            val compact = size == Size.SMALL
+            val views = RemoteViews(
+                context.packageName,
+                when (size) {
+                    Size.SMALL -> R.layout.widget_today_small
+                    Size.MEDIUM -> R.layout.widget_today_medium
+                    else -> R.layout.widget_today
+                },
+            )
+            for (label in intArrayOf(R.id.widget_photo_label, R.id.widget_barcode_label, R.id.widget_manual_label)) {
+                views.setViewVisibility(label, if (narrow) View.GONE else View.VISIBLE)
+            }
+
             val text = snapshot?.optJSONObject("text")
             // Until Bitey has sent anything, the layout's own words stand: the
             // widget's name, "Open Bitey to see today", and the button labels.
             if (snapshot != null && text != null) {
-                val today = snapshot.optString("day") == LocalDate.now().toString()
                 views.setTextViewText(R.id.widget_photo_label, text.optString("photo"))
                 views.setTextViewText(R.id.widget_barcode_label, text.optString("barcode"))
                 views.setTextViewText(R.id.widget_manual_label, text.optString("manual"))
+                views.setContentDescription(R.id.widget_photo, text.optString("photo"))
+                views.setContentDescription(R.id.widget_barcode, text.optString("barcode"))
+                views.setContentDescription(R.id.widget_manual, text.optString("manual"))
                 if (!compact) {
                     views.setTextViewText(R.id.widget_title, text.optString("today"))
                     views.setTextViewText(
                         R.id.widget_kcal,
-                        headline(context, text.optString(if (today) "eaten" else "fresh"), if (today) snapshot.optInt("kcal") else 0),
+                        headline(
+                            context, text.optString(if (today) "eaten" else "fresh"),
+                            if (today) snapshot.optInt("kcal") else 0,
+                            if (size == Size.MEDIUM) 1.7f else 2f,
+                        ),
                     )
-                    val barWidth = ((widthDp - 30) * density).toInt().coerceAtLeast(60)
-                    views.setImageViewBitmap(
-                        R.id.widget_bar,
-                        bar(context, snapshot, today, barWidth, (10 * density).toInt()),
-                    )
+                    if (bar != null) views.setImageViewBitmap(R.id.widget_bar, bar)
                     views.setTextViewText(R.id.widget_macros, macros(context, snapshot, text, today))
-                    // About three rows and up: Bitey and his advice. Advice from
-                    // an earlier day is about meals that are not today's, so a
-                    // new day gets the greeting until Bitey is opened.
-                    val large = heightDp >= 250
-                    views.setViewVisibility(R.id.widget_advice, if (large) View.VISIBLE else View.GONE)
-                    if (large) {
+                    // Only the full layout has the advice block; touching a
+                    // view a layout lacks fails the whole widget. Advice from an
+                    // earlier day is about meals that are not today's, so a new
+                    // day gets the greeting until Bitey is opened.
+                    if (size == Size.LARGE) {
+                        views.setViewVisibility(R.id.widget_advice, View.VISIBLE)
                         views.setTextViewText(
                             R.id.widget_advice_text,
                             text.optString(if (today) "advice" else "greeting"),
                         )
-                        val face = biteyFile(context).takeIf { it.isFile }
-                            ?.let { BitmapFactory.decodeFile(it.path) }
                         if (face != null) views.setImageViewBitmap(R.id.widget_bitey, face)
                         else views.setImageViewResource(R.id.widget_bitey, R.mipmap.ic_launcher_round)
+                    } else if (size == Size.FULL) {
+                        views.setViewVisibility(R.id.widget_advice, View.GONE)
                     }
                 }
             }
@@ -143,19 +205,19 @@ class TodayWidget : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_photo, open(context, "photo"))
             views.setOnClickPendingIntent(R.id.widget_barcode, open(context, "barcode"))
             views.setOnClickPendingIntent(R.id.widget_manual, open(context, "manual"))
-            manager.updateAppWidget(id, views)
+            return views
         }
 
         /** The day's line with its number drawn large and dark: "601" is what
          * the widget is for; "of ~1881 kcal" frames it. The words come from the
          * page in its language, so the number is found rather than assumed to
          * come first. */
-        private fun headline(context: Context, line: String, kcal: Int): CharSequence {
+        private fun headline(context: Context, line: String, kcal: Int, scale: Float): CharSequence {
             val styled = SpannableStringBuilder(line)
             val number = kcal.toString()
             val at = Regex("(?<![0-9])${number}(?![0-9])").find(line)?.range ?: return styled
             val end = at.last + 1
-            styled.setSpan(RelativeSizeSpan(2f), at.first, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            styled.setSpan(RelativeSizeSpan(scale), at.first, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             styled.setSpan(StyleSpan(Typeface.BOLD), at.first, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             styled.setSpan(
                 ForegroundColorSpan(context.getColor(R.color.widget_ink)),
@@ -177,7 +239,9 @@ class TodayWidget : AppWidgetProvider() {
                 val start = line.length
                 line.append("\u25CF")
                 line.setSpan(ForegroundColorSpan(colours[i]), start, line.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                line.append(" ${text.optString(key)} $grams g")
+                // Non-breaking within an item, so a narrow widget wraps between
+                // items and never strands a dot from its name.
+                line.append("\u00A0${text.optString(key).replace(' ', '\u00A0')}\u00A0$grams\u00A0g")
             }
             return line
         }
@@ -221,7 +285,11 @@ class TodayWidget : AppWidgetProvider() {
          * that stands for what the person burns. Past the burn the track is
          * full and a notch marks where the burn fell.
          */
-        private fun bar(context: Context, snapshot: JSONObject, today: Boolean, width: Int, height: Int): Bitmap {
+        private fun bar(context: Context, snapshot: JSONObject, today: Boolean): Bitmap {
+            // One size for every layout, stretched to fit: each layout's own
+            // width would mean a bitmap apiece, and a bar needs no more detail.
+            val width = 600
+            val height = 18
             val night = night(context)
             val track = if (night) Color.rgb(0x24, 0x35, 0x29) else Color.rgb(0xEF, 0xE9, 0xDF)
             val colours = macroColours(context)

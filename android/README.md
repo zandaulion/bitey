@@ -42,8 +42,13 @@ the log continues to work locally without an account.
 - **A "Today in Bitey" home-screen widget** (`TodayWidget.kt`, 4x2 by
   default): today's total as a large number against what you burn, a bar of
   protein, carbs and fat by energy, a legend with fibre, and Photo, Barcode
-  and Type buttons. At one row it keeps only the buttons; from about three
-  rows it adds Bitey, in the mood the app last drew, with his macro advice.
+  and Type buttons. It hands the launcher four layouts (buttons only, a
+  tightened medium, full, and full with Bitey's advice), each in a narrow
+  version with icon-only buttons and a wide one with labels, and the launcher
+  shows the largest that fits (Android 12 and later). Launchers report sizes
+  differently or not at all, so the widget does not choose for itself; rows
+  measured so far are about 223dp for two on One UI (Fold4 cover), 180dp on
+  HyperOS's 4x6 grid and 280dp on the Moto launcher.
   The burn estimate and the advice live in the page, so the page sends a
   snapshot (figures and words, already translated) whenever it draws today,
   plus Bitey's face as a PNG when his mood changes. Meals are only logged in
