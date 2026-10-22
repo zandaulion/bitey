@@ -23,7 +23,14 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.5** (`versionCode` 22) is live in production: the "Today in Bitey"
+The next upload is **1.1.6** (`versionCode` 23): the Today widget fits every
+launcher and grid. It hands the launcher all its layouts and the launcher
+shows the largest that fits, with icon-only buttons when narrow; on HyperOS's
+4x6 grid it had overflowed, and on the Moto launcher shrunk to buttons only.
+Its release notes are in `RELEASE_NOTES_1.1.6.md`, with the paste-ready tagged
+form in `release-notes-1.1.6.xml`.
+
+Before it, **1.1.5** (`versionCode` 22) went live in production: the "Today in Bitey"
 home-screen widget (today's calories against the burn, macros and fibre,
 Photo/Barcode/Type buttons, and Bitey's advice when made taller), a Settings
 button that places it, and Bitey's head on the Meal photo tile. Its release
@@ -232,8 +239,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.5** (`versionCode` 22), live in production
-- Last upload artifact: `bitey-private-food-log-1.1.5.aab`
+- Current source version: **1.1.6** (`versionCode` 23), not yet uploaded
+- Production: **1.1.5** (`versionCode` 22)
+- Next upload artifact: `bitey-private-food-log-1.1.6.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
