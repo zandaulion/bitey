@@ -255,7 +255,7 @@ dependencies {
     // read a barcode, and all of it declarable as analytics.
     implementation("io.github.zxing-cpp:android:3.1.1")
 
-    val roomVersion = "2.8.4"
+    val roomVersion = "2.8.5"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 }
