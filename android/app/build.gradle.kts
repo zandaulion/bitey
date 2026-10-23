@@ -96,8 +96,8 @@ android {
         applicationId = "com.zandaulion.bitey"
         minSdk = 26
         targetSdk = 36
-        versionCode = 23
-        versionName = "1.1.6"
+        versionCode = 24
+        versionName = "1.1.7"
         resValue("string", "app_name", "Bitey")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
