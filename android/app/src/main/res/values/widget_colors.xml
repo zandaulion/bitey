@@ -5,7 +5,7 @@
     <color name="widget_ink">#FF1C241D</color>
     <color name="widget_muted">#FF5F6E62</color>
     <color name="widget_button">#FFF1EDE4</color>
-    <color name="widget_accent">#FF2E8B57</color>
+    <color name="widget_accent">#FF287A4D</color>
     <color name="widget_accent_ink">#FFFFFFFF</color>
     <color name="widget_speech">#FFE8F5E9</color>
 </resources>

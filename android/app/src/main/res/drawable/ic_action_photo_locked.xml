@@ -19,7 +19,7 @@
          while stopping just short of the lens (whose nearest point is 5.28
          away) and inside the 24-unit frame. -->
     <path
-        android:fillColor="#FF2E8B57"
+        android:fillColor="#FF287A4D"
         android:pathData="M19,12.6a5,5 0,1 1,0,10a5,5 0,1 1,0,-10" />
     <!-- The padlock, 1.35x the original, centred in the disc: a 6.2 x 3.9
          body under a shackle 1.15 thick. -->

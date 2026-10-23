@@ -691,9 +691,11 @@ class MainActivity : ComponentActivity() {
         }
         placeIcon(image)
         background = GradientDrawable().apply {
-            setColor(if (primary) Color.rgb(46, 139, 87) else Color.WHITE)
+            // The page's --accent (#287A4D): white on it is 5.3:1, where the
+            // earlier #2E8B57 fell short of WCAG AA at 4.25:1.
+            setColor(if (primary) Color.rgb(40, 122, 77) else Color.WHITE)
             cornerRadius = dp(if (isTablet) 18 else 16).toFloat()
-            setStroke(dp(1), if (primary) Color.rgb(35, 111, 68) else Color.rgb(232, 224, 210))
+            setStroke(dp(1), if (primary) Color.rgb(32, 98, 62) else Color.rgb(232, 224, 210))
         }
         minWidth = 0
         minHeight = 0
