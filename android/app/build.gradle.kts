@@ -160,7 +160,9 @@ android {
 val plateRoot = rootProject.projectDir.parentFile
 val generatedPlateAssets = layout.buildDirectory.dir("generated/plate-assets")
 
-val syncPlateAssets by tasks.registering(Sync::class) {
+// register<Sync>(name) rather than `by tasks.registering`: Gradle 9.6
+// deprecated the delegate form, Gradle 9.8 warns on it, and Gradle 10 drops it.
+val syncPlateAssets = tasks.register<Sync>("syncPlateAssets") {
     from(plateRoot.resolve("web"))
     from(plateRoot.resolve("core")) { into("core") }
     from(plateRoot.resolve("assets/foods.sqlite")) { into("database") }
@@ -170,7 +172,8 @@ val syncPlateAssets by tasks.registering(Sync::class) {
 android.sourceSets.named("main") {
     // The copy task is wired to preBuild below, so resolving this directory at
     // configuration time does not lose its generated-asset dependency.
-    assets.srcDir(generatedPlateAssets.get().asFile)
+    // directories, not srcDir(): the Android plugin deprecated srcDir in AGP 9.
+    assets.directories.add(generatedPlateAssets.get().asFile.path)
 }
 
 tasks.named("preBuild") {
