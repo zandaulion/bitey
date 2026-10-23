@@ -14,7 +14,7 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
 import { initializeApp } from 'firebase-admin/app';
 import { getAppCheck } from 'firebase-admin/app-check';
-import logger from 'firebase-functions/logger';
+import * as logger from 'firebase-functions/logger';
 
 import { validateAnalyseRequest, isEntitled, ANALYSE_ERRORS } from './core/ai/gate.js';
 import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';

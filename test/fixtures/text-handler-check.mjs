@@ -25,7 +25,7 @@ const deps = {
   'firebase-functions/params': { defineSecret: () => ({ value: () => 'synthetic-api-key' }) },
   'firebase-admin/app': { initializeApp() {} },
   'firebase-admin/app-check': { getAppCheck: () => ({ verifyToken: async () => { if (!appCheckValid) throw Error('invalid'); } }) },
-  'firebase-functions/logger': { default: { info() {}, warn() {}, error() {} } },
+  'firebase-functions/logger': { info() {}, warn() {}, error() {} },
   './core/ai/gate.js': gate,
   './core/analysis/prompt.js': prompt,
   './core/analysis/estimate.js': estimate,

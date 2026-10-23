@@ -36,6 +36,7 @@ Use Node.js 24 or newer (`node:sqlite`), npm and `openssl`. In a fresh checkout:
 
 ```bash
 npm ci
+npm --prefix functions ci
 npm test
 umask 077
 printf 'ADMIN_TOKEN=%s\nPUBLIC_BASE_URL=http://127.0.0.1:3000\nPORT=3000\nCOOKIE_INSECURE=1\nDATA_DIR=./data\n' \
