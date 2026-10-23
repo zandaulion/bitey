@@ -26,3 +26,42 @@ jobs:
       - run: npm ci
       - run: npm --prefix functions ci
       - run: npm test
+
+  # The analyse function runs on Node 22 (functions/package.json), and its
+  # Firebase libraries need 22 or later. The job above tests on 24, which
+  # would let a 24-only feature pass here and fail in production. The rest of
+  # the suite needs 24 (node:sqlite), so this runs only the function's tests.
+  functions-node22:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: '**/package-lock.json'
+      - run: npm ci
+      - run: npm --prefix functions ci
+      - run: node --test test/firebase-sdk.test.js test/functions.test.js test/text-analysis.test.js
+
+  # A debug build of the Android app, so a change to it, or a Dependabot bump
+  # of Gradle, AGP, Kotlin or a library, is compiled before it is merged. The
+  # repository keeps only the wrapper's properties, so the Gradle version is
+  # read from there. Firebase is optional in the build (no google-services.json
+  # here) and the debug build signs with a throwaway key; nothing is published.
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - id: wrapper
+        run: echo "version=$(sed -n 's#.*/gradle-\([0-9.]*\)-bin\.zip#\1#p' android/gradle/wrapper/gradle-wrapper.properties)" >> "$GITHUB_OUTPUT"
+      - uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
+        with:
+          gradle-version: ${{ steps.wrapper.outputs.version }}
+      - run: gradle --project-dir android assembleDebug
