@@ -29,6 +29,12 @@ and in the native action bar, widget and shortcuts, plus Gradle 9.8.2, Room
 2.8.5 and KSP 2.3.12. Its release notes are in `RELEASE_NOTES_1.1.7.md`, with
 the paste-ready tagged form in `release-notes-1.1.7.xml`.
 
+- 1.1.7 file SHA-256: `B23AEE4CED831F98FDBE3938252CAA347D30DB94529471DE84DC92EA061B4C36`
+  (built 23 October 2026, 19:29, on the Lenovo from a155640; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept Room's
+  generated database classes, the tile and widget classes, and every bridge
+  method the page calls.
+
 Before it, **1.1.6** (`versionCode` 23) went live in production: the Today widget fits every
 launcher and grid. It hands the launcher all its layouts and the launcher
 shows the largest that fits, with icon-only buttons when narrow; on HyperOS's
