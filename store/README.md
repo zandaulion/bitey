@@ -32,6 +32,11 @@ retranslated in ten languages. Its release notes are in
 `RELEASE_NOTES_1.1.8.md`, with the paste-ready tagged form in
 `release-notes-1.1.8.xml`.
 
+- 1.1.8 file SHA-256: `2D8401B0F3D978D7394308AB731D766CE281DF3A2DFC17B86E767C46003ECDEA`
+  (built 25 October 2026, 11:39, on the Lenovo from 859798d; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
+  service and widget class names and every bridge method the page calls.
+
 Before it, **1.1.7** (`versionCode` 24) went live in production: stronger light-theme
 contrast (secondary text and the green buttons now pass WCAG AA), in the page
 and in the native action bar, widget and shortcuts, plus Gradle 9.8.2, Room
