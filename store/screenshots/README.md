@@ -53,10 +53,10 @@ On the Lenovo, with the debug app installed on the test phone and the files in
 
 1. Seed once: open the app, then evaluate `seed.js` in its WebView through the
    devtools socket (`node /tmp/cdp-eval.mjs "$(cat /tmp/seed.js)"`).
-2. Run `capture.sh <prefix> <width> <height> <status-bar> <nav-bar>`. It sets
+2. Run `SERIAL=<adb serial> capture.sh <prefix> <width> <height> <status-bar> <nav-bar>`. It sets
    the display to the screenshot size plus the system bars, captures the eight
    screens, and the bars are cropped off afterwards. `SHOTS="08"` takes only
-   the listed ones; `SERIAL` and `DISPLAY_ID` point it at another phone (the
+   the listed ones; `DISPLAY_ID` picks the screen on a phone with two (the
    Fold4 folded: its cover display's physical id, bars 104 and 39). The
    devtools helper it calls, `/tmp/cdp-eval.mjs`, is not kept in the repo: any
    script that sends one `Runtime.evaluate` to the first page on

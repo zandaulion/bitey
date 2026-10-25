@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Captures the Play screenshots from the debug app on a test phone, run on lenovo.
-# Usage: [SERIAL=...] [DISPLAY_ID=...] [SHOTS="08 ..."] capture.sh <prefix> <width> <height> <status-bar-px> <nav-bar-px>
-# SERIAL picks the phone (the Motorola by default) and DISPLAY_ID the screen to
+# Usage: SERIAL=... [DISPLAY_ID=...] [SHOTS="08 ..."] capture.sh <prefix> <width> <height> <status-bar-px> <nav-bar-px>
+# SERIAL picks the phone (its adb serial) and DISPLAY_ID the screen to
 # capture on a phone with two (the Fold4); SHOTS limits the run to the listed
 # numbers, and without it all eight are taken.
 set -u
-A="$HOME/Android/Sdk/platform-tools/adb -s ${SERIAL:-ZY22G9C4WG}"
+A="$HOME/Android/Sdk/platform-tools/adb -s ${SERIAL:?set SERIAL to the adb serial of the test phone}"
 P=$1; W=$2; H=$3; TOP=$4; NAV=$5
 SHOTS=${SHOTS:-01 02 03 04 05 06 07 08}
 OUT=/tmp/bitey-shots; mkdir -p $OUT
