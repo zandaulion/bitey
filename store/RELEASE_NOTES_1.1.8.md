@@ -1,0 +1,129 @@
+# Bitey 1.1.8 (`versionCode` 25) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.1.8.xml` beside this file is that paste-ready form, and
+this copy is generated from it. Play allows 500 characters per locale; the
+longest here, French, is 477.
+
+1.1.8 adds a welcome for the Android app. A first install gets a three-screen
+tour (the ways to log, with Photo tagged Bitey AI; one-tap buttons that ask
+Android to place the Today widget and the Meal photo tile, with written steps
+where the phone cannot; Duplicate, Repeat and the Bite/Handful/Snack presets
+with everyday examples; and the no-good-or-bad-foods promise beside an
+optional, on-device profile prompt). A phone that already had a diary gets a
+single what's-new screen instead. It is shown once, Back steps through it, and
+Settings reopens it. The widget pin request now passes a success callback, so
+the button says Added only when the launcher has placed the widget. Bitey's
+quotes and the day recommendations are rewritten so they encourage logging and
+never rank a food (four quotes dropped). The ar, de, es, fr, hi, ja, ko, pt,
+uk and zh catalogues are retranslated in full from what was an unreviewed
+machine pass, with the listing's form of address, real plural forms and
+runtime-assembled phrases translated as sets; Romanian gets two fixes.
+
+## English (en-US)
+
+A friendly welcome.
+
+- A short tour on first launch shows every way to log a meal: the home screen widget, the Quick Settings tile, repeating a meal, and Bite, Handful and Snack for small nibbles
+- Bitey's messages are kinder: no good foods, no bad foods. Just a log.
+- Much better translations in every language
+- See the tour again any time: Settings → Show the welcome again
+
+## Arabic (ar)
+
+ترحيب ودود.
+
+- جولة قصيرة عند أول تشغيل تعرض كل طرق تسجيل الوجبة: أداة الشاشة الرئيسية، ومربع الإعدادات السريعة، وتكرار وجبة، و«لقمة» و«حفنة» و«وجبة خفيفة» للقضمات الصغيرة
+- رسائل Bitey ألطف: لا أطعمة جيدة ولا أطعمة سيئة. مجرد سجل.
+- ترجمات أفضل بكثير في كل اللغات
+- شاهد الجولة مجددًا في أي وقت: الإعدادات ← عرض الترحيب مرة أخرى
+
+## Chinese, Simplified (zh-CN)
+
+友好的欢迎。
+
+- 首次打开时的简短导览，展示记录一餐的所有方式：主屏幕小组件、快捷设置图块、重复一餐，以及用于小零嘴的“一口”“一把”和“零食”
+- Bitey 的话更温和了：没有好食物，也没有坏食物。只是一份记录。
+- 所有语言的翻译都大幅改进
+- 随时再看导览：设置 → 再次显示欢迎页
+
+## French (fr-FR)
+
+Un accueil bienveillant.
+
+- Une courte visite au premier lancement montre toutes les façons de noter un repas : le widget de l’écran d’accueil, la vignette des Réglages rapides, répéter un repas, et Bouchée, Poignée et Collation pour les grignotages
+- Les messages de Bitey sont plus bienveillants : pas de bons ni de mauvais aliments. Juste un journal.
+- Des traductions bien meilleures dans toutes les langues
+- Revoyez la visite à tout moment : Paramètres → Revoir l'accueil
+
+## German (de-DE)
+
+Ein freundlicher Empfang.
+
+- Eine kurze Tour beim ersten Start zeigt alle Wege, eine Mahlzeit einzutragen: das Startbildschirm-Widget, die Kachel in den Schnelleinstellungen, Mahlzeiten wiederholen und Bissen, Handvoll und Snack fürs Naschen
+- Biteys Nachrichten sind freundlicher: keine guten Lebensmittel, keine schlechten. Nur ein Tagebuch.
+- Deutlich bessere Übersetzungen in allen Sprachen
+- Die Tour jederzeit wieder ansehen: Einstellungen → Begrüßung erneut zeigen
+
+## Hindi (hi-IN)
+
+दोस्ताना स्वागत।
+
+- पहली बार खोलने पर एक छोटा टूर भोजन दर्ज करने के सारे तरीके दिखाता है: होम स्क्रीन विजेट, क्विक सेटिंग टाइल, भोजन दोहराना, और थोड़ा-बहुत खाने के लिए बाइट, मुट्ठी भर और स्नैक
+- Bitey के संदेश अब और नरम हैं: न कोई अच्छा खाना, न कोई बुरा खाना। बस एक डायरी।
+- सभी भाषाओं में कहीं बेहतर अनुवाद
+- टूर कभी भी फिर से देखें: सेटिंग्स → स्वागत फिर से दिखाएँ
+
+## Japanese (ja-JP)
+
+やさしいお出迎え。
+
+- 初回起動時の短いツアーで、食事を記録するすべての方法を紹介：ホーム画面ウィジェット、クイック設定のタイル、食事の繰り返し、ちょっとした間食向けの「一口」「一握り」「間食」
+- Bitey のメッセージがやさしくなりました：いい食べ物も、悪い食べ物もありません。ただの記録です。
+- すべての言語で翻訳を大幅に改善
+- ツアーはいつでも見直せます：設定 → ようこそ画面をもう一度表示
+
+## Korean (ko-KR)
+
+따뜻한 환영.
+
+- 처음 실행할 때 짧은 둘러보기로 식사를 기록하는 모든 방법을 알려 줘요: 홈 화면 위젯, 빠른 설정 타일, 식사 반복, 그리고 작은 주전부리용 '한 입', '한 줌', '간식'
+- Bitey의 메시지가 더 다정해졌어요: 좋은 음식도 나쁜 음식도 없어요. 그냥 기록일 뿐이에요.
+- 모든 언어의 번역이 훨씬 좋아졌어요
+- 언제든 다시 보기: 설정 → 환영 화면 다시 보기
+
+## Portuguese, Brazil (pt-BR)
+
+Boas-vindas acolhedoras.
+
+- Um tour rápido na primeira abertura mostra todas as formas de registrar uma refeição: o widget da tela inicial, o bloco das Configurações rápidas, repetir uma refeição, e Mordida, Punhado e Lanche para os beliscos
+- As mensagens do Bitey estão mais gentis: nada de comida boa ou ruim. Só um registro.
+- Traduções muito melhores em todos os idiomas
+- Veja o tour de novo quando quiser: Configurações → Ver as boas-vindas de novo
+
+## Romanian (ro)
+
+Un bun venit prietenos.
+
+- Un tur scurt la prima pornire arată toate felurile de a nota o masă: widgetul pentru ecranul principal, butonul din Setări rapide, repetarea unei mese și Îmbucătură, O mână și Gustare pentru ronțăieli
+- Mesajele lui Bitey sunt mai blânde: nu există mâncare bună sau rea. Doar un jurnal.
+- Traduceri mult mai bune în toate limbile
+- Revezi turul oricând: Setări → Arată din nou bun venit
+
+## Spanish (es-ES)
+
+Una bienvenida cercana.
+
+- Un recorrido breve al abrir la app por primera vez muestra todas las formas de registrar una comida: el widget de pantalla de inicio, el icono de Ajustes rápidos, repetir una comida, y Bocado, Puñado y Merienda para picotear
+- Los mensajes de Bitey son más amables: ni comidas buenas ni comidas malas. Solo un registro.
+- Traducciones mucho mejores en todos los idiomas
+- Vuelve a ver el recorrido cuando quieras: Ajustes → Ver la bienvenida otra vez
+
+## Ukrainian (uk)
+
+Привітна зустріч.
+
+- Короткий тур під час першого запуску показує всі способи записати страву: віджет головного екрана, плитку у швидких налаштуваннях, повторення страви, а також Шматочок, Жменя і Перекус для невеликих перекусів
+- Повідомлення Bitey стали лагіднішими: немає хорошої чи поганої їжі. Лише щоденник.
+- Значно кращі переклади всіма мовами
+- Перегляньте тур будь-коли: Налаштування → Показати привітання ще раз

@@ -23,7 +23,16 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.7** (`versionCode` 24) is live in production: stronger light-theme
+The next upload is **1.1.8** (`versionCode` 25): a welcome for new users (a
+three-screen tour of the ways to log, the widget and Quick Settings tile with
+one-tap add buttons, repeating meals and quick bites, and the
+no-good-or-bad-foods promise beside an optional profile prompt), a one-screen
+"what's new" for existing users, kinder Bitey messages, and the app
+retranslated in ten languages. Its release notes are in
+`RELEASE_NOTES_1.1.8.md`, with the paste-ready tagged form in
+`release-notes-1.1.8.xml`.
+
+Before it, **1.1.7** (`versionCode` 24) went live in production: stronger light-theme
 contrast (secondary text and the green buttons now pass WCAG AA), in the page
 and in the native action bar, widget and shortcuts, plus Gradle 9.8.2, Room
 2.8.5 and KSP 2.3.12. Its release notes are in `RELEASE_NOTES_1.1.7.md`, with
@@ -256,8 +265,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.7** (`versionCode` 24), live in production
-- Last upload artifact: `bitey-private-food-log-1.1.7.aab`
+- Current source version: **1.1.8** (`versionCode` 25), not yet uploaded
+- Production: **1.1.7** (`versionCode` 24)
+- Next upload artifact: `bitey-private-food-log-1.1.8.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
