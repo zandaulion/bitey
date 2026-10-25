@@ -23,7 +23,7 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.1.8** (`versionCode` 25): a welcome for new users (a
+**1.1.8** (`versionCode` 25) is live in production: a welcome for new users (a
 three-screen tour of the ways to log, the widget and Quick Settings tile with
 one-tap add buttons, repeating meals and quick bites, and the
 no-good-or-bad-foods promise beside an optional profile prompt), a one-screen
@@ -270,9 +270,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.8** (`versionCode` 25), not yet uploaded
-- Production: **1.1.7** (`versionCode` 24)
-- Next upload artifact: `bitey-private-food-log-1.1.8.aab`
+- Current source version: **1.1.8** (`versionCode` 25), live in production
+- Last upload artifact: `bitey-private-food-log-1.1.8.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do
