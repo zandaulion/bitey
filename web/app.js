@@ -773,63 +773,59 @@ function celebrateEntry() {
 }
 
 const BITEY_QUOTES = [
-  "Rawr means I love healthy food in dinosaur! 🦕",
+  "Rawr means \"what's for lunch?\" in dinosaur! 🦕",
   "Spendosaurus counts the pennies, I count the calories! 🦖",
   "A little graze here, a little graze there... it all counts! 🍏",
-  "Hydration check! Have you had water today? 💧",
-  "Protein makes dino muscles strong! 💪🌿",
-  "Honest logging is the secret to real progress! ✨",
+  "Protein, carbs, fats: dinosaurs ran on all three! 🦕",
+  "A rough log is still a useful log! ✨",
   "I'm a herbivore, but I respect the macros! 🥗",
   "Back in the Jurassic, we didn't have barcode scanners. We just nibbled trees! 🌲",
-  "T-Rex skips arm day, but Bitey never skips meal logging! 🦖",
-  "Brachiosaurus was 40 tons of pure plant-powered gains! 🌿",
-  "Meteor showers? Scary. Forgetting to log olive oil? Even scarier! 🫒",
+  "T-Rex skips arm day. Missed logging a meal? You can always add it later! 🦖",
+  "Brachiosaurus weighed 40 tons and never counted a single calorie. Show-off. 🌿",
+  "Tip: oil and dressing hide from cameras. Mention them and Bitey counts them! 🫒",
   "Dinosaurs roamed for 165 million years, so take your time and build great habits! ⏳",
   "Fossil record confirms: you're doing fantastic today! 🦴✨",
-  "Pterodactyls fly high, but your nutritional consistency is higher! 🦅",
-  "Prehistoric wisdom: a balanced plate prevents extinction! 🍽️",
-  "Herbivore secret: crisp greens give you mega sauropod energy! 🥬",
+  "Pterodactyls fly high. Bitey prefers to stay close to the snacks. 🦅",
+  "Prehistoric wisdom: never share your plate with a T-Rex. 🍽️",
+  "Herbivore secret: ferns taste better with a little dip. 🥬",
   "My tiny wooden fork was carved from a petrified redwood tree! 🌲🍴",
-  "A bite of cheese, a handful of almonds... Bitey sees all, Bitey logs all! 🧀",
+  "A bite of cheese, a handful of almonds... the Bite and Handful buttons are right there! 🧀",
   "Grazing is an ancient dinosaur foraging technique. Very respectable! 🌾",
-  "Did you know? Two bites of cookie still count as fuel! 🍪",
-  "Honest snacking beats secret snacking every single time! 🌟",
-  "That little 50 kcal apple bite was sheer culinary perfection! 🍏",
-  "Handful of berries? Top-tier foraging behavior right there! 🫐",
-  "Snack smarter, rawr louder! 🦕📣",
+  "Two bites of cookie? Tap Bite twice. Done! 🍪",
+  "Not sure how much it was? A rough guess is plenty. 🌟",
+  "Bite, Handful, Snack: about 50, 100 and 200 kcal. Pick the closest! 🍏",
+  "Handful of anything? Top-tier foraging right there! 🫐",
+  "Snack happily, rawr loudly! 🦕📣",
   "No guilt on this plate — just delicious fuel and great data! 📊",
   "Crunch crunch crunch... is that a handful of pretzels I hear? 🥨",
   "Even three cashew nuts deserve their moment of glory in the log! 🥜",
   "Consistency is your superpower. Small steps move big mountains! 🏔️",
-  "One good meal at a time. No stress, just steady fueling! 🎯",
+  "One meal at a time. No stress! 🎯",
   "Nutrition isn't about perfection, it's about awareness! 💡",
-  "Drink a tall glass of water! Your inner dinosaur will thank you! 💧🦕",
-  "Fueling your body well is the ultimate form of self-respect! 💚",
-  "You don't need a cheat day when you genuinely enjoy what you eat! 🥑",
-  "A colorful plate is a happy plate. Look at those vibrant macros! 🌈",
-  "High protein day? Bitey flexes his tiny sauropod bicep! 💪",
+  "Every body needs fuel, yours included! 💚",
+  "No such thing as a cheat meal here. It's all just food! 🥑",
+  "Beige plate, rainbow plate: Bitey logs them all! 🌈",
+  "Bitey tried a push-up once. Tiny arms. 💪🦕",
   "Energy in, energy out — the ancient rhythm of the cosmos! 🌌",
-  "Progress isn't a straight line, it's a gentle, steady trend! 📈",
+  "Weight bounces around day to day. The trend tells the real story! 📈",
   "Spendosaurus saves the dollars, I savor the calories! 💰😋",
   "Can dinosaurs have espresso? Asking for a prehistoric friend! ☕🦖",
   "Rawr! That's dinosaur for 'I believe in you!' 🦕❤️",
-  "My bib has an apple on it because fresh fruit never disappoints! 🍎",
+  "My bib has an apple on it. My lunch, however, is a mystery. 🍎",
   "Did someone say carbs? Carbs are just energy waiting to be unleashed! ⚡",
-  "Healthy fats make everything taste better. Avocados are honorary dinos! 🥑",
+  "Fats make everything taste better. Avocados are honorary dinos! 🥑",
   "Plate is full, spirit is strong, belly is satisfied! 😋",
-  "If you ever lose motivation, remember: you're way more evolved than a Stegosaurus! 🦕",
+  "Fun fact: Stegosaurus had a brain the size of a walnut. You're already ahead! 🦕",
   "I may have a small dino brain, but my nutritional instincts are razor sharp! 🧠✨",
-  "Tap me again! I have 165 million years worth of food advice! 🦕💬",
+  "Tap me again! I have 165 million years of dino facts! 🦕💬",
   "Snack time is undeniably the best hour of the 24-hour day! 🕒🥨",
-  "Who needs a personal trainer when you have a personal sauropod? 🦖🏋️",
-  "Eating mindful meals is the modern version of top-tier foraging! 🧺",
-  "If you enjoy chocolate, log it with pride! No hiding from Bitey! 🍫",
+  "Who needs a food diary when you have a personal sauropod? 🦖📗",
+  "Chocolate? Log it like anything else. Bitey doesn't keep score! 🍫",
   "Fiber keeps the dinosaur digestive system running smooth as clockwork! 🌾",
-  "Fun fact: Sauropods ate 400 kg of greens a day. You only need a tasty salad! 🥗",
-  "Treat your body like a treasured museum fossil: take good care of it! 🏛️✨",
-  "Today's forecast: 100% chance of great nutrition and happy dinos! ☀️🦕",
-  "Every meal logged is a victory for your future self! 🏆",
-  "Stay curious, eat delicious food, and keep crushing your goals! 🚀"
+  "Fun fact: sauropods ate hundreds of kilos of plants a day. Imagine logging that! 🥗",
+  "Today's forecast: 100% chance of snacks and happy dinos! ☀️🦕",
+  "Every meal logged makes the picture a little clearer! 🔍",
+  "Stay curious and eat delicious food! 🚀"
 ];
 
 let biteyCycleTimer = null;
@@ -4490,6 +4486,75 @@ async function nativeBackup(operation) {
   return result;
 }
 
+// ------------------------------------------------- widget and tile
+
+const canPinWidget = () => Boolean(window.PlateNative?.canPinWidget?.());
+const canAddQuickTile = () => Boolean(window.PlateNative?.canAddQuickTile?.());
+
+/** The button whose request is waiting on Android's answer, one per kind. */
+let widgetPinButton = null;
+let quickTileButton = null;
+
+/**
+ * A button that has done its job says so and stays pressed. "Added" is only
+ * shown once Android confirms it: the widget prompt reports "requested" the
+ * moment it opens, and the launcher's yes arrives separately as "added".
+ */
+function markAdded(button) {
+  button.disabled = true;
+  button.classList.add('is-added');
+  button.textContent = t('✓ Added');
+}
+
+window.__plateNativeWidgetPinResult = (result) => {
+  const button = widgetPinButton;
+  if (result === 'requested') return;
+  widgetPinButton = null;
+  if (!button) return;
+  if (result === 'added' || result === 'already') {
+    markAdded(button);
+    if (result === 'already' && !button.closest('#welcome')) toast(t('The widget is already on your home screen.'));
+    return;
+  }
+  button.disabled = false;
+  toast(t('Could not add the widget. Add it from your home screen’s widget list instead.'));
+};
+
+// Android shows its own prompt and adds nothing without a yes, so a "no"
+// needs no message here.
+window.__plateNativeQuickTileResult = (result) => {
+  const button = quickTileButton;
+  quickTileButton = null;
+  if (!button) return;
+  if (result === 'added' || result === 'already') {
+    markAdded(button);
+    if (button.closest('#welcome')) return;
+    toast(result === 'added'
+      ? t('Tile added. Pull down from the top of the screen to find it.')
+      : t('The tile is already in Quick Settings.'));
+    return;
+  }
+  button.disabled = false;
+  if (result !== 'declined') toast(t('Could not add the tile. Add it from the Quick Settings editor instead.'));
+};
+
+function bindWidgetButton(button) {
+  button.addEventListener('click', () => {
+    // A launcher prompt left unanswered never reports back; a later tap
+    // simply asks again.
+    widgetPinButton = button;
+    window.PlateNative.pinWidget();
+  });
+}
+
+function bindQuickTileButton(button) {
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    quickTileButton = button;
+    window.PlateNative.addQuickTile();
+  });
+}
+
 if (window.__PLATE_NATIVE__) {
   $('server-device-controls').hidden = true;
   $('server-data-heading').hidden = true;
@@ -4502,39 +4567,19 @@ if (window.__PLATE_NATIVE__) {
   $('native-backup-actions').hidden = false;
   $('native-barcode-privacy').hidden = false;
   $('native-ai-purchases').hidden = false;
+  $('native-welcome').hidden = false;
   syncAiConsentControls();
 
-  // The Today widget. The launcher shows its own prompt and places nothing
-  // without a yes, so a request needs no message of its own.
-  if (window.PlateNative?.canPinWidget?.()) {
-    const pinButton = $('widget-pin');
+  // The Today widget and the Meal photo tile. Settings and the welcome both
+  // offer them; the shared helpers route each answer back to the button that
+  // asked.
+  if (canPinWidget()) {
     $('native-widget').hidden = false;
-    window.__plateNativeWidgetPinResult = (result) => {
-      pinButton.disabled = false;
-      if (result === 'already') toast(t('The widget is already on your home screen.'));
-      else if (result !== 'requested') toast(t('Could not add the widget. Add it from your home screen’s widget list instead.'));
-    };
-    pinButton.addEventListener('click', () => {
-      pinButton.disabled = true;
-      window.PlateNative.pinWidget();
-    });
+    bindWidgetButton($('widget-pin'));
   }
-
-  // The Meal photo tile. Android shows its own prompt and adds nothing
-  // without a yes, so a "no" needs no message here.
-  if (window.PlateNative?.canAddQuickTile?.()) {
-    const tileButton = $('quick-tile-add');
+  if (canAddQuickTile()) {
     $('native-quick-tile').hidden = false;
-    window.__plateNativeQuickTileResult = (result) => {
-      tileButton.disabled = false;
-      if (result === 'added') toast(t('Tile added. Pull down from the top of the screen to find it.'));
-      else if (result === 'already') toast(t('The tile is already in Quick Settings.'));
-      else if (result !== 'declined') toast(t('Could not add the tile. Add it from the Quick Settings editor instead.'));
-    };
-    tileButton.addEventListener('click', () => {
-      tileButton.disabled = true;
-      window.PlateNative.addQuickTile();
-    });
+    bindQuickTileButton($('quick-tile-add'));
   }
 
   const restoreButtons = [$('ai-restore'), $('ai-plan-restore')];
@@ -5207,6 +5252,171 @@ function initStickyDayTracker() {
   updateStickyState();
 }
 
+// --------------------------------------------------------------- welcome
+
+/**
+ * The welcome screens, Android only.
+ *
+ * A first install gets the three-screen tour; someone who already had a diary
+ * when this arrived gets the single "what's new" screen instead, because they
+ * know how to log a meal and only the tile, the widget and the repeat
+ * shortcuts are likely to have passed them by. Either is shown once, recorded
+ * the moment it opens so a crash halfway cannot bring it back on every
+ * launch, and Settings opens the tour again.
+ *
+ * Each screen is its own history entry, so the Back gesture steps back
+ * through them the way it closes any other sheet.
+ */
+const WELCOME_SEEN_KEY = 'bitey.welcome.seen';
+const WELCOME_TOURS = { tour: ['ways', 'again', 'kind'], news: ['news'] };
+const WELCOME_MOODS = { ways: 'happy', again: 'nom', kind: 'cheer', news: 'cheer' };
+
+const welcome = { slides: [], index: 0, after: null };
+
+/** The widget and tile card, drawn per opening so each button starts fresh. */
+function renderWelcomeShortcuts(container) {
+  const widget = canPinWidget()
+    ? `<button class="secondary welcome-add" type="button" data-add="widget">${esc(t('Add widget'))}</button>`
+    : `<small class="welcome-how">${esc(t('Long-press an empty spot on your home screen, tap Widgets, and look for Bitey.'))}</small>`;
+  const tile = canAddQuickTile()
+    ? `<button class="secondary welcome-add" type="button" data-add="tile">${esc(t('Add to Quick Settings'))}</button>`
+    : `<small class="welcome-how">${esc(t('Swipe down twice from the top of the screen, tap the pencil to edit, and drag the Bitey tile into place.'))}</small>`;
+  container.innerHTML = `
+    <div class="welcome-card">
+      <h3 class="welcome-sub">${esc(t('Even faster'))}</h3>
+      <p>${esc(t('Log from your home screen or the pull-down panel, without opening Bitey first.'))}</p>
+      <div class="welcome-shortcut">
+        <strong>${esc(t('Home screen widget'))}</strong>
+        <small>${esc(t("Today's total, with buttons for Photo, Barcode and Type."))}</small>
+        ${widget}
+      </div>
+      <div class="welcome-shortcut">
+        <strong>${esc(t('Quick Settings tile'))} <span class="ai-tag">${esc(t('Bitey AI'))}</span></strong>
+        <small>${esc(t('One tap from the pull-down panel opens the camera for a meal photo.'))}</small>
+        ${tile}
+      </div>
+    </div>`;
+  const widgetButton = container.querySelector('[data-add="widget"]');
+  const tileButton = container.querySelector('[data-add="tile"]');
+  if (widgetButton) bindWidgetButton(widgetButton);
+  if (tileButton) bindQuickTileButton(tileButton);
+}
+
+function openWelcome(kind) {
+  try { localStorage.setItem(WELCOME_SEEN_KEY, kind); } catch { /* shown this once regardless */ }
+  welcome.slides = WELCOME_TOURS[kind];
+  welcome.after = null;
+  const root = $('welcome');
+  root.querySelectorAll('.welcome-shortcuts').forEach(renderWelcomeShortcuts);
+  root.querySelectorAll('.welcome-bitey').forEach((el) => {
+    el.innerHTML = getBiteySvg(WELCOME_MOODS[el.closest('.welcome-slide').dataset.slide]);
+  });
+  $('welcome-dots').innerHTML = welcome.slides.length > 1
+    ? welcome.slides.map(() => '<span></span>').join('')
+    : '';
+  root.hidden = false;
+  showWelcomeSlide(0, true);
+}
+
+function showWelcomeSlide(index, push) {
+  welcome.index = index;
+  const name = welcome.slides[index];
+  const last = index === welcome.slides.length - 1;
+  const root = $('welcome');
+  root.querySelectorAll('.welcome-slide').forEach((el) => {
+    const on = el.dataset.slide === name;
+    el.hidden = !on;
+    const title = el.querySelector('.welcome-title');
+    if (on) title.id = 'welcome-title';
+    else if (title.id) title.removeAttribute('id');
+  });
+  [...$('welcome-dots').children].forEach((dot, i) => dot.classList.toggle('on', i === index));
+
+  const next = $('welcome-next');
+  const later = $('welcome-later');
+  // The last tour screen asks for the details; once they are in, there is
+  // nothing left to ask and it just closes.
+  const asksDetails = name === 'kind' && !state.me?.maintenance;
+  next.textContent = name === 'news' ? t('Got it')
+    : !last ? t('Next')
+    : asksDetails ? t('Add my details') : t('Done');
+  later.hidden = !asksDetails;
+  $('welcome-skip').hidden = last;
+
+  root.querySelector('.welcome-inner').scrollTop = 0;
+  const title = $('welcome-title');
+  title.tabIndex = -1;
+  title.focus({ preventScroll: true });
+
+  if (push) {
+    openScreen(`welcome-${index}`, () => {
+      if (index === 0) closeWelcome();
+      else showWelcomeSlide(index - 1, false);
+    });
+  }
+}
+
+function closeWelcome() {
+  $('welcome').hidden = true;
+  const after = welcome.after;
+  welcome.after = null;
+  // After popstate has finished unwinding: a screen opened from inside it
+  // would be popped straight back off by the same loop.
+  if (after) setTimeout(after, 0);
+}
+
+/** Closes every welcome screen at once, then runs `after` if given. */
+function finishWelcome(after = null) {
+  welcome.after = after;
+  dismissScreen('welcome-0');
+}
+
+$('welcome-next').addEventListener('click', () => {
+  const name = welcome.slides[welcome.index];
+  if (welcome.index < welcome.slides.length - 1) {
+    showWelcomeSlide(welcome.index + 1, true);
+  } else if (name === 'kind' && !state.me?.maintenance) {
+    finishWelcome(() => $('open-profile').click());
+  } else {
+    finishWelcome();
+  }
+});
+$('welcome-later').addEventListener('click', () => finishWelcome());
+$('welcome-skip').addEventListener('click', () => finishWelcome());
+$('welcome-tour').addEventListener('click', () => finishWelcome(() => openWelcome('tour')));
+$('welcome-again').addEventListener('click', () => openWelcome('tour'));
+
+/**
+ * Whether this phone already had a diary before the welcome existed: a
+ * profile, anything logged in the last two months, or a dismissed profile
+ * banner. Any one of them means the person has found their way around.
+ */
+async function hadDiaryBefore() {
+  const p = state.me?.profile;
+  if (p && ['heightCm', 'weightKg', 'birthYear', 'sex', 'activity'].some((k) => p[k] !== null && p[k] !== undefined && p[k] !== '')) return true;
+  if (state.lastEntries?.length) return true;
+  try { if (localStorage.getItem(PROFILE_BANNER_DISMISSED_KEY)) return true; } catch { /* fall through */ }
+  try {
+    const tomorrow = localDayKey(new Date(Date.now() + 86400000));
+    const { meals } = await api(`/api/entries/recent?before=${tomorrow}&days=60`);
+    return meals.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+async function maybeShowWelcome() {
+  if (!window.__PLATE_NATIVE__) return;
+  try {
+    if (localStorage.getItem(WELCOME_SEEN_KEY)) return;
+  } catch {
+    // Without storage it could not be remembered, and a welcome on every
+    // launch is worse than none.
+    return;
+  }
+  openWelcome(await hadDiaryBefore() ? 'news' : 'tour');
+}
+
 async function start() {
   state.me = await api('/api/me');
   // The server decides. Nothing is collected until it says so.
@@ -5221,6 +5431,8 @@ async function start() {
   cycleBiteyMessage();
   startBiteyCycle();
   initDaySwipe();
+  // Not awaited: the day should not wait on the check behind it.
+  maybeShowWelcome().catch(() => {});
 }
 
 /**

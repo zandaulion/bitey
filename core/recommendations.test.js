@@ -24,7 +24,7 @@ test('recommends lean vegetable protein for vegetarian with high fat and low pro
   assert.ok(rec, 'Expected a recommendation');
   assert.equal(rec.type, 'veg_high_fat_low_protein');
   assert.equal(rec.mood, 'thinking');
-  assert.match(say(rec), /Fats are high today/);
+  assert.match(say(rec), /Fats are \d+% of today's calories/);
   // The target is the point of the message: "20g" alone says nothing about
   // whether the day went well.
   assert.match(say(rec), /20g of your 83g target/);
@@ -56,7 +56,7 @@ test('alerts when keto carbs exceed threshold', () => {
 
   assert.ok(rec);
   assert.equal(rec.type, 'keto_carbs_high');
-  assert.match(say(rec), /Carb check/);
+  assert.match(say(rec), /Carbs so far today/);
   assert.ok(rec.suggestions.some((s) => s.name.toLowerCase().includes('avocado')));
 });
 
@@ -72,7 +72,7 @@ test('celebrates balanced macros when in target range', () => {
   assert.ok(rec);
   assert.equal(rec.type, 'balanced');
   assert.equal(rec.mood, 'happy');
-  assert.match(say(rec), /Awesome macro balance/);
+  assert.match(say(rec), /Today's split/);
 });
 
 test('returns gentle start message for fresh day', () => {
@@ -100,7 +100,7 @@ test('alerts when daily fiber is low for logged food', () => {
   assert.ok(rec);
   assert.equal(rec.type, 'fiber_low');
   assert.equal(rec.mood, 'thinking');
-  assert.match(say(rec), /Fiber check/);
+  assert.match(say(rec), /Fiber so far/);
   assert.ok(rec.suggestions.some((s) => s.name.toLowerCase().includes('chia') || s.name.toLowerCase().includes('raspberries')));
 });
 
@@ -116,7 +116,7 @@ test('celebrates when fiber goal is achieved', () => {
   assert.ok(rec);
   assert.equal(rec.type, 'fiber_goal_met');
   assert.equal(rec.mood, 'happy');
-  assert.match(say(rec), /fiber intake/i);
+  assert.match(say(rec), /Plenty of fiber/);
 });
 
 test('does not flag 98g protein as lagging even if percentage is under 20%', () => {
@@ -147,7 +147,7 @@ test('celebrates when protein target is met for body weight', () => {
 
   assert.ok(rec);
   assert.equal(rec.type, 'protein_target_met');
-  assert.match(say(rec), /crushed/i);
+  assert.match(say(rec), /target reached/);
 });
 
 test('the day that prompted this: 75g protein names the target it is short of', () => {

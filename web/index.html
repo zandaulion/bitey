@@ -616,6 +616,16 @@
           </div>
         </section>
 
+        <!-- Android only: the welcome screens, for anyone who skipped them or
+             wants the tour again. -->
+        <section id="native-welcome" class="native-privacy" hidden>
+          <h3 class="section-head" data-i18n="Welcome tour">Welcome tour</h3>
+          <p class="hint" data-i18n="The ways to log a meal, quick bites, and what Bitey does with your details.">The ways to log a meal, quick bites, and what Bitey does with your details.</p>
+          <div class="export-row">
+            <button id="welcome-again" class="secondary" type="button" data-i18n="Show the welcome again">Show the welcome again</button>
+          </div>
+        </section>
+
         <!-- The entitlement itself belongs to the user's Google Play account,
              never to the diary. This stays Android-only: the hosted PWA has no
              Play Billing client. -->
@@ -682,6 +692,146 @@
       <button id="ai-plan-restore" class="link-btn" type="button" data-i18n="Already subscribed? Restore your purchase">Already subscribed? Restore your purchase</button>
       <button id="ai-plan-cancel" class="secondary" type="button" data-i18n="Not now">Not now</button>
     </div>
+  </div>
+</div>
+
+<!-- Android only. Three screens on a first install, one "what's new" screen
+     for someone who already had a diary when this arrived. Every screen can be
+     skipped, Back steps through them, and Settings opens them again. The
+     wording keeps to the rule the cheers follow: the logging is what gets
+     encouraged, never a food and never a number. -->
+<div id="welcome" class="welcome" hidden role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+  <div class="welcome-inner">
+    <header class="welcome-top">
+      <div class="welcome-dots" id="welcome-dots" aria-hidden="true"></div>
+      <button id="welcome-skip" class="welcome-skip" type="button" data-i18n="Skip">Skip</button>
+    </header>
+
+    <section class="welcome-slide" data-slide="ways" hidden>
+      <div class="welcome-bitey" data-mood="happy" aria-hidden="true"></div>
+      <h2 class="welcome-title" data-i18n="Log it whichever way is easiest">Log it whichever way is easiest</h2>
+      <p class="welcome-lede" data-i18n="No judgement and no perfect numbers needed. A rough entry beats a skipped one.">No judgement and no perfect numbers needed. A rough entry beats a skipped one.</p>
+      <ul class="welcome-ways">
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong><span data-i18n="Photo or Gallery">Photo or Gallery</span> <span class="ai-tag" data-i18n="Bitey AI">Bitey AI</span></strong>
+            <small data-i18n="Bitey AI reads the plate. You fix the portion if you know better.">Bitey AI reads the plate. You fix the portion if you know better.</small>
+          </span>
+        </li>
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6v12M7 6v12M10.5 6v12M13 6v12M17 6v12M20 6v12"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong data-i18n="Barcode">Barcode</strong>
+            <small data-i18n="Scan the pack and the label does the work.">Scan the pack and the label does the work.</small>
+          </span>
+        </li>
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong data-i18n="Type">Type</strong>
+            <small data-i18n="Search for a food by name, or type the calories in yourself.">Search for a food by name, or type the calories in yourself.</small>
+          </span>
+        </li>
+      </ul>
+      <div class="welcome-shortcuts"></div>
+    </section>
+
+    <section class="welcome-slide" data-slide="again" hidden>
+      <div class="welcome-bitey" data-mood="nom" aria-hidden="true"></div>
+      <h2 class="welcome-title" data-i18n="Eaten it before? Log it again.">Eaten it before? Log it again.</h2>
+      <ul class="welcome-ways">
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong data-i18n="Duplicate">Duplicate</strong>
+            <small data-i18n="Had the same again? Tap this on any entry.">Had the same again? Tap this on any entry.</small>
+          </span>
+        </li>
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L3 10"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong data-i18n="Repeat">Repeat</strong>
+            <small data-i18n="Bring back a meal from an earlier day, like your usual breakfast.">Bring back a meal from an earlier day, like your usual breakfast.</small>
+          </span>
+        </li>
+      </ul>
+      <p class="welcome-note" data-i18n="Foods you logged recently come up first when you search.">Foods you logged recently come up first when you search.</p>
+
+      <h3 class="welcome-sub" data-i18n="Small bites count too">Small bites count too</h3>
+      <p class="welcome-lede" data-i18n="Not everything gets a photo. For a nibble, pick the closest size:">Not everything gets a photo. For a nibble, pick the closest size:</p>
+      <ul class="welcome-bites">
+        <li>
+          <span class="welcome-bite-ico" aria-hidden="true">🍏</span>
+          <span><strong data-i18n="Bite (~50 kcal)">Bite (~50 kcal)</strong>
+          <small data-i18n="A square of chocolate, a cube of cheese, two crackers, a spoonful of someone else's dessert">A square of chocolate, a cube of cheese, two crackers, a spoonful of someone else's dessert</small></span>
+        </li>
+        <li>
+          <span class="welcome-bite-ico" aria-hidden="true">🥜</span>
+          <span><strong data-i18n="Handful (~100 kcal)">Handful (~100 kcal)</strong>
+          <small data-i18n="A small handful of nuts, a banana, a slice of bread, a small latte">A small handful of nuts, a banana, a slice of bread, a small latte</small></span>
+        </li>
+        <li>
+          <span class="welcome-bite-ico" aria-hidden="true">🥐</span>
+          <span><strong data-i18n="Snack (~200 kcal)">Snack (~200 kcal)</strong>
+          <small data-i18n="A croissant, a cereal bar, a pot of yogurt with granola, a small bag of crisps">A croissant, a cereal bar, a pot of yogurt with granola, a small bag of crisps</small></span>
+        </li>
+      </ul>
+      <p class="welcome-note" data-i18n="Close enough is good enough. Three bites? Tap Bite three times.">Close enough is good enough. Three bites? Tap Bite three times.</p>
+    </section>
+
+    <section class="welcome-slide" data-slide="kind" hidden>
+      <div class="welcome-bitey" data-mood="cheer" aria-hidden="true"></div>
+      <h2 class="welcome-title" data-i18n="No good foods, no bad foods. Just a log.">No good foods, no bad foods. Just a log.</h2>
+      <p class="welcome-lede" data-i18n="Bitey doesn't set you a target or tell you what to eat. It works out roughly what you burn, so a day's total means something.">Bitey doesn't set you a target or tell you what to eat. It works out roughly what you burn, so a day's total means something.</p>
+      <p class="welcome-lede" data-i18n="Chocolate counts the same as broccoli: it's food, and it gets logged.">Chocolate counts the same as broccoli: it's food, and it gets logged.</p>
+      <div class="welcome-card">
+        <h3 class="welcome-sub" data-i18n="Your details">Your details</h3>
+        <p data-i18n="Height, weight, age and sex are used only to work out what you burn. They stay on this phone and never leave it.">Height, weight, age and sex are used only to work out what you burn. They stay on this phone and never leave it.</p>
+        <p data-i18n="Every detail is optional. Bitey logs your meals either way. The details only add an estimate of what you burn, and if you leave out your sex, that estimate is just a little wider.">Every detail is optional. Bitey logs your meals either way. The details only add an estimate of what you burn, and if you leave out your sex, that estimate is just a little wider.</p>
+      </div>
+    </section>
+
+    <section class="welcome-slide" data-slide="news" hidden>
+      <div class="welcome-bitey" data-mood="cheer" aria-hidden="true"></div>
+      <h2 class="welcome-title" data-i18n="Logging just got quicker">Logging just got quicker</h2>
+      <div class="welcome-shortcuts"></div>
+      <h3 class="welcome-sub" data-i18n="In case you missed them">In case you missed them</h3>
+      <ul class="welcome-ways">
+        <li>
+          <span class="welcome-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L3 10"/></svg>
+          </span>
+          <span class="welcome-way">
+            <strong data-i18n="Repeat and Duplicate">Repeat and Duplicate</strong>
+            <small data-i18n="Bring back a meal from an earlier day, or log the same thing again in one tap.">Bring back a meal from an earlier day, or log the same thing again in one tap.</small>
+          </span>
+        </li>
+        <li>
+          <span class="welcome-ico" aria-hidden="true">🍏</span>
+          <span class="welcome-way">
+            <strong data-i18n="Bite, Handful, Snack">Bite, Handful, Snack</strong>
+            <small data-i18n="About 50, 100 and 200 kcal, for the nibbles nobody photographs.">About 50, 100 and 200 kcal, for the nibbles nobody photographs.</small>
+          </span>
+        </li>
+      </ul>
+      <button id="welcome-tour" class="welcome-link" type="button" data-i18n="Show me the full tour">Show me the full tour</button>
+    </section>
+
+    <footer class="welcome-foot">
+      <button id="welcome-later" class="secondary" type="button" hidden data-i18n="Maybe later">Maybe later</button>
+      <button id="welcome-next" class="primary" type="button" data-i18n="Next">Next</button>
+    </footer>
   </div>
 </div>
 

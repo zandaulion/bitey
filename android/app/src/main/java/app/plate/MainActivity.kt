@@ -1,10 +1,14 @@
 package com.zandaulion.bitey
 
 import android.Manifest
+import android.app.PendingIntent
 import android.app.StatusBarManager
 import android.appwidget.AppWidgetManager
+import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
@@ -53,8 +57,20 @@ private const val SIDE_RAIL_HEIGHT_DP = 304
  * source is store/PRIVACY_NOTICE.md. */
 private const val PRIVACY_NOTICE_URL = "https://zandaulion.com/plate-privacy.html"
 
+private const val ACTION_WIDGET_PINNED = "com.zandaulion.bitey.WIDGET_PINNED"
+
 class MainActivity : ComponentActivity() {
     private lateinit var plateWebView: PlateWebView
+
+    /**
+     * The launcher calls this back once the widget is really on the home
+     * screen. "requested" only means the prompt went up; this is the yes.
+     */
+    private val widgetPinnedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (::plateWebView.isInitialized) plateWebView.deliverWidgetPinResult("added")
+        }
+    }
     private lateinit var playBilling: PlayBilling
 
     /** A reading can take most of a minute. It gets its own thread so it
@@ -252,6 +268,10 @@ class MainActivity : ComponentActivity() {
         // Before anything can ask for a token: the analysis request carries
         // one from the first photograph on.
         AppCheckSetup.install(applicationContext)
+        ContextCompat.registerReceiver(
+            this, widgetPinnedReceiver, IntentFilter(ACTION_WIDGET_PINNED),
+            ContextCompat.RECEIVER_NOT_EXPORTED,
+        )
 
         // Play's answer arrives on its own thread, on every resume (once the
         // person has used Bitey AI) and after a purchase; the padlocks follow
@@ -449,11 +469,19 @@ class MainActivity : ComponentActivity() {
         val result = when {
             manager.getAppWidgetIds(provider).isNotEmpty() -> "already"
             !manager.isRequestPinAppWidgetSupported -> "failed"
-            runCatching { manager.requestPinAppWidget(provider, null, null) }.getOrDefault(false) -> "requested"
+            runCatching { manager.requestPinAppWidget(provider, null, widgetPinnedCallback()) }
+                .getOrDefault(false) -> "requested"
             else -> "failed"
         }
         plateWebView.deliverWidgetPinResult(result)
     }
+
+    /** Mutable because the launcher adds the new widget's id to it; the
+     * package keeps it addressed to this app alone. */
+    private fun widgetPinnedCallback(): PendingIntent = PendingIntent.getBroadcast(
+        this, 0, Intent(ACTION_WIDGET_PINNED).setPackage(packageName),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE,
+    )
 
     private fun runLaunchAction(intent: Intent?) {
         val action = LaunchActions.from(intent) ?: return
@@ -472,6 +500,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        runCatching { unregisterReceiver(widgetPinnedReceiver) }
         if (::playBilling.isInitialized) playBilling.close()
         analysisExecutor.shutdownNow()
         super.onDestroy()

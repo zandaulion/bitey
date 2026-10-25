@@ -499,7 +499,8 @@ class PlateWebView(
         }
     }
 
-    /** One of "requested", "already" or "failed". */
+    /** One of "requested", "added" (the launcher confirmed it later),
+     * "already" or "failed". */
     fun deliverWidgetPinResult(result: String) {
         post {
             evaluateJavascript(
