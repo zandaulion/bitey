@@ -23,6 +23,14 @@ layout by design, so a portrait tablet capture would look like a large phone.
 | `phone-05-search.png` | `tablet-7-05-search.png` | `tablet-10-05-search.png` | Food search ("salmon") in the bundled table |
 | `phone-06-trends.png` | `tablet-7-06-trends.png` | `tablet-10-06-trends.png` | 30-day weight and intake trends against what you burn |
 | `phone-07-privacy.png` | `tablet-7-07-privacy.png` | `tablet-10-07-privacy.png` | Settings: Bitey AI, the diet switch, privacy |
+| `phone-08-welcome.png` | `tablet-7-08-welcome.png` | `tablet-10-08-welcome.png` | The welcome's last screen: no good or bad foods, and the profile kept on the phone |
+
+The eighth set was added on **25 October 2026**, captured the same way but on
+the Galaxy Fold4's cover screen (same 420 dpi density and font scale as the
+Motorola; Samsung's Edge panel handle switched off for the capture). The
+seeded profile is complete, so the app itself would show only "Done" there;
+the capture sets the footer to the "Maybe later" / "Add my details" pair a
+first install sees. Eight is Play's limit for phone screenshots.
 
 The tablets have no separate meals shot: the two-column day already shows them.
 The phone images are 9:16 because Play refuses a screenshot whose long side is
@@ -46,8 +54,13 @@ On the Lenovo, with the debug app installed on the test phone and the files in
 1. Seed once: open the app, then evaluate `seed.js` in its WebView through the
    devtools socket (`node /tmp/cdp-eval.mjs "$(cat /tmp/seed.js)"`).
 2. Run `capture.sh <prefix> <width> <height> <status-bar> <nav-bar>`. It sets
-   the display to the screenshot size plus the system bars, captures the seven
-   screens, and the bars are cropped off afterwards:
+   the display to the screenshot size plus the system bars, captures the eight
+   screens, and the bars are cropped off afterwards. `SHOTS="08"` takes only
+   the listed ones; `SERIAL` and `DISPLAY_ID` point it at another phone (the
+   Fold4 folded: its cover display's physical id, bars 104 and 39). The
+   devtools helper it calls, `/tmp/cdp-eval.mjs`, is not kept in the repo: any
+   script that sends one `Runtime.evaluate` to the first page on
+   `localhost:9222/json` and prints the value will do.
    - phone: `capture.sh phone 1080 1920 100 126`
    - 7″ landscape: `wm density 320`, then `capture.sh tablet7 1920 1200 88 0`
      (960 × 617 dp)
