@@ -154,7 +154,7 @@
   "Needs {0}. Then it becomes a measurement of what you actually burn, rather than an average of people your size.": "Mai are nevoie de {0}. Apoi devine o măsurătoare a ceea ce consumi tu, nu o medie a oamenilor de statura ta.",
   "Next day": "Ziua următoare",
   "No barcode found. Try again, or use the barcode button here to type the number.": "Niciun cod de bare găsit. Încearcă din nou sau folosește butonul de aici ca să scrii numărul.",
-  "No guilt on this plate — just delicious fuel and great data! 📊": "Fără vinovăție în farfuria asta — doar combustibil gustos și date bune! 📊",
+  "No guilt on this plate — just delicious fuel and great data! 📊": "Fără vinovăție în farfuria asta — doar mâncare gustoasă și date bune! 📊",
   "No recovery code yet — if you lose this device, your log cannot be reached.": "Încă nu ai cod de recuperare — dacă pierzi acest dispozitiv, nu mai poți ajunge la jurnal.",
   "No weigh-ins yet.": "Nicio cântărire încă.",
   "No weight": "Fără greutate",
@@ -330,7 +330,7 @@
   "{0} more to measure": {
     "few": "încă {0} până la măsurătoare",
     "one": "încă una până la măsurătoare",
-    "other": "încă {0} de măsurători"
+    "other": "încă {0} până la măsurătoare"
   },
   "{0} more weigh-ins": {
     "few": "încă {0} cântăriri",
