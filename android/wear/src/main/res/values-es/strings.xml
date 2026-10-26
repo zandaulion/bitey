@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting">Abre Bitey en tu móvil para ver aquí el día de hoy.</string>
+    <string name="unreachable">No se puede conectar con tu móvil. ¿Tiene Bitey instalado?</string>
+    <string name="failed">No ha funcionado. Inténtalo de nuevo.</string>
+    <string name="tile_today">Hoy en Bitey</string>
+    <string name="tile_bites">Bitey: bocados rápidos</string>
+    <string name="complication_calories">Calorías de hoy</string>
+    <string name="complication_macros">Macros de hoy</string>
+</resources>

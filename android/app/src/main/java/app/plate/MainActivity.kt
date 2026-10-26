@@ -379,12 +379,17 @@ class MainActivity : ComponentActivity() {
             },
             onWidgetSnapshot = { json -> TodayWidget.save(applicationContext, json) },
             onWidgetBitey = { png -> TodayWidget.saveBitey(applicationContext, png) },
+            onWatchSnapshot = { json -> WatchSync.save(applicationContext, json) },
             widgetPinSupported = {
                 AppWidgetManager.getInstance(this).isRequestPinAppWidgetSupported
             },
             onWidgetPinRequested = { runOnUiThread { requestWidgetPin() } },
             onFileChooserRequested = ::showFileChooser,
         )
+        // Something logged or taken back on the watch while Bitey is open.
+        WatchSync.onDiaryChanged = {
+            runOnUiThread { plateWebView.evaluateJavascript("window.__plateWatchChanged?.()", null) }
+        }
         val root = FrameLayout(this)
         root.addView(plateWebView, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -500,6 +505,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        WatchSync.onDiaryChanged = null
         runCatching { unregisterReceiver(widgetPinnedReceiver) }
         if (::playBilling.isInitialized) playBilling.close()
         analysisExecutor.shutdownNow()

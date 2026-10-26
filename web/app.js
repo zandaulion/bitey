@@ -8,7 +8,10 @@ import {
   totalsOf, rangesOf, setTotalGrams, setItemGrams, removeItem, itemMacros,
   addManualItem, hasPhotoItems, hasTextItems, markWeighed, portionSourceOf, markEaten, ateFraction
 } from '/core/analysis/estimate.js';
-import { fromOpenFoodFacts, offProductLabel, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions } from '/core/foods.js';
+import {
+  fromOpenFoodFacts, offProductLabel, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions,
+  recentBiteItem, quickBiteBody
+} from '/core/foods.js';
 import { macroAgreement, ageFromBirthYear } from '/core/nutrition.js';
 import { readTakenOn } from '/core/exif.js';
 import { localDayKey } from '/core/day.js';
@@ -20,7 +23,7 @@ import {
   t, plural, load as loadLocale, setLocale, locale, applyToDom,
   LOCALES, LOCALE_NAMES
 } from '/i18n.js';
-import { localApi, LocalApiError, AI_USE_DIET_STORAGE_KEY } from '/local-api.js';
+import { localApi, LocalApiError, AI_USE_DIET_STORAGE_KEY, entryTemplate } from '/local-api.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -1070,6 +1073,7 @@ async function loadDay() {
   await loadQuickBites();
   updateBiteyCompanion(data.summary, data.split, data.entries);
   syncWidget(data.summary, data.split, data.entries);
+  void syncWatch(data.summary);
 }
 
 $('quick-bite-chips')?.addEventListener('click', async (ev) => {
@@ -1100,40 +1104,19 @@ $('quick-bite-chips')?.addEventListener('click', async (ev) => {
     const preset = QUICK_BITES.find((p) => p.id === presetId);
     if (preset) item = createQuickBiteItem(preset);
   } else if (recentIdx !== undefined) {
-    const suggestions = getGrazingSuggestions(state.recentFoods, { limit: 4 });
-    const f = suggestions[Number(recentIdx)];
-    if (f) {
-      item = {
-        name: f.name,
-        grams: f.grams,
-        per100: {
-          calories: Math.round((f.per?.calories || 0) * 100 * 10) / 10,
-          protein: Math.round((f.per?.protein || 0) * 100 * 10) / 10,
-          fat: Math.round((f.per?.fat || 0) * 100 * 10) / 10,
-          carbs: Math.round((f.per?.carbs || 0) * 100 * 10) / 10
-        },
-        barcode: f.barcode || null
-      };
-    }
+    const f = getGrazingSuggestions(state.recentFoods, { limit: 4 })[Number(recentIdx)];
+    if (f) item = recentBiteItem(f);
   }
 
   if (!item) return;
 
   const cal = Math.round((item.per100.calories * item.grams) / 100);
-  const estimate = addManualItem({ items: [], portionSource: 'model', note: '' }, item);
 
   state.busy = true;
   try {
     const res = await api('/api/entries', {
       method: 'POST',
-      body: JSON.stringify({
-        day: state.day,
-        meal: 'snack',
-        items: estimate.items,
-        portionSource: 'estimated',
-        portionConfirmed: true,
-        note: 'Quick bite'
-      })
+      body: JSON.stringify({ day: state.day, ...quickBiteBody(item) })
     });
     track('quick_bite_logged', { name: item.name, calories: cal });
     state.lastBiteMunchTime = Date.now();
@@ -4734,7 +4717,10 @@ function syncWidget(summary, split = null, entries = []) {
       fat: t('Fat'),
       fiber: t('Fiber'),
       advice: recText(rec) || greeting,
-      greeting
+      greeting,
+      // "eaten" with {0} left for the figure, so native code can redraw the
+      // line after a meal logged on the watch, before Bitey is next opened.
+      eatenPattern: line('{0}')
     }
   }));
   void syncWidgetBitey(mood);
@@ -4765,6 +4751,69 @@ async function syncWidgetBitey(mood) {
     // The widget keeps its last face; the words still change.
   }
 }
+
+/**
+ * The watch: today's figures and every quick bite and repeat meal it offers,
+ * each already built as the entry it saves (entryTemplate in local-api.js).
+ * The phone keeps the last of these and, when a choice is tapped on the watch,
+ * stamps that entry with an id and the time and writes it to the diary, so
+ * the watch never works anything out. Words come in the language chosen in
+ * Bitey, as the widget's do; the watch draws what it is given.
+ */
+async function syncWatch(summary) {
+  if (typeof window.PlateNative?.setWatchSnapshot !== 'function') return;
+  const day = state.day;
+  if (day !== localDayKey()) return;
+  const totals = summary.totals || {};
+  const burn = summary.maintenance?.kcal ? Math.round(summary.maintenance.kcal) : null;
+  const choice = (key, label, icon, entry) =>
+    ({ key, label, icon, kcal: Math.round(entry.totals?.calories || 0), entry });
+  const bites = [
+    ...QUICK_BITES.map((b) => choice(`preset:${b.id}`, t(b.label || b.name), b.icon || '🍏',
+      entryTemplate(quickBiteBody(createQuickBiteItem(b))))),
+    ...getGrazingSuggestions(state.recentFoods, { limit: 4 }).map((f) =>
+      choice(`food:${f.name.toLowerCase()}`, f.name, getFoodEmoji(f.name),
+        entryTemplate(quickBiteBody(recentBiteItem(f)))))
+  ];
+  let meals = [];
+  try {
+    ({ meals } = await api(`/api/watch/meals?day=${encodeURIComponent(day)}&limit=8`));
+  } catch {
+    // The watch still gets today and the quick bites.
+  }
+  if (state.day !== day) return;
+  window.PlateNative.setWatchSnapshot(JSON.stringify({
+    day,
+    kcal: Math.round(totals.calories || 0),
+    burn,
+    protein: totals.protein || 0,
+    carbs: totals.carbs || 0,
+    fat: totals.fat || 0,
+    fiber: totals.fiber || 0,
+    bites,
+    meals: (meals || []).map((m) => choice(`meal:${m.id}`, m.foods, getFoodEmoji(m.foods), m.entry)),
+    text: {
+      today: t('Today'),
+      kcal: t('kcal'),
+      eaten: burn ? t('{0} of ~{1} kcal', '{0}', burn) : t('{0} kcal', '{0}'),
+      protein: t('Protein'),
+      carbs: t('Carbs'),
+      fat: t('Fat'),
+      fiber: t('Fiber'),
+      bites: t('Quick bites'),
+      meals: t('Repeat'),
+      logged: t('Logged {0}', '{0}'),
+      undo: t('Undo'),
+      undone: t('Undone')
+    }
+  }));
+}
+
+/** Called by the phone after the watch logged something or took it back, so
+ * an open Bitey shows it straight away. Hidden, it reloads when it returns. */
+window.__plateWatchChanged = () => {
+  if (state.day === localDayKey() && document.visibilityState === 'visible') loadDay().catch(() => {});
+};
 
 /** Keep Android's stable native action bar in the same language as the page. */
 function syncNativeActionLabels() {

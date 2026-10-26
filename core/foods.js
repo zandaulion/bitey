@@ -14,6 +14,8 @@
 // Everything downstream sees `per100`, matching how labels and databases both
 // express nutrition, and how core/analysis/estimate.js accepts manual items.
 
+import { addManualItem } from './analysis/estimate.js';
+
 const num = (v) => {
   const n = Number(v);
   return Number.isFinite(n) && n >= 0 ? n : null;
@@ -438,6 +440,34 @@ export function getGrazingSuggestions(recentFoods, { limit = 3 } = {}) {
       return cal > 0 && cal <= 400;
     })
     .slice(0, limit);
+}
+
+/** A tray suggestion as the item it logs: the food's newest rates, per 100 g. */
+export function recentBiteItem(f) {
+  return {
+    name: f.name,
+    grams: f.grams,
+    per100: {
+      calories: Math.round((f.per?.calories || 0) * 100 * 10) / 10,
+      protein: Math.round((f.per?.protein || 0) * 100 * 10) / 10,
+      fat: Math.round((f.per?.fat || 0) * 100 * 10) / 10,
+      carbs: Math.round((f.per?.carbs || 0) * 100 * 10) / 10
+    },
+    barcode: f.barcode || null
+  };
+}
+
+/** The entry a quick bite saves, less its day. The tray and the watch both
+ * log through this, so a bite tapped on the wrist is the same entry. */
+export function quickBiteBody(item) {
+  const estimate = addManualItem({ items: [], portionSource: 'model', note: '' }, item);
+  return {
+    meal: 'snack',
+    items: estimate.items,
+    portionSource: 'estimated',
+    portionConfirmed: true,
+    note: 'Quick bite'
+  };
 }
 
 /**

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting">Ouvre Bitey sur ton téléphone pour voir la journée ici.</string>
+    <string name="unreachable">Impossible de joindre ton téléphone. Bitey y est-il installé ?</string>
+    <string name="failed">Ça n’a pas marché. Réessaie.</string>
+    <string name="tile_today">Aujourd’hui dans Bitey</string>
+    <string name="tile_bites">Bitey : bouchées rapides</string>
+    <string name="complication_calories">Calories du jour</string>
+    <string name="complication_macros">Macros du jour</string>
+</resources>

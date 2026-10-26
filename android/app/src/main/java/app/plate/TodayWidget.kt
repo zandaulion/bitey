@@ -78,6 +78,24 @@ class TodayWidget : AppWidgetProvider() {
 
         private fun biteyFile(context: Context) = File(context.filesDir, "widget_bitey.png")
 
+        /**
+         * A meal logged or taken back on the watch: today's figures move by
+         * its totals, as the watch's do (WatchSync.moved), and the line is
+         * redrawn from the page's pattern. Bitey's advice stays as it was
+         * until Bitey is opened. A snapshot from before the page sent the
+         * pattern is left alone rather than shown with the wrong number.
+         */
+        fun moveBy(context: Context, totals: JSONObject, sign: Int) {
+            val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val snapshot = prefs.getString(KEY, null)?.let { runCatching { JSONObject(it) }.getOrNull() } ?: return
+            val pattern = snapshot.optJSONObject("text")?.optString("eatenPattern").orEmpty()
+            if ("{0}" !in pattern) return
+            val next = WatchSync.moved(snapshot, totals, sign, LocalDate.now().toString())
+            next.optJSONObject("text")?.put("eaten", pattern.replace("{0}", next.optInt("kcal").toString()))
+            prefs.edit().putString(KEY, next.toString()).apply()
+            refresh(context)
+        }
+
         fun refresh(context: Context) {
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(ComponentName(context, TodayWidget::class.java))

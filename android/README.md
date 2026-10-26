@@ -51,18 +51,59 @@ the log continues to work locally without an account.
   HyperOS's 4x6 grid and 280dp on the Moto launcher.
   The burn estimate and the advice live in the page, so the page sends a
   snapshot (figures and words, already translated) whenever it draws today,
-  plus Bitey's face as a PNG when his mood changes. Meals are only logged in
-  Bitey, so after midnight the widget shows 0 for the new day on its own
-  (it is refreshed every 30 minutes) and the greeting instead of yesterday's
-  advice. No entries or foods reach the widget, only the day's totals.
+  plus Bitey's face as a PNG when his mood changes. Meals are logged in
+  Bitey or on the watch (below), so after midnight the widget shows 0 for the
+  new day on its own (it is refreshed every 30 minutes) and the greeting
+  instead of yesterday's advice. No entries or foods reach the widget, only
+  the day's totals; a meal logged on the watch moves them by its totals
+  (`TodayWidget.moveBy`, using the page's `eatenPattern`) until Bitey redraws.
 - **Settings → Home screen widget** asks the launcher to place it
   (`requestPinAppWidget`; the launcher shows its own prompt) and says so if
   one is already there.
+
 
 Every route hands its action to the page exactly as the native action bar
 does, so Photo and Gallery still pass the Bitey AI entitlement gate. An action
 that arrives before the page has loaded waits for the labels message and runs
 once; a rotation or a process restore does not repeat it.
+
+## The watch companion (`wear/`)
+
+A Wear OS app under the same package (`com.zandaulion.bitey`, `.debug` for
+debug), signed with the same key: the Data Layer only connects apps that share
+both. It is a companion (`standalone=false`) and keeps no diary.
+
+- **What it shows.** The watch app has today's total in a ring against the
+  burn estimate, the macros, the quick bites (the three presets and up to four
+  recent foods, as in the tray) and up to eight meals to repeat (the Repeat
+  sheet's list, counting today). Two tiles, *Today in Bitey* and *Bitey quick
+  bites*, and two complications, *Calories today* (short text, ranged value
+  against the burn, long text) and *Macros today* (long text, or protein as
+  short text).
+- **How today gets there.** When the page draws today it sends
+  `setWatchSnapshot` (`syncWatch` in `web/app.js`): the widget's figures, the
+  words in Bitey's language, and every choice the watch offers, each built as
+  the entry it saves (`entryTemplate` in `web/local-api.js`). `WatchSync.kt`
+  keeps it and puts a copy *without the entries* on the Data Layer at
+  `/bitey/today`; the watch draws only names, icons and calories.
+- **Logging from the watch.** A tap sends a `/bitey/log` request with the
+  choice's key to `WatchRequestService`, which stamps the prepared entry with
+  an id, today's date, the time and a sort key and writes it to Room as
+  `entries.write` does. The totals are the page's, so the phone works nothing
+  out. The watch then offers Undo for six seconds (`/bitey/undo`, accepted
+  only for the last ten entries the watch made). The watch's and widget's
+  figures move by the entry's totals; an open Bitey redraws at once
+  (`__plateWatchChanged`), a closed one when it is next shown.
+- **Finding each other.** The phone declares the capability `bitey_phone`
+  and the watch `bitey_watch` (`res/values/wear.xml` in each module).
+- **Words.** Everything comes from the page in the chosen language, except
+  what the watch says before the phone has sent anything or when the phone is
+  out of reach (`wear/src/main/res/values*/strings.xml`).
+- **Releases.** The watch has its own versionCode (from 1000001) and goes to
+  Play's Wear OS track in the same listing.
+- **Testing.** A phone and a Wear OS emulator can be paired on any machine
+  that runs emulators with hardware acceleration; a real watch is needed for
+  complication refresh and the phone being out of reach.
 
 ## Play Billing launch checklist
 

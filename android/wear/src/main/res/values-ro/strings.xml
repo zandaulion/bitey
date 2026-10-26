@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting">Deschide Bitey pe telefon ca să vezi aici ziua de azi.</string>
+    <string name="unreachable">Telefonul nu poate fi contactat. Ai Bitey instalat pe el?</string>
+    <string name="failed">N-a mers. Încearcă din nou.</string>
+    <string name="tile_today">Azi în Bitey</string>
+    <string name="tile_bites">Bitey – gustări rapide</string>
+    <string name="complication_calories">Calorii azi</string>
+    <string name="complication_macros">Macronutrienți azi</string>
+</resources>

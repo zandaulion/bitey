@@ -23,7 +23,9 @@ your device, and only when you use them:
 Using Bitey AI also involves two Google services, Google Play's billing and
 Google's app-verification check, which are described below. Nothing else
 leaves your device: not your diary, weight, other photos, or your profile —
-apart from your diet, and only if you choose to send it as described below.
+apart from your diet, and only if you choose to send it as described below,
+and today's totals and meal names sent to your own watch if you install
+Bitey on one.
 
 ## Information Bitey stores on your device
 
@@ -173,6 +175,23 @@ information, or a persistent device identifier with this request. If Open Food
 Facts returns a product, Bitey saves its nutrition data only on your device for
 later offline use. Open Food Facts is an independent service; its handling of
 the request is governed by its own privacy information.
+
+## Bitey on your watch
+
+If you install Bitey on a Wear OS watch paired with your phone, the phone
+sends the watch today's calorie, protein, carbohydrate, fat and fibre totals,
+your estimated daily burn, and the names and calories of the quick bites and
+recent meals the watch offers, so that it can show them. No portions,
+photographs, weigh-ins or profile details are sent. When you log or undo a
+meal on the watch, the watch asks your phone, which saves the change in your
+diary there. The watch keeps only the last figures it received, to show on
+its tiles and complications, and removes them when Bitey is uninstalled from
+it.
+
+This goes between your own devices through Google Play services' connection
+for paired watches. When the phone and watch are not connected to each other
+directly, Google may relay it through its servers. Bitey does not receive a
+copy.
 
 ## Search, analytics, advertising, and tracking
 

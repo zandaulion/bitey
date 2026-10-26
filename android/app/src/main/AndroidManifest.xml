@@ -63,5 +63,14 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_today_info" />
         </receiver>
+        <!-- The watch companion's requests: log, undo, send today again. -->
+        <service
+            android:name=".WatchRequestService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.REQUEST_RECEIVED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/bitey/" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

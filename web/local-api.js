@@ -583,6 +583,30 @@ async function historyPayload(requestedDays) {
   return { from, to, days: series, expenditure: await expenditure(), weightTrend: weightTrend(trendReadings) };
 }
 
+/**
+ * What a saved entry is made of, less what only the moment of saving gives it
+ * (id, day, createdAt, sortKey and any photo).
+ *
+ * The watch logs through this. The page builds each quick bite and repeat
+ * meal ahead of time with it and hands them to the phone, which stamps the
+ * missing fields when a choice is tapped on the watch, so an entry logged
+ * there is the row this would have written, totals included, without the
+ * phone running any of this code.
+ */
+export function entryTemplate(body) {
+  const portionSource = ['model', 'estimated', 'weighed'].includes(body.portionSource)
+    ? body.portionSource
+    : portionSourceOf({ portionConfirmed: body.portionConfirmed });
+  return {
+    meal: MEALS.includes(body.meal) ? body.meal : null,
+    photoMimeType: body.mimeType || null,
+    note: typeof body.note === 'string' ? body.note.slice(0, 500) : null,
+    portionSource,
+    items: body.items,
+    totals: totalsOf({ items: body.items, portionSource })
+  };
+}
+
 async function saveEntry(body, { copyPhotoFrom = null } = {}) {
   const day = localDay(body.day);
   if (!day) throw new LocalApiError('A local calendar date is required.', { code: 'bad_day' });
@@ -590,24 +614,22 @@ async function saveEntry(body, { copyPhotoFrom = null } = {}) {
     throw new LocalApiError('An entry needs at least one food.', { code: 'no_items' });
   }
   const id = crypto.randomUUID();
-  const portionSource = ['model', 'estimated', 'weighed'].includes(body.portionSource)
-    ? body.portionSource
-    : portionSourceOf({ portionConfirmed: body.portionConfirmed });
+  const { meal, photoMimeType, note, portionSource, items, totals } = entryTemplate(body);
   const row = {
     id,
     day,
-    meal: MEALS.includes(body.meal) ? body.meal : null,
+    meal,
     createdAt: new Date().toISOString(),
     // Random tie-breaking avoids the millisecond ordering issue in the server
     // version when several quick bites are saved in the same tick.
     sortKey: Date.now() * 1000 + Math.floor(Math.random() * 1000),
     photoId: typeof body.image === 'string' && body.image.length > 100 ? id : (copyPhotoFrom ? id : null),
     photoData: typeof body.image === 'string' && body.image.length > 100 ? body.image : null,
-    photoMimeType: body.mimeType || null,
-    note: typeof body.note === 'string' ? body.note.slice(0, 500) : null,
+    photoMimeType,
+    note,
     portionSource,
-    items: body.items,
-    totals: totalsOf({ items: body.items, portionSource })
+    items,
+    totals
   };
   if (window.__PLATE_NATIVE__) {
     if (copyPhotoFrom) await nativePhoto('copy', row.photoId, copyPhotoFrom);
@@ -753,7 +775,11 @@ async function duplicateEntry(id, body) {
   const original = await diaryEntry(id);
   if (!original) throw new LocalApiError('Entry not found.', { code: 'not_found', status: 404 });
   const copyPhotoFrom = window.__PLATE_NATIVE__ && body.copyPhoto !== false ? original.photoId : null;
-  return saveEntry({
+  return saveEntry(duplicateBody(original, body, copyPhotoFrom), { copyPhotoFrom });
+}
+
+function duplicateBody(original, body, copyPhotoFrom = null) {
+  return {
     ...original,
     ...body,
     day: localDay(body.day) || original.day,
@@ -763,7 +789,30 @@ async function duplicateEntry(id, body) {
     mimeType: original.photoMimeType,
     note: typeof body.note === 'string' ? body.note : original.note,
     portionSource: body.portionSource || original.portionSource
-  }, { copyPhotoFrom });
+  };
+}
+
+/**
+ * The meals the watch offers to log again: the Repeat sheet's list, but
+ * counting the day itself, since "another coffee" is the commonest repeat on
+ * a wrist. Each carries the entry the Repeat sheet would save, without the
+ * photo, which the sheet does not copy either.
+ */
+async function watchMeals(url) {
+  const day = localDay(url.searchParams.get('day'));
+  if (!day) throw new LocalApiError('A local calendar date is required.', { code: 'bad_day' });
+  const limit = Math.min(12, Math.max(1, Number(url.searchParams.get('limit')) || 8));
+  const start = new Date(`${day}T00:00:00`).getTime() - 14 * 86400000;
+  const rows = (await diaryEntries())
+    .filter((e) => e.day <= day && new Date(`${e.day}T00:00:00`).getTime() >= start);
+  const byId = new Map(rows.map((row) => [row.id, row]));
+  const meals = collapseRepeatable(rows.map(publicEntry)).slice(0, limit).map((meal) => ({
+    id: meal.id,
+    foods: meal.foods,
+    calories: meal.calories,
+    entry: entryTemplate(duplicateBody(byId.get(meal.id), { day, copyPhoto: false }))
+  }));
+  return { meals };
 }
 
 async function saveProfile(body) {
@@ -832,6 +881,7 @@ export async function localApi(path, options = {}) {
   }
   if (method === 'POST' && url.pathname === '/api/entries') return saveEntry(body);
   if (method === 'GET' && url.pathname === '/api/entries/recent') return recentMeals(url);
+  if (method === 'GET' && url.pathname === '/api/watch/meals') return watchMeals(url);
 
   const entry = url.pathname.match(/^\/api\/entries\/([^/]+)$/);
   if (entry && method === 'PUT') return updateEntry(decodeURIComponent(entry[1]), body);

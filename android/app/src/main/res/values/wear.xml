@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@array/android_wear_capabilities">
+    <!-- How the watch app finds the phone that has Bitey, among the nodes it
+         is paired with. The watch advertises bitey_watch the same way. -->
+    <string-array name="android_wear_capabilities" translatable="false">
+        <item>bitey_phone</item>
+    </string-array>
+</resources>

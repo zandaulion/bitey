@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting">スマートフォンで Bitey を開くと、ここに今日の記録が表示されます。</string>
+    <string name="unreachable">スマートフォンに接続できません。Bitey はインストールされていますか？</string>
+    <string name="failed">うまくいきませんでした。もう一度お試しください。</string>
+    <string name="tile_today">今日の Bitey</string>
+    <string name="tile_bites">Bitey ちょい食べ</string>
+    <string name="complication_calories">今日のカロリー</string>
+    <string name="complication_macros">今日のマクロ</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="waiting">افتح Bitey على هاتفك لترى يومك هنا.</string>
+    <string name="unreachable">تعذّر الوصول إلى هاتفك. هل Bitey مثبّت عليه؟</string>
+    <string name="failed">لم ينجح ذلك. حاول مرة أخرى.</string>
+    <string name="tile_today">اليوم في Bitey</string>
+    <string name="tile_bites">Bitey: قضمات سريعة</string>
+    <string name="complication_calories">سعرات اليوم</string>
+    <string name="complication_macros">المغذيات اليوم</string>
+</resources>

@@ -124,6 +124,7 @@ private class PlateNativeBridge(
     private val onQuickTileRequested: () -> Unit,
     private val onWidgetSnapshot: (String) -> Unit,
     private val onWidgetBitey: (String) -> Unit,
+    private val onWatchSnapshot: (String) -> Unit,
     private val widgetPinSupported: () -> Boolean,
     private val onWidgetPinRequested: () -> Unit,
 ) {
@@ -276,6 +277,11 @@ private class PlateNativeBridge(
     @JavascriptInterface
     fun setWidgetBitey(png: String) = onWidgetBitey(png)
 
+    /** Today for the watch: the widget's figures plus the quick bites and
+     * repeat meals it offers, each as the entry it would save. See WatchSync. */
+    @JavascriptInterface
+    fun setWatchSnapshot(json: String) = onWatchSnapshot(json)
+
     /** Whether this launcher can place the widget when the app asks. */
     @JavascriptInterface
     fun canPinWidget(): Boolean = widgetPinSupported()
@@ -306,6 +312,7 @@ class PlateWebView(
     onQuickTileRequested: () -> Unit,
     onWidgetSnapshot: (String) -> Unit,
     onWidgetBitey: (String) -> Unit,
+    onWatchSnapshot: (String) -> Unit,
     widgetPinSupported: () -> Boolean,
     onWidgetPinRequested: () -> Unit,
     private val onFileChooserRequested: (ValueCallback<Array<Uri>>, Boolean) -> Boolean,
@@ -411,6 +418,7 @@ class PlateWebView(
                 onQuickTileRequested,
                 onWidgetSnapshot,
                 onWidgetBitey,
+                onWatchSnapshot,
                 widgetPinSupported,
                 onWidgetPinRequested,
             ),

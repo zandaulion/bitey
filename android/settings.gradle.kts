@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "BiteyAndroid"
 include(":app")
+// The Wear OS companion: same package as :app, uploaded to the same Play listing.
+include(":wear")

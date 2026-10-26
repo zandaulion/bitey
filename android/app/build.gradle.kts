@@ -255,7 +255,16 @@ dependencies {
     // read a barcode, and all of it declarable as analytics.
     implementation("io.github.zxing-cpp:android:3.1.1")
 
+    // The watch companion: today and the quick bites go to the watch over
+    // the Data Layer, and what is tapped there comes back as a request. It
+    // only ever talks to Bitey's own watch app, on the person's paired watch.
+    implementation("com.google.android.gms:play-services-wearable:20.0.1")
+
     val roomVersion = "2.8.5"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    // org.json is only a stub in android.jar; the JVM tests need the real one.
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20260814")
 }
