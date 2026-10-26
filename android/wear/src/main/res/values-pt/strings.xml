@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">Abre o Bitey no telemóvel para veres aqui o dia de hoje.</string>
     <string name="unreachable">Não foi possível contactar o telemóvel. O Bitey está instalado?</string>
+    <string name="unconfirmed">O telemóvel não respondeu. Pode já ter sido registado: vê no Bitey antes de tentares outra vez.</string>
     <string name="failed">Não resultou. Tenta outra vez.</string>
     <string name="tile_today">Hoje no Bitey</string>
     <string name="tile_bites">Bitey: mordidas rápidas</string>

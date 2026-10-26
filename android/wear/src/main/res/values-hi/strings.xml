@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">आज का हाल यहाँ देखने के लिए अपने फ़ोन पर Bitey खोलें।</string>
     <string name="unreachable">आपके फ़ोन से संपर्क नहीं हो पा रहा। क्या उस पर Bitey इंस्टॉल है?</string>
+    <string name="unconfirmed">फ़ोन से जवाब नहीं आया। हो सकता है यह दर्ज हो चुका हो, इसलिए दोबारा कोशिश करने से पहले Bitey में देख लें।</string>
     <string name="failed">यह नहीं हुआ। फिर से कोशिश करें।</string>
     <string name="tile_today">आज Bitey में</string>
     <string name="tile_bites">Bitey छोटे बाइट</string>

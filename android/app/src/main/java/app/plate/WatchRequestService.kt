@@ -26,7 +26,7 @@ class WatchRequestService : WearableListenerService() {
             val body = runCatching { JSONObject(String(request, Charsets.UTF_8)) }.getOrElse { JSONObject() }
             val reply = runCatching {
                 when (path) {
-                    WatchSync.PATH_LOG -> WatchSync.log(applicationContext, body.optString("key"))
+                    WatchSync.PATH_LOG -> WatchSync.log(applicationContext, body.optString("key"), body.optString("request"))
                     WatchSync.PATH_UNDO -> WatchSync.undo(applicationContext, body.optString("id"))
                     WatchSync.PATH_REFRESH -> WatchSync.refresh(applicationContext)
                     else -> JSONObject().put("ok", false).put("code", "unknown")

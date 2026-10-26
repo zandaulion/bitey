@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">Öffne Bitey auf deinem Handy, um den heutigen Tag hier zu sehen.</string>
     <string name="unreachable">Dein Handy ist nicht erreichbar. Ist Bitey darauf installiert?</string>
+    <string name="unconfirmed">Keine Antwort vom Handy. Es wurde vielleicht schon eingetragen – schau in Bitey nach, bevor du es noch einmal versuchst.</string>
     <string name="failed">Das hat nicht geklappt. Versuch es noch einmal.</string>
     <string name="tile_today">Heute in Bitey</string>
     <string name="tile_bites">Bitey – kleine Bissen</string>

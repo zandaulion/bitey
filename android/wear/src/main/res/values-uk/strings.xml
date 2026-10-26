@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">Відкрийте Bitey на телефоні, щоб бачити тут сьогоднішній день.</string>
     <string name="unreachable">Не вдається з’єднатися з телефоном. Bitey на ньому встановлено?</string>
+    <string name="unconfirmed">Телефон не відповів. Можливо, запис уже додано: перевірте в Bitey, перш ніж пробувати знову.</string>
     <string name="failed">Не вдалося. Спробуйте ще раз.</string>
     <string name="tile_today">Сьогодні в Bitey</string>
     <string name="tile_bites">Bitey: шматочки</string>

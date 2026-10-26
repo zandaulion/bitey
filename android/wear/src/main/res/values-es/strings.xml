@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">Abre Bitey en tu móvil para ver aquí el día de hoy.</string>
     <string name="unreachable">No se puede conectar con tu móvil. ¿Tiene Bitey instalado?</string>
+    <string name="unconfirmed">Tu móvil no responde. Puede que ya se haya registrado: mira en Bitey antes de volver a intentarlo.</string>
     <string name="failed">No ha funcionado. Inténtalo de nuevo.</string>
     <string name="tile_today">Hoy en Bitey</string>
     <string name="tile_bites">Bitey: bocados rápidos</string>

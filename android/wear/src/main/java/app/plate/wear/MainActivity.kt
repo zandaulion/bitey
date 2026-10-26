@@ -107,6 +107,7 @@ class MainActivity : ComponentActivity() {
             status.value = when (val reply = Phone.log(applicationContext, choice.key)) {
                 is PhoneReply.Logged -> Status.Logged(reply.id, reply.label.ifBlank { choice.label })
                 PhoneReply.Unreachable -> Status.Failed(R.string.unreachable)
+                PhoneReply.Unconfirmed -> Status.Failed(R.string.unconfirmed)
                 else -> Status.Failed(R.string.failed)
             }
         }
@@ -118,6 +119,7 @@ class MainActivity : ComponentActivity() {
             status.value = when (Phone.undo(applicationContext, id)) {
                 PhoneReply.Done -> Status.Undone
                 PhoneReply.Unreachable -> Status.Failed(R.string.unreachable)
+                PhoneReply.Unconfirmed -> Status.Failed(R.string.unconfirmed)
                 else -> Status.Failed(R.string.failed)
             }
         }
@@ -151,9 +153,16 @@ fun BiteyApp(
 
 @Composable
 private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
-    val listState = rememberScalingLazyListState()
+    // Starts at the top rather than centring the first item: centred, the
+    // ring is tall enough to run into the time at the top of the screen.
+    val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
     ScreenScaffold(scrollState = listState) { padding ->
-        ScalingLazyColumn(state = listState, contentPadding = padding, modifier = Modifier.fillMaxSize()) {
+        ScalingLazyColumn(
+            state = listState,
+            contentPadding = padding,
+            autoCentering = null,
+            modifier = Modifier.fillMaxSize(),
+        ) {
             if (today == null) {
                 item {
                     Text(
@@ -232,7 +241,7 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
         when (status) {
             is Status.Logged -> { delay(6_000); onDone() }
             Status.Undone -> { delay(1_500); onDone() }
-            is Status.Failed -> { delay(4_000); onDone() }
+            is Status.Failed -> { delay(6_000); onDone() }
             else -> Unit
         }
     }

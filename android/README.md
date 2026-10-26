@@ -90,7 +90,10 @@ both. It is a companion (`standalone=false`) and keeps no diary.
   choice's key to `WatchRequestService`, which stamps the prepared entry with
   an id, today's date, the time and a sort key and writes it to Room as
   `entries.write` does. The totals are the page's, so the phone works nothing
-  out. The watch then offers Undo for six seconds (`/bitey/undo`, accepted
+  out. Each tap carries a request id: if the answer is lost the watch asks
+  once more with the same id and the phone answers from memory instead of
+  logging twice, and if no answer comes at all the watch says it may have
+  been logged rather than that it failed. The watch then offers Undo for six seconds (`/bitey/undo`, accepted
   only for the last ten entries the watch made). The watch's and widget's
   figures move by the entry's totals; an open Bitey redraws at once
   (`__plateWatchChanged`), a closed one when it is next shown.

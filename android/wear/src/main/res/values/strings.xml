@@ -6,6 +6,7 @@
     <string name="app_name" translatable="false">Bitey</string>
     <string name="waiting">Open Bitey on your phone to see today here.</string>
     <string name="unreachable">Can’t reach your phone. Is Bitey installed on it?</string>
+    <string name="unconfirmed">No answer from your phone. It may have been logged, so check Bitey there before trying again.</string>
     <string name="failed">That didn’t work. Try again.</string>
     <string name="tile_today">Today in Bitey</string>
     <string name="tile_bites">Bitey quick bites</string>

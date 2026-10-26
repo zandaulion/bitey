@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">افتح Bitey على هاتفك لترى يومك هنا.</string>
     <string name="unreachable">تعذّر الوصول إلى هاتفك. هل Bitey مثبّت عليه؟</string>
+    <string name="unconfirmed">لم يردّ هاتفك. ربما سُجّل بالفعل، فتحقّق في Bitey قبل المحاولة مرة أخرى.</string>
     <string name="failed">لم ينجح ذلك. حاول مرة أخرى.</string>
     <string name="tile_today">اليوم في Bitey</string>
     <string name="tile_bites">Bitey: قضمات سريعة</string>

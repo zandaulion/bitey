@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">在手机上打开 Bitey，即可在这里查看今天的记录。</string>
     <string name="unreachable">无法连接手机。手机上装了 Bitey 吗？</string>
+    <string name="unconfirmed">手机没有回应。可能已经记录了，请先在 Bitey 中查看再重试。</string>
     <string name="failed">没有成功，请重试。</string>
     <string name="tile_today">今天的 Bitey</string>
     <string name="tile_bites">Bitey 小份</string>

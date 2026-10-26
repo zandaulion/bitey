@@ -71,9 +71,11 @@ class MacrosComplication : BiteyComplication() {
         return when (type) {
             ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(today.macros(short = true)), line)
                 .setTitle(plain(today.word("today"))).setTapAction(tap).build()
+            // A short slot cuts any title past three or four letters ("PR…"),
+            // so protein goes as the tile writes it: "P 89".
             ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(
-                plain("${today.protein.roundToInt()} g"), line,
-            ).setTitle(plain(today.word("protein"))).setTapAction(tap).build()
+                plain("${today.word("protein").take(1)} ${today.protein.roundToInt()}"), line,
+            ).setTapAction(tap).build()
             else -> null
         }
     }

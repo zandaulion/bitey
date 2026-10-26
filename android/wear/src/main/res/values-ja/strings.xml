@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">スマートフォンで Bitey を開くと、ここに今日の記録が表示されます。</string>
     <string name="unreachable">スマートフォンに接続できません。Bitey はインストールされていますか？</string>
+    <string name="unconfirmed">スマートフォンから応答がありません。記録済みの可能性があるため、もう一度試す前に Bitey を確認してください。</string>
     <string name="failed">うまくいきませんでした。もう一度お試しください。</string>
     <string name="tile_today">今日の Bitey</string>
     <string name="tile_bites">Bitey ちょい食べ</string>

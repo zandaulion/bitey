@@ -37,9 +37,13 @@ object WatchSync {
     private const val KEY_SNAPSHOT = "snapshot"
     private const val KEY_PUBLISHED = "published"
     private const val KEY_LOGGED = "logged"
+    private const val KEY_ANSWERED = "answered"
 
     /** How many of the watch's own entries it can still take back. */
     private const val UNDO_DEPTH = 10
+
+    /** How many answers to remember, so a retried tap is not logged twice. */
+    private const val ANSWERED_DEPTH = 20
 
     /** The Data Layer refuses an item over 100 KB. */
     private const val MAX_SNAPSHOT = 90_000
@@ -64,9 +68,16 @@ object WatchSync {
         return JSONObject().put("ok", true)
     }
 
-    /** Logs the choice the watch tapped. Runs off the main thread. */
-    fun log(context: Context, key: String): JSONObject {
+    /**
+     * Logs the choice the watch tapped. Runs off the main thread.
+     *
+     * [request] is the watch's id for this tap. When an answer is lost on the
+     * way back the watch asks again with the same id, and gets the first
+     * answer instead of a second entry.
+     */
+    fun log(context: Context, key: String, request: String = ""): JSONObject {
         val reply = synchronized(lock) {
+            if (request.matches(ID)) answered(context)[request]?.let { return it }
             val snapshot = stored(context) ?: return error("no_snapshot")
             val choice = choices(snapshot).firstOrNull { it.optString("key") == key }
                 ?: return error("not_found")
@@ -100,6 +111,7 @@ object WatchSync {
                 .put("id", id)
                 .put("label", choice.optString("label"))
                 .put("kcal", choice.optInt("kcal"))
+                .also { if (request.matches(ID)) answer(context, request, it) }
         }
         publish(context)
         onDiaryChanged?.invoke()
@@ -201,6 +213,20 @@ object WatchSync {
     private fun forget(context: Context, id: String) {
         val ids = logged(context) - id
         prefs(context).edit().putString(KEY_LOGGED, JSONArray(ids).toString()).apply()
+    }
+
+    private fun answered(context: Context): Map<String, JSONObject> {
+        val stored = prefs(context).getString(KEY_ANSWERED, null)
+            ?.let { runCatching { JSONObject(it) }.getOrNull() } ?: return emptyMap()
+        return stored.keys().asSequence().mapNotNull { k -> stored.optJSONObject(k)?.let { k to it } }.toMap()
+    }
+
+    private fun answer(context: Context, request: String, reply: JSONObject) {
+        // JSONObject keeps insertion order, so the oldest answers are dropped first.
+        val kept = (answered(context).entries.map { it.key to it.value } + (request to reply)).takeLast(ANSWERED_DEPTH)
+        val stored = JSONObject()
+        kept.forEach { (k, v) -> stored.put(k, v) }
+        prefs(context).edit().putString(KEY_ANSWERED, stored.toString()).apply()
     }
 
     private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)

@@ -3,6 +3,7 @@ package com.zandaulion.bitey.wear
 import android.content.Context
 import androidx.concurrent.futures.CallbackToFutureAdapter
 import androidx.wear.protolayout.ActionBuilders
+import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DeviceParametersBuilders.DeviceParameters
 import androidx.wear.protolayout.LayoutElementBuilders
 import androidx.wear.protolayout.ModifiersBuilders
@@ -11,6 +12,7 @@ import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.material.Button
 import androidx.wear.protolayout.material.ButtonDefaults
 import androidx.wear.protolayout.material.CircularProgressIndicator
+import androidx.wear.protolayout.material.Colors
 import androidx.wear.protolayout.material.CompactChip
 import androidx.wear.protolayout.material.Text
 import androidx.wear.protolayout.material.Typography
@@ -65,8 +67,11 @@ abstract class BiteyTile : TileService() {
             .build()
     }
 
+    // Material Text defaults to the colour for text on a primary button, which
+    // is near-black: on a tile's black background it all but disappears.
     protected fun text(context: Context, value: String, typography: Int, lines: Int = 1) =
-        Text.Builder(context, value).setTypography(typography).setMaxLines(lines).build()
+        Text.Builder(context, value).setTypography(typography).setMaxLines(lines)
+            .setColor(ColorBuilders.argb(Colors.DEFAULT.onSurface)).build()
 
     protected fun waiting(device: DeviceParameters) = PrimaryLayout.Builder(device)
         .setContent(text(this, getString(R.string.waiting), Typography.TYPOGRAPHY_CAPTION1, 3))

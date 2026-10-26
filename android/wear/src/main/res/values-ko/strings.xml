@@ -2,6 +2,7 @@
 <resources>
     <string name="waiting">휴대전화에서 Bitey를 열면 여기에 오늘 기록이 표시됩니다.</string>
     <string name="unreachable">휴대전화에 연결할 수 없습니다. Bitey가 설치되어 있나요?</string>
+    <string name="unconfirmed">휴대전화에서 응답이 없습니다. 이미 기록되었을 수 있으니 다시 시도하기 전에 Bitey에서 확인하세요.</string>
     <string name="failed">실패했습니다. 다시 시도하세요.</string>
     <string name="tile_today">오늘의 Bitey</string>
     <string name="tile_bites">Bitey 간단한 한 입</string>
