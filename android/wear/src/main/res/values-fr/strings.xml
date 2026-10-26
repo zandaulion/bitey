@@ -6,6 +6,7 @@
     <string name="failed">Ça n’a pas marché. Réessaie.</string>
     <string name="tile_today">Aujourd’hui dans Bitey</string>
     <string name="tile_bites">Bitey : bouchées rapides</string>
+    <string name="tile_today_bites">Bitey : aujourd’hui et bouchées</string>
     <string name="complication_calories">Calories du jour</string>
     <string name="complication_macros">Macros du jour</string>
 </resources>

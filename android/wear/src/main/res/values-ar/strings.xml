@@ -6,6 +6,7 @@
     <string name="failed">لم ينجح ذلك. حاول مرة أخرى.</string>
     <string name="tile_today">اليوم في Bitey</string>
     <string name="tile_bites">Bitey: قضمات سريعة</string>
+    <string name="tile_today_bites">Bitey: اليوم والقضمات</string>
     <string name="complication_calories">سعرات اليوم</string>
     <string name="complication_macros">المغذيات اليوم</string>
 </resources>

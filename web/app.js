@@ -4804,7 +4804,8 @@ async function syncWatch(summary) {
       meals: t('Repeat'),
       logged: t('Logged {0}', '{0}'),
       undo: t('Undo'),
-      undone: t('Undone')
+      undone: t('Undone'),
+      back: t('Back')
     }
   }));
 }

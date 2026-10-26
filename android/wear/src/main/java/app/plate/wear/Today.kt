@@ -36,6 +36,19 @@ data class Today(
         if (day == date.toString()) this
         else copy(day = date.toString(), kcal = 0, protein = 0.0, carbs = 0.0, fat = 0.0, fiber = 0.0)
 
+    /**
+     * The ring, as the phone widget's bar draws it: protein, carbs and fat by
+     * energy, each a fraction of the whole ring. The scale is the burn
+     * estimate, or the day itself once it is past it or when there is none,
+     * so with no profile the ring is full and shows only the split. Bitey sets
+     * no target of its own to fill towards.
+     */
+    val ring: List<Float> get() {
+        val energy = listOf(protein * 4, carbs * 4, fat * 9)
+        val scale = maxOf(burn?.toDouble() ?: 0.0, energy.sum(), 1.0)
+        return energy.map { (it / scale).toFloat() }
+    }
+
     /** How far through the burn estimate today is, or null without one. */
     val progress: Float? get() = burn?.takeIf { it > 0 }?.let { (kcal.toFloat() / it).coerceIn(0f, 1f) }
 
@@ -43,9 +56,12 @@ data class Today(
     val eaten: String get() = word("eaten", "{0} kcal").replace("{0}", kcal.toString())
 
     /** "Protein 82 g · Carbs 160 g · Fat 50 g", or with [short], "P 82 · C 160 · F 50". */
-    fun macros(short: Boolean = false): String = listOf(
+    fun macros(short: Boolean = false): String = macroParts(short).joinToString(" · ")
+
+    /** The three parts of [macros], protein first, for drawing each in its colour. */
+    fun macroParts(short: Boolean = true): List<String> = listOf(
         "protein" to protein, "carbs" to carbs, "fat" to fat,
-    ).joinToString(" · ") { (key, grams) ->
+    ).map { (key, grams) ->
         val name = word(key, ENGLISH.getValue(key))
         if (short) "${name.take(1)} ${grams.roundToInt()}" else "$name ${grams.roundToInt()} g"
     }
@@ -59,7 +75,7 @@ data class Today(
         private val ENGLISH = mapOf(
             "today" to "Today", "kcal" to "kcal", "protein" to "Protein", "carbs" to "Carbs",
             "fat" to "Fat", "fiber" to "Fiber", "bites" to "Quick bites", "meals" to "Repeat",
-            "undo" to "Undo", "undone" to "Undone",
+            "undo" to "Undo", "undone" to "Undone", "back" to "Back",
         )
 
         fun parse(json: String): Today? = runCatching {
@@ -121,4 +137,12 @@ object TodayStore {
         }
         return state.value
     }
+}
+
+/** The app's --protein, --carbs and --fat in its dark theme, as on the widget at night. */
+object MacroColours {
+    const val PROTEIN = 0xFF34D399.toInt()
+    const val CARBS = 0xFFFBBF24.toInt()
+    const val FAT = 0xFFA78BFA.toInt()
+    val ALL = listOf(PROTEIN, CARBS, FAT)
 }

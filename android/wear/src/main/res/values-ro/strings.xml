@@ -6,6 +6,7 @@
     <string name="failed">N-a mers. Încearcă din nou.</string>
     <string name="tile_today">Azi în Bitey</string>
     <string name="tile_bites">Bitey – gustări rapide</string>
+    <string name="tile_today_bites">Bitey azi și gustări</string>
     <string name="complication_calories">Calorii azi</string>
     <string name="complication_macros">Macronutrienți azi</string>
 </resources>

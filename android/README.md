@@ -76,8 +76,9 @@ both. It is a companion (`standalone=false`) and keeps no diary.
 - **What it shows.** The watch app has today's total in a ring against the
   burn estimate, the macros, the quick bites (the three presets and up to four
   recent foods, as in the tray) and up to eight meals to repeat (the Repeat
-  sheet's list, counting today). Two tiles, *Today in Bitey* and *Bitey quick
-  bites*, and two complications, *Calories today* (short text, ranged value
+  sheet's list, counting today). Three tiles, *Today in Bitey*, *Bitey quick
+  bites* and both in one slot, *Bitey today & bites* (third-party tiles
+  cannot join One UI 8's stacked "multi-info" tiles), and two complications, *Calories today* (short text, ranged value
   against the burn, long text) and *Macros today* (long text, or protein as
   short text).
 - **How today gets there.** When the page draws today it sends

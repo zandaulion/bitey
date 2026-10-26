@@ -10,6 +10,7 @@
     <string name="failed">That didn’t work. Try again.</string>
     <string name="tile_today">Today in Bitey</string>
     <string name="tile_bites">Bitey quick bites</string>
+    <string name="tile_today_bites">Bitey today &amp; bites</string>
     <string name="complication_calories">Calories today</string>
     <string name="complication_macros">Macros today</string>
 </resources>

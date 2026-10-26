@@ -47,4 +47,28 @@ class TodayTest {
         assertNull(Today.parse("not json"))
         assertNull(Today.parse("{}"))
     }
+
+    @Test fun `with a burn estimate the ring fills towards it, split by macro energy`() {
+        val ring = Today.parse(json)!!.ring
+        // 82.4 g protein, 160 g carbs, 50 g fat: 329.6 + 640 + 450 kcal of 2300.
+        assertEquals(329.6f / 2300f, ring[0], 1e-5f)
+        assertEquals(640f / 2300f, ring[1], 1e-5f)
+        assertEquals(450f / 2300f, ring[2], 1e-5f)
+    }
+
+    @Test fun `without a profile the ring is full and shows only the split`() {
+        val ring = Today.parse(json.replace("\"burn\":2300", "\"burn\":null"))!!.ring
+        assertEquals(1f, ring.sum(), 1e-5f)
+        assertEquals(640f / 1419.6f, ring[1], 1e-5f)
+    }
+
+    @Test fun `past the burn the ring is full`() {
+        val ring = Today.parse(json.replace("\"burn\":2300", "\"burn\":1000"))!!.ring
+        assertEquals(1f, ring.sum(), 1e-5f)
+    }
+
+    @Test fun `nothing eaten leaves the ring empty`() {
+        val empty = Today.parse(json)!!.asOf(LocalDate.parse("2026-10-27")).ring
+        assertEquals(0f, empty.sum(), 0f)
+    }
 }

@@ -6,6 +6,7 @@
     <string name="failed">没有成功，请重试。</string>
     <string name="tile_today">今天的 Bitey</string>
     <string name="tile_bites">Bitey 小份</string>
+    <string name="tile_today_bites">Bitey 今天和小份</string>
     <string name="complication_calories">今日热量</string>
     <string name="complication_macros">今日宏量营养素</string>
 </resources>

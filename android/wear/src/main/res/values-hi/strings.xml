@@ -6,6 +6,7 @@
     <string name="failed">यह नहीं हुआ। फिर से कोशिश करें।</string>
     <string name="tile_today">आज Bitey में</string>
     <string name="tile_bites">Bitey छोटे बाइट</string>
+    <string name="tile_today_bites">Bitey आज और छोटे बाइट</string>
     <string name="complication_calories">आज की कैलोरी</string>
     <string name="complication_macros">आज के मैक्रो</string>
 </resources>

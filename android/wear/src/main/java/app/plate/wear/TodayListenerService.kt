@@ -28,6 +28,7 @@ class TodayListenerService : WearableListenerService() {
             val tiles = TileService.getUpdater(context)
             tiles.requestUpdate(TodayTile::class.java)
             tiles.requestUpdate(BitesTile::class.java)
+            tiles.requestUpdate(TodayBitesTile::class.java)
             for (source in listOf(CaloriesComplication::class.java, MacrosComplication::class.java)) {
                 ComplicationDataSourceUpdateRequester.create(context, ComponentName(context, source)).requestUpdateAll()
             }

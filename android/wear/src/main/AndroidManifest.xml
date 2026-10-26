@@ -63,6 +63,21 @@
                 android:resource="@mipmap/ic_launcher" />
         </service>
 
+        <!-- Both in one slot, for those who keep few tiles. -->
+        <service
+            android:name=".TodayBitesTile"
+            android:exported="true"
+            android:icon="@drawable/ic_bitey"
+            android:label="@string/tile_today_bites"
+            android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
+            <intent-filter>
+                <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
+            </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@mipmap/ic_launcher" />
+        </service>
+
         <!-- Refreshed when the phone sends today, and half-hourly so an
              earlier day's figures go back to 0 after midnight. -->
         <service

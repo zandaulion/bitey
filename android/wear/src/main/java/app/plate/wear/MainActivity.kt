@@ -16,11 +16,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -35,6 +40,9 @@ import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -145,11 +153,32 @@ fun BiteyApp(
 ) {
     MaterialTheme {
         AppScaffold {
-            if (status == Status.Idle) Home(today, onChoose)
-            else StatusScreen(today, status, onUndo, onDone)
+            val nav = rememberSwipeDismissableNavController()
+            val latest by rememberUpdatedState(status)
+            // The status decides the screen: a tap opens the result, and
+            // ending it returns to the list.
+            LaunchedEffect(status == Status.Idle) {
+                val onResult = nav.currentDestination?.route == RESULT
+                if (status != Status.Idle && !onResult) nav.navigate(RESULT) { launchSingleTop = true }
+                if (status == Status.Idle && onResult) nav.popBackStack()
+            }
+            // Back from the result by swipe or the watch's back key: the host
+            // pops it, and only once the swipe has finished is it over.
+            LaunchedEffect(nav) {
+                nav.currentBackStackEntryFlow.collect { entry ->
+                    if (entry.destination.route == HOME && latest != Status.Idle) onDone()
+                }
+            }
+            SwipeDismissableNavHost(navController = nav, startDestination = HOME) {
+                composable(HOME) { Home(today, onChoose) }
+                composable(RESULT) { StatusScreen(today, latest, onUndo, onDone) }
+            }
         }
     }
 }
+
+private const val HOME = "home"
+private const val RESULT = "result"
 
 @Composable
 private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
@@ -209,15 +238,19 @@ private fun ChoiceLabel(choice: Choice, today: Today) {
 @Composable
 private fun Summary(today: Today) {
     val track = MaterialTheme.colorScheme.surfaceContainer
-    val fill = MaterialTheme.colorScheme.primary
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.size(112.dp)) {
             Canvas(modifier = Modifier.fillMaxSize().padding(4.dp)) {
-                val stroke = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
-                drawArc(track, startAngle = -90f, sweepAngle = 360f, useCenter = false, style = stroke)
-                val progress = today.progress
-                if (progress != null && progress > 0f) {
-                    drawArc(fill, startAngle = -90f, sweepAngle = 360f * progress, useCenter = false, style = stroke)
+                val width = 8.dp.toPx()
+                drawArc(track, startAngle = -90f, sweepAngle = 360f, useCenter = false, style = Stroke(width))
+                // Protein, carbs and fat one after another, each by energy.
+                var start = -90f
+                today.ring.zip(MacroColours.ALL).forEach { (share, colour) ->
+                    val sweep = 360f * share
+                    if (sweep > 0f) {
+                        drawArc(Color(colour), start, sweep, useCenter = false, style = Stroke(width, cap = StrokeCap.Butt))
+                    }
+                    start += sweep
                 }
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -231,7 +264,17 @@ private fun Summary(today: Today) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 4.dp),
         )
-        Text(today.macros(short = true), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
+        // The ring's legend: each macro in its arc's colour.
+        Text(
+            buildAnnotatedString {
+                today.macroParts().zip(MacroColours.ALL).forEachIndexed { i, (part, colour) ->
+                    if (i > 0) append(" · ")
+                    withStyle(SpanStyle(color = Color(colour))) { append(part) }
+                }
+            },
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -258,10 +301,21 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
                 FilledTonalButton(onClick = { onUndo(status.id) }, modifier = Modifier.padding(top = 12.dp)) {
                     Text(words.word("undo"))
                 }
+                BackButton(words, onDone)
             }
             Status.Undone -> Text(words.word("undone"), textAlign = TextAlign.Center)
-            is Status.Failed -> Text(stringResource(status.message), textAlign = TextAlign.Center)
+            is Status.Failed -> {
+                Text(stringResource(status.message), textAlign = TextAlign.Center)
+                BackButton(words, onDone)
+            }
             Status.Idle -> Unit
         }
+    }
+}
+
+@Composable
+private fun BackButton(words: Today, onDone: () -> Unit) {
+    Button(onClick = onDone, modifier = Modifier.padding(top = 8.dp)) {
+        Text(words.word("back"))
     }
 }

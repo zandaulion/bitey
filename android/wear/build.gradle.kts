@@ -65,6 +65,17 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
+        // Built as the release is (R8, not debuggable), but under the debug
+        // package and key, so it pairs with :app's debug build. For judging
+        // smoothness on a real watch: a debug build of a Compose app runs
+        // without most of ART's optimisation and stutters where this does not.
+        create("profile") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-profile"
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += "release"
+        }
     }
 
     if (debugSigningFile.isFile) {
@@ -116,6 +127,8 @@ dependencies {
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.wear.compose:compose-material3:1.7.1")
     implementation("androidx.wear.compose:compose-foundation:1.7.1")
+    // Swipe-to-dismiss and the back key between the list and a tap's result.
+    implementation("androidx.wear.compose:compose-navigation:1.7.1")
 
     implementation("androidx.wear.tiles:tiles:1.6.2")
     implementation("androidx.wear.protolayout:protolayout:1.4.2")
