@@ -1,0 +1,100 @@
+# Bitey 1.1.10 (`versionCode` 27) — Play release notes
+
+Play Console takes all languages in one box, each wrapped in its locale tag;
+`release-notes-1.1.10.xml` beside this file is that paste-ready form, and
+this copy is generated from it. Play allows 500 characters per locale; the
+longest here, French, is 324.
+
+1.1.10 adds an "Install on your watch" button for paired Wear OS watches that
+lack Bitey: a Settings section ("Bitey on your watch") and a third entry on
+the welcome's shortcuts card. WatchInstall.kt finds connected nodes without
+the bitey_watch capability through the Data Layer and opens Bitey's Play page
+on them with RemoteActivityHelper (androidx.wear:wear-remote-interactions
+1.2.0); the page re-checks on every return to the foreground and shows "On
+your watch" once installed. Nothing shows without a paired watch. Phone only;
+the watch stays at 1.0.2 (versionCode 1000003). Six new strings in every
+language.
+
+## English (en-US)
+
+Bitey on your watch, one tap away.
+
+- New in Settings: Bitey on your watch. If your Wear OS watch doesn't have Bitey yet, Install on your watch opens it in the Play Store on the watch
+- The welcome tour shows it too, next to the home screen widget and the Quick Settings tile
+
+## Arabic (ar)
+
+Bitey على ساعتك، بلمسة واحدة.
+
+- جديد في الإعدادات: Bitey على ساعتك. إذا لم يكن Bitey على ساعة Wear OS بعد، فإن «ثبّته على ساعتك» يفتحه في متجر Play على الساعة
+- تعرضه جولة الترحيب أيضًا، بجانب أداة الشاشة الرئيسية ومربع الإعدادات السريعة
+
+## Chinese, Simplified (zh-CN)
+
+手表上的 Bitey，一键即达。
+
+- 设置中新增“手表上的 Bitey”。如果你的 Wear OS 手表还没有 Bitey，“安装到手表”会在手表上的 Play 商店打开它
+- 欢迎导览中也会显示，就在主屏幕小组件和快捷设置图块旁边
+
+## French (fr-FR)
+
+Bitey sur votre montre, en un geste.
+
+- Nouveau dans les Paramètres : Bitey sur votre montre. Si votre montre Wear OS n’a pas encore Bitey, « Installer sur la montre » l’ouvre dans le Play Store de la montre
+- La visite d’accueil le propose aussi, à côté du widget de l’écran d’accueil et de la vignette des Réglages rapides
+
+## German (de-DE)
+
+Bitey auf deiner Uhr, mit einem Tippen.
+
+- Neu in den Einstellungen: Bitey auf deiner Uhr. Hat deine Wear-OS-Uhr Bitey noch nicht, öffnet „Auf der Uhr installieren“ Bitey im Play Store auf der Uhr
+- Die Willkommenstour zeigt es auch, neben dem Startbildschirm-Widget und der Kachel in den Schnelleinstellungen
+
+## Hindi (hi-IN)
+
+आपकी घड़ी पर Bitey, बस एक टैप दूर।
+
+- सेटिंग्स में नया: आपकी घड़ी पर Bitey। अगर आपकी Wear OS घड़ी पर अभी Bitey नहीं है, तो "घड़ी पर इंस्टॉल करें" उसे घड़ी के Play Store में खोलता है
+- स्वागत टूर में भी दिखता है, होम स्क्रीन विजेट और क्विक सेटिंग टाइल के साथ
+
+## Japanese (ja-JP)
+
+ウォッチで Bitey を、ワンタップで。
+
+- 設定に「ウォッチで Bitey」を追加。Wear OS ウォッチにまだ Bitey がなければ、「ウォッチにインストール」でウォッチの Play ストアが開きます
+- ようこそツアーにも、ホーム画面ウィジェットとクイック設定のタイルの隣に表示されます
+
+## Korean (ko-KR)
+
+시계에서 Bitey를, 탭 한 번으로.
+
+- 설정에 새로 추가: 시계에서 Bitey. Wear OS 시계에 아직 Bitey가 없다면 '시계에 설치'를 누르면 시계의 Play 스토어에서 열립니다
+- 환영 둘러보기에도 홈 화면 위젯, 빠른 설정 타일과 함께 표시됩니다
+
+## Portuguese, Brazil (pt-BR)
+
+O Bitey no seu relógio, a um toque.
+
+- Novo nas Configurações: O Bitey no seu relógio. Se o seu relógio Wear OS ainda não tem o Bitey, "Instalar no relógio" abre a página dele na Play Store do relógio
+- O tour de boas-vindas também mostra, ao lado do widget da tela inicial e do bloco das Configurações rápidas
+
+## Romanian (ro)
+
+Bitey pe ceasul tău, la o atingere.
+
+- Nou în Setări: Bitey pe ceasul tău. Dacă ceasul tău cu Wear OS nu are încă Bitey, „Instalează pe ceas” îl deschide în Magazin Play pe ceas
+- Turul de bun venit îl arată și el, lângă widgetul pentru ecranul principal și butonul din Setări rapide
+
+## Spanish (es-ES)
+
+Bitey en tu reloj, a un toque.
+
+- Nuevo en Ajustes: Bitey en tu reloj. Si tu reloj Wear OS aún no tiene Bitey, «Instalar en el reloj» lo abre en Play Store en el reloj
+- El recorrido de bienvenida también lo muestra, junto al widget de pantalla de inicio y el icono de Ajustes rápidos
+
+## Ukrainian (uk)
+
+Bitey на вашому годиннику, одним дотиком.
+
+- Нове в налаштуваннях: Bitey на вашому годиннику. Якщо на годиннику з Wear OS ще немає Bitey, «Установити на годинник» відкриє його в Play Маркеті на годиннику
+- Вітальний тур теж це показує, поруч із віджетом головного екрана та плиткою в швидких налаштуваннях
