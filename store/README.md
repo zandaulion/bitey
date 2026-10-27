@@ -41,10 +41,13 @@ notes.
   Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
   service, widget and watch request service class names and every bridge
   method the page calls, `setWatchSnapshot` included.
-- Watch 1.0.1 (`versionCode` 1000002): the upload. Its bundle and hash are
-  below once built. Nothing in it differs from 1.0.0 but the version: 1000001
-  was used up by a Play Console mistake on 27 October 2026 and cannot be
-  uploaded again.
+- Watch 1.0.1 (`versionCode` 1000002), the upload: file SHA-256
+  `2FE8B1329054DE55C2ED5A0EC2E0624EEC7C020EF90AAA7B8538F7CDEF3B2E63` (built
+  27 October 2026, 13:26, on the Lenovo from e6127f1; signed with the Play
+  upload key). R8 kept the activity, the three tile services, the two
+  complication services and the data listener. Nothing in it differs from
+  1.0.0 but the version: 1000001 was used up by a Play Console mistake on
+  27 October 2026 and cannot be uploaded again.
 - Watch 1.0.0 (`versionCode` 1000001), not to be uploaded: file SHA-256
   `11F70A6C6B3FBA123ECE162A441C605466AEFF819F8D01488F37CE2B5E48B459` (same
   build and key as 1.1.9). R8 kept the activity, the three tile services, the
