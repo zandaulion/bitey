@@ -26,7 +26,7 @@ Google Play.
 The next upload is **1.1.9** (`versionCode` 26): Bitey on Wear OS. The phone
 app gains the watch's half (today, the quick bites and the repeat meals sent to
 a paired watch, and what is tapped there logged in the diary), and ships beside
-the first watch bundle, now **1.0.1** (`versionCode` 1000002), which goes to Play's
+the first watch bundle, now **1.0.2** (`versionCode` 1000003), which goes to Play's
 Wear OS track in the same listing: the watch app, three tiles and two
 complications. Its privacy notice, with the "Bitey on your watch" section
 approved on 27 October 2026 (`PRIVACY_NOTICE.md` and `plate-privacy.html`,
@@ -41,13 +41,17 @@ notes.
   Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
   service, widget and watch request service class names and every bridge
   method the page calls, `setWatchSnapshot` included.
-- Watch 1.0.1 (`versionCode` 1000002), the upload: file SHA-256
+- Watch 1.0.2 (`versionCode` 1000003), the upload, to a Wear OS testing track
+  and then promoted to production: its bundle and hash follow once built.
+  Unchanged but for the version: 1000002 was also used up in Play Console on
+  27 October 2026.
+- Watch 1.0.1 (`versionCode` 1000002), not to be uploaded: file SHA-256
   `2FE8B1329054DE55C2ED5A0EC2E0624EEC7C020EF90AAA7B8538F7CDEF3B2E63` (built
   27 October 2026, 13:26, on the Lenovo from e6127f1; signed with the Play
   upload key). R8 kept the activity, the three tile services, the two
   complication services and the data listener. Nothing in it differs from
   1.0.0 but the version: 1000001 was used up by a Play Console mistake on
-  27 October 2026 and cannot be uploaded again.
+  27 October 2026 and cannot be uploaded again, and 1000002 went the same way.
 - Watch 1.0.0 (`versionCode` 1000001), not to be uploaded: file SHA-256
   `11F70A6C6B3FBA123ECE162A441C605466AEFF819F8D01488F37CE2B5E48B459` (same
   build and key as 1.1.9). R8 kept the activity, the three tile services, the
@@ -301,7 +305,7 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
 - Current source version: **1.1.9** (`versionCode` 26), not yet uploaded; watch
-  bundle 1.0.1 (`versionCode` 1000002)
+  bundle 1.0.2 (`versionCode` 1000003)
 - Production: **1.1.8** (`versionCode` 25)
 - Next upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle
 - Last upload artifact: `bitey-private-food-log-1.1.8.aab`
