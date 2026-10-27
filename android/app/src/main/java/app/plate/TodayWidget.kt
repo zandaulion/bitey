@@ -37,9 +37,10 @@ import kotlin.math.roundToInt
  *
  * The burn estimate lives in the page, so the page sends the finished figures
  * and the words to show (in the language chosen in Bitey) whenever it draws
- * today; this only stores and draws them. Meals can only be logged inside
- * Bitey, so a snapshot from an earlier day means nothing has been eaten yet
- * today, and the widget shows 0 against the same burn until Bitey is opened.
+ * today; this only stores and draws them. Meals are logged in Bitey or on the
+ * watch, and the watch moves the figures through [moveBy], so a snapshot from
+ * an earlier day means nothing has been eaten yet today, and the widget shows
+ * 0 against the same burn until Bitey is opened or the watch logs something.
  *
  * The buttons are the launcher shortcuts' actions, so Photo still passes the
  * Bitey AI entitlement gate in the page.

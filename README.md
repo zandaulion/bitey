@@ -26,7 +26,9 @@ and compatibility routes may retain that name.
 
 The Android app is available on [Google Play](https://play.google.com/store/apps/details?id=com.zandaulion.bitey); the diary, food search,
 barcodes and weight work without an account, and Bitey AI (photo and description
-estimates) is an optional subscription. Do not assume a PWA account/database
+estimates) is an optional subscription. A Wear OS companion (from 1.1.9) shows
+today on the watch and logs quick bites and repeat meals through the phone; it
+keeps no diary of its own. Do not assume a PWA account/database
 migrates automatically into the Android app. The native guide records implemented
 functionality and how releases are built.
 
@@ -103,7 +105,8 @@ npm run i18n:check
 ```
 
 `core/` contains shared nutrition/day/analysis logic; `server/` is the Express API;
-`web/` is the PWA; `android/` hosts the native app; `functions/` contains its cloud
+`web/` is the PWA; `android/` hosts the native app (`app/`) and its Wear OS
+companion (`wear/`); `functions/` contains its cloud
 integration. The detailed rationale and UI behavior live in [DESIGN.md](DESIGN.md).
 
 Use Issues for reproducible bugs or focused proposals. Include version/runtime,

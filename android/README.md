@@ -167,14 +167,23 @@ reads it on upload, so there is no separate mapping upload.
 
 ## Toolchain
 
-The Gradle wrapper in `android/gradle/wrapper/` pins **Gradle 9.5.0**, which is
-the distribution AGP 9.3.3 expects. Build with `gradlew` rather than a system
-Gradle so the pairing is the same everywhere; the two versions are declared
-together in `android/build.gradle.kts` and neither moves alone.
+The Gradle wrapper in `android/gradle/wrapper/` pins **Gradle 9.8.2**, and
+`android/build.gradle.kts` declares **AGP 9.4.1**, **KSP 2.3.12** and the Kotlin
+and Compose compiler plugins at **2.4.20**. Naming Kotlin there makes AGP's
+built-in Kotlin use that version, so the Compose compiler (needed by `wear/`)
+matches it. Build with `gradlew` rather than a system Gradle so the versions are
+the same everywhere, and move these together.
+
+`app/` compiles against API 36; `wear/` against API 37, which Wear Compose 1.7
+requires (its `targetSdk` stays 36). `wear/` has a `profile` build type besides
+debug and release: optimised like the release but under the debug package and
+key, so it pairs with `app/`'s debug build. Judge the watch app's smoothness
+only on that or a release build; a debuggable Compose build stutters on a
+real watch.
 
 `settings.gradle.kts` applies the Foojay toolchain resolver, so Gradle fetches a
 matching JDK instead of failing when the machine has none.
 
 An Android SDK is still required and is not part of the wrapper. Open `android/`
-in Android Studio and install the requested API 36 SDK if prompted, or point
+in Android Studio and install the requested API 36 and 37 SDKs if prompted, or point
 `android/local.properties` at an existing SDK for command-line builds.

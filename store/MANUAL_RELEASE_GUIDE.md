@@ -7,6 +7,10 @@ go into GitHub.
 
 ## Current status
 
+The release-by-release status from 1.1.0 on, and the hash of every bundle, is
+kept in [`README.md`](README.md) under *Upload artifacts*. The entries below are
+the early closed-testing history and the one-off setup, kept for reference.
+
 - **1.0.2** (`versionCode` 3) is released to closed testing. It carries the Play
   Billing foundation and unblocked the Subscriptions page, but its photo button
   does nothing at all: entitlement results were delivered on Google Play's own
@@ -188,8 +192,9 @@ or stress management. Bitey is a diary and trend tool, not a medical device.
 
 Do **not** select **Health info** or **Fitness info** merely because users log
 meals or weigh-ins. Those diary and profile values are processed only on the
-device in the current release, so they do not meet Play's off-device
-collection definition.
+device, so they do not meet Play's off-device collection definition. From 1.1.9
+a summary of the day can also go to the person's own watch; see *From 1.1.9:
+the Wear OS companion* below.
 
 There is one separate decision: an allowed cache-miss barcode lookup sends the
 scanned barcode directly to Open Food Facts over HTTPS. Play defines collection
@@ -322,6 +327,40 @@ each photo, so an ambiguous dish is read the way the person eats. One more row:
   as with the photograph. So **No**, like Photos.
 - Upload the updated `store/plate-privacy.html` (5 October 2026) before the
   release goes out: it is the page that now describes the switch.
+
+#### From 1.1.9: the Wear OS companion
+
+The phone sends a paired watch running Bitey today's calorie and macro totals,
+the burn estimate, and the names and calories of the quick bites and meals the
+watch offers (see "Bitey on your watch" in the privacy notice). It goes through
+Google Play services' Wearable Data Layer, between the person's own devices,
+and Google may relay it through its servers when the two are not connected
+directly. Bitey's developer never receives it.
+
+Whether Play counts that as *collection* is a judgement to make against Play's
+current Data safety guidance, not something this guide can settle. If it does,
+the conservative row is **Health and fitness → Health info** (the day's
+intake), purpose **App functionality**, **not shared**, optional (only with a
+watch), encrypted in transit. Record whichever answer is chosen here, and keep
+it and the privacy notice in step.
+
+### Wear OS release
+
+The watch app is its own bundle in the same listing: `wear/`, package
+`com.zandaulion.bitey`, with its own `versionCode` (from 1000001), signed with
+the same upload key as the phone app. The Data Layer only connects the two
+when both match.
+
+1. Play Console → **Test and release → Advanced settings → Form factors**: add
+   **Wear OS** and opt in to its review.
+2. Upload the watch AAB (`BiteyWearPlay_…`) to the **Wear OS** track; the phone
+   AAB goes to the usual track. Each upload needs a `versionCode` no bundle in
+   the listing has used.
+3. Add the Wear OS screenshots from `screenshots/wear-*.png` (square, at least
+   384 × 384, no frame, mask or transparency).
+4. Ship the phone release that carries the watch's half (1.1.9 or later) no
+   later than the watch app: without it the watch finds no phone and shows
+   "Open Bitey on your phone".
 
 ### Other app-content tasks
 
