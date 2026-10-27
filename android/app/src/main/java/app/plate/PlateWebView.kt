@@ -125,6 +125,8 @@ private class PlateNativeBridge(
     private val onWidgetSnapshot: (String) -> Unit,
     private val onWidgetBitey: (String) -> Unit,
     private val onWatchSnapshot: (String) -> Unit,
+    private val onWatchStateRequested: () -> Unit,
+    private val onWatchInstallRequested: () -> Unit,
     private val widgetPinSupported: () -> Boolean,
     private val onWidgetPinRequested: () -> Unit,
 ) {
@@ -282,6 +284,16 @@ private class PlateNativeBridge(
     @JavascriptInterface
     fun setWatchSnapshot(json: String) = onWatchSnapshot(json)
 
+    /** Whether a paired watch lacks Bitey; the answer comes back through
+     * window.__plateNativeWatchState. See WatchInstall. */
+    @JavascriptInterface
+    fun checkWatch() = onWatchStateRequested()
+
+    /** Opens Bitey's Play page on the watch; the answer comes back through
+     * window.__plateNativeWatchInstallResult. */
+    @JavascriptInterface
+    fun installOnWatch() = onWatchInstallRequested()
+
     /** Whether this launcher can place the widget when the app asks. */
     @JavascriptInterface
     fun canPinWidget(): Boolean = widgetPinSupported()
@@ -419,6 +431,8 @@ class PlateWebView(
                 onWidgetSnapshot,
                 onWidgetBitey,
                 onWatchSnapshot,
+                ::checkWatch,
+                ::installOnWatch,
                 widgetPinSupported,
                 onWidgetPinRequested,
             ),
@@ -519,6 +533,20 @@ class PlateWebView(
     }
 
     /** One of "added", "already", "declined" or "failed". */
+    private fun checkWatch() {
+        networkExecutor.execute {
+            val state = WatchInstall.state(context)
+            post { evaluateJavascript("window.__plateNativeWatchState?.(${JSONObject.quote(state)})", null) }
+        }
+    }
+
+    private fun installOnWatch() {
+        networkExecutor.execute {
+            val result = WatchInstall.install(context)
+            post { evaluateJavascript("window.__plateNativeWatchInstallResult?.(${JSONObject.quote(result)})", null) }
+        }
+    }
+
     fun deliverQuickTileResult(result: String) {
         post {
             evaluateJavascript(

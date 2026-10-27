@@ -595,5 +595,11 @@
   "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "首月免费。在结束前于 Google Play 取消，就不用付费。",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "你的餐食描述会连同一个 Google Play 订阅代码，发送到 Bitey 位于 Google Cloud（比利时）的服务器，并由 Google 的 Gemini 读取。你的日记和个人资料保留在手机上。Bitey 的服务器不保存你的描述。",
   "Your word beats the photo. It works the whole dish out afresh.": "你的话比照片更准。整道菜会重新计算。",
-  "Zooming in on the toppings…": "正在放大查看配料…"
+  "Zooming in on the toppings…": "正在放大查看配料…",
+  "Bitey on your watch": "手表上的 Bitey",
+  "See today on your Wear OS watch, and log a quick bite or repeat a meal with one tap.": "在 Wear OS 手表上查看今天，一键记录小份或重复一餐。",
+  "Install on your watch": "安装到手表",
+  "✓ On your watch": "✓ 已在手表上",
+  "Check your watch to finish installing Bitey.": "请在手表上完成 Bitey 的安装。",
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "无法连接到手表。请改为在手表上的 Play 商店安装 Bitey。"
 }

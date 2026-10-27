@@ -259,6 +259,8 @@ dependencies {
     // the Data Layer, and what is tapped there comes back as a request. It
     // only ever talks to Bitey's own watch app, on the person's paired watch.
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
+    // "Install on your watch": opens Bitey's Play page on a paired watch.
+    implementation("androidx.wear:wear-remote-interactions:1.2.0")
 
     val roomVersion = "2.8.5"
     implementation("androidx.room:room-runtime:$roomVersion")

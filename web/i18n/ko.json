@@ -595,5 +595,11 @@
   "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "첫 달은 무료예요. 끝나기 전에 Google Play에서 해지하면 요금이 나가지 않아요.",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "식사 설명은 Google Play 구독 코드와 함께 Google Cloud(벨기에)에 있는 Bitey 서버로 전송되어 Google의 Gemini가 읽어요. 일지와 프로필은 휴대폰에 남아요. Bitey 서버는 설명을 저장하지 않아요.",
   "Your word beats the photo. It works the whole dish out afresh.": "사진보다 당신의 말이 우선이에요. 요리 전체를 처음부터 다시 계산해요.",
-  "Zooming in on the toppings…": "토핑 확대하는 중…"
+  "Zooming in on the toppings…": "토핑 확대하는 중…",
+  "Bitey on your watch": "시계에서 Bitey",
+  "See today on your Wear OS watch, and log a quick bite or repeat a meal with one tap.": "Wear OS 시계에서 오늘을 보고, 탭 한 번으로 간단한 한 입을 기록하거나 식사를 반복하세요.",
+  "Install on your watch": "시계에 설치",
+  "✓ On your watch": "✓ 시계에 설치됨",
+  "Check your watch to finish installing Bitey.": "시계에서 Bitey 설치를 완료하세요.",
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "시계에 연결할 수 없습니다. 대신 시계의 Play 스토어에서 Bitey를 설치하세요."
 }

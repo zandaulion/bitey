@@ -4538,6 +4538,57 @@ function bindQuickTileButton(button) {
   });
 }
 
+// ------------------------------------------------------------- watch app
+
+/**
+ * "Install on your watch", in Settings and on the welcome's shortcuts card.
+ * Native code asks Play services which watches are paired and which of them
+ * run Bitey (WatchInstall.kt): "missing" offers the install, "installed" says
+ * it is there, "none" shows nothing, so nobody without a Wear OS watch sees
+ * any of it. Asked again whenever Bitey comes back into view, so the offer
+ * turns into "On your watch" once it is installed.
+ */
+let watchState = 'none';
+const canCheckWatch = () => typeof window.PlateNative?.checkWatch === 'function';
+const checkWatch = () => { if (canCheckWatch()) window.PlateNative.checkWatch(); };
+
+function drawWatchButtons() {
+  if ($('native-watch')) $('native-watch').hidden = watchState === 'none';
+  document.querySelectorAll('[data-watch]').forEach((el) => { el.hidden = watchState === 'none'; });
+  document.querySelectorAll('.watch-install').forEach((button) => {
+    const installed = watchState === 'installed';
+    button.disabled = installed;
+    button.classList.toggle('is-added', installed);
+    button.textContent = installed ? t('✓ On your watch') : t('Install on your watch');
+  });
+}
+
+window.__plateNativeWatchState = (state) => {
+  watchState = ['missing', 'installed'].includes(state) ? state : 'none';
+  drawWatchButtons();
+};
+
+// The Play page opens on the watch and the install is confirmed there, so
+// the button stays offered until the next check finds Bitey on the watch.
+window.__plateNativeWatchInstallResult = (result) => {
+  drawWatchButtons();
+  toast(result === 'opened'
+    ? t('Check your watch to finish installing Bitey.')
+    : t('Could not reach your watch. Install Bitey from the Play Store on the watch instead.'));
+};
+
+function bindWatchButton(button) {
+  button.classList.add('watch-install');
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    window.PlateNative.installOnWatch();
+  });
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') checkWatch();
+});
+
 if (window.__PLATE_NATIVE__) {
   $('server-device-controls').hidden = true;
   $('server-data-heading').hidden = true;
@@ -4563,6 +4614,10 @@ if (window.__PLATE_NATIVE__) {
   if (canAddQuickTile()) {
     $('native-quick-tile').hidden = false;
     bindQuickTileButton($('quick-tile-add'));
+  }
+  if (canCheckWatch()) {
+    bindWatchButton($('watch-install'));
+    checkWatch();
   }
 
   const restoreButtons = [$('ai-restore'), $('ai-plan-restore')];
@@ -5345,11 +5400,24 @@ function renderWelcomeShortcuts(container) {
         <small>${esc(t('One tap from the pull-down panel opens the camera for a meal photo.'))}</small>
         ${tile}
       </div>
+      ${canCheckWatch() ? `<div class="welcome-shortcut" data-watch hidden>
+        <strong>${esc(t('Bitey on your watch'))}</strong>
+        <small>${esc(t('See today on your Wear OS watch, and log a quick bite or repeat a meal with one tap.'))}</small>
+        <button class="secondary welcome-add" type="button" data-add="watch">${esc(t('Install on your watch'))}</button>
+      </div>` : ''}
     </div>`;
   const widgetButton = container.querySelector('[data-add="widget"]');
   const tileButton = container.querySelector('[data-add="tile"]');
+  const watchButton = container.querySelector('[data-add="watch"]');
   if (widgetButton) bindWidgetButton(widgetButton);
   if (tileButton) bindQuickTileButton(tileButton);
+  // Shown only with a paired watch; the answer may arrive after the welcome
+  // opens on a first launch, and then it appears.
+  if (watchButton) {
+    bindWatchButton(watchButton);
+    drawWatchButtons();
+    checkWatch();
+  }
 }
 
 function openWelcome(kind) {

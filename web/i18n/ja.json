@@ -595,5 +595,11 @@
   "Your first month is free. Cancel in Google Play before it ends and you pay nothing.": "最初の1か月は無料です。終了前に Google Play で解約すれば、料金はかかりません。",
   "Your meal description is sent to Bitey's server in Google Cloud (Belgium) and read by Google's Gemini, with a Google Play subscription code. Your diary and profile stay on your phone. Bitey's server does not store your description.": "食事の説明は、Google Play の定期購入コードと一緒に Google Cloud（ベルギー）の Bitey のサーバーに送られ、Google の Gemini が読み取ります。日記とプロフィールは端末に残ります。Bitey のサーバーは説明を保存しません。",
   "Your word beats the photo. It works the whole dish out afresh.": "写真よりあなたの言葉が優先されます。料理全体を一から計算し直します。",
-  "Zooming in on the toppings…": "トッピングをズームしています…"
+  "Zooming in on the toppings…": "トッピングをズームしています…",
+  "Bitey on your watch": "ウォッチで Bitey",
+  "See today on your Wear OS watch, and log a quick bite or repeat a meal with one tap.": "Wear OS ウォッチで今日を確認し、ちょい食べの記録や食事の繰り返しをワンタップで。",
+  "Install on your watch": "ウォッチにインストール",
+  "✓ On your watch": "✓ ウォッチにあります",
+  "Check your watch to finish installing Bitey.": "ウォッチで Bitey のインストールを完了してください。",
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "ウォッチに接続できません。ウォッチの Play ストアから Bitey をインストールしてください。"
 }
