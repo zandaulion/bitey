@@ -77,6 +77,38 @@ input event after launching, which once logged a quick bite into the sample data
 `scripts/capture-entry-screenshots.cjs` is the earlier browser-based harness
 (1.0.13). It no longer matches these files and is kept only for reference.
 
+## Wear OS
+
+Taken on **27 October 2026** for the watch app's first release (1.0.0,
+`versionCode` 1000001), on a Wear OS 6 emulator (large round, 454 × 454) with
+the optimised `profile` build, paired with Bitey on an emulated phone. Play's
+Wear OS rules: square, at least 384 × 384, only the app's own screen, and no
+watch frame, round mask or transparency, so these are the emulator's square
+captures with the corners left black. Seven of Play's eight.
+
+| File | Shows |
+| --- | --- |
+| `wear-01-today.png` | The app: today's ring, protein, carbs and fat by energy against the burn estimate, with the macros as its legend |
+| `wear-02-today-tile.png` | The *Today in Bitey* tile |
+| `wear-03-quick-bites.png` | The app's quick bites, one tap each |
+| `wear-04-quick-bites-tile.png` | The *Bitey quick bites* tile, with Repeat |
+| `wear-05-today-bites-tile.png` | The *Bitey today & bites* tile: both in one slot |
+| `wear-06-repeat.png` | Meals to log again |
+| `wear-07-complications.png` | *Calories today* (ring) and *Macros today* (protein) on a watch face |
+
+The data is the phone screenshots' synthetic diary (`seed.js`); the day's
+three meals (yogurt, a wrap and an apple, 960 kcal) were logged from the
+watch through its own Repeat list. The burn estimate (~1823 kcal) comes from
+that made-up profile.
+
+How: `adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE
+--es operation add-tile --ecn component <package>/<tile service>` puts a tile
+in the emulator's carousel and `DEBUG_SYSUI --es operation show-tile --ei index
+<n>` shows it; complications go on a face with enabled slots (Athletica) with
+`DEBUG_SURFACE --es operation set-complication`. Never run these against a
+real watch: they change the owner's own tiles. The "Logged … / Undo" screen is
+not among them; it needs the phone emulator running as well.
+
 ## Before publishing
 
 Look at every image before uploading. These are English captures: attach them
