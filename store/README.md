@@ -23,7 +23,18 @@ Google Play.
 
 ## Upload artifacts
 
-**1.1.8** (`versionCode` 25) is live in production: a welcome for new users (a
+The next upload is **1.1.9** (`versionCode` 26): Bitey on Wear OS. The phone
+app gains the watch's half (today, the quick bites and the repeat meals sent to
+a paired watch, and what is tapped there logged in the diary), and ships beside
+the first watch bundle, `versionCode` 1000001 (1.0.0), which goes to Play's
+Wear OS track in the same listing: the watch app, three tiles and two
+complications. Before uploading, the draft "Bitey on your watch" section of
+`PRIVACY_NOTICE.md` needs approving and `plate-privacy.html` and the Data
+safety form updating to match, since diary totals and meal names now reach the
+watch. Its release notes are in `RELEASE_NOTES_1.1.9.md`, with the paste-ready
+tagged form in `release-notes-1.1.9.xml`.
+
+Before it, **1.1.8** (`versionCode` 25) went live in production: a welcome for new users (a
 three-screen tour of the ways to log, the widget and Quick Settings tile with
 one-tap add buttons, repeating meals and quick bites, and the
 no-good-or-bad-foods promise beside an optional profile prompt), a one-screen
@@ -270,7 +281,10 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.8** (`versionCode` 25), live in production
+- Current source version: **1.1.9** (`versionCode` 26), not yet uploaded; watch
+  bundle 1.0.0 (`versionCode` 1000001)
+- Production: **1.1.8** (`versionCode` 25)
+- Next upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle
 - Last upload artifact: `bitey-private-food-log-1.1.8.aab`
 
 The package name is permanent after the first Play upload. It is deliberately
