@@ -23,7 +23,8 @@ Google Play.
 
 ## Upload artifacts
 
-The next upload is **1.1.9** (`versionCode` 26): Bitey on Wear OS. The phone
+**1.1.9** (`versionCode` 26) is live in production, and its watch bundle,
+1.0.2 (`versionCode` 1000003), is in Wear OS review: Bitey on Wear OS. The phone
 app gains the watch's half (today, the quick bites and the repeat meals sent to
 a paired watch, and what is tapped there logged in the diary), and ships beside
 the first watch bundle, now **1.0.2** (`versionCode` 1000003), which goes to Play's
@@ -306,11 +307,10 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.9** (`versionCode` 26), not yet uploaded; watch
-  bundle 1.0.2 (`versionCode` 1000003)
-- Production: **1.1.8** (`versionCode` 25)
-- Next upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle
-- Last upload artifact: `bitey-private-food-log-1.1.8.aab`
+- Current source version: **1.1.9** (`versionCode` 26); watch bundle 1.0.2
+  (`versionCode` 1000003)
+- Production: **1.1.9** (`versionCode` 26); the watch 1.0.2 is in Wear OS review
+- Last upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle
 
 The package name is permanent after the first Play upload. It is deliberately
 separate from the pre-release `app.plate` package, so testing installations do

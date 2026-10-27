@@ -352,7 +352,11 @@ the same upload key as the phone app. The Data Layer only connects the two
 when both match.
 
 1. Play Console → **Test and release → Advanced settings → Form factors**: add
-   **Wear OS** and opt in to its review.
+   **Wear OS** and opt in to its review. Until that opt-in is approved, every
+   release on the Wear OS tracks shows "Unavailable on Google Play" and the
+   track stays inactive; nothing about the bundle is wrong. Do not upload
+   again to get past it: each upload uses up its `versionCode` even if the
+   release is never published (1000001 and 1000002 went that way).
 2. Upload the watch AAB (`BiteyWearPlay_…`) to the **Wear OS** track; the phone
    AAB goes to the usual track. Each upload needs a `versionCode` no bundle in
    the listing has used.
