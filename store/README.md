@@ -34,6 +34,16 @@ safety form updating to match, since diary totals and meal names now reach the
 watch. Its release notes are in `RELEASE_NOTES_1.1.9.md`, with the paste-ready
 tagged form in `release-notes-1.1.9.xml`.
 
+- 1.1.9 file SHA-256: `2EE2A30E8A67A35A7A3F7380839B378388308F56E79BFF81BC68DF3FFA060B22`
+  (built 27 October 2026, 07:22, on the Lenovo from 29027aa; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
+  service, widget and watch request service class names and every bridge
+  method the page calls, `setWatchSnapshot` included.
+- Watch 1.0.0 (`versionCode` 1000001) file SHA-256:
+  `11F70A6C6B3FBA123ECE162A441C605466AEFF819F8D01488F37CE2B5E48B459` (same
+  build and key). R8 kept the activity, the three tile services, the two
+  complication services and the data listener.
+
 Before it, **1.1.8** (`versionCode` 25) went live in production: a welcome for new users (a
 three-screen tour of the ways to log, the widget and Quick Settings tile with
 one-tap add buttons, repeating meals and quick bites, and the
