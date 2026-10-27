@@ -30,6 +30,12 @@ Bitey's Play page on the watch. The watch stays at 1.0.2 (`versionCode`
 1000003). Its release notes are in `RELEASE_NOTES_1.1.10.md`, with the
 paste-ready tagged form in `release-notes-1.1.10.xml`.
 
+- 1.1.10 file SHA-256: `F841F563C0F97945B0AE13B2663963076D2F5F03E00449C827D457DB91B86C95`
+  (built 27 October 2026, 21:02, on the Lenovo from ac75dc9; signed with the
+  Play upload key). Its R8 mapping travels inside the bundle. R8 kept the tile
+  service, widget and watch request service class names and every bridge
+  method the page calls, `checkWatch` and `installOnWatch` included.
+
 Before it, **1.1.9** (`versionCode` 26) went live in production, and its watch bundle,
 1.0.2 (`versionCode` 1000003), went to Wear OS review: Bitey on Wear OS. The phone
 app gains the watch's half (today, the quick bites and the repeat meals sent to
