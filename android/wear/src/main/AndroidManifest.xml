@@ -46,7 +46,7 @@
             </intent-filter>
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@mipmap/ic_launcher" />
+                android:resource="@drawable/tile_preview_today" />
         </service>
 
         <service
@@ -60,7 +60,7 @@
             </intent-filter>
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@mipmap/ic_launcher" />
+                android:resource="@drawable/tile_preview_bites" />
         </service>
 
         <!-- Both in one slot, for those who keep few tiles. -->
@@ -75,7 +75,7 @@
             </intent-filter>
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@mipmap/ic_launcher" />
+                android:resource="@drawable/tile_preview_today_bites" />
         </service>
 
         <!-- Refreshed when the phone sends today, and half-hourly so an
