@@ -42,9 +42,11 @@ notes.
   service, widget and watch request service class names and every bridge
   method the page calls, `setWatchSnapshot` included.
 - Watch 1.0.2 (`versionCode` 1000003), the upload, to a Wear OS testing track
-  and then promoted to production: its bundle and hash follow once built.
-  Unchanged but for the version: 1000002 was also used up in Play Console on
-  27 October 2026.
+  and then promoted to production: file SHA-256
+  `CE5F064FD5211452004930F8EA5B841E385D47414365B714531A5920C25ED390` (built
+  27 October 2026, 19:28, on the Lenovo from 6576f59; signed with the Play
+  upload key; R8 kept all seven watch entry points). Unchanged but for the
+  version: 1000002 was also used up in Play Console on 27 October 2026.
 - Watch 1.0.1 (`versionCode` 1000002), not to be uploaded: file SHA-256
   `2FE8B1329054DE55C2ED5A0EC2E0624EEC7C020EF90AAA7B8538F7CDEF3B2E63` (built
   27 October 2026, 13:26, on the Lenovo from e6127f1; signed with the Play
