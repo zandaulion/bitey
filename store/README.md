@@ -315,7 +315,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 
 ## Store identity
 
-- Play title: **Bitey — Private Food Log**
+- Play title: **Bitey: Calorie Counter & Diary** (since 28 October 2026;
+  before it, **Bitey — Private Food Log**, still the product name in the docs)
 - Tagline: **Nutrition, privately.**
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**

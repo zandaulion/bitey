@@ -7,10 +7,10 @@ Language: English — en-US
 ==================================================
 
 App name:
-Bitey — Private Food Log
+Bitey: Calorie Counter & Diary
 
 Short description:
-Food diary for real life: snap or describe meals. Consistent beats perfect.
+Calorie counter with honest ranges: snap or describe a meal. No account, no ads.
 
 Full description:
 Consistent beats perfect. Bitey is for everyday eating, not for weighing every gram. Log your meals roughly but regularly — a photo, a few words, a quick bite — and the small misses even out over the weeks. An imperfect log you keep beats a perfect one you give up on.
@@ -49,10 +49,10 @@ Language: Arabic — ar
 ==================================================
 
 App name:
-Bitey — سجل طعام خاص
+Bitey: عدّاد سعرات ويوميات
 
 Short description:
-يوميات طعام للحياة الواقعية: صوّر وجباتك أو صفها. الاستمرارية أهم من الكمال.
+عدّاد سعرات بنطاقات صادقة: صوّر وجبتك أو صفها. بلا حساب وبلا إعلانات.
 
 Full description:
 الاستمرارية أهم من الكمال. Bitey مصمم للأكل اليومي، لا لوزن كل غرام. سجّل وجباتك بشكل تقريبي لكن منتظم — صورة، بضع كلمات، وجبة خفيفة سريعة — وستتوازن الأخطاء الصغيرة على مدى الأسابيع. سجل غير مثالي تحافظ عليه أفضل من سجل مثالي تتخلى عنه.
@@ -91,10 +91,10 @@ Language: Chinese, Simplified — zh-CN
 ==================================================
 
 App name:
-Bitey — 私密饮食记录
+Bitey：卡路里计数与饮食日记
 
 Short description:
-为真实生活而设计的饮食日记：拍照或描述每一餐。坚持胜过完美。
+给出诚实范围的卡路里计数器：拍下或描述一餐。无需账号，没有广告。
 
 Full description:
 坚持胜过完美。Bitey 为日常饮食而设计，而不是为了称量每一克。大致但规律地记录每一餐——一张照片、几句话、一份小零食——小小的误差会在几周里自然抵消。一份你坚持下来的不完美记录，胜过一份半途而废的完美记录。
@@ -133,10 +133,10 @@ Language: French — fr-FR
 ==================================================
 
 App name:
-Bitey — Journal alimentaire
+Bitey : compteur de calories
 
 Short description:
-Journal alimentaire du quotidien : photo ou description. Régulier > parfait.
+Compteur de calories, fourchettes honnêtes : photo ou texte. Sans compte ni pub.
 
 Full description:
 La régularité vaut mieux que la perfection. Bitey est fait pour le quotidien, pas pour peser chaque gramme. Notez vos repas à peu près, mais régulièrement — une photo, quelques mots, un en-cas — et les petites erreurs s’équilibrent au fil des semaines. Un journal imparfait que l’on tient vaut mieux qu’un journal parfait que l’on abandonne.
@@ -175,10 +175,10 @@ Language: German — de-DE
 ==================================================
 
 App name:
-Bitey — Ernährungstagebuch
+Bitey: Kalorienzähler
 
 Short description:
-Essenstagebuch für den Alltag: Foto oder Beschreibung. Regelmäßig > perfekt.
+Kalorienzähler mit ehrlichen Spannen: Foto oder Text. Ohne Konto, ohne Werbung.
 
 Full description:
 Regelmäßig schlägt perfekt. Bitey ist für den Alltag gemacht, nicht dafür, jedes Gramm abzuwiegen. Erfasse deine Mahlzeiten ungefähr, aber regelmäßig — ein Foto, ein paar Worte, ein schneller Snack — und kleine Ungenauigkeiten gleichen sich über die Wochen aus. Ein unvollkommenes Tagebuch, das du führst, ist mehr wert als ein perfektes, das du aufgibst.
@@ -217,10 +217,10 @@ Language: Hindi — hi-IN
 ==================================================
 
 App name:
-Bitey — निजी फूड लॉग
+Bitey: कैलोरी काउंटर और डायरी
 
 Short description:
-असल ज़िंदगी के लिए फ़ूड डायरी: फ़ोटो लें या बताएँ। निरंतरता परफ़ेक्शन से बेहतर।
+ईमानदार रेंज वाला कैलोरी काउंटर: खाने की फ़ोटो लें या बताएँ। न खाता, न विज्ञापन।
 
 Full description:
 निरंतरता परफ़ेक्शन से बेहतर है। Bitey रोज़ के खाने के लिए है, हर ग्राम तौलने के लिए नहीं। अपना भोजन मोटे तौर पर पर नियमित रूप से दर्ज करें — एक फ़ोटो, कुछ शब्द, एक झटपट स्नैक — और छोटी-मोटी चूकें हफ़्तों में बराबर हो जाती हैं। जो अधूरा लॉग आप जारी रखते हैं, वह उस परफ़ेक्ट लॉग से बेहतर है जिसे आप छोड़ देते हैं।
@@ -259,10 +259,10 @@ Language: Japanese — ja-JP
 ==================================================
 
 App name:
-Bitey — プライベート食事記録
+Bitey：カロリー計算と食事記録
 
 Short description:
-毎日のための食事記録：写真や文章で記録。完璧より、続けること。
+正直な幅で示すカロリー計算：食事を撮るか書くだけ。アカウント不要、広告なし。
 
 Full description:
 完璧より、続けること。Bitey は毎日の食事のためのアプリで、1 グラム単位で量るためのものではありません。写真、ひとこと、ちょっとした間食など、おおまかでも毎日記録すれば、小さなズレは数週間で平均化されます。完璧でも続かない記録より、不完全でも続く記録のほうがずっと価値があります。
@@ -301,10 +301,10 @@ Language: Korean — ko-KR
 ==================================================
 
 App name:
-Bitey — 개인 식사 기록
+Bitey: 칼로리 계산기 & 식단 기록
 
 Short description:
-일상을 위한 식단 기록: 사진이나 설명으로 기록하세요. 완벽보다 꾸준함.
+정직한 범위로 보여주는 칼로리 계산기: 사진이나 설명으로 기록. 계정·광고 없음.
 
 Full description:
 완벽보다 꾸준함. Bitey는 1그램까지 재는 앱이 아니라 매일의 식사를 위한 앱입니다. 사진 한 장, 몇 마디, 간단한 간식처럼 대충이라도 꾸준히 기록하면 작은 오차는 몇 주에 걸쳐 평균이 맞춰집니다. 포기한 완벽한 기록보다 계속 이어가는 불완전한 기록이 훨씬 낫습니다.
@@ -343,10 +343,10 @@ Language: Portuguese, Brazil — pt-BR
 ==================================================
 
 App name:
-Bitey — Diário alimentar
+Bitey: Contador de Calorias
 
 Short description:
-Diário alimentar para a vida real: foto ou descrição. Constância > perfeição.
+Contador de calorias com faixas honestas: foto ou texto. Sem conta nem anúncios.
 
 Full description:
 Constância vale mais que perfeição. O Bitey é feito para o dia a dia, não para pesar cada grama. Registre suas refeições de forma aproximada, mas regular — uma foto, algumas palavras, um lanchinho — e os pequenos erros se compensam ao longo das semanas. Um diário imperfeito que você mantém vale mais que um perfeito que você abandona.
@@ -385,10 +385,10 @@ Language: Romanian — ro
 ==================================================
 
 App name:
-Bitey — Jurnal alimentar
+Bitey: Calculator de calorii
 
 Short description:
-Jurnal alimentar de zi cu zi: poză sau descriere. Constanța bate perfecțiunea.
+Calculator de calorii cu intervale oneste: poză sau text. Fără cont și reclame.
 
 Full description:
 Constanța bate perfecțiunea. Bitey e făcut pentru mâncarea de zi cu zi, nu pentru cântărit fiecare gram. Notează-ți mesele aproximativ, dar regulat — o fotografie, câteva cuvinte, o gustare — iar micile greșeli se echilibrează de-a lungul săptămânilor. Un jurnal imperfect pe care îl ții valorează mai mult decât unul perfect la care renunți.
@@ -427,10 +427,10 @@ Language: Spanish — es-ES
 ==================================================
 
 App name:
-Bitey — Diario de comidas
+Bitey: Contador de calorías
 
 Short description:
-Diario de comidas del día a día: foto o descripción. Constancia > perfección.
+Contador de calorías con rangos honestos: foto o texto. Sin cuenta ni anuncios.
 
 Full description:
 La constancia gana a la perfección. Bitey está pensado para el día a día, no para pesar cada gramo. Registra tus comidas de forma aproximada pero regular — una foto, unas palabras, un picoteo — y los pequeños errores se compensan con las semanas. Un diario imperfecto que mantienes vale más que uno perfecto que abandonas.
@@ -469,10 +469,10 @@ Language: Ukrainian — uk
 ==================================================
 
 App name:
-Bitey — Щоденник харчування
+Bitey: лічильник калорій
 
 Short description:
-Щоденник їжі для реального життя: фото чи опис. Регулярність понад досконалість.
+Лічильник калорій з чесними діапазонами: фото чи опис. Без акаунта й реклами.
 
 Full description:
 Регулярність важливіша за досконалість. Bitey створено для щоденного харчування, а не для зважування кожного грама. Записуйте їжу приблизно, але регулярно — фото, кілька слів, швидкий перекус — і дрібні неточності врівноважаться за кілька тижнів. Неідеальний щоденник, який ви ведете, кращий за ідеальний, який ви покинули.

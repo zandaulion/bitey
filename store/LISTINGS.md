@@ -1,20 +1,31 @@
 # Bitey — Google Play listings
 
 This file is the source copy for the Play listing, last revised on 27 October
-2026 for 1.1.9 (a line on the Wear OS companion), and before that on 11 October
+2026 for 1.1.9 (a line on the Wear OS companion), on 28 October 2026 for the
+title and short description (search words: "calorie counter"; the honest-ranges
+claim first), and before that on 11 October
 2026 for production (Bitey AI photo and text estimates, the multilingual food
 table). The release notes below are from the first release. The Play Console title
 limit is 30 characters; each short description is within its 80-character
 limit. Keep the title, short description, full description, and screenshots in
 the same locale when publishing.
 
+## Store listing experiment (en-US)
+
+Variant B for the short description, against the default above. Run it in
+Play Console → Grow → Store listing experiments, 50/50, until Play reports a
+result.
+
+- **B — private:** Private calorie counter & food diary with AI photos. No account, no ads. (72)
+- Held for after the Wear OS release is live — **C — on your wrist:** Calorie counter for your phone and Wear OS watch. Snap a meal, log it in a tap. (79)
+
 ## English (en-US)
 
-**App name:** Bitey — Private Food Log
+**App name:** Bitey: Calorie Counter & Diary
 
 **Tagline:** Nutrition, privately.
 
-**Short description:** Food diary for real life: snap or describe meals. Consistent beats perfect.
+**Short description:** Calorie counter with honest ranges: snap or describe a meal. No account, no ads.
 
 **Full description:**
 
@@ -61,11 +72,11 @@ Welcome to Bitey — Private Food Log.
 
 ## Arabic (ar)
 
-**App name:** Bitey — سجل طعام خاص
+**App name:** Bitey: عدّاد سعرات ويوميات
 
 **Tagline:** التغذية، بخصوصية.
 
-**Short description:** يوميات طعام للحياة الواقعية: صوّر وجباتك أو صفها. الاستمرارية أهم من الكمال.
+**Short description:** عدّاد سعرات بنطاقات صادقة: صوّر وجبتك أو صفها. بلا حساب وبلا إعلانات.
 
 **Full description:**
 
@@ -112,11 +123,11 @@ Bitey ليس جهازًا طبيًا ولا يقدم نصائح طبية.
 
 ## Chinese, Simplified (zh-CN)
 
-**App name:** Bitey — 私密饮食记录
+**App name:** Bitey：卡路里计数与饮食日记
 
 **Tagline:** 私密记录营养。
 
-**Short description:** 为真实生活而设计的饮食日记：拍照或描述每一餐。坚持胜过完美。
+**Short description:** 给出诚实范围的卡路里计数器：拍下或描述一餐。无需账号，没有广告。
 
 **Full description:**
 
@@ -163,11 +174,11 @@ Bitey 不是医疗器械，不提供医疗建议。
 
 ## French (fr-FR)
 
-**App name:** Bitey — Journal alimentaire
+**App name:** Bitey : compteur de calories
 
 **Tagline:** La nutrition, en privé.
 
-**Short description:** Journal alimentaire du quotidien : photo ou description. Régulier > parfait.
+**Short description:** Compteur de calories, fourchettes honnêtes : photo ou texte. Sans compte ni pub.
 
 **Full description:**
 
@@ -214,11 +225,11 @@ Bienvenue dans Bitey — Journal alimentaire privé.
 
 ## German (de-DE)
 
-**App name:** Bitey — Ernährungstagebuch
+**App name:** Bitey: Kalorienzähler
 
 **Tagline:** Ernährung, ganz privat.
 
-**Short description:** Essenstagebuch für den Alltag: Foto oder Beschreibung. Regelmäßig > perfekt.
+**Short description:** Kalorienzähler mit ehrlichen Spannen: Foto oder Text. Ohne Konto, ohne Werbung.
 
 **Full description:**
 
@@ -265,11 +276,11 @@ Willkommen bei Bitey — Privates Ernährungstagebuch.
 
 ## Hindi (hi-IN)
 
-**App name:** Bitey — निजी फूड लॉग
+**App name:** Bitey: कैलोरी काउंटर और डायरी
 
 **Tagline:** पोषण, निजी तौर पर।
 
-**Short description:** असल ज़िंदगी के लिए फ़ूड डायरी: फ़ोटो लें या बताएँ। निरंतरता परफ़ेक्शन से बेहतर।
+**Short description:** ईमानदार रेंज वाला कैलोरी काउंटर: खाने की फ़ोटो लें या बताएँ। न खाता, न विज्ञापन।
 
 **Full description:**
 
@@ -316,11 +327,11 @@ Bitey — निजी फूड लॉग में आपका स्वा�
 
 ## Japanese (ja-JP)
 
-**App name:** Bitey — プライベート食事記録
+**App name:** Bitey：カロリー計算と食事記録
 
 **Tagline:** 栄養を、プライベートに。
 
-**Short description:** 毎日のための食事記録：写真や文章で記録。完璧より、続けること。
+**Short description:** 正直な幅で示すカロリー計算：食事を撮るか書くだけ。アカウント不要、広告なし。
 
 **Full description:**
 
@@ -367,11 +378,11 @@ Bitey — プライベート食事記録へようこそ。
 
 ## Korean (ko-KR)
 
-**App name:** Bitey — 개인 식사 기록
+**App name:** Bitey: 칼로리 계산기 & 식단 기록
 
 **Tagline:** 영양 기록을 더 프라이빗하게.
 
-**Short description:** 일상을 위한 식단 기록: 사진이나 설명으로 기록하세요. 완벽보다 꾸준함.
+**Short description:** 정직한 범위로 보여주는 칼로리 계산기: 사진이나 설명으로 기록. 계정·광고 없음.
 
 **Full description:**
 
@@ -418,11 +429,11 @@ Bitey — 개인 식사 기록에 오신 것을 환영합니다.
 
 ## Portuguese, Brazil (pt-BR)
 
-**App name:** Bitey — Diário alimentar
+**App name:** Bitey: Contador de Calorias
 
 **Tagline:** Nutrição, em privado.
 
-**Short description:** Diário alimentar para a vida real: foto ou descrição. Constância > perfeição.
+**Short description:** Contador de calorias com faixas honestas: foto ou texto. Sem conta nem anúncios.
 
 **Full description:**
 
@@ -469,11 +480,11 @@ Boas-vindas ao Bitey — Diário alimentar privado.
 
 ## Romanian (ro)
 
-**App name:** Bitey — Jurnal alimentar
+**App name:** Bitey: Calculator de calorii
 
 **Tagline:** Nutriție, în privat.
 
-**Short description:** Jurnal alimentar de zi cu zi: poză sau descriere. Constanța bate perfecțiunea.
+**Short description:** Calculator de calorii cu intervale oneste: poză sau text. Fără cont și reclame.
 
 **Full description:**
 
@@ -520,11 +531,11 @@ Bun venit la Bitey — Jurnal alimentar privat.
 
 ## Spanish (es-ES)
 
-**App name:** Bitey — Diario de comidas
+**App name:** Bitey: Contador de calorías
 
 **Tagline:** Nutrición, en privado.
 
-**Short description:** Diario de comidas del día a día: foto o descripción. Constancia > perfección.
+**Short description:** Contador de calorías con rangos honestos: foto o texto. Sin cuenta ni anuncios.
 
 **Full description:**
 
@@ -571,11 +582,11 @@ Te damos la bienvenida a Bitey — Diario de comida privado.
 
 ## Ukrainian (uk)
 
-**App name:** Bitey — Щоденник харчування
+**App name:** Bitey: лічильник калорій
 
 **Tagline:** Харчування — приватно.
 
-**Short description:** Щоденник їжі для реального життя: фото чи опис. Регулярність понад досконалість.
+**Short description:** Лічильник калорій з чесними діапазонами: фото чи опис. Без акаунта й реклами.
 
 **Full description:**
 

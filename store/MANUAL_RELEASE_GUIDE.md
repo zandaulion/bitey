@@ -152,7 +152,8 @@ be a personal address.
 
 Use `LISTINGS.md` as the source of truth.
 
-- **Title:** `Bitey — Private Food Log`
+- **Title:** `Bitey: Calorie Counter & Diary` (was `Bitey — Private Food Log`
+  until 28 October 2026; see `LISTINGS.md` for every language)
 - **Tagline:** `Nutrition, privately.`
 - **Category:** Health & Fitness
 - **Tags:** Dieting and Weight loss
