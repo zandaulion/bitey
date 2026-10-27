@@ -28,9 +28,10 @@ app gains the watch's half (today, the quick bites and the repeat meals sent to
 a paired watch, and what is tapped there logged in the diary), and ships beside
 the first watch bundle, `versionCode` 1000001 (1.0.0), which goes to Play's
 Wear OS track in the same listing: the watch app, three tiles and two
-complications. Before uploading, the draft "Bitey on your watch" section of
-`PRIVACY_NOTICE.md` needs approving and `plate-privacy.html` and the Data
-safety form updating to match, since diary totals and meal names now reach the
+complications. Its privacy notice, with the "Bitey on your watch" section
+approved on 27 October 2026 (`PRIVACY_NOTICE.md` and `plate-privacy.html`,
+dated that day), goes live on the site before the upload, and the Data safety
+form is checked against it, since diary totals and meal names now reach the
 watch. Its release notes are in `RELEASE_NOTES_1.1.9.md`, with the paste-ready
 tagged form in `release-notes-1.1.9.xml`.
 
