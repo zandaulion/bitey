@@ -103,7 +103,7 @@ both. It is a companion (`standalone=false`) and keeps no diary.
 - **Words.** Everything comes from the page in the chosen language, except
   what the watch says before the phone has sent anything or when the phone is
   out of reach (`wear/src/main/res/values*/strings.xml`).
-- **Releases.** The watch has its own versionCode (from 1000001) and goes to
+- **Releases.** The watch has its own versionCode (from 1000001; 1.0.1 is 1000002) and goes to
   Play's Wear OS track in the same listing.
 - **Testing.** A phone and a Wear OS emulator can be paired on any machine
   that runs emulators with hardware acceleration; a real watch is needed for
