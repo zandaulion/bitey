@@ -52,12 +52,50 @@ const state = {
   pendingBarcode: null
 };
 
+// ------------------------------------------------------------ Play review
+
+/**
+ * Google Play's own rating sheet, asked for once someone clearly uses Bitey:
+ * after a meal is saved, on their seventh different day with anything logged,
+ * and then not again for 90 days. Play rations it further and may show
+ * nothing at all; the app is never told, and never asks again sooner.
+ *
+ * No question of our own first ("enjoying Bitey?"), and no wording about
+ * stars: only Play's sheet, which is what Play's policy allows.
+ */
+const REVIEW_ASKED_KEY = 'bitey.review.askedAt';
+const REVIEW_AFTER_DAYS = 7;
+const REVIEW_GAP_MS = 90 * 86400000;
+let reviewChecked = false;
+
+const isNewEntry = (path, options) => (options.method || 'GET').toUpperCase() === 'POST' &&
+  /^\/api\/entries(\/[^/]+\/duplicate)?$/.test(path.split('?')[0]);
+
+async function maybeAskForReview() {
+  // Once per launch: counting the logged days is the costly part.
+  if (reviewChecked || typeof window.PlateNative?.requestReview !== 'function') return;
+  reviewChecked = true;
+  try {
+    const last = Number(localStorage.getItem(REVIEW_ASKED_KEY)) || 0;
+    if (Date.now() - last < REVIEW_GAP_MS) return;
+    const { days } = await localApi('/api/history?days=180');
+    if (days.filter((d) => d.entries > 0).length < REVIEW_AFTER_DAYS) return;
+    localStorage.setItem(REVIEW_ASKED_KEY, String(Date.now()));
+    // After the save has had its moment: the toast and Bitey's reaction.
+    setTimeout(() => window.PlateNative.requestReview(), 2500);
+  } catch {
+    // Without storage it could not be remembered, so it is not asked.
+  }
+}
+
 // -------------------------------------------------------------------- api
 
 async function api(path, options = {}) {
   if (window.__PLATE_NATIVE__) {
     try {
-      return await localApi(path, options);
+      const result = await localApi(path, options);
+      if (isNewEntry(path, options)) void maybeAskForReview();
+      return result;
     } catch (err) {
       if (err instanceof LocalApiError) throw err;
       throw new LocalApiError('The local diary could not be opened.', { status: 503 });

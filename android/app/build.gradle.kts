@@ -261,6 +261,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
     // "Install on your watch": opens Bitey's Play page on a paired watch.
     implementation("androidx.wear:wear-remote-interactions:1.2.0")
+    // Google Play's in-app rating sheet (see maybeAskForReview in app.js).
+    implementation("com.google.android.play:review:2.0.2")
 
     val roomVersion = "2.8.5"
     implementation("androidx.room:room-runtime:$roomVersion")

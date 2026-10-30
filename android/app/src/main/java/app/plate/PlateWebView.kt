@@ -1,6 +1,7 @@
 package com.zandaulion.bitey
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.net.Uri
@@ -17,6 +18,7 @@ import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.webkit.WebViewAssetLoader
+import com.google.android.play.core.review.ReviewManagerFactory
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -127,6 +129,7 @@ private class PlateNativeBridge(
     private val onWatchSnapshot: (String) -> Unit,
     private val onWatchStateRequested: () -> Unit,
     private val onWatchInstallRequested: () -> Unit,
+    private val onReviewRequested: () -> Unit,
     private val widgetPinSupported: () -> Boolean,
     private val onWidgetPinRequested: () -> Unit,
 ) {
@@ -294,6 +297,11 @@ private class PlateNativeBridge(
     @JavascriptInterface
     fun installOnWatch() = onWatchInstallRequested()
 
+    /** Google Play's in-app rating sheet. The page decides when (see
+     * maybeAskForReview in app.js); Play decides whether it actually shows. */
+    @JavascriptInterface
+    fun requestReview() = onReviewRequested()
+
     /** Whether this launcher can place the widget when the app asks. */
     @JavascriptInterface
     fun canPinWidget(): Boolean = widgetPinSupported()
@@ -433,6 +441,7 @@ class PlateWebView(
                 onWatchSnapshot,
                 ::checkWatch,
                 ::installOnWatch,
+                ::requestReview,
                 widgetPinSupported,
                 onWidgetPinRequested,
             ),
@@ -544,6 +553,20 @@ class PlateWebView(
         networkExecutor.execute {
             val result = WatchInstall.install(context)
             post { evaluateJavascript("window.__plateNativeWatchInstallResult?.(${JSONObject.quote(result)})", null) }
+        }
+    }
+
+    /** Play's sheet over the activity. Play reports no outcome (whether it
+     * showed, or what was rated), so there is nothing to tell the page. */
+    private fun requestReview() {
+        val activity = context as? Activity ?: return
+        post {
+            val manager = ReviewManagerFactory.create(activity)
+            manager.requestReviewFlow().addOnCompleteListener { request ->
+                if (request.isSuccessful && !activity.isFinishing) {
+                    manager.launchReviewFlow(activity, request.result)
+                }
+            }
         }
     }
 
