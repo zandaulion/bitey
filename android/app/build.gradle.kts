@@ -221,7 +221,7 @@ tasks.configureEach {
 
 dependencies {
     implementation("androidx.activity:activity-ktx:1.13.0")
-    implementation("androidx.webkit:webkit:1.17.0")
+    implementation("androidx.webkit:webkit:1.18.0")
     // Bitey has no fragments, but Play services (under Billing and App Check)
     // still drags in fragment 1.1.0, which predates the ActivityResult APIs
     // used throughout; lintVitalRelease rejects the bundle with it. ML Kit
