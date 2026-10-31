@@ -237,7 +237,7 @@ dependencies {
     // app on a genuine device. Play Integrity in release; the debug provider
     // only in debug builds, since a release carrying it would accept
     // registered debug tokens in place of an attestation.
-    implementation(platform("com.google.firebase:firebase-bom:34.19.0"))
+    implementation(platform("com.google.firebase:firebase-bom:35.1.0"))
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
     debugImplementation("com.google.firebase:firebase-appcheck-debug")
 
