@@ -5,7 +5,9 @@ import WebKit
 /// in debug builds launched with BITEY_SELFTEST=1, and clears what it writes.
 enum DebugSelfTest {
     static func run(in webView: WKWebView) {
-        guard ProcessInfo.processInfo.environment["BITEY_SELFTEST"] == "1" else { return }
+        let environment = ProcessInfo.processInfo.environment
+        if environment["BITEY_LAYOUT"] == "1" { logLayout(of: webView) }
+        guard environment["BITEY_SELFTEST"] == "1" else { return }
         // After the page's own start-up requests have settled.
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             webView.callAsyncJavaScript(script, arguments: [:], in: nil, in: .page) { result in
@@ -13,6 +15,23 @@ enum DebugSelfTest {
                 case .success(let value): NativeBridge.debugLog("selftest: \(value)")
                 case .failure(let error): NativeBridge.debugLog("selftest failed: \(error)")
                 }
+            }
+        }
+    }
+
+    /// Reports where the first-run screen's parts really land, in CSS pixels.
+    private static func logLayout(of webView: WKWebView) {
+        let probe = """
+        JSON.stringify({ window: [innerWidth, innerHeight], visual: visualViewport?.height,
+          parts: ['.welcome-inner', '.welcome-foot'].map((name) => {
+            const e = document.querySelector(name), box = e?.getBoundingClientRect(), css = e && getComputedStyle(e);
+            return { name, top: box?.top, bottom: box?.bottom, height: box?.height, position: css?.position,
+              cssBottom: css?.bottom, scroll: e?.scrollHeight, client: e?.clientHeight };
+          }) })
+        """
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            webView.evaluateJavaScript(probe) { result, _ in
+                NativeBridge.debugLog("layout: \(result ?? "nil")")
             }
         }
     }
