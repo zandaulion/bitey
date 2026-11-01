@@ -28,13 +28,17 @@ final class WebViewController: UIViewController {
         webView.scrollView.bounces = false
         // The page pads itself with env(safe-area-inset-*), as it does in Chrome.
         webView.scrollView.contentInsetAdjustmentBehavior = .never
+        // The launch screen's colour, so the page appears without a flash.
         webView.isOpaque = false
-        webView.backgroundColor = .systemBackground
+        webView.backgroundColor = UIColor(named: "LaunchBackground")
         #if DEBUG
         webView.isInspectable = true
         #endif
 
         bridge = NativeBridge(webView: webView, presenter: self)
+        let back = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(swipedBack(_:)))
+        back.edges = .left
+        webView.addGestureRecognizer(back)
         configuration.userContentController.add(bridge, name: NativeBridge.channel)
         view = webView
     }
@@ -42,6 +46,27 @@ final class WebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.load(URLRequest(url: AppSchemeHandler.home))
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(applyTextSize),
+            name: UIContentSizeCategory.didChangeNotification, object: nil
+        )
+    }
+
+    /// iOS's back gesture, which closes the page's top sheet as Android's Back does.
+    @objc private func swipedBack(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        guard gesture.state == .ended else { return }
+        webView.evaluateJavaScript("window.__plateNativeBack?.()", completionHandler: nil)
+    }
+
+    /// Ordinary sizes stay at the page's own, and accessibility sizes grow with the
+    /// setting, the rule `textZoomFor` follows on Android.
+    @objc private func applyTextSize() {
+        let scale = UIFontMetrics(forTextStyle: .body).scaledValue(for: 100) / 100
+        let percent = max(100, Int((scale * 100).rounded()) - 15)
+        webView.evaluateJavaScript(
+            "document.documentElement.style.webkitTextSizeAdjust = '\\(percent)%'",
+            completionHandler: nil
+        )
     }
 }
 
@@ -104,6 +129,13 @@ extension WebViewController: WKNavigationDelegate {
         decisionHandler(inside ? .allow : .cancel)
     }
 
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        applyTextSize()
+        #if DEBUG
+        DebugSelfTest.run(in: webView)
+        #endif
+    }
+
     #if DEBUG
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         NativeBridge.debugLog("navigation failed: \(error)")
@@ -111,10 +143,6 @@ extension WebViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         NativeBridge.debugLog("load failed: \(error)")
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        DebugSelfTest.run(in: webView)
     }
     #endif
 }

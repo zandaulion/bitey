@@ -51,4 +51,32 @@ final class LoggingFlowTests: XCTestCase {
         sleep(2)
         XCTAssertTrue(app.webViews.staticTexts["Nothing logged yet."].waitForExistence(timeout: 8), "the entry stayed")
     }
+
+    func testSwipingFromTheEdgeClosesASheet() {
+        start()
+        let settings = app.webViews.buttons["Settings"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 20))
+        settings.tap()
+        sleep(2)
+        let heading = app.webViews.staticTexts["Settings"].firstMatch
+        XCTAssertTrue(heading.waitForExistence(timeout: 8))
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.5))
+            .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)))
+        sleep(2)
+        XCTAssertTrue(app.webViews.buttons["Barcode"].isHittable, "the sheet stayed open")
+    }
+
+    func testThePrivacyNoticeOpens() {
+        start()
+        let settings = app.webViews.buttons["Settings"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 20))
+        settings.tap()
+        sleep(2)
+        let notice = app.webViews.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'privacy'")).firstMatch
+        XCTAssertTrue(notice.waitForExistence(timeout: 8))
+        for _ in 0..<8 where !notice.isHittable { app.webViews.firstMatch.swipeUp() }
+        notice.tap()
+        sleep(6)
+        shot("privacy")
+    }
 }

@@ -20,7 +20,8 @@
     ...send(
       'readCachedFood', 'writeCachedFood', 'searchGenericFoods',
       'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'analysePhoto',
-      'exportBackup', 'importBackup', 'scanBarcode', 'lookupOpenFoodFacts', 'log'
+      'exportBackup', 'importBackup', 'scanBarcode', 'lookupOpenFoodFacts',
+      'openPrivacyNotice', 'log'
     ),
   };
 

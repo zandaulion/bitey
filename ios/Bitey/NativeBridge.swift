@@ -1,4 +1,5 @@
 import Foundation
+import SafariServices
 import UIKit
 import WebKit
 
@@ -7,6 +8,7 @@ import WebKit
 /// or run a query.
 final class NativeBridge: NSObject, WKScriptMessageHandler {
     static let channel = "plate"
+    private static let privacyNotice = "https://zandaulion.com/plate-privacy.html"
 
     private weak var webView: WKWebView?
     private let work = DispatchQueue(label: "bitey.bridge")
@@ -30,6 +32,8 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
               let args = body["args"] as? [String] else { return }
         if method == "capturePhoto", args.count == 2 {
             capturePhoto(source: args[0], requestId: args[1])
+        } else if method == "openPrivacyNotice", let url = URL(string: Self.privacyNotice) {
+            presenter?.present(SFSafariViewController(url: url), animated: true)
         } else if method == "scanBarcode" {
             scanBarcode(labels: args.first ?? "{}")
         } else {

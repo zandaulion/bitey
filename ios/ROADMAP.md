@@ -22,7 +22,7 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Back gesture, privacy link, icon, text size | Done | Not yet | 1 |
 | Home screen widget | Done | Not yet | 1 |
 | Long-press shortcuts | Done | Not yet | 1 |
-| Ask for a rating | Done | Not yet | 1 |
+| Ask for a rating | On a branch, not on `main` | Not yet | 1 |
 | Quick log from the system panel | Quick Settings tile | Control Center control | 1 |
 | Bitey AI: photo and text | Done | Not yet | 3 |
 | Subscription | Google Play | In-app purchase | 3 |
@@ -45,7 +45,7 @@ Built and tested in the Simulator on a rented Mac.
 5. Backup and restore through Files, in the same `plate.json` zip format, so a
    backup moves between Android and iPhone. Test with a real Android backup. (M)
 6. App icon, launch screen, back gesture, privacy link, text size, keyboard. (M)
-7. Rating prompt, after a week of logging, as on Android. (S)
+7. Rating prompt, once Android's `feature/in-app-review` branch reaches `main`. (S)
 8. Long-press shortcuts with App Intents. (S)
 9. Widget with WidgetKit, from the page's existing snapshot. (L)
 10. Control Center control for a quick photo. (S)
