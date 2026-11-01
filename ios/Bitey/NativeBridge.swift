@@ -15,11 +15,13 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
     private let capture: PhotoCapture
     private let backupPicker: BackupPicker
     private lazy var backup = LocalBackup(store: store)
+    private weak var presenter: UIViewController?
 
     init(webView: WKWebView, presenter: UIViewController) {
         self.webView = webView
         capture = PhotoCapture(presenter: presenter)
         backupPicker = BackupPicker(presenter: presenter)
+        self.presenter = presenter
     }
 
     func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -28,6 +30,8 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
               let args = body["args"] as? [String] else { return }
         if method == "capturePhoto", args.count == 2 {
             capturePhoto(source: args[0], requestId: args[1])
+        } else if method == "scanBarcode" {
+            scanBarcode(labels: args.first ?? "{}")
         } else {
             work.async { self.handle(method, args) }
         }
@@ -53,6 +57,10 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
                 "httpStatus": 503,
                 "body": ["error": "unavailable", "message": "Bitey AI is not available on iPhone yet."],
             ]))
+        case ("lookupOpenFoodFacts", 1):
+            OpenFoodFacts.lookup(barcode: args[0]) { [weak self] result in
+                self?.reply("__plateNativeOpenFoodFactsResult", result)
+            }
         case ("exportBackup", 0):
             exportBackup()
         case ("importBackup", 0):
@@ -71,6 +79,21 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" { return "active" }
         #endif
         return "unavailable"
+    }
+
+    private func scanBarcode(labels: String) {
+        #if DEBUG
+        if let code = ProcessInfo.processInfo.environment["BITEY_TEST_BARCODE"] {
+            reply("__plateNativeBarcodeResult", code)
+            return
+        }
+        #endif
+        let parsed = labels.data(using: .utf8)
+            .flatMap { try? JSONSerialization.jsonObject(with: $0) } as? [String: String] ?? [:]
+        let scanner = BarcodeScannerViewController(labels: parsed) { [weak self] code in
+            self?.reply("__plateNativeBarcodeResult", code)
+        }
+        presenter?.present(scanner, animated: true)
     }
 
     private func exportBackup() {

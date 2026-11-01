@@ -24,6 +24,7 @@ final class WebViewController: UIViewController {
 
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
+        webView.uiDelegate = self
         webView.scrollView.bounces = false
         // The page pads itself with env(safe-area-inset-*), as it does in Chrome.
         webView.scrollView.contentInsetAdjustmentBehavior = .never
@@ -41,6 +42,54 @@ final class WebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.load(URLRequest(url: AppSchemeHandler.home))
+    }
+}
+
+/// WKWebView drops alert, confirm and prompt unless the app shows them, and an
+/// unanswered confirm would quietly refuse every delete.
+extension WebViewController: WKUIDelegate {
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptAlertPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping () -> Void
+    ) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: dialogLabel("OK"), style: .default) { _ in completionHandler() })
+        present(alert, animated: true)
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptConfirmPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (Bool) -> Void
+    ) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: dialogLabel("Cancel"), style: .cancel) { _ in completionHandler(false) })
+        alert.addAction(UIAlertAction(title: dialogLabel("OK"), style: .default) { _ in completionHandler(true) })
+        present(alert, animated: true)
+    }
+
+    func webView(
+        _ webView: WKWebView,
+        runJavaScriptTextInputPanelWithPrompt prompt: String,
+        defaultText: String?,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (String?) -> Void
+    ) {
+        let alert = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+        alert.addTextField { $0.text = defaultText }
+        alert.addAction(UIAlertAction(title: dialogLabel("Cancel"), style: .cancel) { _ in completionHandler(nil) })
+        alert.addAction(UIAlertAction(title: dialogLabel("OK"), style: .default) { [weak alert] _ in
+            completionHandler(alert?.textFields?.first?.text)
+        })
+        present(alert, animated: true)
+    }
+
+    /// UIKit's own translation, which follows the phone's language.
+    private func dialogLabel(_ key: String) -> String {
+        Bundle(for: UIApplication.self).localizedString(forKey: key, value: key, table: nil)
     }
 }
 

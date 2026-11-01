@@ -18,7 +18,7 @@ final class PhotoFlowTests: XCTestCase {
         app.launchEnvironment["BITEY_TEST_PHOTO"] = "/tmp/sample.jpg"
         app.launch()
         let skip = app.webViews.buttons["Skip"]
-        if skip.waitForExistence(timeout: 40) { skip.tap() }
+        if skip.waitForExistence(timeout: 15) { skip.tap() }
     }
 
     func testPickingAPhotoReachesTheReviewSheet() {
