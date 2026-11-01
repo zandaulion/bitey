@@ -13,10 +13,13 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
     private let store = LocalStore.shared
     private let foods = FoodSearch()
     private let capture: PhotoCapture
+    private let backupPicker: BackupPicker
+    private lazy var backup = LocalBackup(store: store)
 
     init(webView: WKWebView, presenter: UIViewController) {
         self.webView = webView
         capture = PhotoCapture(presenter: presenter)
+        backupPicker = BackupPicker(presenter: presenter)
     }
 
     func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -50,6 +53,10 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
                 "httpStatus": 503,
                 "body": ["error": "unavailable", "message": "Bitey AI is not available on iPhone yet."],
             ]))
+        case ("exportBackup", 0):
+            exportBackup()
+        case ("importBackup", 0):
+            importBackup()
         case ("log", 1):
             Self.debugLog(args[0])
         default:
@@ -64,6 +71,67 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" { return "active" }
         #endif
         return "unavailable"
+    }
+
+    private func exportBackup() {
+        do {
+            let result = try backup.export()
+            #if DEBUG
+            if let path = ProcessInfo.processInfo.environment["BITEY_TEST_BACKUP"] {
+                try? FileManager.default.removeItem(atPath: path)
+                try FileManager.default.copyItem(at: result.url, to: URL(fileURLWithPath: path))
+                try? FileManager.default.removeItem(at: result.url)
+                backupReply("export", ["ok": true, "summary": result.summary])
+                return
+            }
+            #endif
+            DispatchQueue.main.async {
+                self.backupPicker.save(result.url) { [weak self] saved in
+                    try? FileManager.default.removeItem(at: result.url)
+                    self?.backupReply("export", saved == nil
+                        ? ["ok": false, "code": "cancelled"]
+                        : ["ok": true, "summary": result.summary])
+                }
+            }
+        } catch {
+            backupFailed("export", error, fallback: "The backup could not be written.")
+        }
+    }
+
+    private func importBackup() {
+        #if DEBUG
+        if let path = ProcessInfo.processInfo.environment["BITEY_TEST_BACKUP"] {
+            restoreBackup(from: URL(fileURLWithPath: path))
+            return
+        }
+        #endif
+        DispatchQueue.main.async {
+            self.backupPicker.open { [weak self] url in
+                guard let self else { return }
+                guard let url else {
+                    self.backupReply("import", ["ok": false, "code": "cancelled"])
+                    return
+                }
+                self.work.async { self.restoreBackup(from: url) }
+            }
+        }
+    }
+
+    private func restoreBackup(from url: URL) {
+        do {
+            backupReply("import", ["ok": true, "summary": try backup.importFrom(url: url)])
+        } catch {
+            backupFailed("import", error, fallback: "The backup could not be restored.")
+        }
+    }
+
+    private func backupFailed(_ operation: String, _ error: Error, fallback: String) {
+        let message = (error as? LocalBackup.Problem)?.message ?? fallback
+        backupReply(operation, ["ok": false, "code": "backup_error", "message": message])
+    }
+
+    private func backupReply(_ operation: String, _ result: [String: Any]) {
+        reply("__plateNativeBackupResult", operation, Self.json(result))
     }
 
     private func capturePhoto(source: String, requestId: String) {

@@ -15,7 +15,7 @@ final class LocalStore {
     private static let dayPattern = "^\\d{4}-\\d{2}-\\d{2}$"
     private static let maxPhotoBytes = 5 * 1024 * 1024
 
-    private let database: SQLiteDatabase?
+    let database: SQLiteDatabase?
     private let photos: URL
 
     private init() {
@@ -186,6 +186,17 @@ final class LocalStore {
         }
         try data.write(to: photos.appendingPathComponent(id), options: .atomic)
         try db.execute("INSERT OR REPLACE INTO photos VALUES (?, ?, ?)", [.text(id), .text(mimeType), .int(Int64(data.count))])
+    }
+
+    func writePhotoFile(id: String, data: Data) throws {
+        try data.write(to: photos.appendingPathComponent(id), options: .atomic)
+    }
+
+    func prunePhotoFiles(keeping ids: Set<String>) {
+        let files = (try? FileManager.default.contentsOfDirectory(at: photos, includingPropertiesForKeys: nil)) ?? []
+        for file in files where !ids.contains(file.lastPathComponent) {
+            try? FileManager.default.removeItem(at: file)
+        }
     }
 
     // MARK: Barcode cache

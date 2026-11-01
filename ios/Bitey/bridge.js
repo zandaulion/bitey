@@ -19,7 +19,8 @@
     setPrimaryActionsVisible: () => {},
     ...send(
       'readCachedFood', 'writeCachedFood', 'searchGenericFoods',
-      'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'analysePhoto', 'log'
+      'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'analysePhoto',
+      'exportBackup', 'importBackup', 'log'
     ),
   };
 
