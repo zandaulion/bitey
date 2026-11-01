@@ -18,10 +18,10 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Camera photo | Done | Built, needs an iPhone | 1 |
 | Barcode scanner | Done | Built, needs an iPhone | 1 |
 | Open Food Facts lookup | Done | Done | 1 |
-| Backup and restore | Done | Done, needs an Android test | 1 |
+| Backup and restore | Done | Done on iOS, needs an Android test | 1 |
 | Back gesture, privacy link, icon, text size | Done | Done | 1 |
-| Home screen widget | Done | Built, not yet on a home screen | 1 |
-| Long-press shortcuts | Done | Built | 1 |
+| Home screen widget | Done | Done in the Simulator | 1 |
+| Long-press shortcuts | Done | Done in the Simulator | 1 |
 | Ask for a rating | On a branch, not on `main` | Not yet | 1 |
 | Quick log from the system panel | Quick Settings tile | Built, needs an iPhone | 1 |
 | Bitey AI: photo and text | Done | Not yet | 3 |
