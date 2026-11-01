@@ -24,6 +24,17 @@ final class AppSchemeHandler: NSObject, WKURLSchemeHandler {
             return
         }
 
+        if path.hasPrefix("/local-capture/") {
+            let id = String(path.dropFirst("/local-capture/".count))
+            let isCapture = id.range(of: "^[0-9a-f]{32}\\.jpg$", options: .regularExpression) != nil
+            if isCapture, let data = try? Data(contentsOf: PhotoCapture.directory.appendingPathComponent(id)) {
+                respond(task, url: url, data: data, mimeType: "image/jpeg")
+            } else {
+                respond(task, url: url, data: Data(), mimeType: "text/plain", status: 404)
+            }
+            return
+        }
+
         let file = root.appendingPathComponent(String(path.dropFirst())).standardizedFileURL
         guard file.path.hasPrefix(root.standardizedFileURL.path),
               let data = try? Data(contentsOf: file) else {

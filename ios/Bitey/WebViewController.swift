@@ -11,8 +11,13 @@ final class WebViewController: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.setURLSchemeHandler(AppSchemeHandler(), forURLScheme: AppSchemeHandler.scheme)
 
-        let source = Bundle.main.url(forResource: "bridge", withExtension: "js")
+        var source = Bundle.main.url(forResource: "bridge", withExtension: "js")
             .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? ""
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" {
+            source = "window.__plateFakeAi = true;\n" + source
+        }
+        #endif
         configuration.userContentController.addUserScript(
             WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: true)
         )
@@ -28,7 +33,7 @@ final class WebViewController: UIViewController {
         webView.isInspectable = true
         #endif
 
-        bridge = NativeBridge(webView: webView)
+        bridge = NativeBridge(webView: webView, presenter: self)
         configuration.userContentController.add(bridge, name: NativeBridge.channel)
         view = webView
     }

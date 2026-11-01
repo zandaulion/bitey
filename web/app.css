@@ -1078,6 +1078,10 @@ input[type="range"] { padding: 0; border: 0; background: none; }
 :root[data-host="android"] body {
   padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }
+/* iOS keeps this page's own bar, which is fixed, so the page needs the same room. */
+:root[data-host="ios"] body {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+}
 /* Android's native rail has its own Gallery button beside Photo, so the
    page's "Already have a photo?" below the meals would only repeat it. The
    PWA's bar has no gallery button and keeps the link. */
