@@ -2,6 +2,7 @@ import Foundation
 import SafariServices
 import UIKit
 import WebKit
+import WidgetKit
 
 /// Android's `@JavascriptInterface` methods, by the same names and with the
 /// same reply callbacks. Fixed operations only: the page cannot name a table
@@ -18,6 +19,8 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
     private let backupPicker: BackupPicker
     private lazy var backup = LocalBackup(store: store)
     private weak var presenter: UIViewController?
+    /// The page sends its first widget snapshot once today is on screen.
+    var onPageDrawn: (() -> Void)?
 
     init(webView: WKWebView, presenter: UIViewController) {
         self.webView = webView
@@ -65,6 +68,23 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
             OpenFoodFacts.lookup(barcode: args[0]) { [weak self] result in
                 self?.reply("__plateNativeOpenFoodFactsResult", result)
             }
+        case ("setPrimaryActionLabels", 4):
+            publishShortcuts(manual: args[0], barcode: args[1], gallery: args[2], photo: args[3])
+        case ("setWidgetSnapshot", 1):
+            TodaySnapshot.save(Data(args[0].utf8))
+            WidgetCenter.shared.reloadAllTimelines()
+            DispatchQueue.main.async { self.onPageDrawn?() }
+            #if DEBUG
+            DebugSelfTest.renderWidget()
+            #endif
+        case ("setWidgetBitey", 1):
+            if let data = Data(base64Encoded: args[0]), data.count < 500_000, let file = TodaySnapshot.faceFile {
+                try? data.write(to: file, options: .atomic)
+                WidgetCenter.shared.reloadAllTimelines()
+                #if DEBUG
+                DebugSelfTest.renderWidget()
+                #endif
+            }
         case ("exportBackup", 0):
             exportBackup()
         case ("importBackup", 0):
@@ -83,6 +103,25 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" { return "active" }
         #endif
         return "unavailable"
+    }
+
+    /// Sent on every start and language change, so these follow the language chosen
+    /// in Bitey and not the phone's, as on Android. Photo sits nearest the icon.
+    private func publishShortcuts(manual: String, barcode: String, gallery: String, photo: String) {
+        let items: [(String, String, String)] = [
+            ("photo", photo, "camera.fill"),
+            ("gallery", gallery, "photo.on.rectangle"),
+            ("barcode", barcode, "barcode.viewfinder"),
+            ("manual", manual, "pencil"),
+        ]
+        DispatchQueue.main.async {
+            UIApplication.shared.shortcutItems = items.map { type, title, icon in
+                UIApplicationShortcutItem(
+                    type: type, localizedTitle: title, localizedSubtitle: nil,
+                    icon: UIApplicationShortcutIcon(systemImageName: icon)
+                )
+            }
+        }
     }
 
     private func scanBarcode(labels: String) {

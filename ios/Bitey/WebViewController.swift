@@ -6,6 +6,10 @@ import WebKit
 final class WebViewController: UIViewController {
     private var webView: WKWebView!
     private var bridge: NativeBridge!
+    /// True once the page has drawn today. Loading is not enough: a cold start's
+    /// click on the action bar lands before the app's own start-up has finished.
+    private var pageReady = false
+    private var pendingAction: String?
 
     override func loadView() {
         let configuration = WKWebViewConfiguration()
@@ -36,6 +40,7 @@ final class WebViewController: UIViewController {
         #endif
 
         bridge = NativeBridge(webView: webView, presenter: self)
+        bridge.onPageDrawn = { [weak self] in self?.pageDrawn() }
         let back = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(swipedBack(_:)))
         back.edges = .left
         webView.addGestureRecognizer(back)
@@ -50,6 +55,35 @@ final class WebViewController: UIViewController {
             self, selector: #selector(applyTextSize),
             name: UIContentSizeCategory.didChangeNotification, object: nil
         )
+    }
+
+    /// The same four ways in as Android's shortcuts, through the page's own routes,
+    /// so a photo still passes the AI gate. Held until the page can answer.
+    func perform(action: String) {
+        #if DEBUG
+        NativeBridge.debugLog("action \(action), ready \(pageReady)")
+        #endif
+        guard pageReady else {
+            pendingAction = action
+            return
+        }
+        let script: String
+        switch action {
+        case "photo": script = "window.__plateNativeAiAction?.('camera')"
+        case "gallery": script = "window.__plateNativeAiAction?.('gallery')"
+        case "barcode": script = "document.getElementById('add-barcode')?.click()"
+        case "manual": script = "document.getElementById('add-manual')?.click()"
+        default: return
+        }
+        webView.evaluateJavaScript(script, completionHandler: nil)
+    }
+
+    private func pageDrawn() {
+        pageReady = true
+        if let action = pendingAction {
+            pendingAction = nil
+            perform(action: action)
+        }
     }
 
     /// iOS's back gesture, which closes the page's top sheet as Android's Back does.

@@ -79,4 +79,31 @@ final class LoggingFlowTests: XCTestCase {
         sleep(6)
         shot("privacy")
     }
+
+    func testTheWidgetGetsItsSnapshot() {
+        try? FileManager.default.createDirectory(atPath: "/tmp/bitey-widget", withIntermediateDirectories: true)
+        start(["BITEY_RENDER_WIDGET": "/tmp/bitey-widget"])
+        let handful = app.webViews.buttons["Log Handful (~100 kcal)"]
+        XCTAssertTrue(handful.waitForExistence(timeout: 20))
+        for _ in 0..<6 where !handful.isHittable { app.webViews.firstMatch.swipeUp() }
+        handful.tap()
+        sleep(6)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: "/tmp/bitey-widget/widget-large-light.png"))
+    }
+
+    /// The route the widget, the shortcuts and the Control Center button all take.
+    func testADeepLinkOpensTheRightScreen() {
+        start()
+        XCTAssertTrue(app.webViews.buttons["Barcode"].waitForExistence(timeout: 20))
+        // A cold start, as when the app is not running and the widget is tapped.
+        app.terminate()
+        app.open(URL(string: "bitey://action/manual")!)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let open = springboard.buttons["Open"]
+        if open.waitForExistence(timeout: 4) { open.tap() }
+        sleep(4)
+        shot("deeplink")
+        let heading = app.webViews.staticTexts["Add food"].firstMatch
+        XCTAssertTrue(heading.waitForExistence(timeout: 10), "the link did not open Add food")
+    }
 }

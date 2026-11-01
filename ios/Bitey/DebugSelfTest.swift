@@ -1,9 +1,40 @@
 #if DEBUG
+import SwiftUI
 import WebKit
 
 /// Exercises every native service through the page's real callbacks. Runs only
 /// in debug builds launched with BITEY_SELFTEST=1, and clears what it writes.
 enum DebugSelfTest {
+    /// Draws the widget at each size, light and dark, to files for checking.
+    static func renderWidget() {
+        guard let folder = ProcessInfo.processInfo.environment["BITEY_RENDER_WIDGET"] else { return }
+        DispatchQueue.main.async {
+            guard let snapshot = TodaySnapshot.load() else {
+                NativeBridge.debugLog("widget: no app group container")
+                return
+            }
+            let sizes: [(String, TodayWidgetSize, CGSize)] = [
+                ("small", .small, CGSize(width: 170, height: 170)),
+                ("medium", .medium, CGSize(width: 364, height: 170)),
+                ("large", .large, CGSize(width: 364, height: 382)),
+            ]
+            for (name, size, frame) in sizes {
+                for scheme in [ColorScheme.light, .dark] {
+                    let view = TodayWidgetView(snapshot: snapshot, size: size)
+                        .padding(16)
+                        .frame(width: frame.width, height: frame.height)
+                        .background(BiteyPalette.ground)
+                        .environment(\.colorScheme, scheme)
+                    let renderer = ImageRenderer(content: view)
+                    renderer.scale = 2
+                    let target = "\(folder)/widget-\(name)-\(scheme == .dark ? "dark" : "light").png"
+                    try? renderer.uiImage?.pngData()?.write(to: URL(fileURLWithPath: target))
+                }
+            }
+            NativeBridge.debugLog("widget: rendered")
+        }
+    }
+
     static func run(in webView: WKWebView) {
         let environment = ProcessInfo.processInfo.environment
         if environment["BITEY_LAYOUT"] == "1" { logLayout(of: webView) }

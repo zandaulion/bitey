@@ -14,16 +14,16 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Diary, weights, profile, trends | Done | Done | 0 |
 | Food search on the device | Done | Done | 0 |
 | Barcode cache | Done | Done | 0 |
-| Gallery | Done | Not yet | 1 |
-| Camera photo | Done | Not yet | 1 |
-| Barcode scanner | Done | Not yet | 1 |
-| Open Food Facts lookup | Done | Not yet | 1 |
-| Backup and restore | Done | Not yet | 1 |
-| Back gesture, privacy link, icon, text size | Done | Not yet | 1 |
-| Home screen widget | Done | Not yet | 1 |
-| Long-press shortcuts | Done | Not yet | 1 |
+| Gallery | Done | Done, picker tap unproven | 1 |
+| Camera photo | Done | Built, needs an iPhone | 1 |
+| Barcode scanner | Done | Built, needs an iPhone | 1 |
+| Open Food Facts lookup | Done | Done | 1 |
+| Backup and restore | Done | Done, needs an Android test | 1 |
+| Back gesture, privacy link, icon, text size | Done | Done | 1 |
+| Home screen widget | Done | Built, not yet on a home screen | 1 |
+| Long-press shortcuts | Done | Built | 1 |
 | Ask for a rating | On a branch, not on `main` | Not yet | 1 |
-| Quick log from the system panel | Quick Settings tile | Control Center control | 1 |
+| Quick log from the system panel | Quick Settings tile | Built, needs an iPhone | 1 |
 | Bitey AI: photo and text | Done | Not yet | 3 |
 | Subscription | Google Play | In-app purchase | 3 |
 | Watch app, tiles, complications | Wear OS | Apple Watch | 4 |

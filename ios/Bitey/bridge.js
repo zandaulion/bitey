@@ -15,13 +15,13 @@
     aiEntitlement: () => window.__plateFakeAi ? 'active' : 'inactive',
     canPinWidget: () => false,
     canAddQuickTile: () => false,
-    setPrimaryActionLabels: () => {},
     setPrimaryActionsVisible: () => {},
     ...send(
       'readCachedFood', 'writeCachedFood', 'searchGenericFoods',
       'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'analysePhoto',
       'exportBackup', 'importBackup', 'scanBarcode', 'lookupOpenFoodFacts',
-      'openPrivacyNotice', 'log'
+      'openPrivacyNotice', 'setPrimaryActionLabels',
+      'setWidgetSnapshot', 'setWidgetBitey', 'log'
     ),
   };
 
