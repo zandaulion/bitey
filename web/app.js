@@ -2226,6 +2226,26 @@ function showAiPlanPicker(requestId, offers) {
     options.append(button);
   }
 
+  // What Apple asks every subscription screen to state, beside the prices.
+  $('ai-plan-legal')?.remove();
+  if (onIos()) {
+    const legal = document.createElement('div');
+    legal.id = 'ai-plan-legal';
+    legal.className = 'hint';
+    const terms = document.createElement('p');
+    terms.textContent = t('Payment is charged to your Apple Account. The subscription renews automatically unless you cancel it at least 24 hours before the end of the current period.');
+    const link = (label, method) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'link-btn';
+      button.textContent = label;
+      button.addEventListener('click', () => window.PlateNative?.[method]?.());
+      return button;
+    };
+    legal.append(terms, link(t('Terms of Use'), 'openTerms'), ' · ', link(t('Privacy Policy'), 'openPrivacyNotice'));
+    options.after(legal);
+  }
+
   const close = screen('ai-plan');
   $('ai-plan-picker').hidden = false;
   openScreen('ai-plan', () => {

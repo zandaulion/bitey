@@ -1,1 +1,3 @@
 build/
+# Firebase settings, kept out of the repo as on Android.
+Bitey/GoogleService-Info.plist

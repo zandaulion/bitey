@@ -9,6 +9,8 @@ import WidgetKit
 /// or run a query.
 final class NativeBridge: NSObject, WKScriptMessageHandler {
     static let channel = "plate"
+    /// Apple's standard licence, which Bitey's subscription uses.
+    private static let terms = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
     private static let privacyNotice = "https://zandaulion.com/plate-privacy.html"
 
     private weak var webView: WKWebView?
@@ -40,6 +42,8 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         if method == "capturePhoto", args.count == 2 {
             capturePhoto(source: args[0], requestId: args[1])
         } else if method == "openPrivacyNotice", let url = URL(string: Self.privacyNotice) {
+            presenter?.present(SFSafariViewController(url: url), animated: true)
+        } else if method == "openTerms", let url = URL(string: Self.terms) {
             presenter?.present(SFSafariViewController(url: url), animated: true)
         } else if method == "scanBarcode" {
             scanBarcode(labels: args.first ?? "{}")
@@ -76,10 +80,12 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         case ("manageAiSubscription", 0):
             Task { await purchases.manage(from: webView) }
         case ("analysePhoto", 2):
-            reply("__plateNativeAnalysisResult", args[1], Self.json([
-                "httpStatus": 503,
-                "body": ["error": "unavailable", "message": "Bitey AI is not available on iPhone yet."],
-            ]))
+            Task {
+                let result = await AiAnalysis.analyse(pageRequest: args[0])
+                // Refused for the subscription: the phone is behind, so catch up.
+                if result.contains("\"not_entitled\"") { await purchases.refresh() }
+                reply("__plateNativeAnalysisResult", args[1], result)
+            }
         case ("lookupOpenFoodFacts", 1):
             OpenFoodFacts.lookup(barcode: args[0]) { [weak self] result in
                 self?.reply("__plateNativeOpenFoodFactsResult", result)

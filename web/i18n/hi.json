@@ -635,5 +635,8 @@
   "Checking the App Store…": "App Store जाँचा जा रहा है…",
   "Could not connect to the App Store. Try again.": "App Store से कनेक्ट नहीं हो सका। फिर से कोशिश करें।",
   "No Bitey AI purchase was found for this Apple Account.": "इस Apple खाते के लिए Bitey AI की कोई ख़रीदारी नहीं मिली।",
-  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI पुष्टि नहीं कर सका कि यह App Store का Bitey ऐप है। फिर से कोशिश करें या App Store से दोबारा इंस्टॉल करें।"
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI पुष्टि नहीं कर सका कि यह App Store का Bitey ऐप है। फिर से कोशिश करें या App Store से दोबारा इंस्टॉल करें।",
+  "Payment is charged to your Apple Account. The subscription renews automatically unless you cancel it at least 24 hours before the end of the current period.": "भुगतान आपके Apple खाते से लिया जाता है। सदस्यता अपने आप नवीनीकृत होती है, जब तक आप मौजूदा अवधि ख़त्म होने से कम से कम 24 घंटे पहले उसे रद्द न करें।",
+  "Terms of Use": "उपयोग की शर्तें",
+  "Privacy Policy": "निजता नीति"
 }

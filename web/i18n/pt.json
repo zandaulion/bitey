@@ -644,5 +644,8 @@
   "Checking the App Store…": "Verificando a App Store…",
   "Could not connect to the App Store. Try again.": "Não foi possível conectar à App Store. Tente novamente.",
   "No Bitey AI purchase was found for this Apple Account.": "Nenhuma compra do Bitey AI foi encontrada para esta Conta Apple.",
-  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "O Bitey AI não conseguiu confirmar que este é o app Bitey da App Store. Tente novamente ou reinstale pela App Store."
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "O Bitey AI não conseguiu confirmar que este é o app Bitey da App Store. Tente novamente ou reinstale pela App Store.",
+  "Payment is charged to your Apple Account. The subscription renews automatically unless you cancel it at least 24 hours before the end of the current period.": "O pagamento é cobrado na sua Conta Apple. A assinatura é renovada automaticamente, a menos que você a cancele pelo menos 24 horas antes do fim do período atual.",
+  "Terms of Use": "Termos de Uso",
+  "Privacy Policy": "Política de Privacidade"
 }

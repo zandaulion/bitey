@@ -21,7 +21,7 @@
       'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'purchaseAiOffer',
       'refreshAiPurchase', 'manageAiSubscription', 'analysePhoto',
       'exportBackup', 'importBackup', 'scanBarcode', 'lookupOpenFoodFacts',
-      'openPrivacyNotice', 'setPrimaryActionLabels',
+      'openPrivacyNotice', 'openTerms', 'setPrimaryActionLabels',
       'setWidgetSnapshot', 'setWidgetBitey', 'log'
     ),
   };

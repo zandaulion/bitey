@@ -614,5 +614,8 @@
   "Checking the App Store…": "正在查询 App Store…",
   "Could not connect to the App Store. Try again.": "无法连接到 App Store。请重试。",
   "No Bitey AI purchase was found for this Apple Account.": "未找到此 Apple 账户的 Bitey AI 购买记录。",
-  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI 无法确认这是来自 App Store 的 Bitey 应用。请重试,或从 App Store 重新安装。"
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI 无法确认这是来自 App Store 的 Bitey 应用。请重试,或从 App Store 重新安装。",
+  "Payment is charged to your Apple Account. The subscription renews automatically unless you cancel it at least 24 hours before the end of the current period.": "费用将从你的 Apple 账户扣除。除非在当前周期结束前至少 24 小时取消,否则订阅将自动续订。",
+  "Terms of Use": "使用条款",
+  "Privacy Policy": "隐私政策"
 }

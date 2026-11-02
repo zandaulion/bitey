@@ -614,5 +614,8 @@
   "Checking the App Store…": "App Store 확인 중…",
   "Could not connect to the App Store. Try again.": "App Store에 연결할 수 없습니다. 다시 시도해 주세요.",
   "No Bitey AI purchase was found for this Apple Account.": "이 Apple 계정에서 Bitey AI 구매를 찾을 수 없습니다.",
-  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI가 이 앱이 App Store의 Bitey 앱인지 확인할 수 없습니다. 다시 시도하거나 App Store에서 다시 설치해 주세요."
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI가 이 앱이 App Store의 Bitey 앱인지 확인할 수 없습니다. 다시 시도하거나 App Store에서 다시 설치해 주세요.",
+  "Payment is charged to your Apple Account. The subscription renews automatically unless you cancel it at least 24 hours before the end of the current period.": "결제 금액은 Apple 계정으로 청구됩니다. 현재 기간이 끝나기 최소 24시간 전에 취소하지 않으면 구독이 자동으로 갱신됩니다.",
+  "Terms of Use": "이용 약관",
+  "Privacy Policy": "개인정보 처리방침"
 }

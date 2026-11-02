@@ -4,6 +4,7 @@
 #
 # Needs: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY (the .p8 file's contents), TEAM_ID.
 # Optional: BUILD_NUMBER, which must rise with every upload.
+# Optional: GOOGLE_SERVICE_INFO, the Firebase plist. Without it, Bitey AI is refused.
 #
 # Not proven yet: this cannot run until a Developer Program account exists.
 set -euo pipefail

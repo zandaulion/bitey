@@ -46,7 +46,15 @@ release builds compile none of them:
 | `BITEY_TEST_PHOTO` | Uses this file instead of Apple's picker |
 | `BITEY_TEST_BARCODE` | Uses this code instead of the camera |
 | `BITEY_TEST_BACKUP` | Uses this path instead of the Files picker |
+| `BITEY_TEST_TRANSACTION` | Sends this id instead of a real purchase's |
+| `BITEY_TEST_PLANS=1` | Shows test plans, which StoreKit cannot supply from `xcodebuild` |
 | `BITEY_RENDER_WIDGET` | Draws the widget to PNGs in this folder |
+
+## Firebase
+
+`Bitey/GoogleService-Info.plist` is not tracked, as on Android. Without it, the app
+runs but the server refuses Bitey AI. Uploads take it from the `GOOGLE_SERVICE_INFO`
+secret.
 
 ## Needs a real iPhone
 
@@ -55,8 +63,7 @@ Tapping a photo inside Apple's picker and the Files picker cannot be automated.
 
 ## Not built yet
 
-App Attest and the iPhone's request to the Bitey AI server, the rating prompt, and
-the Apple Watch app. See `ROADMAP.md`.
+The rating prompt and the Apple Watch app. See `ROADMAP.md`.
 
 ## Apple's rules
 

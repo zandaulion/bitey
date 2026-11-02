@@ -21,7 +21,12 @@ final class AiPurchases {
     }
 
     /// The transaction the server asks Apple about.
-    static var transactionId: String? { UserDefaults.standard.string(forKey: transactionKey) }
+    static var transactionId: String? {
+        #if DEBUG
+        if let id = ProcessInfo.processInfo.environment["BITEY_TEST_TRANSACTION"] { return id }
+        #endif
+        return UserDefaults.standard.string(forKey: transactionKey)
+    }
 
     func start() {
         Task.detached { [weak self] in
@@ -57,6 +62,12 @@ final class AiPurchases {
     func requestAccess() async -> [String: Any] {
         #if DEBUG
         if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" { return ["status": "active"] }
+        if ProcessInfo.processInfo.environment["BITEY_TEST_PLANS"] == "1" {
+            return ["status": "offers", "offers": [
+                ["id": "monthly", "price": "€2.99", "trial": "P1M"],
+                ["id": "yearly", "price": "€24.99"],
+            ]]
+        }
         #endif
         if await refresh() == "active" { return ["status": "active"] }
         guard let products = try? await Product.products(for: Array(Self.products.values)), !products.isEmpty else {

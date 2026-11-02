@@ -16,6 +16,7 @@ final class PhotoFlowTests: XCTestCase {
     private func start() {
         app.launchEnvironment["BITEY_FAKE_AI"] = "1"
         app.launchEnvironment["BITEY_TEST_PHOTO"] = "/tmp/sample.jpg"
+        app.launchEnvironment["BITEY_TEST_TRANSACTION"] = "1000"
         app.launch()
         let skip = app.webViews.buttons["Skip"]
         if skip.waitForExistence(timeout: 15) { skip.tap() }
@@ -38,9 +39,28 @@ final class PhotoFlowTests: XCTestCase {
         sleep(5)
         shot("4-after-pick")
 
-        // Native code has no way to make this appear: the page only gets here with
-        // the photo it fetched. The reading then stops, as AI is not built yet.
-        let refused = app.webViews.staticTexts["Bitey AI is not available on iPhone yet."]
-        XCTAssertTrue(refused.waitForExistence(timeout: 15), "the photo never reached the page")
+        // A real request to the live server. It holds no App Check token, so the
+        // server refuses it before Apple or the model is asked, at no cost. Only the
+        // page's reaction to that refusal can put this on screen.
+        let refused = app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS 'did not come from Bitey'")).firstMatch
+        XCTAssertTrue(refused.waitForExistence(timeout: 30), "the server's answer never reached the page")
+        shot("5-server-refused")
+    }
+
+    /// What Apple asks every subscription screen to state.
+    func testThePlanScreenCarriesApplesTerms() {
+        app.launchEnvironment["BITEY_TEST_PLANS"] = "1"
+        app.launch()
+        let skip = app.webViews.buttons["Skip"]
+        if skip.waitForExistence(timeout: 15) { skip.tap() }
+        let photo = app.webViews.buttons["Add a meal from a photo"]
+        XCTAssertTrue(photo.waitForExistence(timeout: 20))
+        photo.tap()
+        let terms = app.webViews.buttons["Terms of Use"]
+        XCTAssertTrue(terms.waitForExistence(timeout: 15), "no plan screen")
+        sleep(1)
+        shot("plans")
+        XCTAssertTrue(app.webViews.buttons["Privacy Policy"].exists)
+        XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS 'renews automatically'")).firstMatch.exists)
     }
 }

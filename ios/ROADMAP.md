@@ -84,7 +84,9 @@ your go-ahead.
 4. **You:** in the Firebase console, add the iOS app and turn on App Attest.
 5. Claude: buy and restore with StoreKit 2. Written; its tests only run from Xcode
    because of an Apple bug, and they have not passed yet. (M)
-6. Claude: App Check with App Attest in the app. Needs a real iPhone. (M)
+6. Claude: App Check with App Attest, and the request to the server, are written. A
+   real request reaches the live server and is refused for lacking a token, as it
+   should be. **You:** add `GOOGLE_SERVICE_INFO` to the `testflight` environment.
 7. Claude: `functions/apple.js` beside `play.js` is written and tested with fakes.
    Before the first deploy, create the `APPLE_IAP_KEY` secret and set
    `APPLE_IAP_KEY_ID`, `APPLE_ISSUER_ID` and `APPLE_APP_ID`, or the deploy fails.

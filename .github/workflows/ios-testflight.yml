@@ -28,4 +28,5 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY: ${{ secrets.ASC_KEY }}
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          GOOGLE_SERVICE_INFO: ${{ secrets.GOOGLE_SERVICE_INFO }}
           BUILD_NUMBER: ${{ github.run_number }}
