@@ -110,4 +110,25 @@ final class ScreenTourTests: XCTestCase {
         sleep(1)
         shot("11-trends-scrolled")
     }
+
+    /// The first-run card that names Control Center, in the phone's language.
+    func testWelcomeCardInRomanian() {
+        app.launchArguments += ["-AppleLanguages", "(ro)", "-AppleLocale", "ro_RO"]
+        app.launch()
+        XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 30))
+        sleep(6)
+        app.webViews.firstMatch.swipeUp()
+        sleep(1)
+        shot("12-welcome-card-ro")
+    }
+
+    func testWelcomeCardInEnglish() {
+        app.launch()
+        XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 30))
+        sleep(6)
+        app.webViews.firstMatch.swipeUp()
+        sleep(1)
+        shot("12-welcome-card-en")
+        XCTAssertTrue(app.webViews.staticTexts["Control Center button"].exists, "still the Android wording")
+    }
 }

@@ -648,5 +648,10 @@
   "Install on your watch": "Установити на годинник",
   "✓ On your watch": "✓ На вашому годиннику",
   "Check your watch to finish installing Bitey.": "Подивіться на годинник, щоб завершити встановлення Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Не вдається з’єднатися з годинником. Установіть Bitey з Play Маркету на годиннику."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Не вдається з’єднатися з годинником. Установіть Bitey з Play Маркету на годиннику.",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Записуйте з початкового екрана або Центру керування, не відкриваючи спершу Bitey.",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "Торкніться й утримуйте порожнє місце на початковому екрані, торкніться «Змінити», потім «Додати віджет» і знайдіть Bitey.",
+  "Control Center button": "Кнопка в Центрі керування",
+  "One tap from Control Center opens the camera for a meal photo.": "Один дотик у Центрі керування відкриває камеру для фото страви.",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "Відкрийте Центр керування, торкніться й утримуйте порожнє місце, торкніться «Додати елемент керування» і знайдіть Bitey."
 }

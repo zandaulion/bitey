@@ -5380,24 +5380,33 @@ const welcome = { slides: [], index: 0, after: null };
 
 /** The widget and tile card, drawn per opening so each button starts fresh. */
 function renderWelcomeShortcuts(container) {
+  const ios = document.documentElement.dataset.host === 'ios';
   const widget = canPinWidget()
     ? `<button class="secondary welcome-add" type="button" data-add="widget">${esc(t('Add widget'))}</button>`
-    : `<small class="welcome-how">${esc(t('Long-press an empty spot on your home screen, tap Widgets, and look for Bitey.'))}</small>`;
+    : `<small class="welcome-how">${esc(ios
+      ? t('Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.')
+      : t('Long-press an empty spot on your home screen, tap Widgets, and look for Bitey.'))}</small>`;
   const tile = canAddQuickTile()
     ? `<button class="secondary welcome-add" type="button" data-add="tile">${esc(t('Add to Quick Settings'))}</button>`
-    : `<small class="welcome-how">${esc(t('Swipe down twice from the top of the screen, tap the pencil to edit, and drag the Bitey tile into place.'))}</small>`;
+    : `<small class="welcome-how">${esc(ios
+      ? t('Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.')
+      : t('Swipe down twice from the top of the screen, tap the pencil to edit, and drag the Bitey tile into place.'))}</small>`;
   container.innerHTML = `
     <div class="welcome-card">
       <h3 class="welcome-sub">${esc(t('Even faster'))}</h3>
-      <p>${esc(t('Log from your home screen or the pull-down panel, without opening Bitey first.'))}</p>
+      <p>${esc(ios
+        ? t('Log from your home screen or Control Center, without opening Bitey first.')
+        : t('Log from your home screen or the pull-down panel, without opening Bitey first.'))}</p>
       <div class="welcome-shortcut">
         <strong>${esc(t('Home screen widget'))}</strong>
         <small>${esc(t("Today's total, with buttons for Photo, Barcode and Type."))}</small>
         ${widget}
       </div>
       <div class="welcome-shortcut">
-        <strong>${esc(t('Quick Settings tile'))} <span class="ai-tag">${esc(t('Bitey AI'))}</span></strong>
-        <small>${esc(t('One tap from the pull-down panel opens the camera for a meal photo.'))}</small>
+        <strong>${esc(ios ? t('Control Center button') : t('Quick Settings tile'))} <span class="ai-tag">${esc(t('Bitey AI'))}</span></strong>
+        <small>${esc(ios
+          ? t('One tap from Control Center opens the camera for a meal photo.')
+          : t('One tap from the pull-down panel opens the camera for a meal photo.'))}</small>
         ${tile}
       </div>
       ${canCheckWatch() ? `<div class="welcome-shortcut" data-watch hidden>

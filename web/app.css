@@ -2450,9 +2450,10 @@ input[type="range"]::-moz-range-thumb {
   display: flex; gap: 10px; padding: 12px 20px 16px;
   border-top: 1px solid var(--line);
 }
-/* iPhones have a bottom safe area, and a sticky footer stops at the scroller's
-   padding, so the slide would show through beneath it. The footer takes the
-   inset itself and reaches the edge. */
-:root[data-host="ios"] .welcome-inner { padding-bottom: 0; }
+/* A sticky bar stops at its scroller's padding, so on iPhones the slide would show
+   through the safe areas beyond it. The bars take the insets themselves and reach
+   the edges. */
+:root[data-host="ios"] .welcome-inner { padding-top: 0; padding-bottom: 0; }
+:root[data-host="ios"] .welcome-top { padding-top: max(16px, calc(env(safe-area-inset-top) + 10px)); }
 :root[data-host="ios"] .welcome-foot { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 .welcome-foot .primary, .welcome-foot .secondary { flex: 1; width: auto; }

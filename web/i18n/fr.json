@@ -630,5 +630,10 @@
   "Install on your watch": "Installer sur la montre",
   "✓ On your watch": "✓ Sur votre montre",
   "Check your watch to finish installing Bitey.": "Regardez votre montre pour terminer l’installation de Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Impossible de joindre votre montre. Installez plutôt Bitey depuis le Play Store de la montre."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Impossible de joindre votre montre. Installez plutôt Bitey depuis le Play Store de la montre.",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Notez depuis l’écran d’accueil ou le centre de contrôle, sans ouvrir Bitey d’abord.",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "Touchez longuement un espace libre de l’écran d’accueil, touchez Modifier, puis Ajouter un widget, et cherchez Bitey.",
+  "Control Center button": "Bouton du centre de contrôle",
+  "One tap from Control Center opens the camera for a meal photo.": "Une touche depuis le centre de contrôle ouvre l’appareil photo pour photographier un repas.",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "Ouvrez le centre de contrôle, touchez longuement un espace libre, touchez Ajouter une commande et cherchez Bitey."
 }

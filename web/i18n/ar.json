@@ -671,5 +671,10 @@
   "Install on your watch": "ثبّته على ساعتك",
   "✓ On your watch": "✓ على ساعتك",
   "Check your watch to finish installing Bitey.": "تحقّق من ساعتك لإكمال تثبيت Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "تعذّر الوصول إلى ساعتك. ثبّت Bitey من متجر Play على الساعة بدلًا من ذلك."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "تعذّر الوصول إلى ساعتك. ثبّت Bitey من متجر Play على الساعة بدلًا من ذلك.",
+  "Log from your home screen or Control Center, without opening Bitey first.": "سجّل من الشاشة الرئيسية أو مركز التحكم دون فتح Bitey أولاً.",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "المس مطولاً مكانًا فارغًا في الشاشة الرئيسية، ثم اضغط على تعديل، ثم إضافة أداة، وابحث عن Bitey.",
+  "Control Center button": "زر مركز التحكم",
+  "One tap from Control Center opens the camera for a meal photo.": "لمسة واحدة من مركز التحكم تفتح الكاميرا لتصوير الوجبة.",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "افتح مركز التحكم، والمس مطولاً مكانًا فارغًا، واضغط على إضافة عنصر تحكم، وابحث عن Bitey."
 }

@@ -601,5 +601,10 @@
   "Install on your watch": "安装到手表",
   "✓ On your watch": "✓ 已在手表上",
   "Check your watch to finish installing Bitey.": "请在手表上完成 Bitey 的安装。",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "无法连接到手表。请改为在手表上的 Play 商店安装 Bitey。"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "无法连接到手表。请改为在手表上的 Play 商店安装 Bitey。",
+  "Log from your home screen or Control Center, without opening Bitey first.": "无需先打开 Bitey,直接从主屏幕或控制中心记录。",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "长按主屏幕空白处,轻点“编辑”,再轻点“添加小组件”,然后找到 Bitey。",
+  "Control Center button": "控制中心按钮",
+  "One tap from Control Center opens the camera for a meal photo.": "在控制中心轻点一下,即可打开相机拍摄餐食照片。",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "打开控制中心,长按空白处,轻点“添加控制”,然后找到 Bitey。"
 }

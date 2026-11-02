@@ -601,5 +601,10 @@
   "Install on your watch": "ウォッチにインストール",
   "✓ On your watch": "✓ ウォッチにあります",
   "Check your watch to finish installing Bitey.": "ウォッチで Bitey のインストールを完了してください。",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "ウォッチに接続できません。ウォッチの Play ストアから Bitey をインストールしてください。"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "ウォッチに接続できません。ウォッチの Play ストアから Bitey をインストールしてください。",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Biteyを開かなくても、ホーム画面やコントロールセンターから記録できます。",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "ホーム画面の何もない場所を長押しし、「編集」、「ウィジェットを追加」の順にタップして、Biteyを探します。",
+  "Control Center button": "コントロールセンターのボタン",
+  "One tap from Control Center opens the camera for a meal photo.": "コントロールセンターからワンタップで、食事の写真用にカメラが開きます。",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "コントロールセンターを開き、何もない場所を長押しして「コントロールを追加」をタップし、Biteyを探します。"
 }

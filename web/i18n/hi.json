@@ -622,5 +622,10 @@
   "Install on your watch": "घड़ी पर इंस्टॉल करें",
   "✓ On your watch": "✓ आपकी घड़ी पर",
   "Check your watch to finish installing Bitey.": "Bitey का इंस्टॉलेशन पूरा करने के लिए अपनी घड़ी देखें।",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "आपकी घड़ी से संपर्क नहीं हो सका। इसके बजाय घड़ी पर Play Store से Bitey इंस्टॉल करें।"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "आपकी घड़ी से संपर्क नहीं हो सका। इसके बजाय घड़ी पर Play Store से Bitey इंस्टॉल करें।",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Bitey खोले बिना होम स्क्रीन या कंट्रोल सेंटर से दर्ज करें।",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "होम स्क्रीन पर किसी खाली जगह को दबाकर रखें, संपादित करें पर टैप करें, फिर विजेट जोड़ें पर, और Bitey ढूँढ़ें।",
+  "Control Center button": "कंट्रोल सेंटर बटन",
+  "One tap from Control Center opens the camera for a meal photo.": "कंट्रोल सेंटर से एक टैप में भोजन की फ़ोटो के लिए कैमरा खुलता है।",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "कंट्रोल सेंटर खोलें, किसी खाली जगह को दबाकर रखें, कंट्रोल जोड़ें पर टैप करें और Bitey ढूँढ़ें।"
 }

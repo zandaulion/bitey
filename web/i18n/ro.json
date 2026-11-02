@@ -641,5 +641,10 @@
   "Install on your watch": "Instalează pe ceas",
   "✓ On your watch": "✓ Pe ceasul tău",
   "Check your watch to finish installing Bitey.": "Uită-te pe ceas ca să termini instalarea Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Ceasul nu poate fi contactat. Instalează Bitey din Magazin Play de pe ceas."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Ceasul nu poate fi contactat. Instalează Bitey din Magazin Play de pe ceas.",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Notează de pe ecranul principal sau din Centrul de control, fără să deschizi mai întâi Bitey.",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "Ține apăsat pe un loc liber de pe ecranul principal, atinge Editează, apoi Adaugă widget, și caută Bitey.",
+  "Control Center button": "Buton în Centrul de control",
+  "One tap from Control Center opens the camera for a meal photo.": "O singură atingere din Centrul de control deschide camera pentru o poză cu masa.",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "Deschide Centrul de control, ține apăsat pe un loc liber, atinge Adaugă un control și caută Bitey."
 }

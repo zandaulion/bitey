@@ -601,5 +601,10 @@
   "Install on your watch": "시계에 설치",
   "✓ On your watch": "✓ 시계에 설치됨",
   "Check your watch to finish installing Bitey.": "시계에서 Bitey 설치를 완료하세요.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "시계에 연결할 수 없습니다. 대신 시계의 Play 스토어에서 Bitey를 설치하세요."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "시계에 연결할 수 없습니다. 대신 시계의 Play 스토어에서 Bitey를 설치하세요.",
+  "Log from your home screen or Control Center, without opening Bitey first.": "Bitey를 먼저 열지 않고 홈 화면이나 제어 센터에서 기록하세요.",
+  "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "홈 화면의 빈 곳을 길게 누르고 편집, 위젯 추가를 차례로 탭한 다음 Bitey를 찾으세요.",
+  "Control Center button": "제어 센터 버튼",
+  "One tap from Control Center opens the camera for a meal photo.": "제어 센터에서 한 번만 탭하면 식사 사진을 찍을 카메라가 열립니다.",
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "제어 센터를 열고 빈 곳을 길게 누른 다음 제어 항목 추가를 탭하고 Bitey를 찾으세요."
 }
