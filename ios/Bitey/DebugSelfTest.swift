@@ -42,6 +42,7 @@ enum DebugSelfTest {
         let environment = ProcessInfo.processInfo.environment
         if environment["BITEY_LAYOUT"] == "1" { logLayout(of: webView) }
         if environment["BITEY_IMPORT_CHECK"] == "1" { checkImport(in: webView) }
+        if let path = environment["BITEY_SEED"] { seed(webView, from: path) }
         guard environment["BITEY_SELFTEST"] == "1" else { return }
         // After the page's own start-up requests have settled.
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
@@ -74,6 +75,19 @@ enum DebugSelfTest {
                 case .success(let value): NativeBridge.debugLog("import: \(value)")
                 case .failure(let error): NativeBridge.debugLog("import failed: \(error)")
                 }
+            }
+        }
+    }
+
+    /// Fills the diary with store-screenshot data, once. The script is synthetic data
+    /// from scripts/store-screenshots, and the page reloads to draw it.
+    private static func seed(_ webView: WKWebView, from path: String) {
+        guard let script = try? String(contentsOfFile: path, encoding: .utf8),
+              UserDefaults.standard.object(forKey: "bitey.debug.seeded") == nil else { return }
+        UserDefaults.standard.set(true, forKey: "bitey.debug.seeded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            webView.callAsyncJavaScript("await \(script); location.reload();", arguments: [:], in: nil, in: .page) { result in
+                if case .failure(let error) = result { NativeBridge.debugLog("seed failed: \(error)") }
             }
         }
     }
