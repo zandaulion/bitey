@@ -23,7 +23,7 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Home screen widget | Done | Done in the Simulator | 1 |
 | Long-press shortcuts | Done | Done in the Simulator | 1 |
 | Ask for a rating | On a branch, not on `main` | Not yet | 1 |
-| Quick log from the system panel | Quick Settings tile | Built, needs an iPhone | 1 |
+| Quick log from the system panel | Quick Settings tile | Control Center, on an iPhone | 1 |
 | Bitey AI: photo and text | Done | Server side written, not deployed | 3 |
 | Subscription | Google Play | Written, unproven | 3 |
 | Watch app, tiles, complications | Wear OS | Apple Watch | 4 |
