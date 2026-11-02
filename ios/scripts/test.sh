@@ -26,6 +26,7 @@ sips -s format jpeg Bitey/Assets.xcassets/AppIcon.appiconset/icon-1024.png --out
 
 rm -rf "$results" /tmp/bitey-shots /tmp/bitey-tour /tmp/bitey-widget
 mkdir -p "$(dirname "$results")"
+# BiteyTests needs Xcode itself: see the note in AiPurchasesTests.swift.
 xcodebuild test -project Bitey.xcodeproj -scheme Bitey \
-  -destination "id=$udid" -resultBundlePath "$results" \
+  -destination "id=$udid" -resultBundlePath "$results" -skip-testing:BiteyTests \
   CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO | xcbeautify --quiet

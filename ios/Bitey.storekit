@@ -1,0 +1,76 @@
+{
+  "identifier": "5B7C3E10",
+  "nonRenewingSubscriptions": [],
+  "products": [],
+  "settings": {
+    "_applicationInternalID": "6740000000",
+    "_developerTeamID": "TEST000000",
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": [],
+    "_lastSynchronizedDate": 0
+  },
+  "subscriptionGroups": [
+    {
+      "id": "21000000",
+      "localizations": [],
+      "name": "Bitey AI",
+      "subscriptions": [
+        {
+          "codeOffers": [],
+          "displayPrice": "2.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6740000001",
+          "introductoryOffer": {
+            "displayPrice": "0",
+            "internalID": "A1B2C3D4",
+            "numberOfPeriods": 1,
+            "paymentMode": "free",
+            "subscriptionPeriod": "P1M"
+          },
+          "localizations": [
+            {
+              "description": "20 meal analyses a day",
+              "displayName": "Bitey AI monthly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "bitey_ai_monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Monthly",
+          "subscriptionGroupID": "21000000",
+          "type": "RecurringSubscription",
+          "adHocOffers": [],
+          "_recurringSubscriptionPeriod": "P1M"
+        },
+        {
+          "codeOffers": [],
+          "displayPrice": "24.99",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6740000002",
+          "localizations": [
+            {
+              "description": "20 meal analyses a day",
+              "displayName": "Bitey AI yearly",
+              "locale": "en_US"
+            }
+          ],
+          "productID": "bitey_ai_yearly",
+          "recurringSubscriptionPeriod": "P1Y",
+          "referenceName": "Yearly",
+          "subscriptionGroupID": "21000000",
+          "type": "RecurringSubscription",
+          "adHocOffers": [],
+          "_recurringSubscriptionPeriod": "P1Y"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 3,
+    "minor": 0
+  }
+}

@@ -12,13 +12,14 @@
   window.PlateNative = {
     platform: () => 'ios',
     isLocalBuild: () => true,
-    aiEntitlement: () => window.__plateFakeAi ? 'active' : 'inactive',
+    aiEntitlement: () => window.__plateAiStatus || 'inactive',
     canPinWidget: () => false,
     canAddQuickTile: () => false,
     setPrimaryActionsVisible: () => {},
     ...send(
       'readCachedFood', 'writeCachedFood', 'searchGenericFoods',
-      'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'analysePhoto',
+      'localDiary', 'localPhoto', 'capturePhoto', 'requestAiAccess', 'purchaseAiOffer',
+      'refreshAiPurchase', 'manageAiSubscription', 'analysePhoto',
       'exportBackup', 'importBackup', 'scanBarcode', 'lookupOpenFoodFacts',
       'openPrivacyNotice', 'setPrimaryActionLabels',
       'setWidgetSnapshot', 'setWidgetBitey', 'log'

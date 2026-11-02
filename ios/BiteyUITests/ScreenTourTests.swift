@@ -111,21 +111,28 @@ final class ScreenTourTests: XCTestCase {
         shot("11-trends-scrolled")
     }
 
+    /// The welcome shows once, so these need a fresh install.
+    private func skipUnlessWelcomeIsShowing() throws {
+        try XCTSkipUnless(app.webViews.buttons["Skip"].exists || app.webViews.buttons["Sari peste"].exists)
+    }
+
     /// The first-run card that names Control Center, in the phone's language.
-    func testWelcomeCardInRomanian() {
+    func testWelcomeCardInRomanian() throws {
         app.launchArguments += ["-AppleLanguages", "(ro)", "-AppleLocale", "ro_RO"]
         app.launch()
         XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 30))
         sleep(6)
+        try skipUnlessWelcomeIsShowing()
         app.webViews.firstMatch.swipeUp()
         sleep(1)
         shot("12-welcome-card-ro")
     }
 
-    func testWelcomeCardInEnglish() {
+    func testWelcomeCardInEnglish() throws {
         app.launch()
         XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 30))
         sleep(6)
+        try skipUnlessWelcomeIsShowing()
         app.webViews.firstMatch.swipeUp()
         sleep(1)
         shot("12-welcome-card-en")

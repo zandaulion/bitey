@@ -2119,6 +2119,18 @@ async function prepareImage(file) {
 // and quota before sending either a photo or description to Gemini.
 const nativeAiWaiters = new Map();
 let nativeAiSequence = 0;
+const onIos = () => document.documentElement.dataset.host === 'ios';
+const storeUnreachable = () => (onIos()
+  ? t('Could not connect to the App Store. Try again.')
+  : t('Could not connect to Google Play. Try again.'));
+
+/** Sentences naming the store in the page itself, which is Android's by default. */
+function applyIosWording() {
+  if (!onIos()) return;
+  const hint = $('ai-store-hint');
+  hint.removeAttribute('data-i18n');
+  hint.textContent = t('Bitey AI is a paid feature. Purchases are managed by your Apple Account.');
+}
 let aiPlanRequestId = null;
 
 function settleNativeAiRequest(requestId, status) {
@@ -2166,6 +2178,14 @@ function showAiPlanPicker(requestId, offers) {
   // data-i18n too, so switching language re-translates the right sentence.
   hint.dataset.i18n = hintKey;
   hint.textContent = t(hintKey);
+  if (onIos()) {
+    delete hint.dataset.i18n;
+    hint.textContent = trials.includes('P1M')
+      ? t('Your first month is free. Cancel in your Apple Account before it ends and you pay nothing.')
+      : trials.length
+        ? t('Start with a free trial. Cancel in your Apple Account before it ends and you pay nothing.')
+        : t('Choose monthly or yearly billing. You can cancel any time in your Apple Account.');
+  }
 
   const options = $('ai-plan-options');
   options.replaceChildren();
@@ -2254,7 +2274,7 @@ async function requestAiAccess(action) {
   // opened Play's subscriptions page so the phone can catch up.
   else if (status === 'owned') toast(t('Google Play still lists your earlier Bitey AI subscription. Check it there, then try again.'));
   else if (status === 'unavailable') toast(t('Bitey AI is not available to buy yet.'));
-  else toast(t('Could not connect to Google Play. Try again.'));
+  else toast(storeUnreachable());
   return false;
 }
 
@@ -2904,7 +2924,9 @@ function textEstimateError(err) {
       return t('Keep the meal description to 1,000 characters.');
     case 'no_app_check':
     case 'bad_app_check':
-      return t('Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.');
+      return onIos()
+        ? t('Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.')
+        : t('Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.');
     default: {
       const detail = [err?.code, err?.status].filter(Boolean).join(', ');
       return t('Bitey AI could not estimate this meal: {0} ({1})',
@@ -4398,6 +4420,7 @@ function renderLanguageChoice() {
       await setLocale(next);
       track('language_changed', { locale: next });
       applyToDom();
+      applyIosWording();
       syncNativeActionLabels();
       renderLanguageChoice();
       host.hidden = true;
@@ -4625,8 +4648,12 @@ if (window.__PLATE_NATIVE__) {
     restoreButtons.forEach((button) => { button.disabled = false; });
     if (status === 'active') toast(t('Bitey AI is active on this device.'));
     else if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
-    else if (status === 'inactive') toast(t('No Bitey AI purchase was found for this Google Play account.'));
-    else toast(t('Could not connect to Google Play. Try again.'));
+    else if (status === 'inactive') {
+      toast(onIos()
+        ? t('No Bitey AI purchase was found for this Apple Account.')
+        : t('No Bitey AI purchase was found for this Google Play account.'));
+    }
+    else toast(storeUnreachable());
     // Restored from the plan picker: carry on with the photo that asked for
     // it rather than leave a purchase screen up for a plan already owned.
     if (status === 'active' && aiPlanRequestId) {
@@ -4641,7 +4668,7 @@ if (window.__PLATE_NATIVE__) {
   const restoreAiPurchase = () => {
     if (typeof window.PlateNative?.refreshAiPurchase !== 'function') return;
     restoreButtons.forEach((button) => { button.disabled = true; });
-    toast(t('Checking Google Play…'));
+    toast(onIos() ? t('Checking the App Store…') : t('Checking Google Play…'));
     window.PlateNative.refreshAiPurchase();
   };
   restoreButtons.forEach((button) => button.addEventListener('click', restoreAiPurchase));
@@ -5679,6 +5706,7 @@ function inviteFromUrl() {
   // start() ever returns.
   await loadLocale();
   applyToDom();
+  applyIosWording();
   syncNativeActionLabels();
   renderLanguageChoice();
 

@@ -606,5 +606,13 @@
   "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "长按主屏幕空白处,轻点“编辑”,再轻点“添加小组件”,然后找到 Bitey。",
   "Control Center button": "控制中心按钮",
   "One tap from Control Center opens the camera for a meal photo.": "在控制中心轻点一下,即可打开相机拍摄餐食照片。",
-  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "打开控制中心,长按空白处,轻点“添加控制”,然后找到 Bitey。"
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "打开控制中心,长按空白处,轻点“添加控制”,然后找到 Bitey。",
+  "Your first month is free. Cancel in your Apple Account before it ends and you pay nothing.": "首月免费。在结束前通过 Apple 账户取消,即无需付费。",
+  "Start with a free trial. Cancel in your Apple Account before it ends and you pay nothing.": "从免费试用开始。在结束前通过 Apple 账户取消,即无需付费。",
+  "Choose monthly or yearly billing. You can cancel any time in your Apple Account.": "选择按月或按年付费。你可以随时通过 Apple 账户取消。",
+  "Bitey AI is a paid feature. Purchases are managed by your Apple Account.": "Bitey AI 是付费功能。购买由你的 Apple 账户管理。",
+  "Checking the App Store…": "正在查询 App Store…",
+  "Could not connect to the App Store. Try again.": "无法连接到 App Store。请重试。",
+  "No Bitey AI purchase was found for this Apple Account.": "未找到此 Apple 账户的 Bitey AI 购买记录。",
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI 无法确认这是来自 App Store 的 Bitey 应用。请重试,或从 App Store 重新安装。"
 }

@@ -627,5 +627,13 @@
   "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "होम स्क्रीन पर किसी खाली जगह को दबाकर रखें, संपादित करें पर टैप करें, फिर विजेट जोड़ें पर, और Bitey ढूँढ़ें।",
   "Control Center button": "कंट्रोल सेंटर बटन",
   "One tap from Control Center opens the camera for a meal photo.": "कंट्रोल सेंटर से एक टैप में भोजन की फ़ोटो के लिए कैमरा खुलता है।",
-  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "कंट्रोल सेंटर खोलें, किसी खाली जगह को दबाकर रखें, कंट्रोल जोड़ें पर टैप करें और Bitey ढूँढ़ें।"
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "कंट्रोल सेंटर खोलें, किसी खाली जगह को दबाकर रखें, कंट्रोल जोड़ें पर टैप करें और Bitey ढूँढ़ें।",
+  "Your first month is free. Cancel in your Apple Account before it ends and you pay nothing.": "पहला महीना मुफ़्त है। इसके ख़त्म होने से पहले अपने Apple खाते में रद्द करें और कुछ भी नहीं देना होगा।",
+  "Start with a free trial. Cancel in your Apple Account before it ends and you pay nothing.": "मुफ़्त परीक्षण से शुरू करें। इसके ख़त्म होने से पहले अपने Apple खाते में रद्द करें और कुछ भी नहीं देना होगा।",
+  "Choose monthly or yearly billing. You can cancel any time in your Apple Account.": "मासिक या वार्षिक बिलिंग चुनें। आप अपने Apple खाते में कभी भी रद्द कर सकते हैं।",
+  "Bitey AI is a paid feature. Purchases are managed by your Apple Account.": "Bitey AI एक सशुल्क सुविधा है। ख़रीदारी आपके Apple खाते से प्रबंधित होती है।",
+  "Checking the App Store…": "App Store जाँचा जा रहा है…",
+  "Could not connect to the App Store. Try again.": "App Store से कनेक्ट नहीं हो सका। फिर से कोशिश करें।",
+  "No Bitey AI purchase was found for this Apple Account.": "इस Apple खाते के लिए Bitey AI की कोई ख़रीदारी नहीं मिली।",
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI पुष्टि नहीं कर सका कि यह App Store का Bitey ऐप है। फिर से कोशिश करें या App Store से दोबारा इंस्टॉल करें।"
 }

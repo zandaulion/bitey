@@ -24,8 +24,8 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Long-press shortcuts | Done | Done in the Simulator | 1 |
 | Ask for a rating | On a branch, not on `main` | Not yet | 1 |
 | Quick log from the system panel | Quick Settings tile | Built, needs an iPhone | 1 |
-| Bitey AI: photo and text | Done | Not yet | 3 |
-| Subscription | Google Play | In-app purchase | 3 |
+| Bitey AI: photo and text | Done | Server side written, not deployed | 3 |
+| Subscription | Google Play | Written, unproven | 3 |
 | Watch app, tiles, complications | Wear OS | Apple Watch | 4 |
 
 ## Phase 0: the app runs (done)
@@ -81,10 +81,12 @@ your go-ahead.
    the trial, matching Google Play.
 3. **You:** create an In-App Purchase API key for the server.
 4. **You:** in the Firebase console, add the iOS app and turn on App Attest.
-5. Claude: buy and restore with StoreKit 2, tested locally with a StoreKit file. (L)
+5. Claude: buy and restore with StoreKit 2. Written; its tests only run from Xcode
+   because of an Apple bug, and they have not passed yet. (M)
 6. Claude: App Check with App Attest in the app. Needs a real iPhone. (M)
-7. Claude: `functions/apple.js` beside `play.js`, verifying purchases with Apple's
-   server library, with Android's path unchanged and tests for both. (L)
+7. Claude: `functions/apple.js` beside `play.js` is written and tested with fakes.
+   Before the first deploy, create the `APPLE_IAP_KEY` secret and set
+   `APPLE_IAP_KEY_ID`, `APPLE_ISSUER_ID` and `APPLE_APP_ID`, or the deploy fails.
 8. **You:** approve the deployment. Claude then deploys, and you confirm Android
    still works.
 9. Claude: the AI consent names the third-party AI, as guideline 5.1.2 requires,

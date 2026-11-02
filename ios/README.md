@@ -35,7 +35,8 @@ GitHub runs the same script on every push that touches iOS, `web/` or `core/`, a
 keeps the screens as a build artifact. The widget shares data through an app group,
 which needs a signature even in the Simulator, so the build is signed ad hoc.
 
-UI tests live in `BiteyUITests/`. Debug builds read these launch settings, and
+UI tests live in `BiteyUITests/`. The purchase tests in `BiteyTests/` only run from
+Xcode, because of an Apple bug in the iOS 26.5 Simulator. Debug builds read these launch settings, and
 release builds compile none of them:
 
 | Setting | Effect |
@@ -54,8 +55,8 @@ Tapping a photo inside Apple's picker and the Files picker cannot be automated.
 
 ## Not built yet
 
-Bitey AI (App Attest and in-app purchase), the rating prompt, and the Apple Watch
-app. See `ROADMAP.md`.
+App Attest and the iPhone's request to the Bitey AI server, the rating prompt, and
+the Apple Watch app. See `ROADMAP.md`.
 
 ## Apple's rules
 

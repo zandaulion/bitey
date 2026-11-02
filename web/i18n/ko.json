@@ -606,5 +606,13 @@
   "Touch and hold an empty spot on your home screen, tap Edit, then Add Widget, and find Bitey.": "홈 화면의 빈 곳을 길게 누르고 편집, 위젯 추가를 차례로 탭한 다음 Bitey를 찾으세요.",
   "Control Center button": "제어 센터 버튼",
   "One tap from Control Center opens the camera for a meal photo.": "제어 센터에서 한 번만 탭하면 식사 사진을 찍을 카메라가 열립니다.",
-  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "제어 센터를 열고 빈 곳을 길게 누른 다음 제어 항목 추가를 탭하고 Bitey를 찾으세요."
+  "Open Control Center, touch and hold an empty spot, tap Add a Control, and find Bitey.": "제어 센터를 열고 빈 곳을 길게 누른 다음 제어 항목 추가를 탭하고 Bitey를 찾으세요.",
+  "Your first month is free. Cancel in your Apple Account before it ends and you pay nothing.": "첫 달은 무료입니다. 끝나기 전에 Apple 계정에서 취소하면 요금이 청구되지 않습니다.",
+  "Start with a free trial. Cancel in your Apple Account before it ends and you pay nothing.": "무료 체험으로 시작하세요. 끝나기 전에 Apple 계정에서 취소하면 요금이 청구되지 않습니다.",
+  "Choose monthly or yearly billing. You can cancel any time in your Apple Account.": "월간 또는 연간 결제를 선택하세요. Apple 계정에서 언제든지 취소할 수 있습니다.",
+  "Bitey AI is a paid feature. Purchases are managed by your Apple Account.": "Bitey AI는 유료 기능입니다. 구매는 Apple 계정에서 관리됩니다.",
+  "Checking the App Store…": "App Store 확인 중…",
+  "Could not connect to the App Store. Try again.": "App Store에 연결할 수 없습니다. 다시 시도해 주세요.",
+  "No Bitey AI purchase was found for this Apple Account.": "이 Apple 계정에서 Bitey AI 구매를 찾을 수 없습니다.",
+  "Bitey AI could not confirm this is the Bitey app from the App Store. Try again, or reinstall from the App Store.": "Bitey AI가 이 앱이 App Store의 Bitey 앱인지 확인할 수 없습니다. 다시 시도하거나 App Store에서 다시 설치해 주세요."
 }

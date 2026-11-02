@@ -18,6 +18,7 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
     private let capture: PhotoCapture
     private let backupPicker: BackupPicker
     private lazy var backup = LocalBackup(store: store)
+    private let purchases = AiPurchases()
     private weak var presenter: UIViewController?
     /// The page sends its first widget snapshot once today is on screen.
     var onPageDrawn: (() -> Void)?
@@ -27,6 +28,9 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         capture = PhotoCapture(presenter: presenter)
         backupPicker = BackupPicker(presenter: presenter)
         self.presenter = presenter
+        super.init()
+        purchases.onChange = { [weak self] status in self?.reply("__plateNativeAiEntitlement", status) }
+        purchases.start()
     }
 
     func userContentController(_ controller: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -58,7 +62,19 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         case ("writeCachedFood", 2):
             reply("__plateNativeFoodCacheResult", store.writeCachedFood(barcode: args[0], foodJson: args[1]))
         case ("requestAiAccess", 2):
-            reply("__plateNativeAiAccessResult", args[1], Self.json(["status": aiAccessStatus]))
+            Task {
+                let result = await purchases.requestAccess()
+                reply("__plateNativeAiAccessResult", args[1], Self.json(result))
+            }
+        case ("purchaseAiOffer", 2):
+            Task {
+                let result = await purchases.purchase(offer: args[0])
+                reply("__plateNativeAiAccessResult", args[1], Self.json(result))
+            }
+        case ("refreshAiPurchase", 0):
+            Task { reply("__plateNativeAiRestoreResult", await purchases.restore()) }
+        case ("manageAiSubscription", 0):
+            Task { await purchases.manage(from: webView) }
         case ("analysePhoto", 2):
             reply("__plateNativeAnalysisResult", args[1], Self.json([
                 "httpStatus": 503,
@@ -94,15 +110,6 @@ final class NativeBridge: NSObject, WKScriptMessageHandler {
         default:
             Self.debugLog("unhandled native call \(method)")
         }
-    }
-
-    /// Real purchases arrive with StoreKit. Until then AI is honestly unavailable,
-    /// and a debug build can pretend otherwise to reach the photo screens.
-    private var aiAccessStatus: String {
-        #if DEBUG
-        if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" { return "active" }
-        #endif
-        return "unavailable"
     }
 
     /// Sent on every start and language change, so these follow the language chosen

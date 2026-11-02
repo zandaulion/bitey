@@ -15,13 +15,9 @@ final class WebViewController: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.setURLSchemeHandler(AppSchemeHandler(), forURLScheme: AppSchemeHandler.scheme)
 
-        var source = Bundle.main.url(forResource: "bridge", withExtension: "js")
-            .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? ""
-        #if DEBUG
-        if ProcessInfo.processInfo.environment["BITEY_FAKE_AI"] == "1" {
-            source = "window.__plateFakeAi = true;\n" + source
-        }
-        #endif
+        let source = "window.__plateAiStatus = '\(AiPurchases.cachedStatus)';\n"
+            + (Bundle.main.url(forResource: "bridge", withExtension: "js")
+                .flatMap { try? String(contentsOf: $0, encoding: .utf8) } ?? "")
         configuration.userContentController.addUserScript(
             WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: true)
         )

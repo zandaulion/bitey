@@ -23,11 +23,26 @@ schemes:
     build:
       targets:
         Bitey: all
+    run:
+      storeKitConfiguration: Bitey.storekit
     test:
       config: Debug
       targets:
+        - BiteyTests
         - BiteyUITests
 targets:
+  BiteyTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BiteyTests
+      - path: Bitey.storekit
+        buildPhase: resources
+    dependencies:
+      - target: Bitey
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zandaulion.bitey.tests
   BiteyWidget:
     type: app-extension
     platform: iOS
