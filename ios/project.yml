@@ -12,7 +12,10 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: NO
     GENERATE_INFOPLIST_FILE: YES
     INFOPLIST_KEY_CFBundleDisplayName: Bitey
+    # Only standard HTTPS, so uploads need not ask about encryption.
+    INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
     INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+    INFOPLIST_KEY_UIRequiresFullScreen: YES
     INFOPLIST_KEY_NSCameraUsageDescription: Bitey uses the camera to photograph your meals and scan food barcodes.
     TARGETED_DEVICE_FAMILY: "1"
 schemes:

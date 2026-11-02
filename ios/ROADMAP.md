@@ -59,11 +59,13 @@ As each lands, its welcome and settings text is corrected for iOS in every langu
 1. **You:** enrol in the Apple Developer Program, and tell Claude when approved.
 2. **You:** in App Store Connect, create the app with bundle ID
    `com.zandaulion.bitey`. Accept any agreements it shows.
-3. **You:** create an App Store Connect team API key with the App Manager role. Save
-   the `.p8` file, the key ID and the issuer ID. Never paste them into a chat.
-4. **You:** add the key as secrets on the repo, or to the Mac, as Claude directs.
-5. Claude: set up signing and an upload pipeline, on GitHub's macOS runners or a
-   rented Mac. (M)
+3. **You:** create an App Store Connect **Team** key with the Admin role, which
+   signing is likely to need. Save the `.p8` file, the key ID, the issuer ID and your
+   Team ID. Never paste them into a chat.
+4. **You:** in the repo's GitHub settings, create an environment called `testflight`
+   with the secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY` and `APPLE_TEAM_ID`.
+5. **You:** run the **iOS TestFlight** workflow on `feature/ios`, or ask Claude to.
+   It is written but unproven, so expect to fix signing on the first run. (M)
 6. **You:** install TestFlight on your iPhone and add yourself as an internal tester.
 7. **You:** install Bitey, then test the camera, the barcode scanner and the widget,
    which the Simulator cannot prove. Report what you find.

@@ -112,7 +112,7 @@ final class WebViewController: UIViewController {
         let scale = UIFontMetrics(forTextStyle: .body).scaledValue(for: 100) / 100
         let percent = max(100, Int((scale * 100).rounded()) - 15)
         webView.evaluateJavaScript(
-            "document.documentElement.style.webkitTextSizeAdjust = '\\(percent)%'",
+            "document.documentElement.style.webkitTextSizeAdjust = '\(percent)%'",
             completionHandler: nil
         )
     }

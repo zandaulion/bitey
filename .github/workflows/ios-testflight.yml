@@ -1,0 +1,28 @@
+name: iOS TestFlight
+
+# Started by hand. The key lives in the testflight environment's secrets, which
+# forks and other branches' pull requests cannot read.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-testflight
+
+jobs:
+  upload:
+    runs-on: macos-26
+    timeout-minutes: 45
+    environment: testflight
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: brew install xcodegen xcbeautify
+      - run: ios/scripts/testflight.sh
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY: ${{ secrets.ASC_KEY }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          BUILD_NUMBER: ${{ github.run_number }}
