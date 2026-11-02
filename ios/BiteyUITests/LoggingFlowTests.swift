@@ -12,6 +12,7 @@ final class LoggingFlowTests: XCTestCase {
 
     /// By frame: asking an off-screen element whether it is hittable can throw.
     private func scrollTo(_ element: XCUIElement) {
+        guard element.exists else { return }
         let screen = app.windows.firstMatch.frame.insetBy(dx: 0, dy: 120)
         for _ in 0..<6 where !screen.contains(element.frame) { app.webViews.firstMatch.swipeUp() }
     }

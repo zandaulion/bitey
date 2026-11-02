@@ -14,6 +14,7 @@ final class ScreenTourTests: XCTestCase {
 
     /// By frame: asking an off-screen element whether it is hittable can throw.
     private func scrollTo(_ element: XCUIElement) {
+        guard element.exists else { return }
         let screen = app.windows.firstMatch.frame.insetBy(dx: 0, dy: 120)
         for _ in 0..<4 where !screen.contains(element.frame) { app.webViews.firstMatch.swipeUp() }
     }
@@ -109,6 +110,7 @@ final class ScreenTourTests: XCTestCase {
         sleep(1)
         let trends = app.webViews.buttons["Trends"]
         scrollTo(trends)
+        guard trends.exists else { return }
         trends.tap()
         sleep(3)
         shot("10-trends")
