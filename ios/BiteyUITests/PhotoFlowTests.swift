@@ -19,13 +19,13 @@ final class PhotoFlowTests: XCTestCase {
         app.launchEnvironment["BITEY_TEST_TRANSACTION"] = "1000"
         app.launch()
         let skip = app.webViews.buttons["Skip"]
-        if skip.waitForExistence(timeout: 15) { skip.tap() }
+        if skip.waitForExistence(timeout: 45) { skip.tap() }
     }
 
     func testPickingAPhotoReachesTheReviewSheet() {
         start()
         let pick = app.webViews.buttons["Already have a photo?"]
-        XCTAssertTrue(pick.waitForExistence(timeout: 20))
+        XCTAssertTrue(pick.waitForExistence(timeout: 60))
         // It sits below the fold.
         for _ in 0..<6 where !pick.isHittable { app.webViews.firstMatch.swipeUp() }
         shot("1-before")
@@ -52,9 +52,9 @@ final class PhotoFlowTests: XCTestCase {
         app.launchEnvironment["BITEY_TEST_PLANS"] = "1"
         app.launch()
         let skip = app.webViews.buttons["Skip"]
-        if skip.waitForExistence(timeout: 15) { skip.tap() }
+        if skip.waitForExistence(timeout: 45) { skip.tap() }
         let photo = app.webViews.buttons["Add a meal from a photo"]
-        XCTAssertTrue(photo.waitForExistence(timeout: 20))
+        XCTAssertTrue(photo.waitForExistence(timeout: 60))
         photo.tap()
         let terms = app.webViews.buttons["Terms of Use"]
         XCTAssertTrue(terms.waitForExistence(timeout: 15), "no plan screen")

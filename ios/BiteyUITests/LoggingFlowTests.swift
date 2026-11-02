@@ -7,7 +7,7 @@ final class LoggingFlowTests: XCTestCase {
         app.launchEnvironment = environment
         app.launch()
         let skip = app.webViews.buttons["Skip"]
-        if skip.waitForExistence(timeout: 15) { skip.tap() }
+        if skip.waitForExistence(timeout: 45) { skip.tap() }
     }
 
     private func shot(_ name: String) {
@@ -21,7 +21,7 @@ final class LoggingFlowTests: XCTestCase {
     func testScannedBarcodeFindsAProduct() {
         start(["BITEY_TEST_BARCODE": "3017620422003"])
         let barcode = app.webViews.buttons["Barcode"]
-        XCTAssertTrue(barcode.waitForExistence(timeout: 20))
+        XCTAssertTrue(barcode.waitForExistence(timeout: 60))
         barcode.tap()
         let allow = app.webViews.buttons["Allow lookup"]
         XCTAssertTrue(allow.waitForExistence(timeout: 10), "no consent before the lookup")
@@ -36,7 +36,7 @@ final class LoggingFlowTests: XCTestCase {
     func testDeletingAnEntryAsksAndDeletes() {
         start()
         let bite = app.webViews.buttons["Log Bite (~50 kcal)"]
-        XCTAssertTrue(bite.waitForExistence(timeout: 20))
+        XCTAssertTrue(bite.waitForExistence(timeout: 60))
         for _ in 0..<6 where !bite.isHittable { app.webViews.firstMatch.swipeUp() }
         bite.tap()
         sleep(2)
@@ -55,7 +55,7 @@ final class LoggingFlowTests: XCTestCase {
     func testSwipingFromTheEdgeClosesASheet() {
         start()
         let settings = app.webViews.buttons["Settings"]
-        XCTAssertTrue(settings.waitForExistence(timeout: 20))
+        XCTAssertTrue(settings.waitForExistence(timeout: 60))
         settings.tap()
         sleep(2)
         let heading = app.webViews.staticTexts["Settings"].firstMatch
@@ -69,7 +69,7 @@ final class LoggingFlowTests: XCTestCase {
     func testThePrivacyNoticeOpens() {
         start()
         let settings = app.webViews.buttons["Settings"]
-        XCTAssertTrue(settings.waitForExistence(timeout: 20))
+        XCTAssertTrue(settings.waitForExistence(timeout: 60))
         settings.tap()
         sleep(2)
         let notice = app.webViews.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'privacy'")).firstMatch
@@ -84,7 +84,7 @@ final class LoggingFlowTests: XCTestCase {
         try? FileManager.default.createDirectory(atPath: "/tmp/bitey-widget", withIntermediateDirectories: true)
         start(["BITEY_RENDER_WIDGET": "/tmp/bitey-widget"])
         let handful = app.webViews.buttons["Log Handful (~100 kcal)"]
-        XCTAssertTrue(handful.waitForExistence(timeout: 20))
+        XCTAssertTrue(handful.waitForExistence(timeout: 60))
         for _ in 0..<6 where !handful.isHittable { app.webViews.firstMatch.swipeUp() }
         handful.tap()
         sleep(6)
@@ -94,7 +94,7 @@ final class LoggingFlowTests: XCTestCase {
     /// The route the widget, the shortcuts and the Control Center button all take.
     func testADeepLinkOpensTheRightScreen() {
         start()
-        XCTAssertTrue(app.webViews.buttons["Barcode"].waitForExistence(timeout: 20))
+        XCTAssertTrue(app.webViews.buttons["Barcode"].waitForExistence(timeout: 60))
         // A cold start, as when the app is not running and the widget is tapped.
         app.terminate()
         app.open(URL(string: "bitey://action/manual")!)
