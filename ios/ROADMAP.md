@@ -16,7 +16,7 @@ Size is the work involved: S, M or L. **You** marks what only the owner can do.
 | Barcode cache | Done | Done | 0 |
 | Gallery | Done | Done, picker tap unproven | 1 |
 | Camera photo | Done | Built, needs an iPhone | 1 |
-| Barcode scanner | Done | Built, needs an iPhone | 1 |
+| Barcode scanner | Done | Done on an iPhone | 1 |
 | Open Food Facts lookup | Done | Done | 1 |
 | Backup and restore | Done | Done on iOS, needs an Android test | 1 |
 | Back gesture, privacy link, icon, text size | Done | Done | 1 |
@@ -65,8 +65,8 @@ As each lands, its welcome and settings text is corrected for iOS in every langu
 4. **You:** in the repo's GitHub settings, create an environment called `testflight`,
    limited to the `testflight` branch, with the secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`,
    `ASC_KEY` and `APPLE_TEAM_ID`.
-5. Claude: push to the `testflight` branch, which uploads a build. The workflow is
-   unproven, so expect to fix signing on the first run. (M)
+5. Claude: push to the `testflight` branch, which uploads a build. Working since
+   2 November 2026. (Done)
 6. **You:** install TestFlight on your iPhone and add yourself as an internal tester.
 7. **You:** install Bitey, then test the camera, the barcode scanner and the widget,
    which the Simulator cannot prove. Report what you find.
