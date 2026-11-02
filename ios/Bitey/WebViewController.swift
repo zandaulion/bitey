@@ -45,7 +45,21 @@ final class WebViewController: UIViewController {
         back.edges = .left
         webView.addGestureRecognizer(back)
         configuration.userContentController.add(bridge, name: NativeBridge.channel)
-        view = webView
+
+        // The page ends at the keyboard, so sheets shrink to fit, as on Android.
+        // Otherwise WebKit slides the whole page up, under the status bar.
+        let root = UIView()
+        root.backgroundColor = UIColor(named: "LaunchBackground")
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        root.addSubview(webView)
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: root.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: root.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: root.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: root.keyboardLayoutGuide.topAnchor),
+        ])
+        root.keyboardLayoutGuide.usesBottomSafeArea = false
+        view = root
     }
 
     override func viewDidLoad() {

@@ -1359,6 +1359,10 @@ input[type="range"]::-moz-range-thumb {
 
 
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* Diet and focus have long option names, which a phone cuts off side by side. */
+@media (max-width: 440px) {
+  :root[data-host="ios"] .field-row:has(#p-diet) { grid-template-columns: 1fr; }
+}
 .field-row label, .stack > label { display: flex; flex-direction: column; gap: 6px;
   font-size: .86rem; font-weight: 600; color: var(--ink-2); }
 .unit-tag { color: var(--ink-3); font-weight: 500; font-size: .78rem; }
