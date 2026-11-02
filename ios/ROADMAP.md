@@ -62,10 +62,11 @@ As each lands, its welcome and settings text is corrected for iOS in every langu
 3. **You:** create an App Store Connect **Team** key with the Admin role, which
    signing is likely to need. Save the `.p8` file, the key ID, the issuer ID and your
    Team ID. Never paste them into a chat.
-4. **You:** in the repo's GitHub settings, create an environment called `testflight`
-   with the secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY` and `APPLE_TEAM_ID`.
-5. **You:** run the **iOS TestFlight** workflow on `feature/ios`, or ask Claude to.
-   It is written but unproven, so expect to fix signing on the first run. (M)
+4. **You:** in the repo's GitHub settings, create an environment called `testflight`,
+   limited to the `testflight` branch, with the secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`,
+   `ASC_KEY` and `APPLE_TEAM_ID`.
+5. Claude: push to the `testflight` branch, which uploads a build. The workflow is
+   unproven, so expect to fix signing on the first run. (M)
 6. **You:** install TestFlight on your iPhone and add yourself as an internal tester.
 7. **You:** install Bitey, then test the camera, the barcode scanner and the widget,
    which the Simulator cannot prove. Report what you find.

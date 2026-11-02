@@ -1,9 +1,12 @@
 name: iOS TestFlight
 
-# Started by hand. The key lives in the testflight environment's secrets, which
-# forks and other branches' pull requests cannot read.
+# Started by pushing to the testflight branch: a manual run would need this file
+# on main first. The key lives in the testflight environment, which only this
+# branch may use, and forks cannot read it.
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - testflight
 
 permissions:
   contents: read
