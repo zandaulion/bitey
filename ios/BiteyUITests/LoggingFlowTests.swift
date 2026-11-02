@@ -69,7 +69,8 @@ final class LoggingFlowTests: XCTestCase {
         app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.5))
             .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)))
         sleep(2)
-        XCTAssertTrue(app.webViews.buttons["Barcode"].isHittable, "the sheet stayed open")
+        let barcode = app.webViews.buttons["Barcode"]
+        XCTAssertTrue(barcode.exists && app.windows.firstMatch.frame.contains(barcode.frame), "the sheet stayed open")
     }
 
     func testThePrivacyNoticeOpens() {
@@ -80,7 +81,7 @@ final class LoggingFlowTests: XCTestCase {
         sleep(2)
         let notice = app.webViews.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'privacy'")).firstMatch
         XCTAssertTrue(notice.waitForExistence(timeout: 8))
-        for _ in 0..<8 where !notice.isHittable { app.webViews.firstMatch.swipeUp() }
+        scrollTo(notice)
         notice.tap()
         sleep(6)
         shot("privacy")

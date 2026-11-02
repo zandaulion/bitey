@@ -12,6 +12,12 @@ final class ScreenTourTests: XCTestCase {
             .write(to: folder.appendingPathComponent("\(name).png"))
     }
 
+    /// By frame: asking an off-screen element whether it is hittable can throw.
+    private func scrollTo(_ element: XCUIElement) {
+        let screen = app.windows.firstMatch.frame.insetBy(dx: 0, dy: 120)
+        for _ in 0..<4 where !screen.contains(element.frame) { app.webViews.firstMatch.swipeUp() }
+    }
+
     /// Bitey's back swipe, which closes whatever is on top.
     private func close() {
         app.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.5))
@@ -25,16 +31,16 @@ final class ScreenTourTests: XCTestCase {
         if next.waitForExistence(timeout: 30) {
             sleep(1)
             shot("01-welcome-1")
-            for index in 2...3 where next.exists && next.isHittable {
+            for index in 2...3 where next.exists {
                 next.tap()
                 sleep(1)
                 shot("01-welcome-\(index)")
             }
             let skip = app.webViews.buttons["Skip"]
-            if skip.exists, skip.isHittable { skip.tap() }
+            if skip.exists { skip.tap() }
             for label in ["Get started", "Start logging", "Done", "Maybe later", "Let's go"] {
                 let button = app.webViews.buttons[label]
-                if button.exists, button.isHittable { button.tap(); break }
+                if button.exists { button.tap(); break }
             }
         }
         sleep(2)
@@ -67,8 +73,8 @@ final class ScreenTourTests: XCTestCase {
         if done.exists { done.tap() }
         sleep(1)
         let search = app.webViews.buttons.matching(NSPredicate(format: "label CONTAINS 'Search foods'")).firstMatch
-        for _ in 0..<4 where !search.isHittable { web.swipeUp() }
-        if search.exists, search.isHittable {
+        scrollTo(search)
+        if search.exists {
             search.tap()
             sleep(2)
             shot("06-search")
@@ -102,7 +108,7 @@ final class ScreenTourTests: XCTestCase {
         web.swipeDown()
         sleep(1)
         let trends = app.webViews.buttons["Trends"]
-        for _ in 0..<3 where !trends.isHittable { web.swipeUp() }
+        scrollTo(trends)
         trends.tap()
         sleep(3)
         shot("10-trends")

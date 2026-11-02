@@ -22,7 +22,7 @@ final class StoreScreenshotTests: XCTestCase {
         let web = app.webViews.firstMatch
         for label in ["Close", "Not today"] {
             let button = web.buttons[label].firstMatch
-            if button.exists, button.isHittable { button.tap(); sleep(1) }
+            if button.exists { button.tap(); sleep(1) }
         }
         shot("01-day")
         web.swipeUp()
