@@ -13,6 +13,12 @@ final class PhotoFlowTests: XCTestCase {
             .write(to: folder.appendingPathComponent("\(name).png"))
     }
 
+    /// By frame: asking an off-screen element whether it is hittable can throw.
+    private func scrollTo(_ element: XCUIElement) {
+        let screen = app.windows.firstMatch.frame.insetBy(dx: 0, dy: 120)
+        for _ in 0..<6 where !screen.contains(element.frame) { app.webViews.firstMatch.swipeUp() }
+    }
+
     private func start() {
         app.launchEnvironment["BITEY_FAKE_AI"] = "1"
         app.launchEnvironment["BITEY_TEST_PHOTO"] = "/tmp/sample.jpg"
@@ -27,7 +33,7 @@ final class PhotoFlowTests: XCTestCase {
         let pick = app.webViews.buttons["Already have a photo?"]
         XCTAssertTrue(pick.waitForExistence(timeout: 60))
         // It sits below the fold.
-        for _ in 0..<6 where !pick.isHittable { app.webViews.firstMatch.swipeUp() }
+        scrollTo(pick)
         shot("1-before")
         pick.tap()
         sleep(2)

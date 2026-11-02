@@ -10,6 +10,12 @@ final class LoggingFlowTests: XCTestCase {
         if skip.waitForExistence(timeout: 45) { skip.tap() }
     }
 
+    /// By frame: asking an off-screen element whether it is hittable can throw.
+    private func scrollTo(_ element: XCUIElement) {
+        let screen = app.windows.firstMatch.frame.insetBy(dx: 0, dy: 120)
+        for _ in 0..<6 where !screen.contains(element.frame) { app.webViews.firstMatch.swipeUp() }
+    }
+
     private func shot(_ name: String) {
         let folder = URL(fileURLWithPath: "/tmp/bitey-shots")
         try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
@@ -37,12 +43,12 @@ final class LoggingFlowTests: XCTestCase {
         start()
         let bite = app.webViews.buttons["Log Bite (~50 kcal)"]
         XCTAssertTrue(bite.waitForExistence(timeout: 60))
-        for _ in 0..<6 where !bite.isHittable { app.webViews.firstMatch.swipeUp() }
+        scrollTo(bite)
         bite.tap()
         sleep(2)
         let delete = app.webViews.buttons["Delete this entry"].firstMatch
         XCTAssertTrue(delete.waitForExistence(timeout: 10), "no delete button")
-        for _ in 0..<6 where !delete.isHittable { app.webViews.firstMatch.swipeUp() }
+        scrollTo(delete)
         delete.tap()
         let alert = app.alerts.firstMatch
         XCTAssertTrue(alert.waitForExistence(timeout: 8), "confirm() never appeared")
@@ -83,12 +89,10 @@ final class LoggingFlowTests: XCTestCase {
     func testTheWidgetGetsItsSnapshot() {
         try? FileManager.default.createDirectory(atPath: "/tmp/bitey-widget", withIntermediateDirectories: true)
         start(["BITEY_RENDER_WIDGET": "/tmp/bitey-widget"])
-        let handful = app.webViews.buttons["Log Handful (~100 kcal)"]
-        XCTAssertTrue(handful.waitForExistence(timeout: 60))
-        for _ in 0..<6 where !handful.isHittable { app.webViews.firstMatch.swipeUp() }
-        handful.tap()
-        sleep(6)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: "/tmp/bitey-widget/widget-large-light.png"))
+        // The page sends a snapshot as soon as it has drawn today.
+        let render = "/tmp/bitey-widget/widget-large-light.png"
+        let rendered = expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: render) }, evaluatedWith: nil)
+        wait(for: [rendered], timeout: 60)
     }
 
     /// The route the widget, the shortcuts and the Control Center button all take.
