@@ -101,9 +101,12 @@ final class LoggingFlowTests: XCTestCase {
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let open = springboard.buttons["Open"]
         if open.waitForExistence(timeout: 4) { open.tap() }
-        sleep(4)
-        shot("deeplink")
+        // A first launch can show the welcome over the sheet the link opened.
+        let skip = app.webViews.buttons["Skip"]
+        if skip.waitForExistence(timeout: 12) { skip.tap() }
         let heading = app.webViews.staticTexts["Add food"].firstMatch
-        XCTAssertTrue(heading.waitForExistence(timeout: 10), "the link did not open Add food")
+        let opened = heading.waitForExistence(timeout: 40)
+        shot("deeplink")
+        XCTAssertTrue(opened, "the link did not open Add food")
     }
 }

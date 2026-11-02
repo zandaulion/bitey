@@ -89,6 +89,7 @@ final class WebViewController: UIViewController {
     }
 
     private func pageDrawn() {
+        guard !pageReady else { return }
         pageReady = true
         if let action = pendingAction {
             pendingAction = nil
@@ -175,6 +176,8 @@ extension WebViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         applyTextSize()
+        // A page that never reports today must not swallow a tap on the widget.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 8) { [weak self] in self?.pageDrawn() }
         #if DEBUG
         DebugSelfTest.run(in: webView)
         #endif
