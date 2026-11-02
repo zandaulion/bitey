@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Bitey's head, from android/app/src/main/res/drawable/ic_tile_bitey.xml. -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3300" height="2200">
+ <g id="Notes">
+  <text id="template-version" x="3036" y="2100" text-anchor="end">Template v.3.0</text>
+  <text id="descriptive-name" x="263" y="2100">bitey.head</text>
+ </g>
+ <g id="Guides">
+  <line id="Baseline-S" x1="263" x2="3036" y1="696" y2="696" stroke="#27aae1"/>
+  <line id="Capline-S" x1="263" x2="3036" y1="625.541" y2="625.541" stroke="#27aae1"/>
+  <line id="left-margin-Regular-S" x1="300" x2="300" y1="595.541" y2="726" stroke="#00aeef"/>
+  <line id="right-margin-Regular-S" x1="359.4" x2="359.4" y1="595.541" y2="726" stroke="#00aeef"/>
+  <line id="Baseline-M" x1="263" x2="3036" y1="1126" y2="1126" stroke="#27aae1"/>
+  <line id="Capline-M" x1="263" x2="3036" y1="1055.54" y2="1055.54" stroke="#27aae1"/>
+  <line id="left-margin-Regular-M" x1="300" x2="300" y1="1025.54" y2="1156" stroke="#00aeef"/>
+  <line id="right-margin-Regular-M" x1="372.0" x2="372.0" y1="1025.54" y2="1156" stroke="#00aeef"/>
+  <line id="Baseline-L" x1="263" x2="3036" y1="1556" y2="1556" stroke="#27aae1"/>
+  <line id="Capline-L" x1="263" x2="3036" y1="1485.54" y2="1485.54" stroke="#27aae1"/>
+  <line id="left-margin-Regular-L" x1="300" x2="300" y1="1455.54" y2="1586" stroke="#00aeef"/>
+  <line id="right-margin-Regular-L" x1="390.0" x2="390.0" y1="1455.54" y2="1586" stroke="#00aeef"/>
+ </g>
+ <g id="Symbols">
+  <g id="Regular-S">
+   <g transform="matrix(3.3 0 0 3.3 290.1 624.4705000000001)">
+    <path d="M3.5,15C3.5,9.5 7.5,5.5 13,5.5C17.5,5.5 20.5,8 21,11C21.3,12.8 20.3,14 18.6,14H14.5V15.2H19.2C20.4,15.2 21,16.3 20.3,17.4C19.3,18.9 17,19.8 13.5,19.8H8C5.3,19.8 3.5,17.8 3.5,15Z M16.6,9.6a1.6,1.6 0,1 0,-3.2,0a1.6,1.6 0,1 0,3.2,0Z"/>
+    <path d="M4.2,10.6L3,7.2L6.4,8.4Z M6.6,7.4L6.4,3.8L9.4,5.9Z M10,5.4L11.2,2.2L13,5.2Z"/>
+   </g>
+  </g>
+  <g id="Regular-M">
+   <g transform="matrix(4.0 0 0 4.0 288.0 1046.77)">
+    <path d="M3.5,15C3.5,9.5 7.5,5.5 13,5.5C17.5,5.5 20.5,8 21,11C21.3,12.8 20.3,14 18.6,14H14.5V15.2H19.2C20.4,15.2 21,16.3 20.3,17.4C19.3,18.9 17,19.8 13.5,19.8H8C5.3,19.8 3.5,17.8 3.5,15Z M16.6,9.6a1.6,1.6 0,1 0,-3.2,0a1.6,1.6 0,1 0,3.2,0Z"/>
+    <path d="M4.2,10.6L3,7.2L6.4,8.4Z M6.6,7.4L6.4,3.8L9.4,5.9Z M10,5.4L11.2,2.2L13,5.2Z"/>
+   </g>
+  </g>
+  <g id="Regular-L">
+   <g transform="matrix(5.0 0 0 5.0 285.0 1465.77)">
+    <path d="M3.5,15C3.5,9.5 7.5,5.5 13,5.5C17.5,5.5 20.5,8 21,11C21.3,12.8 20.3,14 18.6,14H14.5V15.2H19.2C20.4,15.2 21,16.3 20.3,17.4C19.3,18.9 17,19.8 13.5,19.8H8C5.3,19.8 3.5,17.8 3.5,15Z M16.6,9.6a1.6,1.6 0,1 0,-3.2,0a1.6,1.6 0,1 0,3.2,0Z"/>
+    <path d="M4.2,10.6L3,7.2L6.4,8.4Z M6.6,7.4L6.4,3.8L9.4,5.9Z M10,5.4L11.2,2.2L13,5.2Z"/>
+   </g>
+  </g>
+ </g>
+</svg>

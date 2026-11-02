@@ -31,6 +31,9 @@ enum DebugSelfTest {
                     try? renderer.uiImage?.pngData()?.write(to: URL(fileURLWithPath: target))
                 }
             }
+            let symbol = ImageRenderer(content: Image("BiteyHead").font(.system(size: 120)).foregroundStyle(.black).padding(20).background(.white))
+            symbol.scale = 2
+            try? symbol.uiImage?.pngData()?.write(to: URL(fileURLWithPath: "\(folder)/control-symbol.png"))
             NativeBridge.debugLog("widget: rendered")
         }
     }

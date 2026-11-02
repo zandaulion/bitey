@@ -63,7 +63,8 @@ struct MealPhotoControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: "BiteyMealPhoto") {
             ControlWidgetButton(action: OpenURLIntent(URL(string: "bitey://action/photo")!)) {
-                Label("Meal photo", systemImage: "camera.fill")
+                // Control Center draws symbols only: Android's tile, as a symbol.
+                Label("Meal photo", image: "BiteyHead")
             }
         }
         .displayName("Meal photo")
