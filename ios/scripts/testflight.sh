@@ -24,9 +24,13 @@ auth=(
 
 xcodegen generate > /dev/null
 
+# Signed ad hoc, which needs no Apple account but keeps the entitlements. A signed
+# archive would ask for a development profile, and those need a registered device.
+# The export below signs it for real.
 xcodebuild archive -project Bitey.xcodeproj -scheme Bitey -configuration Release \
-  -destination generic/platform=iOS -archivePath "$work/Bitey.xcarchive" "${auth[@]}" \
-  DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Automatic \
+  -destination generic/platform=iOS -archivePath "$work/Bitey.xcarchive" \
+  DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- \
+  CODE_SIGNING_REQUIRED=NO CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
   CURRENT_PROJECT_VERSION="$build_number" | xcbeautify --quiet
 
 cat > "$work/ExportOptions.plist" << PLIST
