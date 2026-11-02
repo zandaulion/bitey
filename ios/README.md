@@ -26,15 +26,14 @@ Unlike Android, iOS keeps the page's own action bar instead of a native one.
 
 ## Build and test
 
-The project is generated, so `Bitey.xcodeproj` is not tracked. The widget shares
-data through an app group, which needs a signature even in the Simulator, so an
-ad-hoc one is used:
+The project is generated, so `Bitey.xcodeproj` is not tracked. On a Mac:
 
-    cd ios
-    xcodegen generate
-    xcodebuild test -project Bitey.xcodeproj -scheme Bitey \
-      -destination 'platform=iOS Simulator,name=iPhone 17' \
-      CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO
+    brew install xcodegen xcbeautify
+    ios/scripts/test.sh "iPhone 17"
+
+GitHub runs the same script on every push that touches iOS, `web/` or `core/`, and
+keeps the screens as a build artifact. The widget shares data through an app group,
+which needs a signature even in the Simulator, so the build is signed ad hoc.
 
 UI tests live in `BiteyUITests/`. Debug builds read these launch settings, and
 release builds compile none of them:
