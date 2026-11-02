@@ -43,7 +43,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - run: npm ci
       - run: npm --prefix functions ci
-      - run: node --test test/firebase-sdk.test.js test/functions.test.js test/text-analysis.test.js
+      - run: node --test test/apple.test.js test/firebase-sdk.test.js test/functions.test.js test/text-analysis.test.js
 
   # A debug build of the Android app, so a change to it, or a Dependabot bump
   # of Gradle, AGP, Kotlin or a library, is compiled before it is merged. The

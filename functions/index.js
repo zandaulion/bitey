@@ -20,12 +20,15 @@ import { validateAnalyseRequest, isEntitled, ANALYSE_ERRORS } from './core/ai/ga
 import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';
 import { fromModelResponse, totalsOf, rangesOf } from './core/analysis/estimate.js';
 import { readSubscription, PlayError, AI_SUBSCRIPTION_ID } from './play.js';
+import { readAppleSubscription, AppleError } from './apple.js';
 import { entitlementIdFor, claim, refund } from './quota.js';
 import { analysePhoto, analyseText, readLeftovers, AnalysisError } from './gemini.js';
 
 initializeApp();
 
 const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY');
+// The key that reads App Store purchases. It must exist before the next deploy.
+const APPLE_IAP_KEY = defineSecret('APPLE_IAP_KEY');
 
 // Plain environment values rather than Firebase params: neither is a secret,
 // and a param -- even one with a default -- must be confirmed interactively at
@@ -57,7 +60,7 @@ export const analyse = onRequest(
     // It is also the identity Play Console is told about, so the grant there
     // names exactly one piece of software.
     serviceAccount: 'bitey-play@plate-cc703.iam.gserviceaccount.com',
-    secrets: [GEMINI_API_KEY],
+    secrets: [GEMINI_API_KEY, APPLE_IAP_KEY],
     // A photograph is the payload, so the default 32 MiB is not the binding
     // constraint; the request is capped in gate.js long before this.
     memory: '512MiB',
@@ -111,15 +114,26 @@ export const analyse = onRequest(
 
     // The token identifies the subscription for the rest of this request and
     // is never written down: the counter keys off a hash of it instead.
-    const entitlementId = entitlementIdFor(request.purchaseToken);
+    const entitlementIdOf = (subscription) => entitlementIdFor(subscription?.accountId ?? request.purchaseToken);
+    let entitlementId = entitlementIdOf();
 
+    const fromApple = req.body?.platform === 'ios';
     let subscription;
     try {
-      subscription = await readSubscription(PLAY_PACKAGE, request.purchaseToken);
-      lap('play');
+      subscription = fromApple
+        ? await readAppleSubscription(request.purchaseToken, {
+          key: APPLE_IAP_KEY.value(),
+          keyId: process.env.APPLE_IAP_KEY_ID,
+          issuerId: process.env.APPLE_ISSUER_ID,
+          appId: process.env.APPLE_APP_ID
+        })
+        : await readSubscription(PLAY_PACKAGE, request.purchaseToken);
+      entitlementId = entitlementIdOf(subscription);
+      lap(fromApple ? 'apple' : 'play');
     } catch (err) {
-      if (err instanceof PlayError) {
-        logger.error('play verification failed', { code: err.code, detail: err.detail, entitlementId });
+      if (err instanceof PlayError || err instanceof AppleError) {
+        logger.error(`${fromApple ? 'apple' : 'play'} verification failed`,
+          { code: err.code, detail: err.detail, entitlementId });
         return fail(res, err.status, err.code, err.message);
       }
       throw err;
@@ -140,7 +154,8 @@ export const analyse = onRequest(
       // Deliberately the same answer for "never bought", "expired" and "a
       // token for something else": the client shows the plans either way, and
       // distinguishing them here only helps somebody probing tokens.
-      return fail(res, 403, 'not_entitled', ANALYSE_ERRORS.not_entitled);
+      return fail(res, 403, 'not_entitled',
+        fromApple ? ANALYSE_ERRORS.not_entitled_ios : ANALYSE_ERRORS.not_entitled);
     }
 
     const quota = await claim(entitlementId);

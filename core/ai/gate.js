@@ -50,6 +50,7 @@ export const ANALYSE_ERRORS = {
   no_original: 'The photo of the meal before eating was not received.',
   no_items: 'This entry has no foods to compare.',
   not_entitled: 'Bitey AI is not active on this Google Play account.',
+  not_entitled_ios: 'Bitey AI is not active on this Apple Account.',
   daily_limit: 'That is all the meal analyses for today. They come back tomorrow.'
 };
 

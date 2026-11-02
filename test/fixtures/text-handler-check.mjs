@@ -30,6 +30,7 @@ const deps = {
   './core/analysis/prompt.js': prompt,
   './core/analysis/estimate.js': estimate,
   './play.js': { readSubscription: async () => { calls.push(['play']); return subscription; }, PlayError: class extends Error {}, AI_SUBSCRIPTION_ID: 'synthetic-ai-product' },
+  './apple.js': { readAppleSubscription: async () => { calls.push(['apple']); return subscription; }, AppleError: class extends Error {} },
   './quota.js': { entitlementIdFor: () => 'synthetic-hash', claim: async () => { calls.push(['quota']); return { allowed, remaining: allowed ? 19 : 0, used: allowed ? 1 : 20, limit: 20 }; }, refund: async () => { calls.push(['refund']); } },
   './gemini.js': { analysePhoto: model, analyseText: model, readLeftovers: model, AnalysisError }
 };
@@ -73,4 +74,11 @@ assert.equal((await invoke()).statusCode,503);
 assert.deepEqual(calls.map(c=>c[0]),['play','quota','model','refund']);
 reset(); const photo=await invoke({mode:'analyse',image:'x'.repeat(200)});
 assert.equal(photo.statusCode,200); assert.equal(photo.body.estimate.items[0].source,'photo');
+reset(); const iphone=await invoke({platform:'ios'});
+assert.equal(iphone.statusCode,200); assert.deepEqual(calls.map(c=>c[0]),['apple','quota','model']);
+reset(); assert.equal((await invoke({platform:'ios'},'')).statusCode,401); assert.deepEqual(calls,[]);
+reset(); subscription.state='SUBSCRIPTION_STATE_EXPIRED'; const lapsed=await invoke({platform:'ios'});
+assert.equal(lapsed.statusCode,403); assert.deepEqual(calls,[['apple']]);
+assert.equal(lapsed.body.message,'Bitey AI is not active on this Apple Account.');
+reset(); await invoke({platform:'android'}); assert.equal(calls[0][0],'play');
 console.log('Cloud paywall, App Check, shared quota, refund, and photo regression checks passed.');
