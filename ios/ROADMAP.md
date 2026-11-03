@@ -114,11 +114,19 @@ It needs a real Apple Watch for proper testing.
 1. **You:** decide about publishing. Your legal name becomes the public seller name,
    and if you are a trader under EU law, your address, phone and email appear on
    Bitey's EU page. Consider advice on trader status.
-2. Claude: draft the listing, the App Privacy answers and App Store screenshots, in
-   every language. (M)
-3. **You:** review the updated privacy notice, and publish it.
-4. **You:** enter the listing and privacy answers, or have Claude do it by API.
-5. **You:** submit for review, and answer any questions from Apple.
+2. Claude: the listing, App Privacy answers and screenshots are drafted in `docs/ios/`,
+   which is kept out of the repo. Add the AI estimate screenshot once Bitey AI works.
+3. Claude: before submitting, check what App Review tests:
+   - iPad: Bitey is iPhone-only, so reviewers may run it in iPhone mode on an iPad.
+     Test it on an iPad Simulator; Apple expects iPhone apps to work there.
+   - Leftover Android wording (2.3.10), in the app and the listing, in every language.
+   - Completeness (2.1): no placeholder text, dead buttons or broken links.
+   - Screenshots match the app (2.3.3), and nothing implies medical advice (1.4.1).
+   - Review notes: no login needed; explain how to reach Bitey AI with Apple's
+     sandbox account.
+4. **You:** review the updated privacy notice, and publish it.
+5. **You:** enter the listing and privacy answers, or have Claude do it by API.
+6. **You:** submit for review, and answer any questions from Apple.
 
 ## Apple's rules to keep in view
 
