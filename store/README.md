@@ -23,6 +23,20 @@ Google Play.
 
 ## Upload artifacts
 
+Next on the watch: **1.0.3** (`versionCode` 1000004), replacing 1.0.2 on the
+Wear OS track. Play rejected 1.0.2 on 3 November 2026 on two Wear app quality
+checks, both fixed here: no app icon in the splash screen (the watch now shows
+its round icon at 48 dp on black, Wear OS 3 included) and watch shapes (quick
+bite buttons ran past the round edge mid-scroll; the lists now morph to the
+curve). It also pins fragment 1.9.1, which Play Console had reported as
+outdated at 1.1.0. Checked on the small round and square Wear OS emulators. The
+watch has never been live, so it keeps the 1.1.9 notes ("Bitey on Wear OS").
+
+- Watch 1.0.3 file SHA-256:
+  `93129B6946E69F8E2C055A7C4244D8740C147947ACC0FA0B3006FA23C7FF290A` (built
+  7 November 2026, 16:09, on the Lenovo from 9a7f728; signed with the Play
+  upload key).
+
 The next upload is **1.1.10** (`versionCode` 27), phone only: "Install on
 your watch", in a new Settings section ("Bitey on your watch") and on the
 welcome's shortcuts card, for a paired Wear OS watch without Bitey; it opens
@@ -321,8 +335,8 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.10** (`versionCode` 27), not yet uploaded; watch
-  bundle 1.0.2 (`versionCode` 1000003)
+- Current source version: **1.1.10** (`versionCode` 27); watch bundle 1.0.3
+  (`versionCode` 1000004), after Play rejected 1.0.2 (`versionCode` 1000003)
 - Production: **1.1.9** (`versionCode` 26); the watch 1.0.2 is in Wear OS review
 - Next upload artifact: `bitey-private-food-log-1.1.10.aab`
 - Last upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle
