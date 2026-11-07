@@ -51,8 +51,8 @@ android {
         targetSdk = 36
         // Its own numbers: Play needs every bundle in a listing to have a
         // different versionCode, and the watch ships on its own track.
-        versionCode = 1_000_003
-        versionName = "1.0.2"
+        versionCode = 1_000_004
+        versionName = "1.0.3"
     }
 
     buildTypes {
@@ -124,6 +124,8 @@ tasks.configureEach {
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2026.09.00"))
     implementation("androidx.activity:activity-compose:1.13.0")
+    // The launch screen, on Wear OS 3 too, which has no system splash screen.
+    implementation("androidx.core:core-splashscreen:1.2.0")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.wear.compose:compose-material3:1.7.1")
     implementation("androidx.wear.compose:compose-foundation:1.7.1")
@@ -137,6 +139,9 @@ dependencies {
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.3.0")
 
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
+    // The watch has no fragments, but Play services drags in fragment 1.1.0,
+    // which Play Console reports as outdated. Pinned as :app pins it.
+    implementation("androidx.fragment:fragment:1.9.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
     // org.json is only a stub in android.jar; the JVM tests need the real one.

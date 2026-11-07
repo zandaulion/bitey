@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 48dp, as Play's Wear review asks. The launcher icon is adaptive, so the
+     watch draws it in its own round mask, and Theme.SplashScreen (for round
+     icons) needs no background circle of its own. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="48dp"
+        android:height="48dp"
+        android:drawable="@mipmap/ic_launcher"
+        android:gravity="center" />
+</layer-list>

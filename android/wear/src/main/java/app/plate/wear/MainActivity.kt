@@ -29,17 +29,21 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.composable
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
@@ -70,6 +74,7 @@ class MainActivity : ComponentActivity() {
     private var fromTile = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             val today by TodayStore.flow(applicationContext).collectAsState()
@@ -182,14 +187,16 @@ private const val RESULT = "result"
 
 @Composable
 private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
-    // Starts at the top rather than centring the first item: centred, the
-    // ring is tall enough to run into the time at the top of the screen.
-    val listState = rememberScalingLazyListState(initialCenterItemIndex = 0)
+    // A transforming list, not a scaling one: rows narrow and round off as
+    // they reach the curved top and bottom, so no button runs past the edge
+    // of a round screen mid-scroll (Play's watch shapes check found exactly
+    // that). It starts at the top: centred, the ring runs into the time.
+    val listState = rememberTransformingLazyColumnState()
+    val spec = rememberTransformationSpec()
     ScreenScaffold(scrollState = listState) { padding ->
-        ScalingLazyColumn(
+        TransformingLazyColumn(
             state = listState,
             contentPadding = padding,
-            autoCentering = null,
             modifier = Modifier.fillMaxSize(),
         ) {
             if (today == null) {
@@ -197,30 +204,45 @@ private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
                     Text(
                         stringResource(R.string.waiting),
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 12.dp),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
-                return@ScalingLazyColumn
+                return@TransformingLazyColumn
             }
+            // Not transformed: it is no surface to morph, and shrinking its
+            // height alone lets the header below ride over the macros line.
             item { Summary(today) }
             if (today.bites.isNotEmpty()) {
-                item { ListHeader { Text(today.word("bites")) } }
+                item { Header(today.word("bites"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec)) }
                 items(today.bites) { bite ->
-                    Button(onClick = { onChoose(bite) }, modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = { onChoose(bite) },
+                        modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                        transformation = SurfaceTransformation(spec),
+                    ) {
                         ChoiceLabel(bite, today)
                     }
                 }
             }
             if (today.meals.isNotEmpty()) {
-                item { ListHeader { Text(today.word("meals")) } }
+                item { Header(today.word("meals"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec)) }
                 items(today.meals) { meal ->
-                    FilledTonalButton(onClick = { onChoose(meal) }, modifier = Modifier.fillMaxWidth()) {
+                    FilledTonalButton(
+                        onClick = { onChoose(meal) },
+                        modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                        transformation = SurfaceTransformation(spec),
+                    ) {
                         ChoiceLabel(meal, today)
                     }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun Header(text: String, transformation: SurfaceTransformation, modifier: Modifier) {
+    ListHeader(modifier = modifier.fillMaxWidth(), transformation = transformation) { Text(text) }
 }
 
 @Composable
@@ -289,33 +311,52 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
         }
     }
     val words = today ?: Today.parse("""{"day":""}""")!!
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-    ) {
-        when (status) {
-            is Status.Working -> Text("${status.label}…", textAlign = TextAlign.Center, maxLines = 3)
-            is Status.Logged -> {
-                Text(words.logged(status.label), textAlign = TextAlign.Center, maxLines = 3)
-                FilledTonalButton(onClick = { onUndo(status.id) }, modifier = Modifier.padding(top = 12.dp)) {
-                    Text(words.word("undo"))
+    // A list in the scaffold, not a fixed column: on a small round watch three
+    // lines and two buttons do not fit inside the circle, and this keeps every
+    // part inside the round screen's safe area and reachable by scrolling.
+    val listState = rememberTransformingLazyColumnState()
+    val spec = rememberTransformationSpec()
+    ScreenScaffold(scrollState = listState) { padding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = padding,
+            verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            when (status) {
+                is Status.Working -> item { Message("${status.label}…") }
+                is Status.Logged -> {
+                    item { Message(words.logged(status.label)) }
+                    item {
+                        FilledTonalButton(
+                            onClick = { onUndo(status.id) },
+                            modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                            transformation = SurfaceTransformation(spec),
+                        ) {
+                            Text(words.word("undo"), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec), SurfaceTransformation(spec)) }
                 }
-                BackButton(words, onDone)
+                Status.Undone -> item { Message(words.word("undone")) }
+                is Status.Failed -> {
+                    item { Message(stringResource(status.message)) }
+                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec), SurfaceTransformation(spec)) }
+                }
+                Status.Idle -> Unit
             }
-            Status.Undone -> Text(words.word("undone"), textAlign = TextAlign.Center)
-            is Status.Failed -> {
-                Text(stringResource(status.message), textAlign = TextAlign.Center)
-                BackButton(words, onDone)
-            }
-            Status.Idle -> Unit
         }
     }
 }
 
 @Composable
-private fun BackButton(words: Today, onDone: () -> Unit) {
-    Button(onClick = onDone, modifier = Modifier.padding(top = 8.dp)) {
-        Text(words.word("back"))
+private fun Message(text: String) {
+    Text(text, textAlign = TextAlign.Center, maxLines = 3, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+private fun BackButton(words: Today, onDone: () -> Unit, modifier: Modifier, transformation: SurfaceTransformation) {
+    Button(onClick = onDone, modifier = modifier.fillMaxWidth(), transformation = transformation) {
+        Text(words.word("back"), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
     }
 }
