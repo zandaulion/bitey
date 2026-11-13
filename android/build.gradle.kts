@@ -3,8 +3,8 @@ plugins {
     // Keep this pair in lockstep: changing either one without the other is what
     // breaks a fresh checkout. AGP states its minimum outright, so a mismatch fails the
     // build with the version it wanted rather than anything subtler.
-    id("com.android.application") version "9.5.0" apply false
-    id("com.google.devtools.ksp") version "2.3.12" apply false
+    id("com.android.application") version "9.5.1" apply false
+    id("com.google.devtools.ksp") version "2.3.13" apply false
     // The watch app is Compose, whose compiler plugin must match the Kotlin
     // Gradle plugin. Naming KGP here makes AGP's built-in Kotlin use this
     // version rather than the 2.2.10 it depends on, so the two agree; the
