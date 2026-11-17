@@ -28,15 +28,17 @@ Wear OS track. Play rejected 1.0.3 on watch shapes again (17 November 2026,
 enforced the same day), with two screens as evidence: the "Open Bitey on your
 phone" message ran past both edges at the top of the screen, and a quick-bite
 row at the bottom was still cut by the circle mid-scroll. The message is now
-centred, and the lists fade rows out completely before the round edge (the
-Material transition alone only faded them to half). Checked on the 192 dp and
+centred. On round watches the list's buttons are narrower (about a tenth of
+the screen in from each side) and shrink along the curve, as if on a round
+track, and rows fade out completely before the round edge (the Material
+transition alone only faded them to half). Checked on the 192 dp and
 227 dp round emulators at every scroll position. The Portuguese watch strings
 are now Brazilian. The watch has never been live, so it keeps the 1.1.9 notes
 ("Bitey on Wear OS").
 
 - Watch 1.0.4 file SHA-256:
-  `7F2F3742BFD92425D9DC7494E7253D6E7C99254572F0B57C135D4A4B98FC27BF` (built
-  17 November 2026, 19:24, on the Lenovo from bbdc67a; signed with the Play
+  `618220D57C29AA6E4520498F3DB0C92565572D701271E4909BA9DB49D47EEF4C` (built
+  17 November 2026, 21:53, on the Lenovo from d91d792; signed with the Play
   upload key).
 
 Watch 1.0.3 (`versionCode` 1000004, rejected): splash icon at 48 dp on black,
