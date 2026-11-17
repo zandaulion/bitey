@@ -61,6 +61,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import androidx.compose.ui.graphics.GraphicsLayerScope
+import androidx.compose.ui.platform.LocalDensity
+import androidx.wear.compose.foundation.LocalReduceMotion
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScrollProgress
+import kotlin.math.ceil
+import kotlin.math.sqrt
 
 /** Where a tap on the watch has got to. */
 sealed interface Status {
@@ -227,7 +233,7 @@ private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
                 items(today.bites) { bite ->
                     Button(
                         onClick = { onChoose(bite) },
-                        modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     ) {
                         ChoiceLabel(bite, today)
@@ -239,7 +245,7 @@ private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
                 items(today.meals) { meal ->
                     FilledTonalButton(
                         onClick = { onChoose(meal) },
-                        modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     ) {
                         ChoiceLabel(meal, today)
@@ -345,7 +351,7 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
                     item {
                         FilledTonalButton(
                             onClick = { onUndo(status.id) },
-                            modifier = Modifier.fillMaxWidth().transformedHeight(this, spec),
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
                             transformation = SurfaceTransformation(spec),
                         ) {
                             Text(words.word("undo"), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
@@ -376,9 +382,13 @@ private fun Message(text: String) {
 }
 
 /**
- * The list's own edge transition, but fading rows out completely as they
- * reach the top or bottom instead of stopping at half: a half-faded row
- * still showed cut by the circle in Play's review.
+ * The list's own edge transition, with two changes. Rows fade out
+ * completely as they reach the top or bottom instead of stopping at half:
+ * a half-faded row still showed cut by the circle in Play's review. And
+ * on a round screen each row also shrinks just enough for its rounded
+ * ends to stay inside the circle at the height it has scrolled to, so the
+ * list runs as if on a round track. "Reduce motion" turns both off, as it
+ * does the list's own transition; the edge fade still covers that case.
  */
 @Composable
 private fun rememberEdgeSpec(): TransformationSpec {
@@ -389,7 +399,85 @@ private fun rememberEdgeSpec(): TransformationSpec {
             ResponsiveTransformationSpec.largeScreen(containerAlpha = gone, contentAlpha = gone),
         )
     }
-    return rememberTransformationSpec(*specs)
+    val material = rememberTransformationSpec(*specs)
+    val configuration = LocalConfiguration.current
+    if (!configuration.isScreenRound || LocalReduceMotion.current) return material
+    val density = LocalDensity.current.density
+    val width = configuration.screenWidthDp * density
+    val height = configuration.screenHeightDp * density
+    // The scaffold's side padding is 5.2% of the width (Material's list default).
+    val pill = width * (1f - 2 * 0.052f) - 2 * with(LocalDensity.current) { pillInset().toPx() }
+    return remember(material, width, height, pill) { RoundTrackSpec(material, width, height, pill) }
+}
+
+/**
+ * [material], with each row scaled down further where the circle is
+ * narrower than the row. A row is taken as a pill [pill] px wide with
+ * half-round ends; it scales from its centre and keeps its top, as the
+ * list's own scaling does. All sizes in px.
+ */
+private class RoundTrackSpec(
+    private val material: TransformationSpec,
+    width: Float,
+    private val height: Float,
+    private val pill: Float,
+) : TransformationSpec by material {
+    // A hair inside the edge, so antialiasing never touches it.
+    private val radius = minOf(width, height) / 2f * 0.97f
+
+    /** The largest scale, down to [MIN], at which the row fits the circle. */
+    private fun fit(progress: TransformingLazyColumnItemScrollProgress): Float {
+        val top = progress.topOffsetFraction * height
+        val rowHeight = (progress.bottomOffsetFraction - progress.topOffsetFraction) * height
+        val end = rowHeight / 2f
+        val reach = (pill / 2f - end).coerceAtLeast(0f)
+        fun fits(scale: Float): Boolean {
+            val dy = top + scale * rowHeight / 2f - height / 2f
+            return sqrt((scale * reach).let { it * it } + dy * dy) + scale * end <= radius
+        }
+        if (fits(1f)) return 1f
+        var low = MIN
+        var high = 1f
+        repeat(12) {
+            val mid = (low + high) / 2f
+            if (fits(mid)) low = mid else high = mid
+        }
+        return low
+    }
+
+    override fun getTransformedHeight(
+        measuredHeight: Int,
+        scrollProgress: TransformingLazyColumnItemScrollProgress,
+    ): Int {
+        val own = material.getTransformedHeight(measuredHeight, scrollProgress)
+        if (scrollProgress.isUnspecified) return own
+        return minOf(own, ceil(fit(scrollProgress) * measuredHeight).toInt())
+    }
+
+    override fun GraphicsLayerScope.applyContainerTransformation(
+        scrollProgress: TransformingLazyColumnItemScrollProgress
+    ) {
+        with(material) { applyContainerTransformation(scrollProgress) }
+        if (scrollProgress.isUnspecified) return
+        val scale = minOf(scaleX, fit(scrollProgress))
+        translationY = -1f * size.height * (1f - scale) / 2f
+        scaleX = scale
+        scaleY = scale
+    }
+
+    private companion object {
+        const val MIN = 0.3f
+    }
+}
+
+/**
+ * Side room for the list's buttons on top of the list's own padding, on a
+ * round watch: about a tenth of the screen each side in all, so a row
+ * nearing the curve has less of its corners past it.
+ */
+@Composable
+private fun pillInset() = with(LocalConfiguration.current) {
+    if (isScreenRound) (screenWidthDp * 0.05f).dp else 0.dp
 }
 
 /**
@@ -435,7 +523,7 @@ private fun Modifier.fadeBeforeRoundEdge(): Modifier {
 
 @Composable
 private fun BackButton(words: Today, onDone: () -> Unit, modifier: Modifier, transformation: SurfaceTransformation) {
-    Button(onClick = onDone, modifier = modifier.fillMaxWidth(), transformation = transformation) {
+    Button(onClick = onDone, modifier = modifier.fillMaxWidth().padding(horizontal = pillInset()), transformation = transformation) {
         Text(words.word("back"), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
     }
 }
