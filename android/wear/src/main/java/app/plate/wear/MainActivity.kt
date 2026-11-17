@@ -16,11 +16,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -42,6 +49,9 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.lazy.ResponsiveTransformationSpec
+import androidx.wear.compose.material3.lazy.TransformationSpec
+import androidx.wear.compose.material3.lazy.TransformationVariableSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
@@ -187,28 +197,28 @@ private const val RESULT = "result"
 
 @Composable
 private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
+    if (today == null) {
+        // In the middle of the screen, where a round one is widest: at the top
+        // of the list it ran past both edges (Play's second watch shapes check).
+        ScreenScaffold {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().padding(horizontal = roundInset())) {
+                Text(stringResource(R.string.waiting), textAlign = TextAlign.Center)
+            }
+        }
+        return
+    }
     // A transforming list, not a scaling one: rows narrow and round off as
-    // they reach the curved top and bottom, so no button runs past the edge
-    // of a round screen mid-scroll (Play's watch shapes check found exactly
-    // that). It starts at the top: centred, the ring runs into the time.
+    // they reach the curved top and bottom. That alone still left a row half
+    // past the edge mid-scroll, so the list also fades out before the edge.
+    // It starts at the top: centred, the ring runs into the time.
     val listState = rememberTransformingLazyColumnState()
-    val spec = rememberTransformationSpec()
+    val spec = rememberEdgeSpec()
     ScreenScaffold(scrollState = listState) { padding ->
         TransformingLazyColumn(
             state = listState,
             contentPadding = padding,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().fadeBeforeRoundEdge(),
         ) {
-            if (today == null) {
-                item {
-                    Text(
-                        stringResource(R.string.waiting),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-                return@TransformingLazyColumn
-            }
             // Not transformed: it is no surface to morph, and shrinking its
             // height alone lets the header below ride over the macros line.
             item { Summary(today) }
@@ -260,7 +270,12 @@ private fun ChoiceLabel(choice: Choice, today: Today) {
 @Composable
 private fun Summary(today: Today) {
     val track = MaterialTheme.colorScheme.surfaceContainer
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    // Inset more than the list does: the two lines under the ring sit where
+    // the circle has already narrowed, so they wrap rather than reach it.
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = roundInset()),
+    ) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.size(112.dp)) {
             Canvas(modifier = Modifier.fillMaxSize().padding(4.dp)) {
                 val width = 8.dp.toPx()
@@ -315,13 +330,13 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
     // lines and two buttons do not fit inside the circle, and this keeps every
     // part inside the round screen's safe area and reachable by scrolling.
     val listState = rememberTransformingLazyColumnState()
-    val spec = rememberTransformationSpec()
+    val spec = rememberEdgeSpec()
     ScreenScaffold(scrollState = listState) { padding ->
         TransformingLazyColumn(
             state = listState,
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().fadeBeforeRoundEdge(),
         ) {
             when (status) {
                 is Status.Working -> item { Message("${status.label}…") }
@@ -351,7 +366,71 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
 
 @Composable
 private fun Message(text: String) {
-    Text(text, textAlign = TextAlign.Center, maxLines = 3, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
+    Text(
+        text,
+        textAlign = TextAlign.Center,
+        maxLines = 3,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = roundInset()),
+    )
+}
+
+/**
+ * The list's own edge transition, but fading rows out completely as they
+ * reach the top or bottom instead of stopping at half: a half-faded row
+ * still showed cut by the circle in Play's review.
+ */
+@Composable
+private fun rememberEdgeSpec(): TransformationSpec {
+    val specs = remember {
+        val gone = TransformationVariableSpec(topValue = 0f)
+        arrayOf(
+            ResponsiveTransformationSpec.smallScreen(containerAlpha = gone, contentAlpha = gone),
+            ResponsiveTransformationSpec.largeScreen(containerAlpha = gone, contentAlpha = gone),
+        )
+    }
+    return rememberTransformationSpec(*specs)
+}
+
+/**
+ * Extra side room for free text, on top of the list's own padding: a tenth of
+ * the screen on a round watch, where lines away from the middle meet the
+ * curve, and nothing on a square one.
+ */
+@Composable
+private fun roundInset() = with(LocalConfiguration.current) {
+    if (isScreenRound) (screenWidthDp * 0.1f).dp else 0.dp
+}
+
+/**
+ * On a round screen, fades whatever scrolls towards the edge out before it
+ * gets there, so nothing is ever shown cut by the circle, whatever the
+ * scroll position, and also when "reduce motion" turns the list's own
+ * transition off. A ring just inside the circle takes the corners of a row
+ * crossing the curve; the round ends of a row resting in the middle stay
+ * inside it. A short fade at the bottom and an even shorter one under the
+ * time take what scrolls off there.
+ */
+@Composable
+private fun Modifier.fadeBeforeRoundEdge(): Modifier {
+    if (!LocalConfiguration.current.isScreenRound) return this
+    return graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+        .drawWithContent {
+            drawContent()
+            drawRect(
+                Brush.radialGradient(0.88f to Color.Black, 1f to Color.Transparent, radius = size.minDimension / 2f),
+                blendMode = BlendMode.DstIn,
+            )
+            drawRect(
+                Brush.verticalGradient(
+                    0.02f to Color.Transparent,
+                    0.09f to Color.Black,
+                    0.85f to Color.Black,
+                    0.98f to Color.Transparent,
+                ),
+                blendMode = BlendMode.DstIn,
+            )
+        }
 }
 
 @Composable

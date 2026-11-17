@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="waiting">Abre o Bitey no telemóvel para veres aqui o dia de hoje.</string>
-    <string name="unreachable">Não foi possível contactar o telemóvel. O Bitey está instalado?</string>
-    <string name="unconfirmed">O telemóvel não respondeu. Pode já ter sido registado: vê no Bitey antes de tentares outra vez.</string>
-    <string name="failed">Não resultou. Tenta outra vez.</string>
+    <string name="waiting">Abra o Bitey no celular para ver aqui o dia de hoje.</string>
+    <string name="unreachable">Não foi possível falar com o celular. O Bitey está instalado?</string>
+    <string name="unconfirmed">O celular não respondeu. Talvez já tenha sido registrado: confira no Bitey antes de tentar de novo.</string>
+    <string name="failed">Não deu certo. Tente de novo.</string>
     <string name="tile_today">Hoje no Bitey</string>
     <string name="tile_bites">Bitey: mordidas rápidas</string>
     <string name="tile_today_bites">Bitey: hoje e mordidas</string>

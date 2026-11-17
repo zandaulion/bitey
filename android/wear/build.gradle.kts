@@ -51,8 +51,8 @@ android {
         targetSdk = 36
         // Its own numbers: Play needs every bundle in a listing to have a
         // different versionCode, and the watch ships on its own track.
-        versionCode = 1_000_004
-        versionName = "1.0.3"
+        versionCode = 1_000_005
+        versionName = "1.0.4"
     }
 
     buildTypes {
