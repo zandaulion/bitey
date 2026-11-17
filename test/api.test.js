@@ -1086,6 +1086,24 @@ test('a missed day pre-fills from the reading before it, not the latest', async 
   assert.equal(sat.weight.last, 78, 'after the last reading, the last reading is nearest');
 });
 
+test('an old day still pre-fills from the readings around it, however long ago', async () => {
+  // Counted from today, the reading window used to drop a day's neighbours
+  // once they were four months old; the test above began failing that way.
+  const { auth } = await registerDevice();
+  const dayKey = (back) => new Date(Date.now() - back * 86400000).toISOString().slice(0, 10);
+  const put = (day, kg) => api('/api/weights', { method: 'PUT', headers: auth, body: JSON.stringify({ day, kg }) });
+
+  await put(dayKey(400), 90);
+  await put(dayKey(396), 88);
+
+  const missed = await (await api(`/api/entries?day=${dayKey(399)}`, { headers: auth })).json();
+  assert.equal(missed.weight.today, null);
+  assert.equal(missed.weight.last, 90);
+
+  const weighed = await (await api(`/api/entries?day=${dayKey(396)}`, { headers: auth })).json();
+  assert.equal(weighed.weight.today, 88);
+});
+
 test('a day before any reading falls back to the earliest one', async () => {
   const { auth } = await registerDevice();
   await api('/api/weights', { method: 'PUT', headers: auth, body: JSON.stringify({ day: '2026-07-20', kg: 75 }) });

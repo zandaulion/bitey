@@ -571,14 +571,18 @@ app.get('/api/entries', requireDevice, (req, res) => {
   // day view now offers weighing in, and a prompt that arrives after the rest
   // of the screen has painted would flicker into place.
   const weights = weightRows(req.device.account_id, 120);
-  const todays = weights.find((w) => w.day === day) || null;
+  // The day's own reading and the pre-fill look around the day asked for,
+  // not around today: counted from today, a day four months back found
+  // none of the readings either side of it. The trend stays on recent ones.
+  const around = weightRows(req.device.account_id, 120, day);
+  const todays = around.find((w) => w.day === day) || null;
 
   // What to pre-fill with when the day has no reading. The nearest reading
   // *before* the day in question, not simply the most recent overall --
   // filling in a missed Tuesday should start from Monday, not from Friday.
-  const before = weights.filter((w) => w.day <= day);
+  const before = around.filter((w) => w.day <= day);
   const nearest = before.length ? before[before.length - 1]
-    : (weights.length ? weights[0] : null);
+    : (around.length ? around[0] : null);
 
   res.json({
     day, entries: rows, summary, expenditure, split: macroSplit(summary.totals),
@@ -975,8 +979,10 @@ app.put('/api/weights', requireDevice, (req, res) => {
   res.json({ ok: true, day, kg });
 });
 
-function weightRows(accountId, limitDays = 180) {
-  const from = new Date(Date.now() - limitDays * 86400000).toISOString().slice(0, 10);
+/** Readings from limitDays before `day` (today if not given) onwards. */
+function weightRows(accountId, limitDays = 180, day = null) {
+  const anchor = day ? Date.parse(`${day}T00:00:00Z`) : Date.now();
+  const from = new Date(anchor - limitDays * 86400000).toISOString().slice(0, 10);
   return db.prepare(
     'SELECT day, kg, measured_at FROM weights WHERE account_id = ? AND day >= ? ORDER BY day'
   ).all(accountId, from).map((r) => ({ day: r.day, kg: r.kg, at: r.measured_at }));
