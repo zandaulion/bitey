@@ -12,15 +12,17 @@ import {
 
 const ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
-export const getModel = () => (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
+// Every call uses 3.5 Flash-Lite. Measured 22 Nov 2026 on weighed
+// Nutrition5k plates with the photo prompt, thinking off, on two samples (106
+// and 148 plates): it read calories as well as 3.8 Flash (median error
+// 26.5/26.3% against 27.0/27.3%, bias -2/+1% against +7/+10%) for under half
+// the cost a photo, and its price is not set to double in January as Flash's
+// is. Typed descriptions and leftovers were moved with it untested.
+export const getModel = () => (process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite').trim();
 
-// Reading a photograph has a model of its own. Measured 22 Nov 2026 on 106
-// weighed Nutrition5k plates with this prompt, thinking off: 3.5 Flash-Lite
-// read calories as well as 3.8 Flash (median error 26.5% against 27.0%,
-// within 50% on 74% against 75%, bias -2% against +7%) for $0.0012 a photo
-// instead of $0.0025, and its price is not set to double in January as
-// Flash's is. The other calls stay on GEMINI_MODEL: they were not measured.
-export const getPhotoModel = () => (process.env.GEMINI_PHOTO_MODEL || 'gemini-3.5-flash-lite').trim();
+// The photo read can be pointed elsewhere on its own; by default it follows
+// GEMINI_MODEL.
+export const getPhotoModel = () => (process.env.GEMINI_PHOTO_MODEL || getModel()).trim();
 
 // The Flash-Lite models refuse a thinking budget of 0 and the Flash models
 // refuse the "minimal" level, so turning thinking off is said per model.

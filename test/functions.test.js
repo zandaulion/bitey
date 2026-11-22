@@ -62,13 +62,25 @@ test('a photograph is read without thinking; leftovers keep it', async () => {
   assert.equal(bodies[1].generationConfig.thinkingConfig, undefined);
 });
 
-test('a photograph goes to the photo model; leftovers stay on the main one', async () => {
-  const urls = [];
-  const capture = async (url) => { urls.push(url); return reply('{"items":[]}'); };
-  await analysePhoto(request(), capture);
-  await readLeftovers({ apiKey: 'test-key', beforeBase64: 'x'.repeat(200), afterBase64: 'y'.repeat(200), items: [] }, capture);
-  assert.match(urls[0], new RegExp(`/${getPhotoModel()}:generateContent$`));
-  assert.match(urls[1], new RegExp(`/${getModel()}:generateContent$`));
+test('every call uses 3.5 Flash-Lite unless told otherwise', () => {
+  if (process.env.GEMINI_MODEL || process.env.GEMINI_PHOTO_MODEL) return;
+  assert.equal(getModel(), 'gemini-3.5-flash-lite');
+  assert.equal(getPhotoModel(), 'gemini-3.5-flash-lite');
+});
+
+test('a photo model of its own moves the photograph and nothing else', async () => {
+  const saved = process.env.GEMINI_PHOTO_MODEL;
+  try {
+    process.env.GEMINI_PHOTO_MODEL = 'gemini-3.8-flash';
+    const urls = [];
+    const capture = async (url) => { urls.push(url); return reply('{"items":[]}'); };
+    await analysePhoto(request(), capture);
+    await readLeftovers({ apiKey: 'test-key', beforeBase64: 'x'.repeat(200), afterBase64: 'y'.repeat(200), items: [] }, capture);
+    assert.match(urls[0], /\/gemini-3\.8-flash:generateContent$/);
+    assert.match(urls[1], new RegExp(`/${getModel()}:generateContent$`));
+  } finally {
+    if (saved === undefined) delete process.env.GEMINI_PHOTO_MODEL; else process.env.GEMINI_PHOTO_MODEL = saved;
+  }
 });
 
 test('thinking is turned off in the way each model accepts', async () => {

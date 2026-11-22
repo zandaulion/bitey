@@ -103,7 +103,8 @@ Configuration, all via environment:
 | | |
 |---|---|
 | `GEMINI_API_KEY` | required for photo analysis; without it the app runs and `/api/analyse` returns 503 |
-| `GEMINI_MODEL` | defaults to `gemini-3.8-flash` |
+| `GEMINI_MODEL` | defaults to `gemini-3.5-flash-lite`, for every AI call |
+| `GEMINI_PHOTO_MODEL` | optional; moves only the photo read, otherwise follows `GEMINI_MODEL` |
 | `USDA_API_KEY` | optional; removes the demo key's hourly cap on generic food search |
 | `DATA_DIR` | SQLite database and photo files |
 | `PORT`, `BIND_HOST` | `BIND_HOST` stays on loopback unless set; the container sets it explicitly |
