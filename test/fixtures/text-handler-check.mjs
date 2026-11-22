@@ -33,7 +33,7 @@ const deps = {
   './quota.js': { entitlementIdFor: () => 'synthetic-hash', claim: async () => { calls.push(['quota']); return { allowed, remaining: allowed ? 19 : 0, used: allowed ? 1 : 20, limit: 20 }; }, refund: async () => { calls.push(['refund']); } },
   './gemini.js': { analysePhoto: model, analyseText: model, readLeftovers: model, AnalysisError }
 };
-const module = new vm.SourceTextModule(fs.readFileSync(new URL('../../functions/index.js', import.meta.url), 'utf8'), { context });
+const module = new vm.SourceTextModule(fs.readFileSync(new URL('../../functions/analyse.js', import.meta.url), 'utf8'), { context });
 await module.link(specifier => {
   const exports = deps[specifier];
   if (!exports) throw Error(`Unmocked boundary: ${specifier}`);
@@ -44,7 +44,7 @@ await module.link(specifier => {
 await module.evaluate();
 const invoke = async (body = {}, appCheck = 'synthetic-attestation') => {
   const response = { statusCode: 200, body: null, status(code) { this.statusCode = code; return this; }, json(value) { this.body = value; return this; } };
-  await module.namespace.analyse({ method: 'POST', header: () => appCheck, body: { mode: 'text', description: 'two eggs', purchaseToken: 'synthetic-purchase-token', ...body } }, response);
+  await module.namespace.buildAnalyse()({ method: 'POST', header: () => appCheck, body: { mode: 'text', description: 'two eggs', purchaseToken: 'synthetic-purchase-token', ...body } }, response);
   return response;
 };
 

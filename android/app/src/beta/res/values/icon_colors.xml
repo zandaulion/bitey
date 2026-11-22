@@ -1,0 +1,5 @@
+<resources>
+    <!-- Bitey Beta: a deep plum instead of the forest green, so the test app
+         is never mistaken for the real one on the home screen. -->
+    <color name="icon_background">#3A1F45</color>
+</resources>

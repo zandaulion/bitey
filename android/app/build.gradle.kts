@@ -51,6 +51,24 @@ val debugSigning = Properties().apply {
     if (debugSigningFile.isFile) debugSigningFile.inputStream().use(::load)
 }
 
+// Bitey Beta's two credentials, from the ignored android/beta.properties:
+// - testerToken: stands for a subscription at the beta's function
+//   (functions/beta.js). Without it Bitey AI is locked as in any app without
+//   a subscription.
+// - appCheckDebugSecret: the App Check debug secret the beta installs (see
+//   src/beta/.../AppCheckSetup.kt), registered in the Firebase console under
+//   App Check -> Manage debug tokens. Without it the library makes up its own,
+//   which must then be read from logcat and registered by hand.
+val betaPropertiesFile = rootProject.file("beta.properties")
+val betaProperties = Properties().apply {
+    if (betaPropertiesFile.isFile) betaPropertiesFile.inputStream().use(::load)
+}
+val betaTesterToken: String = betaProperties.getProperty("testerToken").orEmpty().trim()
+val betaAppCheckDebugSecret: String = betaProperties.getProperty("appCheckDebugSecret").orEmpty().trim()
+
+val PRODUCTION_ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyse"
+val BETA_ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyseBeta"
+
 /**
  * Firebase's identifiers for this app, read from the ignored
  * app/google-services.json (`firebase apps:sdkconfig ANDROID <appId>`).
@@ -99,6 +117,8 @@ android {
         versionCode = 27
         versionName = "1.1.10"
         resValue("string", "app_name", "Bitey")
+        resValue("string", "analyse_url", PRODUCTION_ANALYSE_URL)
+        resValue("string", "beta_tester_token", "")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
     }
@@ -121,6 +141,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+        }
+        // Bitey Beta: release code under its own package, so it installs
+        // beside the Play app with its own diary, and it is not debuggable, so
+        // Android schedules its background work as it would the real app's.
+        // It talks to its own analysis function and is signed with the
+        // sideload key (debug-keystore.properties), never the Play key.
+        create("beta") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".beta"
+            versionNameSuffix = "-beta"
+            matchingFallbacks += listOf("release")
+            resValue("string", "app_name", "Bitey Beta")
+            resValue("string", "analyse_url", BETA_ANALYSE_URL)
+            resValue("string", "beta_tester_token", betaTesterToken)
+            resValue("string", "beta_app_check_debug_secret", betaAppCheckDebugSecret)
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     if (debugSigningFile.isFile) {
@@ -240,6 +276,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:35.2.0"))
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
     debugImplementation("com.google.firebase:firebase-appcheck-debug")
+    // The beta is sideloaded, so it cannot pass Play Integrity either.
+    "betaImplementation"("com.google.firebase:firebase-appcheck-debug")
 
     // Bundled scanning works as soon as the app is installed. It does not
     // download a barcode model or send camera frames to a service.

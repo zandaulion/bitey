@@ -77,7 +77,9 @@ class MainActivity : ComponentActivity() {
      * never queues behind -- or blocks -- a barcode lookup. */
     private val analysisExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     // Lazy: the application context does not exist yet while fields are built.
-    private val analysis by lazy { BiteyAnalysis(applicationContext) }
+    // The address comes from the build type: production's function in debug and
+    // release, the beta's own (functions/beta.js) in the beta build.
+    private val analysis by lazy { BiteyAnalysis(applicationContext, getString(R.string.analyse_url)) }
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
     private lateinit var galleryAction: Button
@@ -276,9 +278,11 @@ class MainActivity : ComponentActivity() {
         // Play's answer arrives on its own thread, on every resume (once the
         // person has used Bitey AI) and after a purchase; the padlocks follow
         // it. Creating the client does not connect to Play.
-        playBilling = PlayBilling(applicationContext) { status ->
-            runOnUiThread { applyAiEntitlement(status) }
-        }
+        playBilling = PlayBilling(
+            applicationContext,
+            onEntitlementChanged = { status -> runOnUiThread { applyAiEntitlement(status) } },
+            testerToken = getString(R.string.beta_tester_token).takeIf { it.isNotBlank() },
+        )
         plateWebView = PlateWebView(
             context = this,
             onBarcodeScanRequested = { labels ->

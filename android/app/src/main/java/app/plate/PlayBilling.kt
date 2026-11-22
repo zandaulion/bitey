@@ -41,6 +41,14 @@ import java.util.concurrent.TimeUnit
 class PlayBilling(
     private val context: Context,
     private val onEntitlementChanged: (Status) -> Unit = {},
+    /**
+     * Bitey Beta only (the `beta` build type's `beta_tester_token` resource;
+     * empty in every other build, which then passes null). A tester token is
+     * sent in place of a Play purchase and stands for a live subscription:
+     * the beta's own analysis function (functions/beta.js) accepts it, and
+     * production's would refuse it. With it, Play is never asked.
+     */
+    private val testerToken: String? = null,
 ) : PurchasesUpdatedListener {
     companion object {
         /** Create this subscription product in Play Console before enabling it. */
@@ -159,7 +167,7 @@ class PlayBilling(
      * again, then asks Play afresh.
      */
     fun serverRefused(token: String?) {
-        if (token.isNullOrBlank()) return
+        if (token.isNullOrBlank() || token == testerToken) return
         prefs.edit().putString(KEY_REFUSED, hashOf(token)).apply()
         if (activePurchaseToken == token) {
             activePurchaseToken = null
@@ -202,6 +210,17 @@ class PlayBilling(
 
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
+    init {
+        // Set directly rather than through setEntitlement: the listener may
+        // reach views that do not exist yet. The activity reads status() once
+        // its views are built.
+        if (testerToken != null) {
+            entitlement = Status.ACTIVE
+            activePurchaseToken = testerToken
+            firstAnswer.countDown()
+        }
+    }
+
     /** True once the person has used any Bitey AI control on this install. */
     private fun engaged(): Boolean = prefs.getBoolean(KEY_ENGAGED, false)
 
@@ -225,6 +244,10 @@ class PlayBilling(
     }
 
     private fun refresh(callback: ((Status) -> Unit)? = null) {
+        if (testerToken != null) {
+            callback?.invoke(Status.ACTIVE)
+            return
+        }
         ensureConnected { connected ->
             if (!connected) {
                 setEntitlement(Status.UNAVAILABLE)

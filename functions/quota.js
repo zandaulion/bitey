@@ -42,9 +42,9 @@ export const entitlementIdFor = (purchaseToken) =>
  * The read and the write are one transaction, so two photographs arriving
  * together cannot both see the same count and both decide there was room.
  */
-export async function claim(entitlementId, now = new Date(), db = getFirestore()) {
+export async function claim(entitlementId, now = new Date(), db = getFirestore(), collection = COLLECTION) {
   const day = dayKey(now);
-  const ref = db.collection(COLLECTION).doc(`${entitlementId}_${day}`);
+  const ref = db.collection(collection).doc(`${entitlementId}_${day}`);
 
   return db.runTransaction(async (tx) => {
     const snapshot = await tx.get(ref);
@@ -72,9 +72,9 @@ export async function claim(entitlementId, now = new Date(), db = getFirestore()
  * request refused upstream. A photograph the model read and disliked has been
  * paid for and stays counted, or "not food" becomes an unlimited retry.
  */
-export async function refund(entitlementId, now = new Date(), db = getFirestore()) {
+export async function refund(entitlementId, now = new Date(), db = getFirestore(), collection = COLLECTION) {
   const day = dayKey(now);
-  const ref = db.collection(COLLECTION).doc(`${entitlementId}_${day}`);
+  const ref = db.collection(collection).doc(`${entitlementId}_${day}`);
   await db.runTransaction(async (tx) => {
     const snapshot = await tx.get(ref);
     if (!snapshot.exists) return;

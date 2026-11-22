@@ -20,6 +20,9 @@ android/app/build/
 android/local.properties
 android/keystore.properties
 android/debug-keystore.properties
+# Bitey Beta's tester token: a credential for the beta function. See
+# scripts/deploy-beta-function.sh.
+android/beta.properties
 android/app/*.jks
 android/app/*.keystore
 

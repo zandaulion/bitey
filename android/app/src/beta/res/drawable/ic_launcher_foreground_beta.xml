@@ -1,0 +1,6 @@
+<!-- Bitey's usual foreground with an orange β badge, kept inside the 66dp
+     safe zone so no launcher mask crops it. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_launcher_foreground" />
+    <item android:drawable="@drawable/ic_beta_badge" />
+</layer-list>
