@@ -14,6 +14,19 @@ const ENDPOINT_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/'
 
 export const getModel = () => (process.env.GEMINI_MODEL || 'gemini-3.8-flash').trim();
 
+// Reading a photograph has a model of its own. Measured 22 Nov 2026 on 106
+// weighed Nutrition5k plates with this prompt, thinking off: 3.5 Flash-Lite
+// read calories as well as 3.8 Flash (median error 26.5% against 27.0%,
+// within 50% on 74% against 75%, bias -2% against +7%) for $0.0012 a photo
+// instead of $0.0025, and its price is not set to double in January as
+// Flash's is. The other calls stay on GEMINI_MODEL: they were not measured.
+export const getPhotoModel = () => (process.env.GEMINI_PHOTO_MODEL || 'gemini-3.5-flash-lite').trim();
+
+// The Flash-Lite models refuse a thinking budget of 0 and the Flash models
+// refuse the "minimal" level, so turning thinking off is said per model.
+const noThinking = (model) =>
+  /flash-lite/.test(model) ? { thinkingLevel: 'minimal' } : { thinkingBudget: 0 };
+
 export class AnalysisError extends Error {
   constructor(code, message, status = 502) {
     super(message);
@@ -29,7 +42,7 @@ export async function analysePhoto(
   return call(apiKey, [
     { inline_data: { mime_type: mimeType, data: imageBase64 } },
     { text: buildPrompt(correction, locale, diet) }
-  ], RESPONSE_SCHEMA, fetchImpl, { think: false });
+  ], RESPONSE_SCHEMA, fetchImpl, { think: false, model: getPhotoModel() });
 }
 
 export async function analyseText({ apiKey, description, locale = 'en' }, fetchImpl = fetch) {
@@ -58,7 +71,7 @@ export async function readLeftovers(
   ], LEFTOVERS_SCHEMA, fetchImpl);
 }
 
-async function call(apiKey, parts, schema, fetchImpl, { think = true } = {}) {
+async function call(apiKey, parts, schema, fetchImpl, { think = true, model = getModel() } = {}) {
   if (!apiKey) {
     throw new AnalysisError('not_configured', 'Photo analysis is not configured yet.', 503);
   }
@@ -73,17 +86,16 @@ async function call(apiKey, parts, schema, fetchImpl, { think = true } = {}) {
       // Reading a photograph goes without thinking. Measured 27 Sep 2026 on
       // 106 weighed Nutrition5k plates with this prompt: calories came out the
       // same (median error 28.5% against 28.2%, within 50% on 76% against
-      // 78%) while the thinking was ~60% of the tokens billed, so the photo
-      // costs $0.0026 instead of $0.0044. The leftovers comparison keeps its
-      // thinking: it was not measured, and comparing two photographs is the
-      // harder judgement.
-      ...(think ? {} : { thinkingConfig: { thinkingBudget: 0 } })
+      // 78%) while the thinking was ~60% of the tokens billed. The leftovers
+      // comparison keeps its thinking: it was not measured, and comparing two
+      // photographs is the harder judgement.
+      ...(think ? {} : { thinkingConfig: noThinking(model) })
     }
   };
 
   let res;
   try {
-    res = await fetchImpl(`${ENDPOINT_BASE}${encodeURIComponent(getModel())}:generateContent`, {
+    res = await fetchImpl(`${ENDPOINT_BASE}${encodeURIComponent(model)}:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
       body: JSON.stringify(body),
@@ -135,6 +147,6 @@ async function call(apiKey, parts, schema, fetchImpl, { think = true } = {}) {
       outputTokens: (u.candidatesTokenCount ?? 0) + (u.thoughtsTokenCount ?? 0),
       thoughtTokens: u.thoughtsTokenCount ?? 0
     },
-    model: getModel()
+    model
   };
 }

@@ -8,7 +8,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sync, SYNCED } from '../scripts/sync-functions-core.mjs';
-import { analysePhoto, readLeftovers, AnalysisError, getModel } from '../functions/gemini.js';
+import { analysePhoto, readLeftovers, AnalysisError, getModel, getPhotoModel } from '../functions/gemini.js';
 
 test('the copies under functions/core match core/', () => {
   const stale = sync({ check: true });
@@ -44,7 +44,7 @@ test('a JSON answer comes back parsed, with its token usage', async () => {
     reply('{"items":[{"name":"stew"}]}', { promptTokenCount: 1409, candidatesTokenCount: 120 }));
   assert.deepEqual(out.raw, { items: [{ name: 'stew' }] });
   assert.deepEqual(out.usage, { promptTokens: 1409, outputTokens: 120, thoughtTokens: 0 });
-  assert.equal(out.model, getModel());
+  assert.equal(out.model, getPhotoModel());
 });
 
 test('thinking is billed as output, so it is counted as output', async () => {
@@ -58,8 +58,34 @@ test('a photograph is read without thinking; leftovers keep it', async () => {
   const capture = async (_url, options) => { bodies.push(JSON.parse(options.body)); return reply('{"items":[]}'); };
   await analysePhoto(request(), capture);
   await readLeftovers({ apiKey: 'test-key', beforeBase64: 'x'.repeat(200), afterBase64: 'y'.repeat(200), items: [] }, capture);
-  assert.deepEqual(bodies[0].generationConfig.thinkingConfig, { thinkingBudget: 0 });
+  assert.deepEqual(bodies[0].generationConfig.thinkingConfig, { thinkingLevel: 'minimal' });
   assert.equal(bodies[1].generationConfig.thinkingConfig, undefined);
+});
+
+test('a photograph goes to the photo model; leftovers stay on the main one', async () => {
+  const urls = [];
+  const capture = async (url) => { urls.push(url); return reply('{"items":[]}'); };
+  await analysePhoto(request(), capture);
+  await readLeftovers({ apiKey: 'test-key', beforeBase64: 'x'.repeat(200), afterBase64: 'y'.repeat(200), items: [] }, capture);
+  assert.match(urls[0], new RegExp(`/${getPhotoModel()}:generateContent$`));
+  assert.match(urls[1], new RegExp(`/${getModel()}:generateContent$`));
+});
+
+test('thinking is turned off in the way each model accepts', async () => {
+  // Flash-Lite refuses a budget of 0 and Flash refuses the minimal level.
+  const saved = process.env.GEMINI_PHOTO_MODEL;
+  try {
+    let sent;
+    const capture = async (_url, options) => { sent = JSON.parse(options.body); return reply('{"items":[]}'); };
+    process.env.GEMINI_PHOTO_MODEL = 'gemini-3.8-flash';
+    await analysePhoto(request(), capture);
+    assert.deepEqual(sent.generationConfig.thinkingConfig, { thinkingBudget: 0 });
+    process.env.GEMINI_PHOTO_MODEL = 'gemini-3.5-flash-lite';
+    await analysePhoto(request(), capture);
+    assert.deepEqual(sent.generationConfig.thinkingConfig, { thinkingLevel: 'minimal' });
+  } finally {
+    if (saved === undefined) delete process.env.GEMINI_PHOTO_MODEL; else process.env.GEMINI_PHOTO_MODEL = saved;
+  }
 });
 
 test('an answer fenced in markdown is still read', async () => {

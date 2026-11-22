@@ -14,7 +14,7 @@ import {
   listDevices, revokeDevice, listAllDevices, setDeviceRevoked, setDeviceLabel,
   ThrottledError
 } from './auth.js';
-import { analysePhoto, analyseText, readLeftovers, AnalysisError, isConfigured, getModel } from './gemini.js';
+import { analysePhoto, analyseText, readLeftovers, AnalysisError, isConfigured, getModel, getPhotoModel } from './gemini.js';
 import { validateDescription, ANALYSE_ERRORS } from '../core/ai/gate.js';
 
 /**
@@ -99,6 +99,7 @@ app.get('/api/health', (req, res) => {
     ok: true,
     analysisConfigured: isConfigured(),
     model: isConfigured() ? getModel() : null,
+    photoModel: isConfigured() ? getPhotoModel() : null,
     devices, entries,
     time: nowIso()
   });
