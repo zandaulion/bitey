@@ -19,7 +19,10 @@ test('text requests require a purchase token and a bounded nonempty description'
   assert.equal(validateAnalyseRequest({ ...request, mode: 'free-text' }).error, 'bad_mode');
   const out = validateAnalyseRequest({ ...request, description: '  two eggs  ', locale: 'ro',
     image: 'not sent', diet: 'vegan', profile: { weightKg: 80 }, correction: 'not sent' });
-  assert.deepEqual(out, { ok: true, mode: 'text', purchaseToken: request.purchaseToken, description: 'two eggs', locale: 'ro' });
+  assert.deepEqual(out, {
+    ok: true, mode: 'text', purchaseToken: request.purchaseToken, idToken: null, requestId: null,
+    description: 'two eggs', locale: 'ro'
+  });
 });
 
 test('text transport sends only the description and prompt, and uses the nutrition schema', async () => {

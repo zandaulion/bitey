@@ -3,8 +3,9 @@
 // by the beta build type of the Android app.
 //
 // It differs from production in three ways, and in nothing else:
-// - its usage counters live in their own collection, so test readings never
-//   mix with real ones;
+// - its usage counters and free-tier settings live in their own collections
+//   (beta_*), so test readings never mix with real ones and its free tier can
+//   be set differently -- a small pool, say, to reach "used up" quickly;
 // - one instance at most;
 // - a tester token listed in BETA_TESTER_TOKENS counts as a live
 //   subscription, so the paid path can be tested from an app Play will not
@@ -36,6 +37,11 @@ export async function testerOrPlay(packageName, purchaseToken) {
 
 export const analyseBeta = buildAnalyse({
   verifySubscription: testerOrPlay,
-  usageCollection: 'beta_ai_usage',
+  collections: {
+    paid: 'beta_ai_usage',
+    free: 'beta_ai_usage_free',
+    pool: 'beta_ai_usage_free_pool',
+    freeConfig: 'beta_config/free_tier'
+  },
   maxInstances: 1
 });

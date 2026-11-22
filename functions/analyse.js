@@ -14,13 +14,16 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
 import { initializeApp } from 'firebase-admin/app';
 import { getAppCheck } from 'firebase-admin/app-check';
+import { getAuth } from 'firebase-admin/auth';
 import * as logger from 'firebase-functions/logger';
 
-import { validateAnalyseRequest, isEntitled, ANALYSE_ERRORS } from './core/ai/gate.js';
+import { validateAnalyseRequest, isEntitled, ANALYSE_ERRORS, resetsAt } from './core/ai/gate.js';
 import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';
 import { fromModelResponse, totalsOf, rangesOf } from './core/analysis/estimate.js';
 import { readSubscription, PlayError, AI_SUBSCRIPTION_ID } from './play.js';
-import { entitlementIdFor, claim, refund } from './quota.js';
+import {
+  COLLECTIONS, entitlementIdFor, freeIdFor, claim, refund, freeConfig, claimFree, refundFree
+} from './quota.js';
 import { analysePhoto, analyseText, readLeftovers, AnalysisError } from './gemini.js';
 
 initializeApp();
@@ -50,12 +53,12 @@ const fail = (res, status, code, message, extra = {}) =>
 /**
  * Builds the analysis function. Production (index.js) takes every default.
  * The beta build (beta.js) passes its own subscription check and its own
- * usage collection, so test traffic never touches production's counters and
- * production never loads the beta's tester rule.
+ * collections, so test traffic never touches production's counters or
+ * settings, and production never loads the beta's tester rule.
  */
 export function buildAnalyse({
   verifySubscription = readSubscription,
-  usageCollection = 'ai_usage',
+  collections = COLLECTIONS,
   maxInstances = 5
 } = {}) {
   return onRequest(
@@ -120,46 +123,109 @@ export function buildAnalyse({
         return fail(res, shape ? 400 : 401, request.error, ANALYSE_ERRORS[request.error]);
       }
 
-      // The token identifies the subscription for the rest of this request and
-      // is never written down: the counter keys off a hash of it instead.
-      const entitlementId = entitlementIdFor(request.purchaseToken);
+      // Who is asking decides which allowance is spent. A live subscription
+      // is Bitey AI (tier "paid"); anyone else with the app's anonymous
+      // sign-in is the free tier. Someone whose subscription has lapsed sends
+      // both, and falls back to the free tier rather than being refused.
+      let tier = null;
+      let entitlementId = null;
+      let subscription = null;
 
-      let subscription;
-      try {
-        subscription = await verifySubscription(PLAY_PACKAGE, request.purchaseToken);
-        lap('play');
-      } catch (err) {
-        if (err instanceof PlayError) {
-          logger.error('play verification failed', { code: err.code, detail: err.detail, entitlementId });
-          return fail(res, err.status, err.code, err.message);
+      if (request.purchaseToken) {
+        // The token identifies the subscription for the rest of this request
+        // and is never written down: the counter keys off a hash of it instead.
+        entitlementId = entitlementIdFor(request.purchaseToken);
+        try {
+          subscription = await verifySubscription(PLAY_PACKAGE, request.purchaseToken);
+          lap('play');
+        } catch (err) {
+          if (err instanceof PlayError) {
+            logger.error('play verification failed', { code: err.code, detail: err.detail, entitlementId });
+            return fail(res, err.status, err.code, err.message);
+          }
+          throw err;
         }
-        throw err;
+
+        if (subscription && subscription.productId === AI_SUBSCRIPTION_ID && isEntitled(subscription)) {
+          tier = 'paid';
+        } else {
+          // What Play said, so a refusal can be explained: the state, product,
+          // plan and expiry. The token is not logged; the hashed id is the same
+          // one the daily counter uses.
+          logger.warn('not entitled', {
+            entitlementId,
+            test: subscription?.test ?? false,
+            state: subscription?.state ?? null,
+            productId: subscription?.productId ?? null,
+            basePlanId: subscription?.basePlanId ?? null,
+            expiry: subscription?.expiryTimeMillis ? new Date(subscription.expiryTimeMillis).toISOString() : null,
+            freeFallback: Boolean(request.idToken)
+          });
+          subscription = null;
+        }
       }
 
-      if (!subscription || subscription.productId !== AI_SUBSCRIPTION_ID || !isEntitled(subscription)) {
-        // What Play said, so a refusal can be explained: the state, product,
-        // plan and expiry. The token is not logged; the hashed id is the same
-        // one the daily counter uses.
-        logger.warn('not entitled', {
-          entitlementId,
-          test: subscription?.test ?? false,
-          state: subscription?.state ?? null,
-          productId: subscription?.productId ?? null,
-          basePlanId: subscription?.basePlanId ?? null,
-          expiry: subscription?.expiryTimeMillis ? new Date(subscription.expiryTimeMillis).toISOString() : null
-        });
+      if (!tier && request.idToken) {
+        let uid;
+        try {
+          ({ uid } = await getAuth().verifyIdToken(request.idToken));
+        } catch {
+          lap('auth');
+          return fail(res, 401, 'bad_id_token', ANALYSE_ERRORS.bad_id_token);
+        }
+        lap('auth');
+        tier = 'free';
+        entitlementId = freeIdFor(uid);
+      }
+
+      if (!tier) {
         // Deliberately the same answer for "never bought", "expired" and "a
-        // token for something else": the client shows the plans either way, and
-        // distinguishing them here only helps somebody probing tokens.
+        // token for something else": the client shows the plans either way,
+        // and distinguishing them here only helps somebody probing tokens.
         return fail(res, 403, 'not_entitled', ANALYSE_ERRORS.not_entitled);
       }
 
-      const quota = await claim(entitlementId, undefined, undefined, usageCollection);
-      lap('quota');
-      if (!quota.allowed) {
-        return fail(res, 429, 'daily_limit', ANALYSE_ERRORS.daily_limit,
-          { used: quota.used, limit: quota.limit, remaining: 0 });
+      const correction = request.mode === 'analyse' && Boolean(request.correction);
+      let quota;
+      if (tier === 'paid') {
+        quota = await claim(entitlementId, { requestId: request.requestId, collection: collections.paid });
+        lap('quota');
+        if (!quota.allowed) {
+          return fail(res, 429, 'daily_limit', ANALYSE_ERRORS.daily_limit,
+            { tier, used: quota.used, limit: quota.limit, remaining: 0, resetsAt: resetsAt() });
+        }
+      } else {
+        const config = await freeConfig({ path: collections.freeConfig });
+        quota = await claimFree(entitlementId, {
+          correction, requestId: request.requestId, config, collections
+        });
+        lap('quota');
+        // Once a day each: the pool document remembers it fired. A log-based
+        // alert in Cloud Monitoring turns this line into an email.
+        for (const level of quota.alerts) {
+          logger.warn('free pool alert', { level, count: quota.poolUsed, poolLimit: config.poolLimit });
+        }
+        if (!quota.allowed) {
+          logger.info('free refused', { reason: quota.reason, entitlementId, correction });
+          return fail(res, 429, quota.reason, ANALYSE_ERRORS[quota.reason], {
+            tier, remaining: quota.remaining, correctionsRemaining: quota.correctionsRemaining,
+            limit: quota.limit, resetsAt: resetsAt()
+          });
+        }
       }
+
+      // What is left today, sent with every answer so the app can show it.
+      const allowance = {
+        tier,
+        remaining: quota.remaining,
+        ...(tier === 'free' ? { correctionsRemaining: quota.correctionsRemaining, limit: quota.limit } : {}),
+        resetsAt: resetsAt()
+      };
+      // A repeated request id was not charged, so there is nothing to give back.
+      const giveBack = () => quota.repeat ? undefined
+        : tier === 'paid'
+          ? refund(entitlementId, { requestId: request.requestId, collection: collections.paid })
+          : refundFree(entitlementId, { counter: quota.counter, requestId: request.requestId, collections });
 
       // A leftovers reading sends two photographs but is one reading: it is one
       // question about one meal, as on the PWA's server.
@@ -192,11 +258,11 @@ export function buildAnalyse({
         if (err instanceof AnalysisError) {
           // Nothing was spent if the request never got as far as the model, so
           // the reading goes back into today's allowance.
-          if (err.status === 503 || err.status === 429) await refund(entitlementId, undefined, undefined, usageCollection);
+          if (err.status === 503 || err.status === 429) await giveBack();
           logger.error('analysis failed', { code: err.code, entitlementId, ms });
           return fail(res, err.status, err.code, err.message);
         }
-        await refund(entitlementId, undefined, undefined, usageCollection);
+        await giveBack();
         throw err;
       }
 
@@ -207,11 +273,12 @@ export function buildAnalyse({
         reason,
         mode: leftovers ? 'leftovers' : request.mode === 'text' ? 'text' : 'photo',
         entitlementId,
-        test: subscription.test,
+        tier,
+          test: subscription?.test ?? false,
         ms,
         promptTokens: usage.promptTokens,
         outputTokens: usage.outputTokens,
-        remaining: quota.remaining
+        ...allowance
       });
 
       if (leftovers) {
@@ -226,20 +293,21 @@ export function buildAnalyse({
             message: read.reason === 'different_meal'
               ? `That does not look like the same meal. ${read.note}`.trim()
               : 'The leftovers could not be read. Set how much you ate by hand instead.',
-            note: read.note, usage, model, remaining: quota.remaining
+            note: read.note, usage, model, ...allowance
           });
         }
         logger.info('leftovers read', {
           entitlementId,
-          test: subscription.test,
+          tier,
+          test: subscription?.test ?? false,
           ms,
           promptTokens: usage.promptTokens,
           outputTokens: usage.outputTokens,
-          remaining: quota.remaining
+          ...allowance
         });
         // Fractions only. The client applies them to the estimate in front of
         // the person, and nothing changes until they save.
-        return res.json({ eaten: read.eaten, note: read.note, usage, model, remaining: quota.remaining });
+        return res.json({ eaten: read.eaten, note: read.note, usage, model, ...allowance });
       }
 
       const parsed = parseResponse(raw);
@@ -249,7 +317,7 @@ export function buildAnalyse({
         // reading: the model was asked and answered.
         refused(parsed.reason);
         return res.status(422).json({
-          error: parsed.reason, note: parsed.note, usage, model, remaining: quota.remaining
+          error: parsed.reason, note: parsed.note, usage, model, ...allowance
         });
       }
 
@@ -258,7 +326,7 @@ export function buildAnalyse({
       if (!estimate.items.length) {
         refused('nothing_found');
         return res.status(422).json({
-          error: 'nothing_found', note: parsed.note, usage, model, remaining: quota.remaining
+          error: 'nothing_found', note: parsed.note, usage, model, ...allowance
         });
       }
 
@@ -266,11 +334,12 @@ export function buildAnalyse({
       // somebody ate is theirs; what the feature costs to run is ours to watch.
       logger.info('analysed', {
         entitlementId,
-        test: subscription.test,
+        tier,
+          test: subscription?.test ?? false,
         ms,
         promptTokens: usage.promptTokens,
         outputTokens: usage.outputTokens,
-        remaining: quota.remaining
+        ...allowance
       });
 
       res.json({
@@ -279,7 +348,7 @@ export function buildAnalyse({
         ranges: rangesOf(estimate),
         usage,
         model,
-        remaining: quota.remaining
+        ...allowance
       });
     }
   );

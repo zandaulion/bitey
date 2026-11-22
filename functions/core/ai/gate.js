@@ -21,6 +21,82 @@
  */
 export const DAILY_LIMIT = 20;
 
+/**
+ * The free tier, used when the settings document (config/free_tier in
+ * Firestore) is missing or holds a value that makes no sense. Every number
+ * here can be changed in that document without a deploy; see
+ * normaliseFreeConfig.
+ *
+ * - readings: photo, typed and leftovers readings a day, per free user.
+ * - corrections: corrections a day, per free user, apart from the readings.
+ * - poolLimit: free readings and corrections a day across the whole app. Past
+ *   it free users are told readings are used up; paying users are unaffected.
+ *   0 switches the free tier off.
+ * - alertAt: the share of poolLimit at which an alert is logged once a day.
+ */
+export const FREE_DEFAULTS = Object.freeze({
+  readings: 5,
+  corrections: 1,
+  poolLimit: 1000,
+  alertAt: 0.8
+});
+
+/** The settings document's values, each checked, each falling back to its
+ * default on its own: one bad field must not take the others with it. */
+export function normaliseFreeConfig(doc) {
+  const whole = (value, fallback) =>
+    Number.isInteger(value) && value >= 0 && value <= 1000000 ? value : fallback;
+  const share = Number(doc?.alertAt);
+  return {
+    readings: whole(doc?.readings, FREE_DEFAULTS.readings),
+    corrections: whole(doc?.corrections, FREE_DEFAULTS.corrections),
+    poolLimit: whole(doc?.poolLimit, FREE_DEFAULTS.poolLimit),
+    alertAt: Number.isFinite(share) && share > 0 && share <= 1 ? share : FREE_DEFAULTS.alertAt
+  };
+}
+
+/** When today's allowance comes back: the next midnight UTC (see dayKey). */
+export const resetsAt = (now = new Date()) => {
+  const next = new Date(now);
+  next.setUTCHours(24, 0, 0, 0);
+  return next.toISOString();
+};
+
+/**
+ * Whether a free user's request fits today. A correction (a photo sent with
+ * the person's own words) spends the correction allowance; everything else,
+ * leftovers included, spends a reading. Both spend from the app-wide pool.
+ */
+export function decideFreeQuota({ readingsUsed = 0, correctionsUsed = 0, poolUsed = 0, correction = false, config }) {
+  const c = normaliseFreeConfig(config);
+  const counter = correction ? 'corrections' : 'readings';
+  const remainingReadings = Math.max(0, c.readings - readingsUsed);
+  const remainingCorrections = Math.max(0, c.corrections - correctionsUsed);
+  const left = { remaining: remainingReadings, correctionsRemaining: remainingCorrections, limit: c.readings };
+  if (poolUsed >= c.poolLimit) return { allowed: false, reason: 'free_pool_exhausted', counter, ...left };
+  if (correction && remainingCorrections <= 0) return { allowed: false, reason: 'free_correction_used', counter, ...left };
+  if (!correction && remainingReadings <= 0) return { allowed: false, reason: 'free_daily_limit', counter, ...left };
+  return {
+    allowed: true,
+    counter,
+    remaining: correction ? remainingReadings : remainingReadings - 1,
+    correctionsRemaining: correction ? remainingCorrections - 1 : remainingCorrections,
+    limit: c.readings
+  };
+}
+
+/** The alert levels a pool count crosses on its way from `before` to
+ * `after`: "alert" at alertAt of the limit, "limit" at the limit itself. */
+export function poolAlerts(before, after, config) {
+  const c = normaliseFreeConfig(config);
+  if (c.poolLimit <= 0) return [];
+  const levels = [];
+  const alertLine = Math.ceil(c.poolLimit * c.alertAt);
+  if (before < alertLine && after >= alertLine) levels.push('alert');
+  if (before < c.poolLimit && after >= c.poolLimit) levels.push('limit');
+  return levels;
+}
+
 /** Largest photograph accepted, before base64 expansion. Matches the Android
  * capture path, which re-encodes to roughly a few hundred kilobytes. */
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -52,7 +128,11 @@ export const ANALYSE_ERRORS = {
   no_original: 'The photo of the meal before eating was not received.',
   no_items: 'This entry has no foods to compare.',
   not_entitled: 'Bitey AI is not active on this Google Play account.',
-  daily_limit: 'That is all the meal analyses for today. They come back tomorrow.'
+  daily_limit: 'That is all the meal analyses for today. They come back tomorrow.',
+  bad_id_token: 'Bitey could not confirm this install. Try again.',
+  free_daily_limit: 'That is all the free readings for today.',
+  free_correction_used: 'Today\'s free correction has been used.',
+  free_pool_exhausted: 'Free readings are used up for today.'
 };
 
 /**
@@ -67,10 +147,22 @@ export const DIETS = ['vegetarian', 'vegan', 'pescatarian'];
 
 export function validateAnalyseRequest(body) {
   const purchaseToken = typeof body?.purchaseToken === 'string' ? body.purchaseToken.trim() : '';
-  if (!purchaseToken) return { ok: false, error: 'no_token' };
-  if (purchaseToken.length > 1024 || /[^\w.~-]/.test(purchaseToken)) {
+  // A Firebase ID token from the app's anonymous sign-in: the free tier's
+  // identity. A JWT is three base64url parts; only Firebase can say whether it
+  // is genuine, so its shape is all that is checked here.
+  const idToken = typeof body?.idToken === 'string' ? body.idToken.trim() : '';
+  if (!purchaseToken && !idToken) return { ok: false, error: 'no_token' };
+  if (purchaseToken && (purchaseToken.length > 1024 || /[^\w.~-]/.test(purchaseToken))) {
     return { ok: false, error: 'bad_token' };
   }
+  if (idToken && (idToken.length > 4096 || !/^[\w-]+\.[\w-]+\.[\w-]+$/.test(idToken))) {
+    return { ok: false, error: 'bad_id_token' };
+  }
+  // The app's own name for this reading, kept while it retries: the same id
+  // twice in a day is charged once (see quota.js).
+  const requestId = typeof body?.requestId === 'string' && /^[\w-]{8,80}$/.test(body.requestId)
+    ? body.requestId : null;
+  const who = { purchaseToken: purchaseToken || null, idToken: idToken || null, requestId };
 
   if (body?.mode != null && !['analyse', 'leftovers', 'text'].includes(body.mode)) {
     return { ok: false, error: 'bad_mode' };
@@ -79,7 +171,7 @@ export function validateAnalyseRequest(body) {
     const description = validateDescription(body.description);
     if (!description.ok) return description;
     return {
-      ...description, mode: 'text', purchaseToken,
+      ...description, mode: 'text', ...who,
       locale: typeof body.locale === 'string' && /^[a-z]{2}(-[A-Za-z]{2})?$/.test(body.locale)
         ? body.locale.slice(0, 2) : 'en'
     };
@@ -106,7 +198,7 @@ export function validateAnalyseRequest(body) {
   // dropped rather than passed through.
   const diet = DIETS.includes(body?.diet) ? body.diet : null;
 
-  const request = { ok: true, mode: 'analyse', purchaseToken, image, mimeType, correction, locale, diet };
+  const request = { ok: true, mode: 'analyse', ...who, image, mimeType, correction, locale, diet };
   if (body?.mode !== 'leftovers') return request;
 
   // Leftovers: `image` is the plate after eating, `original` the same plate
