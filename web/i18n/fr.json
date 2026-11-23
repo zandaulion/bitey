@@ -630,5 +630,15 @@
   "Install on your watch": "Installer sur la montre",
   "✓ On your watch": "✓ Sur votre montre",
   "Check your watch to finish installing Bitey.": "Regardez votre montre pour terminer l’installation de Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Impossible de joindre votre montre. Installez plutôt Bitey depuis le Play Store de la montre."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Impossible de joindre votre montre. Installez plutôt Bitey depuis le Play Store de la montre.",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "Vous avez utilisé toutes vos analyses gratuites du jour. Avec Bitey AI, vous en avez 20 par jour.",
+  "You have used today’s free correction. It comes back tomorrow.": "Vous avez utilisé la correction gratuite du jour. Elle revient demain.",
+  "Free readings are used up for today. Try again tomorrow.": "Les analyses gratuites sont épuisées pour aujourd’hui. Réessayez demain.",
+  "Bitey could not verify the app. Try again.": "Bitey n’a pas pu vérifier l’application. Réessayez.",
+  "{0} free readings left today": {
+    "one": "{0} analyse gratuite restante aujourd’hui",
+    "many": "{0} analyses gratuites restantes aujourd’hui",
+    "other": "{0} analyses gratuites restantes aujourd’hui"
+  },
+  "Read again. That was today’s free correction.": "Relue. C’était la correction gratuite du jour."
 }

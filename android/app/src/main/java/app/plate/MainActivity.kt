@@ -57,6 +57,9 @@ private const val SIDE_RAIL_HEIGHT_DP = 304
  * source is store/PRIVACY_NOTICE.md. */
 private const val PRIVACY_NOTICE_URL = "https://zandaulion.com/plate-privacy.html"
 
+/** Bitey Beta: whether to test as a subscriber (see betaTesterModeOn). */
+private const val KEY_TESTER_MODE = "tester_mode"
+
 private const val ACTION_WIDGET_PINNED = "com.zandaulion.bitey.WIDGET_PINNED"
 
 class MainActivity : ComponentActivity() {
@@ -80,6 +83,7 @@ class MainActivity : ComponentActivity() {
     // The address comes from the build type: production's function in debug and
     // release, the beta's own (functions/beta.js) in the beta build.
     private val analysis by lazy { BiteyAnalysis(applicationContext, getString(R.string.analyse_url)) }
+    private val freeTier by lazy { FreeTier(applicationContext) }
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
     private lateinit var galleryAction: Button
@@ -281,7 +285,7 @@ class MainActivity : ComponentActivity() {
         playBilling = PlayBilling(
             applicationContext,
             onEntitlementChanged = { status -> runOnUiThread { applyAiEntitlement(status) } },
-            testerToken = getString(R.string.beta_tester_token).takeIf { it.isNotBlank() },
+            testerToken = betaTesterToken().takeIf { betaTesterModeOn() },
         )
         plateWebView = PlateWebView(
             context = this,
@@ -309,7 +313,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             },
-            aiEntitlementStatus = { playBilling.status().wireValue },
+            aiEntitlementStatus = { aiWireStatus(playBilling.status()) },
             onPrimaryActionsVisibilityChanged = { visible ->
                 runOnUiThread {
                     // GONE rather than INVISIBLE, so the WebView beneath gets
@@ -319,10 +323,19 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             },
-            onAiAccessRequested = { _, requestId ->
+            onAiAccessRequested = { action, requestId ->
                 // The page asks for a narrow entitlement result. It never sees
                 // a Play purchase token, account identity, or billing details.
                 runOnUiThread {
+                    // Someone without a subscription goes straight on to the
+                    // free tier while it probably has a reading left for
+                    // them; once it has not, to the plans, as before.
+                    if (playBilling.status() != PlayBilling.Status.ACTIVE &&
+                        freeTier.enabled && freeTier.likelyAllowed(action)
+                    ) {
+                        plateWebView.deliverAiAccessResult(requestId, JSONObject().put("status", "free").toString())
+                        return@runOnUiThread
+                    }
                     playBilling.requestAiAccess { response ->
                         plateWebView.deliverAiAccessResult(requestId, response.toJson())
                     }
@@ -357,11 +370,27 @@ class MainActivity : ComponentActivity() {
                     val token = playBilling.awaitPurchaseToken(5_000)
                     Log.i("BiteyAnalysis", "purchase token ${if (token != null) "ready" else "absent"} " +
                         "after ${SystemClock.elapsedRealtime() - started} ms")
-                    val result = analysis.analyse(token, payload)
+                    val idToken = freeTier.idToken()
+                    val result = analysis.analyse(token, idToken, payload)
+                    val answer = runCatching { JSONObject(result).optJSONObject("body") }.getOrNull()
+                    answer?.let(freeTier::record)
                     // Refused by the server for the subscription, not for the
                     // photo: Play on the phone is behind, so stop presenting it.
-                    if (subscriptionRefused(result)) playBilling.serverRefused(token)
+                    // A purchase sent and answered on the free tier is the same
+                    // news, delivered more kindly.
+                    if (subscriptionRefused(result) || (token != null && answer?.optString("tier") == "free")) {
+                        playBilling.serverRefused(token)
+                    }
                     plateWebView.deliverAnalysisResult(requestId, result)
+                }
+            },
+            betaTesterMode = {
+                if (betaTesterToken().isBlank()) "" else if (betaTesterModeOn()) "on" else "off"
+            },
+            onBetaTesterModeToggled = {
+                if (betaTesterToken().isNotBlank()) runOnUiThread {
+                    betaPrefs().edit().putBoolean(KEY_TESTER_MODE, !betaTesterModeOn()).commit()
+                    recreate()
                 }
             },
             onPrivacyNoticeRequested = {
@@ -675,13 +704,36 @@ class MainActivity : ComponentActivity() {
      * payment has not gone through, and Play may yet decline it.
      */
     private fun applyAiEntitlement(status: PlayBilling.Status) {
-        val locked = status != PlayBilling.Status.ACTIVE
+        val wire = aiWireStatus(status)
+        val locked = wire != "active" && wire != "free"
         if (::photoAction.isInitialized) {
             photoAction.placeIcon(photoIcon(locked))
             galleryAction.placeIcon(galleryIcon(locked))
         }
-        if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(status.wireValue)
+        if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(wire)
     }
+
+    /**
+     * Play's status as the page sees it. Without a subscription, a build with
+     * the free tier says "free": Bitey AI is open, with no padlocks, and the
+     * server decides how many readings are left. A pending purchase stays
+     * "pending", so the page can still say so.
+     */
+    private fun aiWireStatus(status: PlayBilling.Status): String = when {
+        status == PlayBilling.Status.ACTIVE || status == PlayBilling.Status.PENDING -> status.wireValue
+        freeTier.enabled -> "free"
+        else -> status.wireValue
+    }
+
+    /** Bitey Beta's tester token; empty in every other build. */
+    private fun betaTesterToken(): String = getString(R.string.beta_tester_token)
+
+    private fun betaPrefs() = getSharedPreferences("bitey_beta", MODE_PRIVATE)
+
+    /** Testing as a subscriber is the beta's default; the switch in
+     * Settings turns it off to test the free tier. */
+    private fun betaTesterModeOn(): Boolean =
+        betaTesterToken().isNotBlank() && betaPrefs().getBoolean(KEY_TESTER_MODE, true)
 
     /** The locked icon carries its own two colours (a white lock on a green
      * cutout) and must not be tinted; the plain camera is tinted white to sit

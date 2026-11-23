@@ -648,5 +648,16 @@
   "Install on your watch": "Установити на годинник",
   "✓ On your watch": "✓ На вашому годиннику",
   "Check your watch to finish installing Bitey.": "Подивіться на годинник, щоб завершити встановлення Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Не вдається з’єднатися з годинником. Установіть Bitey з Play Маркету на годиннику."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Не вдається з’єднатися з годинником. Установіть Bitey з Play Маркету на годиннику.",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "Безкоштовні аналізи на сьогодні вичерпано. З Bitey AI у вас 20 на день.",
+  "You have used today’s free correction. It comes back tomorrow.": "Ви вже використали безкоштовне виправлення на сьогодні. Завтра буде нове.",
+  "Free readings are used up for today. Try again tomorrow.": "Безкоштовні аналізи на сьогодні закінчилися. Спробуйте завтра.",
+  "Bitey could not verify the app. Try again.": "Bitey не вдалося перевірити застосунок. Спробуйте ще раз.",
+  "{0} free readings left today": {
+    "one": "Сьогодні лишився {0} безкоштовний аналіз",
+    "few": "Сьогодні лишилося {0} безкоштовні аналізи",
+    "many": "Сьогодні лишилося {0} безкоштовних аналізів",
+    "other": "Сьогодні лишилося {0} безкоштовного аналізу"
+  },
+  "Read again. That was today’s free correction.": "Перечитано. Це було безкоштовне виправлення на сьогодні."
 }

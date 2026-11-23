@@ -601,5 +601,11 @@
   "Install on your watch": "安装到手表",
   "✓ On your watch": "✓ 已在手表上",
   "Check your watch to finish installing Bitey.": "请在手表上完成 Bitey 的安装。",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "无法连接到手表。请改为在手表上的 Play 商店安装 Bitey。"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "无法连接到手表。请改为在手表上的 Play 商店安装 Bitey。",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "今天的免费分析已全部用完。使用 Bitey AI 每天可分析 20 次。",
+  "You have used today’s free correction. It comes back tomorrow.": "今天的免费修正已用过，明天会恢复。",
+  "Free readings are used up for today. Try again tomorrow.": "今天的免费分析名额已用完。请明天再试。",
+  "Bitey could not verify the app. Try again.": "Bitey 无法验证此应用。请重试。",
+  "{0} free readings left today": "今天还剩 {0} 次免费分析",
+  "Read again. That was today’s free correction.": "已重新读取。这是今天的免费修正。"
 }

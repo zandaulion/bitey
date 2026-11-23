@@ -671,5 +671,18 @@
   "Install on your watch": "ثبّته على ساعتك",
   "✓ On your watch": "✓ على ساعتك",
   "Check your watch to finish installing Bitey.": "تحقّق من ساعتك لإكمال تثبيت Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "تعذّر الوصول إلى ساعتك. ثبّت Bitey من متجر Play على الساعة بدلًا من ذلك."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "تعذّر الوصول إلى ساعتك. ثبّت Bitey من متجر Play على الساعة بدلًا من ذلك.",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "انتهت قراءاتك المجانية لهذا اليوم. يمنحك Bitey AI ‏20 قراءة يوميًا.",
+  "You have used today’s free correction. It comes back tomorrow.": "استخدمت تصحيح اليوم المجاني. يعود غدًا.",
+  "Free readings are used up for today. Try again tomorrow.": "نفدت القراءات المجانية لهذا اليوم. حاول غدًا.",
+  "Bitey could not verify the app. Try again.": "تعذّر على Bitey التحقق من التطبيق. حاول مجددًا.",
+  "{0} free readings left today": {
+    "zero": "لم تتبقَّ قراءات مجانية اليوم",
+    "one": "تبقّت قراءة مجانية واحدة اليوم",
+    "two": "تبقّت قراءتان مجانيتان اليوم",
+    "few": "تبقّت {0} قراءات مجانية اليوم",
+    "many": "تبقّت {0} قراءة مجانية اليوم",
+    "other": "تبقّت {0} قراءة مجانية اليوم"
+  },
+  "Read again. That was today’s free correction.": "تمت إعادة القراءة. كان هذا تصحيح اليوم المجاني."
 }

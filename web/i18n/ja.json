@@ -601,5 +601,11 @@
   "Install on your watch": "ウォッチにインストール",
   "✓ On your watch": "✓ ウォッチにあります",
   "Check your watch to finish installing Bitey.": "ウォッチで Bitey のインストールを完了してください。",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "ウォッチに接続できません。ウォッチの Play ストアから Bitey をインストールしてください。"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "ウォッチに接続できません。ウォッチの Play ストアから Bitey をインストールしてください。",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "今日の無料解析はすべて使いました。Bitey AI なら1日20回使えます。",
+  "You have used today’s free correction. It comes back tomorrow.": "今日の無料の修正は使用済みです。明日また使えます。",
+  "Free readings are used up for today. Try again tomorrow.": "今日の無料解析の枠がなくなりました。明日もう一度お試しください。",
+  "Bitey could not verify the app. Try again.": "Bitey がアプリを確認できませんでした。もう一度お試しください。",
+  "{0} free readings left today": "今日の無料解析は残り{0}回",
+  "Read again. That was today’s free correction.": "読み直しました。今日の無料の修正を使いました。"
 }

@@ -119,6 +119,9 @@ android {
         resValue("string", "app_name", "Bitey")
         resValue("string", "analyse_url", PRODUCTION_ANALYSE_URL)
         resValue("string", "beta_tester_token", "")
+        // The free tier (FreeTier.kt): on in the beta while it is tested,
+        // and in release once it ships with its server and store changes.
+        resValue("bool", "free_tier_enabled", "false")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
     }
@@ -156,6 +159,7 @@ android {
             resValue("string", "analyse_url", BETA_ANALYSE_URL)
             resValue("string", "beta_tester_token", betaTesterToken)
             resValue("string", "beta_app_check_debug_secret", betaAppCheckDebugSecret)
+            resValue("bool", "free_tier_enabled", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -275,6 +279,9 @@ dependencies {
     // registered debug tokens in place of an attestation.
     implementation(platform("com.google.firebase:firebase-bom:35.2.0"))
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    // The free tier's identity: an anonymous sign-in per install, with no
+    // name, email or diary attached (FreeTier.kt).
+    implementation("com.google.firebase:firebase-auth")
     debugImplementation("com.google.firebase:firebase-appcheck-debug")
     // The beta is sideloaded, so it cannot pass Play Integrity either.
     "betaImplementation"("com.google.firebase:firebase-appcheck-debug")

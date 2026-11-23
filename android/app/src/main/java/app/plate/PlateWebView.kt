@@ -119,6 +119,8 @@ private class PlateNativeBridge(
     private val onAiSubscriptionManagementRequested: () -> Unit,
     private val onCaptureRequested: (String, String) -> Unit,
     private val onAnalysisRequested: (String, String) -> Unit,
+    private val betaTesterModeStatus: () -> String,
+    private val onBetaTesterModeToggled: () -> Unit,
     private val onPrivacyNoticeRequested: () -> Unit,
     private val quickTileSupported: () -> Boolean,
     private val onQuickTileRequested: () -> Unit,
@@ -254,6 +256,16 @@ private class PlateNativeBridge(
     @JavascriptInterface
     fun openPrivacyNotice() = onPrivacyNoticeRequested()
 
+    /** Bitey Beta only: "on" or "off" for testing as a subscriber, and empty
+     * in every other build, where the page then shows no switch. */
+    @JavascriptInterface
+    fun betaTesterMode(): String = betaTesterModeStatus()
+
+    /** Bitey Beta only; does nothing elsewhere. Restarts the activity, since
+     * the subscription state is read when it starts. */
+    @JavascriptInterface
+    fun toggleBetaTesterMode() = onBetaTesterModeToggled()
+
     @JavascriptInterface
     fun refreshAiPurchase() = onAiPurchaseRefreshRequested()
 
@@ -319,6 +331,8 @@ class PlateWebView(
     onAiSubscriptionManagementRequested: () -> Unit,
     onCaptureRequested: (String, String) -> Unit,
     onAnalysisRequested: (String, String) -> Unit,
+    betaTesterMode: () -> String = { "" },
+    onBetaTesterModeToggled: () -> Unit = {},
     onPrivacyNoticeRequested: () -> Unit,
     quickTileSupported: () -> Boolean,
     onQuickTileRequested: () -> Unit,
@@ -425,6 +439,8 @@ class PlateWebView(
                 onAiSubscriptionManagementRequested,
                 onCaptureRequested,
                 onAnalysisRequested,
+                betaTesterMode,
+                onBetaTesterModeToggled,
                 onPrivacyNoticeRequested,
                 quickTileSupported,
                 onQuickTileRequested,

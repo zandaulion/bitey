@@ -107,6 +107,7 @@ const ENGLISH_ONE = {
     '{0} weigh-in since {1} — trending up {2} kg a week.',
   '{0} more days logged': '{0} more day logged',
   '{0} more weigh-ins': '{0} more weigh-in',
+  '{0} free readings left today': '{0} free reading left today',
   'Open Plate there, choose "Link a device", and type this in. It expires in {0} minutes and works once.':
     'Open Plate there, choose "Link a device", and type this in. It expires in {0} minute and works once.'
 };

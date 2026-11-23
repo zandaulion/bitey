@@ -641,5 +641,15 @@
   "Install on your watch": "Instalează pe ceas",
   "✓ On your watch": "✓ Pe ceasul tău",
   "Check your watch to finish installing Bitey.": "Uită-te pe ceas ca să termini instalarea Bitey.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Ceasul nu poate fi contactat. Instalează Bitey din Magazin Play de pe ceas."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "Ceasul nu poate fi contactat. Instalează Bitey din Magazin Play de pe ceas.",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "Ai folosit toate analizele gratuite de azi. Cu Bitey AI ai 20 pe zi.",
+  "You have used today’s free correction. It comes back tomorrow.": "Ai folosit corectarea gratuită de azi. Revine mâine.",
+  "Free readings are used up for today. Try again tomorrow.": "Analizele gratuite s-au terminat pentru azi. Încearcă din nou mâine.",
+  "Bitey could not verify the app. Try again.": "Bitey nu a putut verifica aplicația. Încearcă din nou.",
+  "{0} free readings left today": {
+    "one": "Îți mai rămâne o analiză gratuită azi",
+    "few": "Îți mai rămân {0} analize gratuite azi",
+    "other": "Îți mai rămân {0} de analize gratuite azi"
+  },
+  "Read again. That was today’s free correction.": "Citită din nou. A fost corectarea gratuită de azi."
 }

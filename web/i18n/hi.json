@@ -622,5 +622,14 @@
   "Install on your watch": "घड़ी पर इंस्टॉल करें",
   "✓ On your watch": "✓ आपकी घड़ी पर",
   "Check your watch to finish installing Bitey.": "Bitey का इंस्टॉलेशन पूरा करने के लिए अपनी घड़ी देखें।",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "आपकी घड़ी से संपर्क नहीं हो सका। इसके बजाय घड़ी पर Play Store से Bitey इंस्टॉल करें।"
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "आपकी घड़ी से संपर्क नहीं हो सका। इसके बजाय घड़ी पर Play Store से Bitey इंस्टॉल करें।",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "आज के आपके मुफ़्त विश्लेषण पूरे हो गए। Bitey AI के साथ आपको रोज़ 20 मिलते हैं।",
+  "You have used today’s free correction. It comes back tomorrow.": "आज का मुफ़्त सुधार इस्तेमाल हो गया। यह कल फिर मिलेगा।",
+  "Free readings are used up for today. Try again tomorrow.": "आज के मुफ़्त विश्लेषण ख़त्म हो गए। कल फिर कोशिश करें।",
+  "Bitey could not verify the app. Try again.": "Bitey ऐप की पुष्टि नहीं कर सका। फिर कोशिश करें।",
+  "{0} free readings left today": {
+    "one": "आज {0} मुफ़्त विश्लेषण बाकी है",
+    "other": "आज {0} मुफ़्त विश्लेषण बाकी हैं"
+  },
+  "Read again. That was today’s free correction.": "दोबारा पढ़ा। यह आज का मुफ़्त सुधार था।"
 }

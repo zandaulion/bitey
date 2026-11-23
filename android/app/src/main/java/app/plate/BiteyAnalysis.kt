@@ -18,7 +18,9 @@ import java.util.concurrent.TimeUnit
  *
  * It exists in native code, not in the page, for one reason: the request must
  * carry the Play purchase token, and that token is a bearer credential for a
- * paid feature. The page supplies the photograph; this adds the token and
+ * paid feature. The free tier's credential, a Firebase ID token from the
+ * install's anonymous sign-in (see [FreeTier]), is added here for the same
+ * reason. The page supplies the photograph; this adds the token and
  * sends both to the analysis function, which verifies the purchase with Google
  * Play before the photograph reaches the model.
  *
@@ -44,6 +46,7 @@ class BiteyAnalysis(
         const val MAX_LEFTOVER_ITEMS = 40
 
         private val LOCALE = Regex("[a-z]{2}(-[A-Za-z]{2})?")
+        private val REQUEST_ID = Regex("[A-Za-z0-9_-]{8,80}")
         private val DIETS = setOf("vegetarian", "vegan", "pescatarian")
     }
 
@@ -53,9 +56,12 @@ class BiteyAnalysis(
      * Always answers, including when the network is down: the page is waiting
      * on this and an exception would leave its promise pending forever, which
      * is the same silent failure the photo button suffered from before.
+     *
+     * [purchaseToken] is a Bitey AI subscription, [idToken] the free tier;
+     * either will do, and with both the server uses the subscription first.
      */
-    fun analyse(purchaseToken: String?, pageRequest: String): String {
-        if (purchaseToken.isNullOrBlank()) {
+    fun analyse(purchaseToken: String?, idToken: String?, pageRequest: String): String {
+        if (purchaseToken.isNullOrBlank() && idToken.isNullOrBlank()) {
             return answer(403, "not_entitled", "Bitey AI is not active on this Google Play account.")
         }
         val request = runCatching { JSONObject(pageRequest) }.getOrNull()
@@ -76,8 +82,13 @@ class BiteyAnalysis(
         }
 
         val body = JSONObject()
-            .put("purchaseToken", purchaseToken)
             .apply {
+                purchaseToken?.takeIf { it.isNotBlank() }?.let { put("purchaseToken", it) }
+                idToken?.takeIf { it.isNotBlank() }?.let { put("idToken", it) }
+                // The reading's own name, kept across retries, so the server
+                // charges a retried reading once.
+                request.optString("requestId").takeIf { REQUEST_ID.matches(it) }
+                    ?.let { put("requestId", it) }
                 request.optString("locale").takeIf { LOCALE.matches(it) }
                     ?.let { put("locale", it) }
                 if (textMode) {
@@ -124,6 +135,13 @@ class BiteyAnalysis(
         val appCheckStarted = SystemClock.elapsedRealtime()
         val appCheck = appCheckToken()
         val appCheckMs = SystemClock.elapsedRealtime() - appCheckStarted
+        // With Firebase configured, a request without a token is refused by
+        // the server as "did not come from Bitey" -- after the photo has been
+        // uploaded for nothing. Better to say what happened and not send it.
+        if (appCheck == null && FirebaseApp.getApps(appContext).isNotEmpty()) {
+            Log.w(TAG, "no App Check token after $appCheckMs ms; not sending")
+            return answer(503, "app_check_unavailable", "Bitey could not verify the app. Try again.")
+        }
         val connection = try {
             (URL(endpoint).openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
@@ -176,10 +194,18 @@ class BiteyAnalysis(
      * that still works; once it does, the server refuses it, and says so.
      * Blocking is fine here -- this always runs on the analysis thread.
      */
-    private fun appCheckToken(): String? = runCatching {
+    private fun appCheckToken(): String? {
         if (FirebaseApp.getApps(appContext).isEmpty()) return null
-        Tasks.await(FirebaseAppCheck.getInstance().getAppCheckToken(false), 10, TimeUnit.SECONDS).token
-    }.getOrNull()?.takeIf { it.isNotBlank() }
+        // Twice: the cached token first, then, if that failed or came back
+        // empty, a fresh attestation. Play Integrity now and then fails once
+        // and succeeds a moment later; seen 2026-11-16 and 2026-11-22.
+        for (forceRefresh in listOf(false, true)) {
+            runCatching {
+                Tasks.await(FirebaseAppCheck.getInstance().getAppCheckToken(forceRefresh), 10, TimeUnit.SECONDS).token
+            }.getOrNull()?.takeIf { it.isNotBlank() }?.let { return it }
+        }
+        return null
+    }
 
     private fun unreachable() = answer(
         0, "network", "Could not reach Bitey AI. Check the connection and try again.",

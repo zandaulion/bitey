@@ -601,5 +601,11 @@
   "Install on your watch": "시계에 설치",
   "✓ On your watch": "✓ 시계에 설치됨",
   "Check your watch to finish installing Bitey.": "시계에서 Bitey 설치를 완료하세요.",
-  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "시계에 연결할 수 없습니다. 대신 시계의 Play 스토어에서 Bitey를 설치하세요."
+  "Could not reach your watch. Install Bitey from the Play Store on the watch instead.": "시계에 연결할 수 없습니다. 대신 시계의 Play 스토어에서 Bitey를 설치하세요.",
+  "That is all your free readings for today. Bitey AI gives you 20 a day.": "오늘의 무료 분석을 모두 사용했어요. Bitey AI를 쓰면 하루 20회 분석할 수 있어요.",
+  "You have used today’s free correction. It comes back tomorrow.": "오늘의 무료 수정을 사용했어요. 내일 다시 쓸 수 있어요.",
+  "Free readings are used up for today. Try again tomorrow.": "오늘 무료 분석이 모두 소진됐어요. 내일 다시 시도하세요.",
+  "Bitey could not verify the app. Try again.": "Bitey가 앱을 확인하지 못했어요. 다시 시도하세요.",
+  "{0} free readings left today": "오늘 무료 분석 {0}회 남음",
+  "Read again. That was today’s free correction.": "다시 읽었어요. 오늘의 무료 수정을 사용했어요."
 }

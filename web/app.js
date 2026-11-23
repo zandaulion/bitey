@@ -2247,7 +2247,9 @@ async function requestAiAccess(action) {
   // Paying for the feature is not agreeing to send photographs. Every photo
   // route -- camera, gallery, leftovers, a correction, a shared image --
   // passes through here, so this is the one place the consent is enforced.
-  if (status === 'active') return ensureAiPhotoConsent(action === 'text' ? 'text' : 'photo');
+  // "free": no subscription, but the free tier's daily readings. The server
+  // counts them; a refusal says so (aiRefusal).
+  if (status === 'active' || status === 'free') return ensureAiPhotoConsent(action === 'text' ? 'text' : 'photo');
   if (status === 'pending') toast(t('Your Bitey AI purchase is still pending.'));
   else if (status === 'cancelled') toast(t('Your Bitey AI purchase was cancelled.'));
   // Play still lists the subscription the server refused; native code has
@@ -2290,6 +2292,20 @@ function setAiPhotoConsent(granted, kind = 'photo') {
   } catch { /* storage unavailable: the next photo simply asks again */ }
   syncAiConsentControls();
 }
+
+/** Bitey Beta's switch between testing as a subscriber and as a free user.
+ * Hidden in every other build, where native code answers with nothing. */
+function syncBetaTesterControl() {
+  const button = $('beta-tester-mode');
+  const mode = typeof window.PlateNative?.betaTesterMode === 'function' ? window.PlateNative.betaTesterMode() : '';
+  if (!button) return;
+  button.hidden = !mode;
+  button.textContent = mode === 'on'
+    ? 'Beta: testing as a subscriber. Tap to test the free tier.'
+    : 'Beta: testing the free tier. Tap to test as a subscriber.';
+}
+$('beta-tester-mode')?.addEventListener('click', () => window.PlateNative?.toggleBetaTesterMode?.());
+syncBetaTesterControl();
 
 function syncAiConsentControls() {
   const withdraw = $('ai-consent-withdraw');
@@ -2460,6 +2476,7 @@ async function startPhotoEntry(file) {
     idle();
     initWeightSlider();
     renderReview();
+    noteFreeAllowance(data);
   } catch (err) {
     if (!screenIsOpen('review')) return;
     track('analyse_fail', { code: err.code || 'unknown' });
@@ -2870,6 +2887,13 @@ $('text-edit').addEventListener('click', () => setEntryRoute('describe'));
  * purchase, so the padlocks return and the next Bitey AI tap shows the plans
  * -- and this says so.
  */
+/** After a free-tier reading, how many are left today. A subscriber's
+ * answers say tier "paid" and get nothing: twenty is plenty to not count. */
+function noteFreeAllowance(data) {
+  if (data?.tier !== 'free' || !Number.isFinite(data.remaining)) return;
+  toast(plural('{0} free readings left today', data.remaining));
+}
+
 function aiRefusal(err) {
   switch (err?.code) {
     case 'not_entitled':
@@ -2878,6 +2902,15 @@ function aiRefusal(err) {
       return t('Your Bitey AI subscription is no longer active. Tap a Bitey AI button again to see the plans.');
     case 'daily_limit':
       return t('You have used today’s meal analyses. Try again tomorrow.');
+    case 'free_daily_limit':
+      return t('That is all your free readings for today. Bitey AI gives you 20 a day.');
+    case 'free_correction_used':
+      return t('You have used today’s free correction. It comes back tomorrow.');
+    case 'free_pool_exhausted':
+      return t('Free readings are used up for today. Try again tomorrow.');
+    case 'app_check_unavailable':
+    case 'bad_id_token':
+      return t('Bitey could not verify the app. Try again.');
     case 'network':
       return t('Could not reach Bitey AI. Check your connection and try again.');
     default:
@@ -2905,6 +2938,15 @@ function textEstimateError(err) {
     case 'no_app_check':
     case 'bad_app_check':
       return t('Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.');
+    case 'free_daily_limit':
+      return t('That is all your free readings for today. Bitey AI gives you 20 a day.');
+    case 'free_correction_used':
+      return t('You have used today’s free correction. It comes back tomorrow.');
+    case 'free_pool_exhausted':
+      return t('Free readings are used up for today. Try again tomorrow.');
+    case 'app_check_unavailable':
+    case 'bad_id_token':
+      return t('Bitey could not verify the app. Try again.');
     default: {
       const detail = [err?.code, err?.status].filter(Boolean).join(', ');
       return t('Bitey AI could not estimate this meal: {0} ({1})',
@@ -2939,6 +2981,7 @@ $('estimate-text').addEventListener('click', async () => {
     state.estimate = data.estimate;
     renderReview();
     $('review-body').scrollTop = 0;
+    noteFreeAllowance(data);
   } catch (err) {
     if (!current()) return;
     $('text-error').textContent = textEstimateError(err);
@@ -3680,7 +3723,7 @@ async function submitCorrection() {
   syncCorrectButton();
     initWeightSlider();
     renderReview();
-    toast(t('Read again'));
+    toast(data?.tier === 'free' ? t('Read again. That was today’s free correction.') : t('Read again'));
   } catch (err) {
     track('correct_fail', { code: err.code || 'unknown' });
     failed(aiRefusal(err) || err.message);
