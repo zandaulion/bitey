@@ -39,15 +39,15 @@ const NOW = new Date('2026-11-22T10:00:00Z');
 const config = { readings: 5, corrections: 1, poolLimit: 1000, alertAt: 0.8 };
 const free = (db, options = {}) => claimFree('u1', { config, now: NOW, db, ...options });
 
-test('the free tier defaults are 5 readings, 1 correction and a pool of 1,000', () => {
-  assert.deepEqual({ ...FREE_DEFAULTS }, { readings: 5, corrections: 1, poolLimit: 1000, alertAt: 0.8 });
+test('the free tier defaults are 2 readings, 1 correction and a pool of 1,000', () => {
+  assert.deepEqual({ ...FREE_DEFAULTS }, { readings: 2, corrections: 1, poolLimit: 1000, alertAt: 0.8 });
   assert.deepEqual(normaliseFreeConfig(null), { ...FREE_DEFAULTS });
 });
 
 test('each setting falls back on its own when it makes no sense', () => {
   assert.deepEqual(normaliseFreeConfig({ readings: 8, corrections: -1, poolLimit: 'lots', alertAt: 3 }),
     { readings: 8, corrections: 1, poolLimit: 1000, alertAt: 0.8 });
-  assert.equal(normaliseFreeConfig({ readings: 2.5 }).readings, 5);
+  assert.equal(normaliseFreeConfig({ readings: 2.5 }).readings, FREE_DEFAULTS.readings);
   assert.equal(normaliseFreeConfig({ poolLimit: 0 }).poolLimit, 0, '0 switches the free tier off');
 });
 
@@ -153,7 +153,7 @@ test('the settings document is read, then cached for a minute', async () => {
   db.docs.set('test_config/a', { readings: 9 });
   assert.equal((await freeConfig({ path: 'test_config/a', db, now: 30000 })).readings, 7);
   assert.equal((await freeConfig({ path: 'test_config/a', db, now: 61000 })).readings, 9);
-  assert.equal((await freeConfig({ path: 'test_config/missing', db, now: 0 })).readings, 5);
+  assert.equal((await freeConfig({ path: 'test_config/missing', db, now: 0 })).readings, FREE_DEFAULTS.readings);
 });
 
 test('a free user and a subscriber never share a counter', () => {

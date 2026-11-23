@@ -35,7 +35,7 @@ export const DAILY_LIMIT = 20;
  * - alertAt: the share of poolLimit at which an alert is logged once a day.
  */
 export const FREE_DEFAULTS = Object.freeze({
-  readings: 5,
+  readings: 2,
   corrections: 1,
   poolLimit: 1000,
   alertAt: 0.8

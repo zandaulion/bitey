@@ -72,7 +72,7 @@ Bitey AI, as described next.
 ## Bitey AI meal analysis
 
 Bitey AI is optional. Without a subscription you get a few free readings a
-day — currently five, plus one correction; with the paid subscription, bought
+day — currently two, plus one correction; with the paid subscription, bought
 and managed through Google Play, you get more. When you use it, Bitey
 estimates what is on your plate from a photograph.
 Before the first photograph is sent, Bitey shows what will be sent and asks for

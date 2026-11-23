@@ -40,13 +40,13 @@ Log food your way
 • Save quick bites for grazing, and log your usual meals again in one tap
 • On a Wear OS watch: see today at a glance, log a quick bite or a usual meal in one tap, and add Bitey's tiles and complications
 
-Bitey AI (five free readings a day)
+Bitey AI (two free readings a day)
 • Photograph your plate, or simply describe your meal, and get an estimate of the foods, portions and nutrition
 • Check and adjust every portion before you save
 • Take the photo and go: Bitey logs the meal in the background and lets you know
 • Photograph what is left, so only what you ate is counted
 • If you choose, it reads dishes that could go either way as vegetarian, vegan or pescatarian
-Bitey AI gives you five free readings every day. For more, subscribe monthly or yearly on Google Play — the first month is free. Bitey asks before the first photo or description is sent, and your diary never leaves your phone.
+Bitey AI gives you two free readings every day. For more, subscribe monthly or yearly on Google Play — the first month is free. Bitey asks before the first photo or description is sent, and your diary never leaves your phone.
 
 Follow your progress
 • See your day against what you burn, worked out from your weigh-ins and what you log
@@ -92,13 +92,13 @@ Bitey سجل طعام خاص يحتفظ بيومياتك على جهازك. سج
 • احفظ وجبات خفيفة سريعة، وسجّل وجباتك المعتادة مجددًا بلمسة واحدة
 • على ساعة بنظام Wear OS: شاهد يومك بلمحة، وسجّل وجبة خفيفة سريعة أو وجبة معتادة بلمسة واحدة، وأضف بطاقات Bitey وإضافات واجهة الساعة
 
-Bitey AI (خمس قراءات مجانية يوميًا)
+Bitey AI (قراءتان مجانيتان يوميًا)
 • صوّر طبقك أو صف وجبتك ببساطة، واحصل على تقدير للأطعمة والكميات والقيم الغذائية
 • راجع كل كمية وعدّلها قبل الحفظ
 • التقط الصورة وتابع يومك: يسجّل Bitey الوجبة في الخلفية ويُعلمك
 • صوّر ما تبقى، ليُحسب فقط ما أكلته
 • إن أردت، يقرأ الأطباق المحتملة على أنها نباتية أو نباتية صرفة أو بحرية حسب نظامك
-يمنحك Bitey AI خمس قراءات مجانية كل يوم. وللمزيد، اشترك شهريًا أو سنويًا عبر Google Play، والشهر الأول مجاني. يسألك Bitey قبل إرسال أول صورة أو وصف، ولا تغادر يومياتك هاتفك أبدًا.
+يمنحك Bitey AI قراءتين مجانيتين كل يوم. وللمزيد، اشترك شهريًا أو سنويًا عبر Google Play، والشهر الأول مجاني. يسألك Bitey قبل إرسال أول صورة أو وصف، ولا تغادر يومياتك هاتفك أبدًا.
 
 تابع تقدمك
 • قارن يومك بما تحرقه، محسوبًا من أوزانك وما تسجله
@@ -144,13 +144,13 @@ Bitey 是一款私密的饮食记录应用，日记只保存在你的设备上�
 • 保存零食快捷项，常吃的餐食一键再次记录
 • 在 Wear OS 手表上：一眼看到今天，一键记录零食或常吃的餐食，还可添加 Bitey 卡片和表盘组件
 
-Bitey AI（每天 5 次免费分析）
+Bitey AI（每天 2 次免费分析）
 • 拍下你的餐盘，或简单描述你吃了什么，即可估算食物、份量和营养
 • 保存前可检查并调整每一份的份量
 • 拍完就走：Bitey 会在后台记录这餐并通知你
 • 拍下剩下的部分，只计算你实际吃掉的
 • 如果你愿意，它会把可能两种做法的菜肴按素食、纯素或鱼素来识别
-Bitey AI 每天提供 5 次免费分析。想要更多，可在 Google Play 按月或按年订阅，首月免费。发送第一张照片或第一段描述前，Bitey 会先征求你的同意，你的日记永远不会离开手机。
+Bitey AI 每天提供 2 次免费分析。想要更多，可在 Google Play 按月或按年订阅，首月免费。发送第一张照片或第一段描述前，Bitey 会先征求你的同意，你的日记永远不会离开手机。
 
 关注你的进展
 • 对比当天摄入与消耗，消耗根据你的体重记录和饮食记录计算
@@ -196,13 +196,13 @@ Notez vos repas à votre façon
 • Enregistrez des en-cas rapides et notez à nouveau vos repas habituels d’un geste
 • Sur une montre Wear OS : votre journée d’un coup d’œil, un en-cas rapide ou un repas habituel noté d’un geste, et les vignettes et complications de Bitey
 
-Bitey AI (cinq analyses gratuites par jour)
+Bitey AI (deux analyses gratuites par jour)
 • Photographiez votre assiette, ou décrivez simplement votre repas, et obtenez une estimation des aliments, des portions et des nutriments
 • Vérifiez et ajustez chaque portion avant d’enregistrer
 • Prenez la photo et passez à autre chose : Bitey enregistre le repas en arrière-plan et vous prévient
 • Photographiez les restes, pour ne compter que ce que vous avez mangé
 • Si vous le souhaitez, il lit les plats ambigus en version végétarienne, végane ou pescétarienne
-Bitey AI vous offre cinq analyses gratuites chaque jour. Pour plus, abonnez-vous au mois ou à l’année sur Google Play — le premier mois est offert. Bitey vous demande votre accord avant l’envoi de la première photo ou description, et votre journal ne quitte jamais votre téléphone.
+Bitey AI vous offre deux analyses gratuites chaque jour. Pour plus, abonnez-vous au mois ou à l’année sur Google Play — le premier mois est offert. Bitey vous demande votre accord avant l’envoi de la première photo ou description, et votre journal ne quitte jamais votre téléphone.
 
 Suivez vos progrès
 • Comparez votre journée à ce que vous dépensez, calculé à partir de vos pesées et de ce que vous notez
@@ -248,13 +248,13 @@ Erfasse Essen auf deine Art
 • Speichere schnelle Snacks und erfasse deine üblichen Mahlzeiten mit einem Tipp erneut
 • Auf einer Wear-OS-Uhr: der Tag auf einen Blick, schnelle Snacks und übliche Mahlzeiten mit einem Tippen erfassen, dazu Biteys Kacheln und Komplikationen
 
-Bitey AI (fünf kostenlose Analysen am Tag)
+Bitey AI (zwei kostenlose Analysen am Tag)
 • Fotografiere deinen Teller oder beschreibe einfach deine Mahlzeit und erhalte eine Schätzung von Lebensmitteln, Portionen und Nährwerten
 • Prüfe und passe jede Portion vor dem Speichern an
 • Foto machen und weiter: Bitey trägt die Mahlzeit im Hintergrund ein und sagt dir Bescheid
 • Fotografiere die Reste, damit nur zählt, was du gegessen hast
 • Auf Wunsch liest es mehrdeutige Gerichte als vegetarisch, vegan oder pescetarisch
-Mit Bitey AI hast du jeden Tag fünf kostenlose Analysen. Für mehr gibt es ein monatliches oder jährliches Google-Play-Abo – der erste Monat ist kostenlos. Bitey fragt, bevor das erste Foto oder die erste Beschreibung gesendet wird, und dein Tagebuch verlässt dein Handy nie.
+Mit Bitey AI hast du jeden Tag zwei kostenlose Analysen. Für mehr gibt es ein monatliches oder jährliches Google-Play-Abo – der erste Monat ist kostenlos. Bitey fragt, bevor das erste Foto oder die erste Beschreibung gesendet wird, und dein Tagebuch verlässt dein Handy nie.
 
 Verfolge deine Fortschritte
 • Sieh deinen Tag im Vergleich zu deinem Verbrauch, berechnet aus deinen Wiegungen und deinen Einträgen
@@ -300,13 +300,13 @@ Bitey एक निजी फ़ूड लॉग है जो आपकी ड�
 • झटपट स्नैक्स सहेजें, और अपने रोज़ के भोजन एक टैप में फिर से दर्ज करें
 • Wear OS घड़ी पर: आज का हाल एक नज़र में, एक टैप में झटपट स्नैक या रोज़ का भोजन दर्ज करें, और Bitey की टाइलें और वॉच फ़ेस कॉम्प्लिकेशन जोड़ें
 
-Bitey AI (रोज़ पाँच मुफ़्त विश्लेषण)
+Bitey AI (रोज़ दो मुफ़्त विश्लेषण)
 • अपनी प्लेट की फ़ोटो लें, या बस अपने भोजन का विवरण दें, और खाद्य पदार्थों, मात्रा और पोषण का अनुमान पाएँ
 • सहेजने से पहले हर मात्रा जाँचें और बदलें
 • फ़ोटो लें और आगे बढ़ें: Bitey पृष्ठभूमि में भोजन दर्ज करके आपको बताता है
 • बचे हुए खाने की फ़ोटो लें, ताकि सिर्फ़ वही गिना जाए जो आपने खाया
 • चाहें तो यह दोनों तरह से बन सकने वाले व्यंजनों को शाकाहारी, वीगन या पेस्केटेरियन मानता है
-Bitey AI से आपको रोज़ पाँच मुफ़्त विश्लेषण मिलते हैं। ज़्यादा के लिए Google Play पर मासिक या वार्षिक सदस्यता लें — पहला महीना मुफ़्त है। पहली फ़ोटो या विवरण भेजने से पहले Bitey आपसे पूछता है, और आपकी डायरी कभी आपके फ़ोन से बाहर नहीं जाती।
+Bitey AI से आपको रोज़ दो मुफ़्त विश्लेषण मिलते हैं। ज़्यादा के लिए Google Play पर मासिक या वार्षिक सदस्यता लें — पहला महीना मुफ़्त है। पहली फ़ोटो या विवरण भेजने से पहले Bitey आपसे पूछता है, और आपकी डायरी कभी आपके फ़ोन से बाहर नहीं जाती।
 
 अपनी प्रगति देखें
 • अपने दिन की तुलना खर्च हुई ऊर्जा से करें, जो आपके वज़न और दर्ज भोजन से निकाली जाती है
@@ -352,13 +352,13 @@ Bitey は、日記をあなたの端末に保存するプライベートな食�
 • 間食をすばやく保存し、いつもの食事をワンタップで再記録
 • Wear OS ウォッチで今日をひと目で確認し、間食やいつもの食事をワンタップで記録。Bitey のタイルとコンプリケーションも追加できます
 
-Bitey AI（毎日5回まで無料）
+Bitey AI（毎日2回まで無料）
 • お皿を撮影するか、食事を文章で説明するだけで、食品・量・栄養を推定
 • 保存前に、すべての量を確認・調整できます
 • 撮ったらそのままでOK：Bitey がバックグラウンドで記録してお知らせします
 • 残った分を撮影すれば、食べた分だけを記録
 • 必要なら、どちらの作り方もあり得る料理をベジタリアン、ヴィーガン、ペスカタリアンとして読み取ります
-Bitey AI は毎日5回まで無料で使えます。それ以上は Google Play の月額または年額のサブスクリプションで、最初の 1 か月は無料です。最初の写真や説明を送る前に確認があり、日記がスマホから出ることはありません。
+Bitey AI は毎日2回まで無料で使えます。それ以上は Google Play の月額または年額のサブスクリプションで、最初の 1 か月は無料です。最初の写真や説明を送る前に確認があり、日記がスマホから出ることはありません。
 
 進み具合を確認
 • その日の摂取量を消費量と比較。消費量は体重記録と食事記録から算出
@@ -404,13 +404,13 @@ Bitey는 일지를 기기에만 보관하는 개인 식단 기록 앱입니다. 
 • 간식을 빠르게 저장하고, 자주 먹는 식사를 한 번의 탭으로 다시 기록하세요
 • Wear OS 시계에서 오늘을 한눈에 보고, 간식이나 자주 먹는 식사를 한 번의 탭으로 기록하세요. Bitey 타일과 컴플리케이션도 추가할 수 있어요
 
-Bitey AI (하루 무료 분석 5회)
+Bitey AI (하루 무료 분석 2회)
 • 접시를 찍거나 식사를 간단히 설명하면 음식, 양, 영양을 추정해 드립니다
 • 저장하기 전에 모든 양을 확인하고 조정하세요
 • 찍고 바로 가세요: Bitey가 백그라운드에서 식사를 기록하고 알려 드려요
 • 남은 음식을 찍어 실제로 먹은 만큼만 기록하세요
 • 원하면 어느 쪽으로도 만들 수 있는 요리를 채식, 비건, 페스코 채식으로 읽습니다
-Bitey AI는 매일 무료 분석 5회를 제공합니다. 더 필요하면 Google Play에서 월간 또는 연간 구독하세요. 첫 달은 무료입니다. 첫 사진이나 설명을 보내기 전에 Bitey가 먼저 묻고, 일지는 휴대폰 밖으로 나가지 않습니다.
+Bitey AI는 매일 무료 분석 2회를 제공합니다. 더 필요하면 Google Play에서 월간 또는 연간 구독하세요. 첫 달은 무료입니다. 첫 사진이나 설명을 보내기 전에 Bitey가 먼저 묻고, 일지는 휴대폰 밖으로 나가지 않습니다.
 
 진행 상황 확인
 • 체중 기록과 식사 기록으로 계산한 소비량과 오늘 하루를 비교하세요
@@ -456,13 +456,13 @@ Registre do seu jeito
 • Salve lanchinhos rápidos e registre de novo suas refeições de sempre com um toque
 • Em um relógio Wear OS: veja o dia de relance, registre um lanchinho rápido ou uma refeição de sempre com um toque e adicione os blocos e complicações do Bitey
 
-Bitey AI (cinco análises grátis por dia)
+Bitey AI (duas análises grátis por dia)
 • Fotografe seu prato, ou simplesmente descreva sua refeição, e receba uma estimativa dos alimentos, porções e nutrientes
 • Confira e ajuste cada porção antes de salvar
 • Tire a foto e siga em frente: o Bitey registra a refeição em segundo plano e avisa você
 • Fotografe o que sobrou, para contar só o que você comeu
 • Se quiser, ele interpreta pratos ambíguos como vegetarianos, veganos ou pescetarianos
-O Bitey AI oferece cinco análises grátis por dia. Para mais, assine por mês ou por ano no Google Play — o primeiro mês é grátis. O Bitey pergunta antes de enviar a primeira foto ou descrição, e seu diário nunca sai do celular.
+O Bitey AI oferece duas análises grátis por dia. Para mais, assine por mês ou por ano no Google Play — o primeiro mês é grátis. O Bitey pergunta antes de enviar a primeira foto ou descrição, e seu diário nunca sai do celular.
 
 Acompanhe seu progresso
 • Compare seu dia com o que você gasta, calculado a partir das suas pesagens e do que você registra
@@ -508,13 +508,13 @@ Notează mâncarea cum vrei
 • Salvează gustări rapide și notează din nou mesele obișnuite cu o atingere
 • Pe un ceas cu Wear OS: ziua dintr-o privire, o gustare rapidă sau o masă obișnuită notată cu o atingere, plus cardurile și complicațiile Bitey
 
-Bitey AI (cinci analize gratuite pe zi)
+Bitey AI (două analize gratuite pe zi)
 • Fotografiază farfuria sau descrie pur și simplu masa și primești o estimare a alimentelor, porțiilor și valorilor nutriționale
 • Verifică și ajustează fiecare porție înainte să salvezi
 • Faci poza și mergi mai departe: Bitey înregistrează masa în fundal și te anunță
 • Fotografiază ce a rămas, ca să se numere doar ce ai mâncat
 • Dacă vrei, citește preparatele care pot fi făcute în ambele feluri ca vegetariene, vegane sau pescetariene
-Bitey AI îți oferă cinci analize gratuite în fiecare zi. Pentru mai multe, abonează-te lunar sau anual pe Google Play — prima lună este gratuită. Bitey te întreabă înainte de trimiterea primei fotografii sau descrieri, iar jurnalul tău nu părăsește niciodată telefonul.
+Bitey AI îți oferă două analize gratuite în fiecare zi. Pentru mai multe, abonează-te lunar sau anual pe Google Play — prima lună este gratuită. Bitey te întreabă înainte de trimiterea primei fotografii sau descrieri, iar jurnalul tău nu părăsește niciodată telefonul.
 
 Urmărește-ți progresul
 • Vezi ziua ta față de ce consumi, calculat din cântăriri și din ce notezi
@@ -560,13 +560,13 @@ Registra a tu manera
 • Guarda picoteos rápidos y vuelve a registrar tus comidas habituales con un toque
 • En un reloj Wear OS: el día de un vistazo, un picoteo rápido o una comida habitual registrados con un toque, y los paneles y complicaciones de Bitey
 
-Bitey AI (cinco análisis gratis al día)
+Bitey AI (dos análisis gratis al día)
 • Fotografía tu plato, o simplemente describe tu comida, y obtén una estimación de los alimentos, las raciones y los nutrientes
 • Revisa y ajusta cada ración antes de guardar
 • Haz la foto y sigue con lo tuyo: Bitey registra la comida en segundo plano y te avisa
 • Fotografía lo que sobró, para contar solo lo que comiste
 • Si quieres, interpreta los platos ambiguos como vegetarianos, veganos o pescetarianos
-Bitey AI te da cinco análisis gratis cada día. Para más, suscríbete al mes o al año en Google Play: el primer mes es gratis. Bitey te pregunta antes de enviar la primera foto o descripción, y tu diario nunca sale del móvil.
+Bitey AI te da dos análisis gratis cada día. Para más, suscríbete al mes o al año en Google Play: el primer mes es gratis. Bitey te pregunta antes de enviar la primera foto o descripción, y tu diario nunca sale del móvil.
 
 Sigue tu progreso
 • Compara tu día con lo que gastas, calculado a partir de tus pesajes y de lo que registras
@@ -612,13 +612,13 @@ Bitey — приватний щоденник харчування, що збе�
 • Зберігайте швидкі перекуси й повторно записуйте звичні страви одним дотиком
 • На годиннику з Wear OS: день одним поглядом, швидкий перекус або звична страва одним дотиком, а також плитки й ускладнення Bitey
 
-Bitey AI (п’ять безкоштовних аналізів на день)
+Bitey AI (два безкоштовні аналізи на день)
 • Сфотографуйте тарілку або просто опишіть страву й отримайте оцінку продуктів, порцій і поживності
 • Перевірте й змініть кожну порцію перед збереженням
 • Зробіть фото й займайтеся своїми справами: Bitey запише страву у фоні й повідомить вас
 • Сфотографуйте залишки, щоб урахувати лише з’їдене
 • За бажанням він сприймає неоднозначні страви як вегетаріанські, веганські чи пескетаріанські
-Bitey AI дає п’ять безкоштовних аналізів щодня. Щоб отримати більше, оформіть щомісячну або щорічну підписку Google Play — перший місяць безкоштовний. Bitey питає перед надсиланням першого фото чи опису, а ваш щоденник ніколи не залишає телефон.
+Bitey AI дає два безкоштовні аналізи щодня. Щоб отримати більше, оформіть щомісячну або щорічну підписку Google Play — перший місяць безкоштовний. Bitey питає перед надсиланням першого фото чи опису, а ваш щоденник ніколи не залишає телефон.
 
 Стежте за прогресом
 • Порівнюйте день із витратою енергії, розрахованою з ваших зважувань і записів
