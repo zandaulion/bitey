@@ -650,5 +650,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI no ha podido leer esta comida. Inténtalo de nuevo o elimínala.",
   "Meal photo": "Foto de comida",
   "Try again": "Reintentar",
-  "Delete": "Eliminar"
+  "Delete": "Eliminar",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "Bitey AI registró esto mientras no estabas. Revisa los alimentos y las cantidades y confirma.",
+  "Looks right": "Está bien",
+  "Checked": "Revisada",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI ya la había registrado en el día que estabas viendo."
 }

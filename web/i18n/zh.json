@@ -616,5 +616,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI 无法读取这份餐食。请重试或删除。",
   "Meal photo": "餐食照片",
   "Try again": "重试",
-  "Delete": "删除"
+  "Delete": "删除",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "你不在时 Bitey AI 记录了这份餐食。请检查食物和分量，然后确认。",
+  "Looks right": "没问题",
+  "Checked": "已检查",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI 已经把它记录到你正在查看的那一天了。"
 }

@@ -55,7 +55,7 @@ internal fun textZoomFor(fontScale: Float): Int =
  * and camera permissions) available without turning on unsafe file access.
  */
 private class PlateAssetClient(
-    context: Context,
+    private val context: Context,
     private val photos: LocalPhotoStore,
     private val captures: PlateCaptureStore,
 ) : WebViewClient() {
@@ -74,6 +74,18 @@ private class PlateAssetClient(
         if (photoId != null && request.method == "GET") {
             val opened = runCatching { photos.open(photoId) }.getOrNull()
             if (opened != null) return WebResourceResponse(opened.first.mimeType, null, opened.second)
+        }
+        // A Bitey AI reading still on its way, shown as its thumbnail on the
+        // day view (PendingReadings.kt).
+        val pendingId = request.url.encodedPath
+            ?.takeIf { it.startsWith("/pending-photo/") }
+            ?.removePrefix("/pending-photo/")
+        if (pendingId != null && request.method == "GET") {
+            val file = runCatching { PendingReadings.photoFile(context.applicationContext, pendingId) }.getOrNull()
+            if (file != null) {
+                val mimeType = if (file.name.endsWith(".png")) "image/png" else "image/jpeg"
+                return WebResourceResponse(mimeType, null, file.inputStream())
+            }
         }
         // A photograph native code has just taken or picked, which the page
         // fetches once and turns into an ordinary File.
@@ -263,12 +275,13 @@ private class PlateNativeBridge(
      *   background; answers its id, or "" if it could not be stored.
      * - "list": the readings in progress or needing the person, as JSON.
      * - "retry", id / "discard", id.
+     * - "day", id, day: file a reading not yet answered to another day.
      * The request carries the same fields the page sends for a reading in
      * the foreground; native code re-checks them when it sends.
      */
     @JavascriptInterface
     fun readings(operation: String, first: String, second: String): String {
-        if (operation !in setOf("queue", "list", "retry", "discard")) return ""
+        if (operation !in setOf("queue", "list", "retry", "discard", "day")) return ""
         if (first.length > BiteyAnalysis.MAX_IMAGE_CHARS + 4096 || second.length > 64_000) return ""
         return readingsHandler(operation, first, second)
     }
@@ -773,6 +786,7 @@ class PlateWebView(
             "list" -> PendingReadings.listJson(app)
             "retry" -> { PendingReadings.retry(app, first); "" }
             "discard" -> { PendingReadings.discard(app, first); "" }
+            "day" -> if (PendingReadings.setDay(app, first, second)) "ok" else ""
             else -> ""
         }
     }

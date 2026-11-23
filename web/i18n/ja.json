@@ -616,5 +616,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI はこの食事を読み取れませんでした。もう一度試すか、削除してください。",
   "Meal photo": "食事の写真",
   "Try again": "もう一度",
-  "Delete": "削除"
+  "Delete": "削除",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "不在の間に Bitey AI が記録しました。食品と量を確認してから確定してください。",
+  "Looks right": "これでOK",
+  "Checked": "確認しました",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI はすでに表示中の日に記録していました。"
 }

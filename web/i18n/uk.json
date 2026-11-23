@@ -668,5 +668,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI не вдалося прочитати цю страву. Спробуйте ще раз або видаліть її.",
   "Meal photo": "Фото страви",
   "Try again": "Спробувати ще",
-  "Delete": "Видалити"
+  "Delete": "Видалити",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "Bitey AI записав це, поки вас не було. Перевірте продукти й кількість, а тоді підтвердьте.",
+  "Looks right": "Усе правильно",
+  "Checked": "Перевірено",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI вже записав її на день, який ви переглядали."
 }

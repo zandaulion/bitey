@@ -190,6 +190,23 @@ object PendingReadings {
         onChanged?.invoke()
     }
 
+    /**
+     * Files a reading under another day, as long as it has not been saved
+     * yet -- the "Log it there instead" on a photo taken another day. Works
+     * while it is being sent too: the day is read again when it is saved.
+     * False if it was already answered and saved; the page then says so.
+     */
+    fun setDay(context: Context, id: String, day: String): Boolean {
+        if (!ID.matches(id) || !day.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) return false
+        synchronized(lock) {
+            val reading = dao(context).get(id) ?: return false
+            val template = JSONObject(reading.templateJson).put("day", day)
+            dao(context).save(reading.copy(templateJson = template.toString(), updatedAt = System.currentTimeMillis()))
+        }
+        onChanged?.invoke()
+        return true
+    }
+
     fun discard(context: Context, id: String) {
         if (!ID.matches(id)) return
         WorkManager.getInstance(context).cancelUniqueWork("reading-$id")
@@ -318,7 +335,9 @@ object PendingReadings {
     private fun saveEntry(context: Context, reading: PendingReadingEntity, estimate: JSONObject, totals: JSONObject?): Boolean {
         val items = estimate.optJSONArray("items") ?: return false
         if (items.length() == 0 || totals == null) return false
-        val template = JSONObject(reading.templateJson)
+        // Read again rather than taken from the copy the send started with:
+        // the day may have been changed while the reading was on its way.
+        val template = JSONObject(dao(context).get(reading.id)?.templateJson ?: reading.templateJson)
         val day = template.optString("day").takeIf { it.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) } ?: return false
         val now = System.currentTimeMillis()
         val entryId = UUID.randomUUID().toString()

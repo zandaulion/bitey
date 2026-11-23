@@ -1048,9 +1048,12 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   display: inline-block; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink-3); border: 1px solid currentColor; border-radius: 5px; padding: 0 4px;
 }
-/* Saved by Bitey AI in the background and not yet looked at: amber, so it
-   reads as "needs a glance" rather than as a fault. */
-.badge-est.badge-unchecked { color: var(--warn); font-weight: 600; }
+/* Saved by Bitey AI in the background and not yet looked at: a small amber
+   dot after the macros -- a hint, not a warning. */
+.unchecked-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--warn); margin-left: 6px; vertical-align: middle; flex: none;
+}
 
 /* Readings still on their way sit above the day's entries, lighter, so they
    read as not-yet-entries. One that needs the person gets its buttons. */

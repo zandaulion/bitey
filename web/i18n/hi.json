@@ -640,5 +640,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI यह भोजन नहीं पढ़ सका। फिर कोशिश करें या इसे हटा दें।",
   "Meal photo": "भोजन की फ़ोटो",
   "Try again": "फिर कोशिश करें",
-  "Delete": "हटाएँ"
+  "Delete": "हटाएँ",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "आपकी ग़ैरमौजूदगी में Bitey AI ने इसे दर्ज किया। खाने और मात्रा जाँचें, फिर पुष्टि करें।",
+  "Looks right": "सही है",
+  "Checked": "जाँच लिया",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI इसे पहले ही देखे जा रहे दिन में दर्ज कर चुका था।"
 }

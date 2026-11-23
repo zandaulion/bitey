@@ -660,5 +660,9 @@
   "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI nu a putut citi această masă. Încearcă din nou sau șterge-o.",
   "Meal photo": "Fotografie cu masa",
   "Try again": "Încearcă din nou",
-  "Delete": "Șterge"
+  "Delete": "Șterge",
+  "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "Bitey AI a înregistrat asta cât ai fost plecat. Verifică alimentele și cantitățile, apoi confirmă.",
+  "Looks right": "Arată bine",
+  "Checked": "Verificată",
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI o înregistrase deja în ziua pe care o vedeai."
 }

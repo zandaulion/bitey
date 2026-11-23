@@ -466,7 +466,12 @@ function renderSplit(split) {
 function badgeFor(entry) {
   // A meal Bitey AI saved on its own, in the background: said first and
   // plainly, until the person opens it and confirms or edits it.
-  if (entry.checked === false) return `<span class="badge-est badge-unchecked">${esc(t('Not checked'))}</span>`;
+  if (entry.checked === false) {
+    // A small dot, not a label: a hint that Bitey AI saved this on its own,
+    // gone once the meal is confirmed. Named for screen readers.
+    const label = esc(t('Not checked'));
+    return `<span class="unchecked-dot" role="img" aria-label="${label}" title="${label}"></span>`;
+  }
   if (hasTextItems(entry)) return `<span class="badge-est">${esc(t('Estimated from text'))}</span>`;
   const fromPhoto = (entry.items || []).some((i) => i.source === 'photo');
   if (!fromPhoto) return '';
@@ -2540,15 +2545,48 @@ async function handOffReading(body, takenOn = null) {
   const id = await queueNativeReading(body, { day: state.photoDay || state.day, meal: guessMeal(takenOn) });
   if (!id) return false;
   track('reading_queued', { mode: body.mode === 'text' ? 'text' : 'photo' });
-  aiBusy(t('Reading your meal… Bitey will log it and let you know.'));
   const session = state.reviewSession;
-  setTimeout(() => {
-    if (state.reviewSession !== session || !screenIsOpen('review')) return;
+  state.queuedReading = { id, session };
+  // A photo taken on another day than the one being viewed comes with the
+  // "Log it there instead" offer (offerPhotoDay). The waiting overlay would
+  // cover it, so then the sheet stays usable for a few seconds and says what
+  // is happening in a toast; the reading is already on its way meanwhile.
+  const deciding = body.mode !== 'text' && $('photo-day-note') && !$('photo-day-note').hidden;
+  if (deciding) {
     idle();
-    closeReview();
-  }, 2000);
+    toast(t('Reading your meal… Bitey will log it and let you know.'));
+  } else {
+    // busy, not aiBusy: the line must stay put, not rotate through the
+    // playful ones meant for a wait.
+    busy(t('Reading your meal… Bitey will log it and let you know.'));
+  }
+  setTimeout(() => closeHandedOff(session), deciding ? 8000 : 2000);
   renderPendingReadings();
   return true;
+}
+
+function closeHandedOff(session) {
+  if (state.reviewSession !== session || !screenIsOpen('review')) return;
+  idle();
+  closeReview();
+}
+
+/**
+ * The day for a photo was chosen in the sheet ("Log it there instead", "Use
+ * today"). A reading already handed off is moved to it; one saved before the
+ * choice is said to be, so it can be moved by hand.
+ */
+function photoDayChosen(day, label) {
+  const queued = state.queuedReading;
+  if (!queued || queued.session !== state.reviewSession) {
+    toast(day === localDayKey() ? t('This entry will be logged to today') : t('This entry will be logged to {0}', label));
+    return;
+  }
+  const moved = window.PlateNative?.readings?.('day', queued.id, day) === 'ok';
+  toast(moved
+    ? (day === localDayKey() ? t('This entry will be logged to today') : t('This entry will be logged to {0}', label))
+    : t('Bitey AI had already logged it to the day you were viewing.'));
+  setTimeout(() => closeHandedOff(queued.session), 1200);
 }
 
 /** What each state of a background reading says on the day view. */
@@ -2580,7 +2618,9 @@ function renderPendingReadings() {
     const stuck = r.state === 'needs_you' || r.state === 'failed';
     const what = r.kind === 'text' && r.description ? esc(r.description) : esc(t('Meal photo'));
     return `<li class="entry pending-reading${stuck ? ' stuck' : ''}" data-reading="${esc(r.id)}">
-      <div class="noimg food-emoji" aria-hidden="true">${r.kind === 'text' ? '✍️' : '📷'}</div>
+      ${r.photo
+        ? `<img src="/pending-photo/${encodeURIComponent(r.id)}" alt="" loading="lazy">`
+        : `<div class="noimg food-emoji" aria-hidden="true">${r.kind === 'text' ? '✍️' : '📷'}</div>`}
       <div class="entry-main">
         <div class="entry-foods">${what}</div>
         <div class="entry-meta"><span>${esc(pendingReadingLine(r))}</span></div>
@@ -2637,7 +2677,7 @@ function offerPhotoDay(takenOn) {
     $('photo-day-today').addEventListener('click', () => {
       state.photoDay = today;
       note.hidden = true;
-      toast(t('This entry will be logged to today'));
+      photoDayChosen(today, null);
     });
     return;
   }
@@ -2656,7 +2696,7 @@ function offerPhotoDay(takenOn) {
     // week back and the screen showed an empty today.
     state.photoDay = photoDay;
     note.hidden = true;
-    toast(t('This entry will be logged to {0}', label));
+    photoDayChosen(photoDay, label);
   });
 }
 
@@ -2879,7 +2919,11 @@ function openReview(mode, entry = null) {
   $('review-heading').textContent = t(SHEET_TITLES[mode]);
   // Both through t(): this was the one untranslated label on the sheet, and
   // it is the button every entry ends on.
-  $('save-entry').textContent = mode === 'edit' ? t('Save changes') : t('Save');
+  // A meal Bitey AI saved in the background: the sheet says so, and its
+  // button confirms it as it is until something is changed.
+  state.unchecked = mode === 'edit' && entry?.checked === false;
+  $('review-unchecked').hidden = !state.unchecked;
+  syncSaveLabel();
   const dupBtn = $('dup-entry');
   if (dupBtn) {
     dupBtn.hidden = mode !== 'edit';
@@ -3138,6 +3182,17 @@ function snapshotEstimate() {
   });
 }
 
+/** "Looks right" for an unchecked meal not yet changed, "Save changes" once
+ * it is; saving either way marks it checked (updateEntry in local-api.js). */
+function syncSaveLabel() {
+  const button = $('save-entry');
+  if (!button) return;
+  if (state.mode !== 'edit') button.textContent = t('Save');
+  else button.textContent = state.unchecked && !hasUnsavedEdit() ? t('Looks right') : t('Save changes');
+}
+$('review').addEventListener('input', () => syncSaveLabel());
+$('review').addEventListener('click', () => setTimeout(syncSaveLabel, 0));
+
 function hasUnsavedEdit() {
   return Boolean(state.editingId && state.openedAs && snapshotEstimate() !== state.openedAs);
 }
@@ -3290,6 +3345,7 @@ function renderReview() {
 
   renderMealChips();
   renderGrazingCatchup();
+  syncSaveLabel();
   $('save-entry').disabled = est.items.length === 0;
   if ($('dup-entry')) $('dup-entry').disabled = est.items.length === 0;
 }
@@ -4322,6 +4378,8 @@ $('save-entry').addEventListener('click', async () => {
     $('correct-form').hidden = true;
     $('correct-toggle').setAttribute('aria-expanded', 'false');
   }
+  // Read before saving: once saved there is no edit left to compare.
+  const confirmedAsIs = state.unchecked && !hasUnsavedEdit();
   state.busy = true;
   $('save-entry').disabled = true;
   busy(t('Saving…'));
@@ -4403,7 +4461,7 @@ $('save-entry').addEventListener('click', async () => {
     // the close must not ask about it.
     state.openedAs = null;
     closeReview();
-    toast(state.mode === 'edit' ? 'Updated' : 'Logged');
+    toast(confirmedAsIs ? t('Checked') : state.mode === 'edit' ? 'Updated' : 'Logged');
     if (state.mode !== 'edit') celebrateEntry();
     await loadDay();
   } catch (err) {
