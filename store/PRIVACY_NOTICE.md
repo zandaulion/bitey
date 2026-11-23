@@ -1,6 +1,6 @@
 # Bitey — Private Food Log: Privacy Policy
 
-**Last updated:** 27 October 2026
+**Last updated:** 23 November 2026
 **Developer:** Zandaulion
 **Privacy contact:** **zandaulion@gmail.com**
 
@@ -15,13 +15,15 @@ use third-party analytics or advertising SDKs. Two features send something off
 your device, and only when you use them:
 
 - **Barcode lookups** send a barcode you scanned directly to Open Food Facts.
-- **Bitey AI**, an optional paid feature, sends a meal description you type or a food photograph you choose —
+- **Bitey AI**, an optional feature — a few free readings a day, and a paid
+  subscription for more — sends a meal description you type or a food photograph you choose —
   and any correction you type, and your diet if you turn that on — to Bitey’s
   analysis server, where Google’s Gemini reads it. Bitey asks for your consent
   before the first photograph is sent, and separately before the first meal description is sent.
 
-Using Bitey AI also involves two Google services, Google Play's billing and
-Google's app-verification check, which are described below. Nothing else
+Using Bitey AI also involves Google services — an anonymous sign-in for the
+free readings, Google Play's billing for the subscription, and Google's
+app-verification check — which are described below. Nothing else
 leaves your device: not your diary, weight, other photos, or your profile —
 apart from your diet, and only if you choose to send it as described below,
 and today's totals and meal names sent to your own watch if you install
@@ -48,6 +50,12 @@ device where you use it:
   without being asked again; whether you have agreed to send photographs and
   meal descriptions to Bitey AI; and whether your diet is used when reading
   photographs.
+- Bitey AI readings still on their way: when you leave Bitey while a photo or
+  description is being read, or have no connection, the photo or description
+  is kept in app-private storage until it has been read, then saved to your
+  diary like any other entry and removed from the queue. A reading nobody
+  acts on is deleted after seven days.
+- How many free Bitey AI readings the server last said you have left today.
 
 This information is used only to provide Bitey’s diary, nutrition, trend,
 search, language, and backup features on your device. We do not receive a
@@ -63,8 +71,10 @@ Bitey AI, as described next.
 
 ## Bitey AI meal analysis
 
-Bitey AI is an optional paid subscription, bought and managed through Google
-Play. When you use it, Bitey estimates what is on your plate from a photograph.
+Bitey AI is optional. Without a subscription you get a few free readings a
+day — currently five, plus one correction; with the paid subscription, bought
+and managed through Google Play, you get more. When you use it, Bitey
+estimates what is on your plate from a photograph.
 Before the first photograph is sent, Bitey shows what will be sent and asks for
 your consent. You can withdraw consent at any time in Bitey’s Settings; the
 next photograph will ask again.
@@ -81,8 +91,14 @@ by the developer in Belgium (Google Cloud region europe-west1):
   it on, and you can turn it off at any time. It helps the model read a dish
   that could be made either way, such as a wrap whose filling could be meat or
   falafel. Other diet settings, and the rest of your profile, are never sent.
-- A Google Play purchase token: an opaque code that identifies your
-  subscription purchase. It is not your Google account and does not name you.
+- If you subscribe, a Google Play purchase token: an opaque code that
+  identifies your subscription purchase. It is not your Google account and
+  does not name you.
+- For the free readings, a Firebase ID token from Bitey's anonymous sign-in
+  (described below): a short-lived code that identifies this installation of
+  Bitey, not you. It is not linked to your name, email or Google account.
+- A random code for each reading, so that a reading resent after a lost
+  connection is not counted twice.
 - Standard connection information that any internet service receives, such as
   your IP address and request time.
 
@@ -91,22 +107,30 @@ are not sent. A diet can suggest religious or philosophical beliefs, which is
 why it is sent only when you choose to send it.
 
 **What happens to it.** The server asks Google Play whether the purchase token
-belongs to an active Bitey AI subscription, then passes the photograph, your
+belongs to an active Bitey AI subscription — or, for the free readings,
+checks the anonymous sign-in and how many free readings are left today — then
+passes the photograph, your
 correction and, if you turned it on, your diet to Google’s Gemini, which returns an estimate of the foods and
 nutrition. Google processes the photograph on the developer’s behalf under the
 Gemini API’s terms for paid services, which do not permit Google to use it to
 improve Google’s products. Google may keep it for a limited period to detect
 abuse, as those terms describe. Gemini is a separate Google service from the
 server: while the server runs in Belgium, Gemini may process the photograph in
-Google data centres outside the European Union. The estimate comes back to your device, where
-you review and save it like any other diary entry.
+Google data centres outside the European Union. The estimate comes back to
+your device. If you are still looking at it, you review and save it like any
+other diary entry; if you have left Bitey, Bitey saves it to your diary,
+marked as not yet checked, and — if you allow notifications — tells you so.
+The notification is shown by your device; nothing about it is sent anywhere.
 
 **What is kept.** Bitey’s server does not store the photograph, your
-correction, your diet, or the estimate. To enforce the daily limit of readings, it keeps a
-counter for each subscription and day: a one-way hash of the purchase token,
-the date, and the number of readings used. The token itself is not stored. The
-counters are held in Belgium too, and each is deleted automatically seven days
-after its day ends. The server’s
+correction, your diet, or the estimate. To enforce the daily limits, it keeps
+a counter for each subscription, or each anonymous installation, and day: a
+one-way hash of the purchase token or of the anonymous sign-in's user ID, the
+date, the number of readings (and, for free readings, corrections) used, and
+the random codes of that day's readings. Neither the token nor the user ID is
+stored. It also keeps one count per day of all free readings across the app,
+which identifies nobody. The counters are held in Belgium too, and each is
+deleted automatically seven days after its day ends. The server’s
 own logs record technical details — the hash, token counts, whether a request
 succeeded, and, when Bitey AI turns a reading down, the reason (for example
 "no food found") and whether it was a photo, a description or a leftovers
@@ -119,8 +143,9 @@ not use them to work out where you are.
 **Meal descriptions.** Bitey AI can also estimate a meal from a description
 you type, when you tap Estimate meal, instead of from a photograph. Bitey asks
 for separate consent before the first description is sent. A text request
-sends the description, your app language and the Google Play purchase token to
-the same analysis server, which checks them the same way; it counts towards
+sends the description, your app language and the same purchase token or
+anonymous sign-in token to the same analysis server, which checks them the
+same way; it counts towards
 the same daily limit as photographs. No photograph, diet or profile goes with
 it. Gemini processes the description under the same terms as a photograph, and
 Bitey’s server does not store it, in its database or in its logs. You can
@@ -129,8 +154,18 @@ the food table and typing exact nutrition values do not use Bitey AI.
 
 ## Google services used with Bitey AI
 
-Two Google libraries built into Bitey contact Google, and only in connection
-with Bitey AI. Neither receives your meal descriptions, photographs, diary, weight, or profile.
+Three Google libraries built into Bitey contact Google, and only in
+connection with Bitey AI. None receives your meal descriptions, photographs,
+diary, weight, or profile.
+
+**Anonymous sign-in (Firebase Authentication).** The first time you use a
+Bitey AI feature, Bitey signs in to Firebase, Google's app platform,
+anonymously: there is no account screen, and no name, email address or Google
+account is involved. Firebase creates a random user ID for this installation
+and keeps it with its creation and last sign-in times; Bitey's server uses it
+only to count your free readings. Firebase deletes an anonymous account that
+has not been used for 30 days. Uninstalling Bitey or clearing its storage
+leaves the old account unused, and Bitey signs in afresh the next time.
 
 **Google Play Billing.** Bitey AI is bought and managed through Google Play.
 Bitey connects to Google Play's billing service only after you first use a
@@ -147,7 +182,7 @@ genuine device. To answer, Google Play checks the app's package, version,
 signing certificate and licence, and an attestation from your device; Firebase,
 Google's app platform, then issues a short-lived token that Bitey's server
 checks before it accepts the photograph or description. Firebase also receives technical
-details such as the library and Android versions. This keeps the paid service
+details such as the library and Android versions. This keeps the service
 from being used by copies of the app or by scripts. Bitey does not create an
 identifier for you or your device for this, and Bitey's server does not store
 the token.
@@ -225,16 +260,17 @@ you saved elsewhere; delete those files yourself if you no longer want them.
 Cached barcode foods are removed with Bitey’s app storage.
 
 For Bitey AI, the daily reading counters described above are deleted
-automatically seven days after their day ends, and the server’s request logs
-after 30 days. Your subscription itself is held
+automatically seven days after their day ends, the server’s request logs
+after 30 days, and an unused anonymous sign-in after 30 days. Your subscription itself is held
 by Google Play; cancel it in Google Play’s subscription settings.
 
 ## Security
 
 Bitey keeps diary data in Android app-private storage and limits its packaged
 WebView to the app’s own local interface. Optional Open Food Facts requests and
-Bitey AI requests use HTTPS. The Google Play purchase token is handled only by
-Bitey’s native code and is never exposed to the app’s web interface. No method of storage or transmission is completely secure, so protect
+Bitey AI requests use HTTPS. The Google Play purchase token and the anonymous
+sign-in token are handled only by Bitey’s native code and are never exposed to
+the app’s web interface. No method of storage or transmission is completely secure, so protect
 your device and any backups with the security controls available to you.
 
 ## Children and health information
@@ -275,3 +311,9 @@ privacy contact shown at the top of this notice.
    `firebase firestore:indexes --project plate-cc703`.
 5. Update this notice, the Data safety form, and the in-app disclosure before
    enabling cloud sync, analytics, or any other new third-party data flow.
+6. From the free tier (November 2026): the TTL policies on `ai_usage_free` and
+   `ai_usage_free_pool`, field `expireAt`, keep the same seven-day retention.
+   Firebase Authentication's auto clean-up of anonymous accounts after 30 days
+   must stay on. The Data safety form gains "Device or other IDs" (the
+   anonymous user ID): collected, not shared, for app functionality and fraud
+   prevention.

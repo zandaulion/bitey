@@ -119,9 +119,9 @@ android {
         resValue("string", "app_name", "Bitey")
         resValue("string", "analyse_url", PRODUCTION_ANALYSE_URL)
         resValue("string", "beta_tester_token", "")
-        // The free tier (FreeTier.kt): on in the beta while it is tested,
-        // and in release once it ships with its server and store changes.
-        resValue("bool", "free_tier_enabled", "false")
+        // The free tier (FreeTier.kt): five free Bitey AI readings a day
+        // without a subscription, counted by the server.
+        resValue("bool", "free_tier_enabled", "true")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
     }
@@ -159,7 +159,6 @@ android {
             resValue("string", "analyse_url", BETA_ANALYSE_URL)
             resValue("string", "beta_tester_token", betaTesterToken)
             resValue("string", "beta_app_check_debug_secret", betaAppCheckDebugSecret)
-            resValue("bool", "free_tier_enabled", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
     }
