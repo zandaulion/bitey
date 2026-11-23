@@ -2,11 +2,14 @@
 // `bitey-ai-beta` codebase (scripts/deploy-beta-function.sh) and called only
 // by the beta build type of the Android app.
 //
-// It differs from production in three ways, and in nothing else:
+// It differs from production in four ways, and in nothing else:
 // - its usage counters and free-tier settings live in their own collections
 //   (beta_*), so test readings never mix with real ones and its free tier can
 //   be set differently -- a small pool, say, to reach "used up" quickly;
 // - one instance at most;
+// - every reading is held back BETA_DELAY_MS (5 s unless set) after the model
+//   answers, so slow readings -- leaving the app mid-reading, the background
+//   queue -- can be tested; the model alone answers in two or three seconds;
 // - a tester token listed in BETA_TESTER_TOKENS counts as a live
 //   subscription, so the paid path can be tested from an app Play will not
 //   sell to. Every other token is still verified with Google Play.
@@ -43,5 +46,7 @@ export const analyseBeta = buildAnalyse({
     pool: 'beta_ai_usage_free_pool',
     freeConfig: 'beta_config/free_tier'
   },
-  maxInstances: 1
+  maxInstances: 1,
+  delayMs: Number.isFinite(Number(process.env.BETA_DELAY_MS)) && process.env.BETA_DELAY_MS !== undefined
+    ? Number(process.env.BETA_DELAY_MS) : 5000
 });

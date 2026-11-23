@@ -7,4 +7,19 @@
     <string name="widget_photo">写真</string>
     <string name="widget_barcode">バーコード</string>
     <string name="widget_manual">入力</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">食事の解析</string>
+    <string name="readings_channel_description">撮影または入力した食事を Bitey AI が記録したとき、または確認が必要なとき。</string>
+    <string name="reading_logged_title">記録しました：%1$s</string>
+    <string name="reading_logged_text">%1$d kcal。タップして確認してください。</string>
+    <plurals name="readings_logged_title">
+            <item quantity="other">%d件の食事を記録しました</item>
+    </plurals>
+    <string name="readings_logged_text">タップして確認してください。</string>
+    <string name="reading_public">食事を記録しました</string>
+    <string name="reading_failed_title">食事を読み取れませんでした</string>
+    <string name="reading_needs_you_title">食事の解析で確認が必要です</string>
+    <string name="reading_needs_you_text">タップして詳細を確認してください。</string>
 </resources>

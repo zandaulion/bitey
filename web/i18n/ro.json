@@ -651,5 +651,14 @@
     "few": "Îți mai rămân {0} analize gratuite azi",
     "other": "Îți mai rămân {0} de analize gratuite azi"
   },
-  "Read again. That was today’s free correction.": "Citită din nou. A fost corectarea gratuită de azi."
+  "Read again. That was today’s free correction.": "Citită din nou. A fost corectarea gratuită de azi.",
+  "Not checked": "Neverificată",
+  "Reading your meal… Bitey will log it and let you know.": "Îți citesc masa… Bitey o va înregistra și te va anunța.",
+  "Reading your meal…": "Îți citesc masa…",
+  "Waiting for internet. Bitey will retry.": "Aștept internetul. Bitey va încerca din nou.",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI este ocupat. Încerc din nou în curând.",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI nu a putut citi această masă. Încearcă din nou sau șterge-o.",
+  "Meal photo": "Fotografie cu masa",
+  "Try again": "Încearcă din nou",
+  "Delete": "Șterge"
 }

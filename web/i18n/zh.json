@@ -607,5 +607,14 @@
   "Free readings are used up for today. Try again tomorrow.": "今天的免费分析名额已用完。请明天再试。",
   "Bitey could not verify the app. Try again.": "Bitey 无法验证此应用。请重试。",
   "{0} free readings left today": "今天还剩 {0} 次免费分析",
-  "Read again. That was today’s free correction.": "已重新读取。这是今天的免费修正。"
+  "Read again. That was today’s free correction.": "已重新读取。这是今天的免费修正。",
+  "Not checked": "未检查",
+  "Reading your meal… Bitey will log it and let you know.": "正在读取你的餐食… Bitey 会记录下来并通知你。",
+  "Reading your meal…": "正在读取你的餐食…",
+  "Waiting for internet. Bitey will retry.": "正在等待网络。Bitey 会重试。",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI 繁忙，稍后会重试。",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI 无法读取这份餐食。请重试或删除。",
+  "Meal photo": "餐食照片",
+  "Try again": "重试",
+  "Delete": "删除"
 }

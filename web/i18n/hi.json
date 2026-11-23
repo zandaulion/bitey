@@ -631,5 +631,14 @@
     "one": "आज {0} मुफ़्त विश्लेषण बाकी है",
     "other": "आज {0} मुफ़्त विश्लेषण बाकी हैं"
   },
-  "Read again. That was today’s free correction.": "दोबारा पढ़ा। यह आज का मुफ़्त सुधार था।"
+  "Read again. That was today’s free correction.": "दोबारा पढ़ा। यह आज का मुफ़्त सुधार था।",
+  "Not checked": "जाँचा नहीं गया",
+  "Reading your meal… Bitey will log it and let you know.": "आपका भोजन पढ़ा जा रहा है… Bitey इसे दर्ज करके आपको बताएगा।",
+  "Reading your meal…": "आपका भोजन पढ़ा जा रहा है…",
+  "Waiting for internet. Bitey will retry.": "इंटरनेट का इंतज़ार है। Bitey फिर कोशिश करेगा।",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI व्यस्त है। जल्द फिर कोशिश होगी।",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI यह भोजन नहीं पढ़ सका। फिर कोशिश करें या इसे हटा दें।",
+  "Meal photo": "भोजन की फ़ोटो",
+  "Try again": "फिर कोशिश करें",
+  "Delete": "हटाएँ"
 }

@@ -659,5 +659,14 @@
     "many": "Сьогодні лишилося {0} безкоштовних аналізів",
     "other": "Сьогодні лишилося {0} безкоштовного аналізу"
   },
-  "Read again. That was today’s free correction.": "Перечитано. Це було безкоштовне виправлення на сьогодні."
+  "Read again. That was today’s free correction.": "Перечитано. Це було безкоштовне виправлення на сьогодні.",
+  "Not checked": "Не перевірено",
+  "Reading your meal… Bitey will log it and let you know.": "Читаю вашу страву… Bitey запише її і повідомить вас.",
+  "Reading your meal…": "Читаю вашу страву…",
+  "Waiting for internet. Bitey will retry.": "Чекаю на інтернет. Bitey спробує ще раз.",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI зайнятий. Незабаром спробуємо ще раз.",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI не вдалося прочитати цю страву. Спробуйте ще раз або видаліть її.",
+  "Meal photo": "Фото страви",
+  "Try again": "Спробувати ще",
+  "Delete": "Видалити"
 }

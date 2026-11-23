@@ -684,5 +684,14 @@
     "many": "تبقّت {0} قراءة مجانية اليوم",
     "other": "تبقّت {0} قراءة مجانية اليوم"
   },
-  "Read again. That was today’s free correction.": "تمت إعادة القراءة. كان هذا تصحيح اليوم المجاني."
+  "Read again. That was today’s free correction.": "تمت إعادة القراءة. كان هذا تصحيح اليوم المجاني.",
+  "Not checked": "لم تتم مراجعتها",
+  "Reading your meal… Bitey will log it and let you know.": "جارٍ قراءة وجبتك… سيسجّلها Bitey ويُعلمك.",
+  "Reading your meal…": "جارٍ قراءة وجبتك…",
+  "Waiting for internet. Bitey will retry.": "بانتظار الإنترنت. سيعيد Bitey المحاولة.",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI مشغول. ستتم إعادة المحاولة قريبًا.",
+  "Bitey AI could not read this meal. Try again, or delete it.": "تعذّر على Bitey AI قراءة هذه الوجبة. حاول مجددًا أو احذفها.",
+  "Meal photo": "صورة وجبة",
+  "Try again": "حاول مجددًا",
+  "Delete": "حذف"
 }

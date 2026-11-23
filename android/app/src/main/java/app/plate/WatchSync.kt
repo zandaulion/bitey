@@ -158,6 +158,20 @@ object WatchSync {
         return next
     }
 
+    /**
+     * A meal saved on the phone without the page -- a background Bitey AI
+     * reading (PendingReadings) -- moves today's figures on the watch the way
+     * a bite logged from the watch does.
+     */
+    fun entryAdded(context: Context, totals: JSONObject, day: String) {
+        synchronized(lock) {
+            val snapshot = stored(context) ?: return
+            store(context, moved(snapshot, totals, +1, day))
+        }
+        publish(context)
+        onDiaryChanged?.invoke()
+    }
+
     /** What the watch is sent: everything but the entries behind the choices. */
     internal fun forWatch(snapshot: JSONObject): JSONObject {
         val copy = JSONObject(snapshot.toString())

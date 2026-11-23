@@ -139,9 +139,55 @@ interface PhotoDao {
     fun clear()
 }
 
+/**
+ * A Bitey AI reading waiting to be sent, or one that needs the person
+ * (PendingReadings.kt). Not diary data: a reading leaves this table when its
+ * entry is saved, and none of it goes into backups.
+ */
+@Entity(tableName = "pending_readings")
+data class PendingReadingEntity(
+    /** Also the request id the server charges once. */
+    @PrimaryKey val id: String,
+    val createdAt: Long,
+    /** "photo" or "text". */
+    val kind: String,
+    /** The page's request, without the image (that is in [photoFile]). */
+    val requestJson: String,
+    /** The entry the page prepared, without its foods and totals. */
+    val templateJson: String,
+    /** File name under filesDir/pending, or null for a typed meal. */
+    val photoFile: String?,
+    /** queued, sending, waiting_network, retrying, needs_you or failed. */
+    val state: String,
+    val attempts: Int,
+    /** The server's error code, for needs_you and failed. */
+    val lastError: String?,
+    /** The server's own words for that error, when it sent some. */
+    val lastMessage: String?,
+    val updatedAt: Long,
+)
+
+@Dao
+interface PendingReadingDao {
+    @Query("SELECT * FROM pending_readings ORDER BY createdAt ASC")
+    fun all(): List<PendingReadingEntity>
+
+    @Query("SELECT * FROM pending_readings WHERE id = :id LIMIT 1")
+    fun get(id: String): PendingReadingEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(reading: PendingReadingEntity)
+
+    @Query("DELETE FROM pending_readings WHERE id = :id")
+    fun delete(id: String): Int
+}
+
 @Database(
-    entities = [BarcodeFoodEntity::class, ProfileEntity::class, WeightEntity::class, DiaryEntryEntity::class, PhotoEntity::class],
-    version = 4,
+    entities = [
+        BarcodeFoodEntity::class, ProfileEntity::class, WeightEntity::class, DiaryEntryEntity::class,
+        PhotoEntity::class, PendingReadingEntity::class,
+    ],
+    version = 5,
     exportSchema = false,
 )
 abstract class PlateDatabase : RoomDatabase() {
@@ -150,6 +196,7 @@ abstract class PlateDatabase : RoomDatabase() {
     abstract fun weights(): WeightDao
     abstract fun entries(): DiaryEntryDao
     abstract fun photos(): PhotoDao
+    abstract fun pendingReadings(): PendingReadingDao
 
     companion object {
         @Volatile private var instance: PlateDatabase? = null
@@ -181,12 +228,23 @@ abstract class PlateDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS pending_readings (id TEXT NOT NULL, createdAt INTEGER NOT NULL, " +
+                        "kind TEXT NOT NULL, requestJson TEXT NOT NULL, templateJson TEXT NOT NULL, photoFile TEXT, " +
+                        "state TEXT NOT NULL, attempts INTEGER NOT NULL, lastError TEXT, lastMessage TEXT, " +
+                        "updatedAt INTEGER NOT NULL, PRIMARY KEY(id))",
+                )
+            }
+        }
+
         fun get(context: Context): PlateDatabase = instance ?: synchronized(this) {
             instance ?: Room.databaseBuilder(
                 context.applicationContext,
                 PlateDatabase::class.java,
                 "plate.db",
-            ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build().also { instance = it }
+            ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build().also { instance = it }
         }
     }
 }

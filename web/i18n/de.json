@@ -639,5 +639,14 @@
     "one": "Noch {0} kostenlose Analyse heute",
     "other": "Noch {0} kostenlose Analysen heute"
   },
-  "Read again. That was today’s free correction.": "Neu gelesen. Das war die kostenlose Korrektur für heute."
+  "Read again. That was today’s free correction.": "Neu gelesen. Das war die kostenlose Korrektur für heute.",
+  "Not checked": "Nicht geprüft",
+  "Reading your meal… Bitey will log it and let you know.": "Deine Mahlzeit wird gelesen… Bitey trägt sie ein und sagt dir Bescheid.",
+  "Reading your meal…": "Deine Mahlzeit wird gelesen…",
+  "Waiting for internet. Bitey will retry.": "Warte auf Internet. Bitey versucht es erneut.",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI ist ausgelastet. Gleich neuer Versuch.",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI konnte diese Mahlzeit nicht lesen. Versuch es noch einmal oder lösche sie.",
+  "Meal photo": "Mahlzeitfoto",
+  "Try again": "Noch einmal",
+  "Delete": "Löschen"
 }

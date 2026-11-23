@@ -607,5 +607,14 @@
   "Free readings are used up for today. Try again tomorrow.": "今日の無料解析の枠がなくなりました。明日もう一度お試しください。",
   "Bitey could not verify the app. Try again.": "Bitey がアプリを確認できませんでした。もう一度お試しください。",
   "{0} free readings left today": "今日の無料解析は残り{0}回",
-  "Read again. That was today’s free correction.": "読み直しました。今日の無料の修正を使いました。"
+  "Read again. That was today’s free correction.": "読み直しました。今日の無料の修正を使いました。",
+  "Not checked": "未確認",
+  "Reading your meal… Bitey will log it and let you know.": "食事を読み取っています… Bitey が記録して、お知らせします。",
+  "Reading your meal…": "食事を読み取っています…",
+  "Waiting for internet. Bitey will retry.": "インターネット接続を待っています。Bitey が再試行します。",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI が混み合っています。まもなく再試行します。",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI はこの食事を読み取れませんでした。もう一度試すか、削除してください。",
+  "Meal photo": "食事の写真",
+  "Try again": "もう一度",
+  "Delete": "削除"
 }

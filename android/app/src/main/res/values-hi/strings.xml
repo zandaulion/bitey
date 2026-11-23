@@ -7,4 +7,20 @@
     <string name="widget_photo">फ़ोटो</string>
     <string name="widget_barcode">बारकोड</string>
     <string name="widget_manual">लिखें</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">भोजन विश्लेषण</string>
+    <string name="readings_channel_description">जब Bitey AI आपकी खींची फ़ोटो या लिखे विवरण वाला भोजन दर्ज कर दे, या उसे आपकी ज़रूरत हो।</string>
+    <string name="reading_logged_title">दर्ज किया गया: %1$s</string>
+    <string name="reading_logged_text">%1$d kcal. जाँचने के लिए टैप करें।</string>
+    <plurals name="readings_logged_title">
+            <item quantity="one">%d भोजन दर्ज किया गया</item>
+            <item quantity="other">%d भोजन दर्ज किए गए</item>
+    </plurals>
+    <string name="readings_logged_text">जाँचने के लिए टैप करें।</string>
+    <string name="reading_public">एक भोजन दर्ज किया गया</string>
+    <string name="reading_failed_title">एक भोजन पढ़ा नहीं जा सका</string>
+    <string name="reading_needs_you_title">एक भोजन विश्लेषण को आपकी ज़रूरत है</string>
+    <string name="reading_needs_you_text">क्या हुआ यह देखने के लिए टैप करें।</string>
 </resources>

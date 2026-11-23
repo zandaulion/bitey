@@ -7,4 +7,24 @@
     <string name="widget_photo">الصورة</string>
     <string name="widget_barcode">الباركود</string>
     <string name="widget_manual">اكتب</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">قراءات الوجبات</string>
+    <string name="readings_channel_description">عندما يسجّل Bitey AI وجبة صوّرتها أو وصفتها، أو عندما يحتاج إليك للنظر في إحداها.</string>
+    <string name="reading_logged_title">تم التسجيل: %1$s</string>
+    <string name="reading_logged_text">%1$d سعرة. اضغط للتحقق منها.</string>
+    <plurals name="readings_logged_title">
+            <item quantity="zero">لم تُسجَّل أي وجبة</item>
+            <item quantity="one">سُجّلت وجبة واحدة</item>
+            <item quantity="two">سُجّلت وجبتان</item>
+            <item quantity="few">سُجّلت %d وجبات</item>
+            <item quantity="many">سُجّلت %d وجبة</item>
+            <item quantity="other">سُجّلت %d وجبة</item>
+    </plurals>
+    <string name="readings_logged_text">اضغط للتحقق منها.</string>
+    <string name="reading_public">تم تسجيل وجبة</string>
+    <string name="reading_failed_title">تعذّرت قراءة وجبة</string>
+    <string name="reading_needs_you_title">قراءة وجبة تحتاج إليك</string>
+    <string name="reading_needs_you_text">اضغط لمعرفة ما حدث.</string>
 </resources>

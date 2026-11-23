@@ -255,15 +255,13 @@ async function dietForAnalysis() {
   return ['vegetarian', 'vegan', 'pescatarian'].includes(diet) ? diet : null;
 }
 
-async function nativeAnalyse(body, extra = null) {
-  if (typeof window.PlateNative?.analysePhoto !== 'function') {
-    throw new LocalApiError('Photo analysis is not available in this build.', { code: 'not_configured', status: 503 });
-  }
+/** The request native code sends for a reading, in the foreground or not. */
+async function nativeRequest(body, extra = null) {
   // A leftovers reading compares two photos of a meal already read; the diet
   // has nothing to add there.
   const textMode = body?.mode === 'text';
   const diet = extra || textMode ? null : await dietForAnalysis();
-  const request = textMode ? {
+  return textMode ? {
     mode: 'text',
     description: typeof body.description === 'string' ? body.description : '',
     locale: document.documentElement.lang || 'en'
@@ -279,6 +277,41 @@ async function nativeAnalyse(body, extra = null) {
     // forwards these by name and nothing else.
     ...(extra || {})
   };
+}
+
+/**
+ * Hands a reading to native code to be sent in the background, and saved as
+ * an entry when it is answered (PendingReadings.kt). The template is the
+ * entry without its foods: the day, the meal, the photo's type. Answers the
+ * reading's id, or null where this build cannot (the PWA, an older app), in
+ * which case the reading is done in the foreground as before.
+ */
+export async function queueNativeReading(body, template) {
+  if (typeof window.PlateNative?.readings !== 'function') return null;
+  const request = await nativeRequest(body);
+  const id = window.PlateNative.readings('queue', JSON.stringify(request), JSON.stringify({
+    day: template.day,
+    meal: MEALS.includes(template.meal) ? template.meal : null,
+    photoMimeType: body?.mode === 'text' ? null : (body?.mimeType === 'image/png' ? 'image/png' : 'image/jpeg')
+  }));
+  return id || null;
+}
+
+/** Readings in progress or needing the person; [] where there are none. */
+export function nativePendingReadings() {
+  if (typeof window.PlateNative?.readings !== 'function') return [];
+  try { return JSON.parse(window.PlateNative.readings('list', '', '')) || []; } catch { return []; }
+}
+
+export function retryNativeReading(id) { window.PlateNative?.readings?.('retry', id, ''); }
+export function discardNativeReading(id) { window.PlateNative?.readings?.('discard', id, ''); }
+
+async function nativeAnalyse(body, extra = null) {
+  if (typeof window.PlateNative?.analysePhoto !== 'function') {
+    throw new LocalApiError('Photo analysis is not available in this build.', { code: 'not_configured', status: 503 });
+  }
+  const textMode = body?.mode === 'text';
+  const request = await nativeRequest(body, extra);
   const requestId = `analyse-${++nativeAnalysisSequence}`;
   const result = await new Promise((resolve) => {
     nativeAnalysisWaiters.set(requestId, resolve);
@@ -466,6 +499,9 @@ function publicEntry(row) {
     portionConfirmed: row.portionSource !== 'model',
     portionSource: row.portionSource || 'model',
     corrections: row.corrections || 0,
+    // False only for a meal Bitey AI saved in the background that nobody
+    // has looked at yet; every other entry was checked as it was saved.
+    checked: row.checked !== false,
     items: row.items || [],
     totals: row.totals || totalsOf({ items: row.items || [] })
   };
@@ -650,6 +686,9 @@ async function updateEntry(id, body) {
     : portionSourceOf({ portionConfirmed: body.portionConfirmed });
   const next = {
     ...row,
+    // Saving from the review sheet is the check, whether or not anything
+    // was changed.
+    checked: true,
     meal: MEALS.includes(body.meal) ? body.meal : null,
     note: typeof body.note === 'string' ? body.note.slice(0, 500) : null,
     portionSource,

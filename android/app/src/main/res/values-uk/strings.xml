@@ -7,4 +7,22 @@
     <string name="widget_photo">Фото</string>
     <string name="widget_barcode">Штрих-код</string>
     <string name="widget_manual">Ввести</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">Аналізи страв</string>
+    <string name="readings_channel_description">Коли Bitey AI записав страву, яку ви сфотографували чи описали, або потрібна ваша увага.</string>
+    <string name="reading_logged_title">Записано: %1$s</string>
+    <string name="reading_logged_text">%1$d ккал. Торкніться, щоб перевірити.</string>
+    <plurals name="readings_logged_title">
+            <item quantity="one">Записано %d страву</item>
+            <item quantity="few">Записано %d страви</item>
+            <item quantity="many">Записано %d страв</item>
+            <item quantity="other">Записано %d страви</item>
+    </plurals>
+    <string name="readings_logged_text">Торкніться, щоб перевірити.</string>
+    <string name="reading_public">Записано страву</string>
+    <string name="reading_failed_title">Не вдалося прочитати страву</string>
+    <string name="reading_needs_you_title">Аналіз страви потребує вашої уваги</string>
+    <string name="reading_needs_you_text">Торкніться, щоб побачити, що сталося.</string>
 </resources>

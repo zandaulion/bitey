@@ -10,4 +10,20 @@
     <string name="widget_photo">Photo</string>
     <string name="widget_barcode">Barcode</string>
     <string name="widget_manual">Type</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">Meal readings</string>
+    <string name="readings_channel_description">When Bitey AI has logged a meal you photographed or described, or needs you to look at one.</string>
+    <string name="reading_logged_title">Logged: %1$s</string>
+    <string name="reading_logged_text">%1$d kcal. Tap to check it.</string>
+    <plurals name="readings_logged_title">
+            <item quantity="one">%d meal logged</item>
+            <item quantity="other">%d meals logged</item>
+    </plurals>
+    <string name="readings_logged_text">Tap to check them.</string>
+    <string name="reading_public">A meal was logged</string>
+    <string name="reading_failed_title">A meal could not be read</string>
+    <string name="reading_needs_you_title">A meal reading needs you</string>
+    <string name="reading_needs_you_text">Tap to see what happened.</string>
 </resources>

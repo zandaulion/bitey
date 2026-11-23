@@ -7,4 +7,21 @@
     <string name="widget_photo">Fotografie</string>
     <string name="widget_barcode">Cod de bare</string>
     <string name="widget_manual">Scrie</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">Analize de mese</string>
+    <string name="readings_channel_description">Când Bitey AI a înregistrat o masă pe care ai fotografiat-o sau descris-o, sau are nevoie de tine.</string>
+    <string name="reading_logged_title">Înregistrat: %1$s</string>
+    <string name="reading_logged_text">%1$d kcal. Atinge ca să verifici.</string>
+    <plurals name="readings_logged_title">
+            <item quantity="one">%d masă înregistrată</item>
+            <item quantity="few">%d mese înregistrate</item>
+            <item quantity="other">%d de mese înregistrate</item>
+    </plurals>
+    <string name="readings_logged_text">Atinge ca să le verifici.</string>
+    <string name="reading_public">A fost înregistrată o masă</string>
+    <string name="reading_failed_title">O masă nu a putut fi citită</string>
+    <string name="reading_needs_you_title">O analiză de masă are nevoie de tine</string>
+    <string name="reading_needs_you_text">Atinge ca să vezi ce s-a întâmplat.</string>
 </resources>

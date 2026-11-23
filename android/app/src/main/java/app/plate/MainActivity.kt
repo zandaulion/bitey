@@ -57,9 +57,6 @@ private const val SIDE_RAIL_HEIGHT_DP = 304
  * source is store/PRIVACY_NOTICE.md. */
 private const val PRIVACY_NOTICE_URL = "https://zandaulion.com/plate-privacy.html"
 
-/** Bitey Beta: whether to test as a subscriber (see betaTesterModeOn). */
-private const val KEY_TESTER_MODE = "tester_mode"
-
 private const val ACTION_WIDGET_PINNED = "com.zandaulion.bitey.WIDGET_PINNED"
 
 class MainActivity : ComponentActivity() {
@@ -101,6 +98,8 @@ class MainActivity : ComponentActivity() {
 
     /** An action from a shortcut or the tile that arrived before the page. */
     private var pendingLaunchAction: String? = null
+    /** A logged meal's notification was tapped before the page was ready. */
+    private var pendingOpenEntry: Pair<String, String>? = null
 
     private val barcodeScanner = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
@@ -165,6 +164,22 @@ class MainActivity : ComponentActivity() {
         }
         val stream = uri?.let { contentResolver.openInputStream(it) }
         deliverCapture(stream, uri?.let(contentResolver::getType) ?: "image/jpeg")
+    }
+
+    /** Asked once, the first time a reading goes to the background. Either
+     * answer is fine: readings work without notifications, and the page
+     * shows their status. */
+    private val notificationPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { }
+
+    private fun askForNotificationsOnce() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) return
+        val prefs = getSharedPreferences("bitey_readings_ui", MODE_PRIVATE)
+        if (prefs.getBoolean("asked_notifications", false)) return
+        prefs.edit().putBoolean("asked_notifications", true).apply()
+        notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     private val cameraPermission = registerForActivityResult(
@@ -285,7 +300,7 @@ class MainActivity : ComponentActivity() {
         playBilling = PlayBilling(
             applicationContext,
             onEntitlementChanged = { status -> runOnUiThread { applyAiEntitlement(status) } },
-            testerToken = betaTesterToken().takeIf { betaTesterModeOn() },
+            testerToken = BetaTester.activeToken(applicationContext),
         )
         plateWebView = PlateWebView(
             context = this,
@@ -310,6 +325,10 @@ class MainActivity : ComponentActivity() {
                     pendingLaunchAction?.let {
                         pendingLaunchAction = null
                         plateWebView.performPrimaryAction(it)
+                    }
+                    pendingOpenEntry?.let { (id, day) ->
+                        pendingOpenEntry = null
+                        openEntryInPage(id, day)
                     }
                 }
             },
@@ -374,6 +393,7 @@ class MainActivity : ComponentActivity() {
                     val result = analysis.analyse(token, idToken, payload)
                     val answer = runCatching { JSONObject(result).optJSONObject("body") }.getOrNull()
                     answer?.let(freeTier::record)
+                    refreshAiEntitlement()
                     // Refused by the server for the subscription, not for the
                     // photo: Play on the phone is behind, so stop presenting it.
                     // A purchase sent and answered on the free tier is the same
@@ -385,11 +405,11 @@ class MainActivity : ComponentActivity() {
                 }
             },
             betaTesterMode = {
-                if (betaTesterToken().isBlank()) "" else if (betaTesterModeOn()) "on" else "off"
+                if (!BetaTester.available(applicationContext)) "" else if (BetaTester.on(applicationContext)) "on" else "off"
             },
             onBetaTesterModeToggled = {
-                if (betaTesterToken().isNotBlank()) runOnUiThread {
-                    betaPrefs().edit().putBoolean(KEY_TESTER_MODE, !betaTesterModeOn()).commit()
+                if (BetaTester.available(applicationContext)) runOnUiThread {
+                    BetaTester.toggle(applicationContext)
                     recreate()
                 }
             },
@@ -423,6 +443,13 @@ class MainActivity : ComponentActivity() {
         WatchSync.onDiaryChanged = {
             runOnUiThread { plateWebView.evaluateJavascript("window.__plateWatchChanged?.()", null) }
         }
+        // A background reading moved on: queued, answered, saved, or stuck.
+        PendingReadings.createChannel(this)
+        PendingReadings.onChanged = {
+            refreshAiEntitlement()
+            runOnUiThread { plateWebView.evaluateJavascript("window.__plateReadingUpdate?.()", null) }
+        }
+        PendingReadings.onQueued = { runOnUiThread { askForNotificationsOnce() } }
         val root = FrameLayout(this)
         root.addView(plateWebView, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -522,6 +549,14 @@ class MainActivity : ComponentActivity() {
     )
 
     private fun runLaunchAction(intent: Intent?) {
+        // A logged meal's notification: open that entry to be checked.
+        val entryId = intent?.getStringExtra(PendingReadings.EXTRA_OPEN_ENTRY)
+        val day = intent?.getStringExtra(PendingReadings.EXTRA_OPEN_DAY)
+        intent?.removeExtra(PendingReadings.EXTRA_OPEN_ENTRY)
+        intent?.removeExtra(PendingReadings.EXTRA_OPEN_DAY)
+        if (day != null) {
+            if (pageReady) openEntryInPage(entryId.orEmpty(), day) else pendingOpenEntry = entryId.orEmpty() to day
+        }
         val action = LaunchActions.from(intent) ?: return
         // Consumed once: a later recreation must not open the camera again.
         intent?.removeExtra(LaunchActions.EXTRA_ACTION)
@@ -535,10 +570,25 @@ class MainActivity : ComponentActivity() {
         // Resume also runs at launch, so this is the only start-up query;
         // a second one from onStart raced it into two connections.
         playBilling.refreshIfEngaged()
+        // Anything the background did not finish is sent again, and the
+        // meals it logged have now been seen.
+        PendingReadings.sweep(applicationContext)
+        PendingReadings.clearNotifications(applicationContext)
+        // The free readings may have come back while Bitey was away.
+        refreshAiEntitlement()
+    }
+
+    /** Ids and days are generated here, but checked anyway before they are
+     * written into script. */
+    private fun openEntryInPage(id: String, day: String) {
+        if (!day.matches(Regex("\\d{4}-\\d{2}-\\d{2}")) || !id.matches(Regex("[A-Za-z0-9-]{0,80}"))) return
+        plateWebView.evaluateJavascript("window.__plateOpenEntry?.('$id', '$day')", null)
     }
 
     override fun onDestroy() {
         WatchSync.onDiaryChanged = null
+        PendingReadings.onChanged = null
+        PendingReadings.onQueued = null
         runCatching { unregisterReceiver(widgetPinnedReceiver) }
         if (::playBilling.isInitialized) playBilling.close()
         analysisExecutor.shutdownNow()
@@ -716,24 +766,23 @@ class MainActivity : ComponentActivity() {
     /**
      * Play's status as the page sees it. Without a subscription, a build with
      * the free tier says "free": Bitey AI is open, with no padlocks, and the
-     * server decides how many readings are left. A pending purchase stays
-     * "pending", so the page can still say so.
+     * server decides how many readings are left. Once today's free readings
+     * are gone it says "free_used", which brings the padlocks back until the
+     * allowance resets; a tap then goes to the plans. A pending purchase
+     * stays "pending", so the page can still say so.
      */
     private fun aiWireStatus(status: PlayBilling.Status): String = when {
         status == PlayBilling.Status.ACTIVE || status == PlayBilling.Status.PENDING -> status.wireValue
-        freeTier.enabled -> "free"
+        freeTier.enabled -> if (freeTier.likelyAllowed("camera")) "free" else "free_used"
         else -> status.wireValue
     }
 
-    /** Bitey Beta's tester token; empty in every other build. */
-    private fun betaTesterToken(): String = getString(R.string.beta_tester_token)
+    /** The free allowance may have moved: a reading answered, or today's
+     * readings came back at the reset. Redraws the padlocks to match. */
+    private fun refreshAiEntitlement() {
+        if (::playBilling.isInitialized) runOnUiThread { applyAiEntitlement(playBilling.status()) }
+    }
 
-    private fun betaPrefs() = getSharedPreferences("bitey_beta", MODE_PRIVATE)
-
-    /** Testing as a subscriber is the beta's default; the switch in
-     * Settings turns it off to test the free tier. */
-    private fun betaTesterModeOn(): Boolean =
-        betaTesterToken().isNotBlank() && betaPrefs().getBoolean(KEY_TESTER_MODE, true)
 
     /** The locked icon carries its own two colours (a white lock on a green
      * cutout) and must not be tinted; the plain camera is tinted white to sit

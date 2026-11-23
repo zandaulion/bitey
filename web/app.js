@@ -23,7 +23,10 @@ import {
   t, plural, load as loadLocale, setLocale, locale, applyToDom,
   LOCALES, LOCALE_NAMES
 } from '/i18n.js';
-import { localApi, LocalApiError, AI_USE_DIET_STORAGE_KEY, entryTemplate } from '/local-api.js';
+import {
+  localApi, LocalApiError, AI_USE_DIET_STORAGE_KEY, entryTemplate,
+  queueNativeReading, nativePendingReadings, retryNativeReading, discardNativeReading
+} from '/local-api.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -461,6 +464,9 @@ function renderSplit(split) {
  * set.
  */
 function badgeFor(entry) {
+  // A meal Bitey AI saved on its own, in the background: said first and
+  // plainly, until the person opens it and confirms or edits it.
+  if (entry.checked === false) return `<span class="badge-est badge-unchecked">${esc(t('Not checked'))}</span>`;
   if (hasTextItems(entry)) return `<span class="badge-est">${esc(t('Estimated from text'))}</span>`;
   const fromPhoto = (entry.items || []).some((i) => i.source === 'photo');
   if (!fromPhoto) return '';
@@ -1070,6 +1076,7 @@ async function loadDay() {
   renderMacros($('macros'), data.summary.totals);
   renderWeigh(state.day, data.weight, data.expenditure);
   renderEntries(data.entries);
+  renderPendingReadings();
   await loadQuickBites();
   updateBiteyCompanion(data.summary, data.split, data.entries);
   syncWidget(data.summary, data.split, data.entries);
@@ -2461,6 +2468,10 @@ async function startPhotoEntry(file) {
     // likely to be filing from days ago, not less.
     offerPhotoDay(takenOn);
 
+    // On Android the reading goes on in the background and is saved as an
+    // entry when it is answered, so the sheet does not have to stay open.
+    if (await handOffReading({ image: state.photo.base64, mimeType: state.photo.mimeType }, takenOn)) return;
+
     aiBusy(t('Working out what is on the plate…'));
     const analyseAt = Date.now();
     track('analyse_start');
@@ -2518,6 +2529,93 @@ async function photoTakenOn(file) {
  * a menu carries the date it was screenshotted, and moving somebody's entry to
  * a day they were not looking at is worse than leaving it where they are.
  */
+/**
+ * Gives a reading to Android to finish in the background (PendingReadings.kt)
+ * and lets the sheet go. False where that is not possible -- the PWA, an
+ * older app, a reading that could not be stored -- and the caller then reads
+ * it in the foreground as before.
+ */
+async function handOffReading(body, takenOn = null) {
+  if (!window.__PLATE_NATIVE__ || typeof window.PlateNative?.readings !== 'function') return false;
+  const id = await queueNativeReading(body, { day: state.photoDay || state.day, meal: guessMeal(takenOn) });
+  if (!id) return false;
+  track('reading_queued', { mode: body.mode === 'text' ? 'text' : 'photo' });
+  aiBusy(t('Reading your meal… Bitey will log it and let you know.'));
+  const session = state.reviewSession;
+  setTimeout(() => {
+    if (state.reviewSession !== session || !screenIsOpen('review')) return;
+    idle();
+    closeReview();
+  }, 2000);
+  renderPendingReadings();
+  return true;
+}
+
+/** What each state of a background reading says on the day view. */
+function pendingReadingLine(reading) {
+  switch (reading.state) {
+    case 'queued':
+    case 'sending':
+      return t('Reading your meal…');
+    case 'waiting_network':
+      return t('Waiting for internet. Bitey will retry.');
+    case 'retrying':
+      return t('Bitey AI is busy. Trying again shortly.');
+    case 'failed':
+      return t('Bitey AI could not read this meal. Try again, or delete it.');
+    default:
+      if (reading.error === 'not_food') return t('That does not look like food. Try another photo.');
+      if (reading.error === 'nothing_found') return t('Nothing recognisable in that photo. Try a clearer one.');
+      return aiRefusal({ code: reading.error }) || reading.message || t('Bitey AI could not read this meal. Try again, or delete it.');
+  }
+}
+
+/** The day's readings still on their way, above its entries. */
+function renderPendingReadings() {
+  const list = $('pending-readings');
+  if (!list) return;
+  const readings = nativePendingReadings().filter((r) => !r.day || r.day === state.day);
+  list.hidden = readings.length === 0;
+  list.innerHTML = readings.map((r) => {
+    const stuck = r.state === 'needs_you' || r.state === 'failed';
+    const what = r.kind === 'text' && r.description ? esc(r.description) : esc(t('Meal photo'));
+    return `<li class="entry pending-reading${stuck ? ' stuck' : ''}" data-reading="${esc(r.id)}">
+      <div class="noimg food-emoji" aria-hidden="true">${r.kind === 'text' ? '✍️' : '📷'}</div>
+      <div class="entry-main">
+        <div class="entry-foods">${what}</div>
+        <div class="entry-meta"><span>${esc(pendingReadingLine(r))}</span></div>
+        ${stuck ? `<div class="pending-actions">
+          <button type="button" class="link-btn" data-reading-retry="${esc(r.id)}">${esc(t('Try again'))}</button>
+          <button type="button" class="link-btn" data-reading-discard="${esc(r.id)}">${esc(t('Delete'))}</button>
+        </div>` : ''}
+      </div>
+    </li>`;
+  }).join('');
+}
+
+$('pending-readings')?.addEventListener('click', (ev) => {
+  const retry = ev.target.closest('[data-reading-retry]')?.dataset.readingRetry;
+  const discard = ev.target.closest('[data-reading-discard]')?.dataset.readingDiscard;
+  if (retry) retryNativeReading(retry);
+  if (discard && confirm(t('Delete this entry?'))) discardNativeReading(discard);
+  if (retry || discard) renderPendingReadings();
+});
+
+/** Android: a background reading moved on -- queued, saved, or stuck. */
+window.__plateReadingUpdate = () => {
+  renderPendingReadings();
+  if (document.visibilityState === 'visible') loadDay().catch(() => {});
+};
+
+/** Android: a logged meal's notification was tapped; open it to be checked. */
+window.__plateOpenEntry = async (id, day) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return;
+  state.day = day;
+  await loadDay();
+  const entry = id && state.entriesById?.get(id);
+  if (entry) openReview('edit', entry);
+};
+
 function offerPhotoDay(takenOn) {
   const note = $('photo-day-note');
   if (!note) return;
@@ -2969,6 +3067,7 @@ $('estimate-text').addEventListener('click', async () => {
     // two seconds, so a description is not a frozen button for five seconds.
     aiBusy(t('Estimating your meal…'));
     let data;
+    if (await handOffReading({ mode: 'text', description })) return;
     try {
       // Only an explicit Estimate action sends text; typing and searching do not.
       data = await api('/api/analyse', {

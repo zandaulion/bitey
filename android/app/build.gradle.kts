@@ -307,6 +307,12 @@ dependencies {
     // "Install on your watch": opens Bitey's Play page on a paired watch.
     implementation("androidx.wear:wear-remote-interactions:1.2.0")
 
+    // Background Bitey AI readings: sent when there is a network, retried,
+    // and kept across the app being closed or the phone restarting
+    // (PendingReadings.kt). The plain artifact: the workers block, like the
+    // rest of the native code, so coroutines would add nothing.
+    implementation("androidx.work:work-runtime:2.12.0")
+
     val roomVersion = "2.8.5"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")

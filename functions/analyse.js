@@ -59,7 +59,10 @@ const fail = (res, status, code, message, extra = {}) =>
 export function buildAnalyse({
   verifySubscription = readSubscription,
   collections = COLLECTIONS,
-  maxInstances = 5
+  maxInstances = 5,
+  // Beta only: an extra wait after the model has answered, so a reading
+  // takes about as long as a slow one does in real use (beta.js).
+  delayMs = 0
 } = {}) {
   return onRequest(
     {
@@ -252,6 +255,7 @@ export function buildAnalyse({
             locale: request.locale,
             diet: request.diet
           }));
+        if (delayMs > 0) await new Promise((resolve) => setTimeout(resolve, delayMs));
         lap('model');
       } catch (err) {
         lap('model');

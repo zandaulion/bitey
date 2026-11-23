@@ -7,4 +7,19 @@
     <string name="widget_photo">照片</string>
     <string name="widget_barcode">条码</string>
     <string name="widget_manual">输入</string>
+    <!-- Background Bitey AI readings (PendingReadings.kt): the notification
+         channel, a logged meal, several logged meals, the lock-screen line,
+         and a reading that needs the person. -->
+    <string name="readings_channel">餐食分析</string>
+    <string name="readings_channel_description">当 Bitey AI 记录了你拍摄或描述的餐食，或需要你查看时。</string>
+    <string name="reading_logged_title">已记录：%1$s</string>
+    <string name="reading_logged_text">%1$d kcal。点按即可检查。</string>
+    <plurals name="readings_logged_title">
+            <item quantity="other">已记录 %d 份餐食</item>
+    </plurals>
+    <string name="readings_logged_text">点按即可检查。</string>
+    <string name="reading_public">已记录一份餐食</string>
+    <string name="reading_failed_title">无法读取一份餐食</string>
+    <string name="reading_needs_you_title">一份餐食分析需要你处理</string>
+    <string name="reading_needs_you_text">点按查看详情。</string>
 </resources>

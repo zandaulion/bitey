@@ -607,5 +607,14 @@
   "Free readings are used up for today. Try again tomorrow.": "오늘 무료 분석이 모두 소진됐어요. 내일 다시 시도하세요.",
   "Bitey could not verify the app. Try again.": "Bitey가 앱을 확인하지 못했어요. 다시 시도하세요.",
   "{0} free readings left today": "오늘 무료 분석 {0}회 남음",
-  "Read again. That was today’s free correction.": "다시 읽었어요. 오늘의 무료 수정을 사용했어요."
+  "Read again. That was today’s free correction.": "다시 읽었어요. 오늘의 무료 수정을 사용했어요.",
+  "Not checked": "확인 안 함",
+  "Reading your meal… Bitey will log it and let you know.": "식사를 읽는 중… Bitey가 기록하고 알려 드릴게요.",
+  "Reading your meal…": "식사를 읽는 중…",
+  "Waiting for internet. Bitey will retry.": "인터넷 연결을 기다리는 중이에요. Bitey가 다시 시도할게요.",
+  "Bitey AI is busy. Trying again shortly.": "Bitey AI가 바빠요. 곧 다시 시도할게요.",
+  "Bitey AI could not read this meal. Try again, or delete it.": "Bitey AI가 이 식사를 읽지 못했어요. 다시 시도하거나 삭제하세요.",
+  "Meal photo": "식사 사진",
+  "Try again": "다시 시도",
+  "Delete": "삭제"
 }

@@ -121,6 +121,7 @@ private class PlateNativeBridge(
     private val onAnalysisRequested: (String, String) -> Unit,
     private val betaTesterModeStatus: () -> String,
     private val onBetaTesterModeToggled: () -> Unit,
+    private val readingsHandler: (String, String, String) -> String,
     private val onPrivacyNoticeRequested: () -> Unit,
     private val quickTileSupported: () -> Boolean,
     private val onQuickTileRequested: () -> Unit,
@@ -255,6 +256,22 @@ private class PlateNativeBridge(
      * this to open arbitrary sites. */
     @JavascriptInterface
     fun openPrivacyNotice() = onPrivacyNoticeRequested()
+
+    /**
+     * Background Bitey AI readings (PendingReadings.kt):
+     * - "queue", request, template: write a reading down and send it in the
+     *   background; answers its id, or "" if it could not be stored.
+     * - "list": the readings in progress or needing the person, as JSON.
+     * - "retry", id / "discard", id.
+     * The request carries the same fields the page sends for a reading in
+     * the foreground; native code re-checks them when it sends.
+     */
+    @JavascriptInterface
+    fun readings(operation: String, first: String, second: String): String {
+        if (operation !in setOf("queue", "list", "retry", "discard")) return ""
+        if (first.length > BiteyAnalysis.MAX_IMAGE_CHARS + 4096 || second.length > 64_000) return ""
+        return readingsHandler(operation, first, second)
+    }
 
     /** Bitey Beta only: "on" or "off" for testing as a subscriber, and empty
      * in every other build, where the page then shows no switch. */
@@ -441,6 +458,7 @@ class PlateWebView(
                 onAnalysisRequested,
                 betaTesterMode,
                 onBetaTesterModeToggled,
+                ::readings,
                 onPrivacyNoticeRequested,
                 quickTileSupported,
                 onQuickTileRequested,
@@ -748,6 +766,17 @@ class PlateWebView(
 
     /** Photo writes are separate from diary JSON so large image data has only
      * one narrowly scoped route into app-private files. */
+    private fun readings(operation: String, first: String, second: String): String {
+        val app = context.applicationContext
+        return when (operation) {
+            "queue" -> PendingReadings.enqueue(app, first, second).orEmpty()
+            "list" -> PendingReadings.listJson(app)
+            "retry" -> { PendingReadings.retry(app, first); "" }
+            "discard" -> { PendingReadings.discard(app, first); "" }
+            else -> ""
+        }
+    }
+
     private fun localPhoto(operation: String, id: String, payload: String, mimeType: String, requestId: String) {
         networkExecutor.execute {
             val result = runCatching { localPhotoResult(operation, id, payload, mimeType) }.getOrElse {
