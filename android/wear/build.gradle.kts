@@ -51,8 +51,8 @@ android {
         targetSdk = 36
         // Its own numbers: Play needs every bundle in a listing to have a
         // different versionCode, and the watch ships on its own track.
-        versionCode = 1_000_005
-        versionName = "1.0.4"
+        versionCode = 1_000_006
+        versionName = "1.0.5"
     }
 
     buildTypes {
@@ -109,6 +109,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    // The round-screen tests draw real Compose screens on the JVM (Robolectric).
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 tasks.configureEach {
@@ -147,4 +152,7 @@ dependencies {
     // org.json is only a stub in android.jar; the JVM tests need the real one.
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20260814")
+    testImplementation("org.robolectric:robolectric:4.18.1")
+    testImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
