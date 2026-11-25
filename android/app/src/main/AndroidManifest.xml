@@ -67,6 +67,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_today_info" />
         </receiver>
+        <!-- "Looks right" on a background reading's notification. -->
+        <receiver
+            android:name=".ReadingActionReceiver"
+            android:exported="false" />
         <!-- The watch companion's requests: log, undo, send today again. -->
         <service
             android:name=".WatchRequestService"

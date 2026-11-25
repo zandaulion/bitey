@@ -48,6 +48,9 @@ object PendingReadings {
     private const val NOTIFICATION_NEEDS_YOU = 4102
     private const val PREFS = "bitey_readings"
     private const val KEY_UNSEEN = "unseen_logged"
+    /** The entries behind the "Logged" notification, for its Looks right. */
+    private const val KEY_UNSEEN_IDS = "unseen_entry_ids"
+    const val ACTION_LOOKS_RIGHT = "com.zandaulion.bitey.READINGS_LOOK_RIGHT"
     const val EXTRA_OPEN_ENTRY = "com.zandaulion.bitey.OPEN_ENTRY"
     const val EXTRA_OPEN_DAY = "com.zandaulion.bitey.OPEN_DAY"
 
@@ -397,7 +400,8 @@ object PendingReadings {
     private fun notifyLogged(context: Context, entryId: String, day: String, items: JSONArray, totals: JSONObject) {
         val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         val unseen = prefs.getInt(KEY_UNSEEN, 0) + 1
-        prefs.edit().putInt(KEY_UNSEEN, unseen).apply()
+        val ids = runCatching { JSONArray(prefs.getString(KEY_UNSEEN_IDS, "[]")) }.getOrDefault(JSONArray()).put(entryId)
+        prefs.edit().putInt(KEY_UNSEEN, unseen).putString(KEY_UNSEEN_IDS, ids.toString()).apply()
         if (!canNotify(context)) return
         createChannel(context)
         val kcal = totals.optDouble("calories", 0.0).let { Math.round(it).toInt() }
@@ -412,7 +416,33 @@ object PendingReadings {
             title = context.resources.getQuantityString(R.plurals.readings_logged_title, unseen, unseen)
             text = context.getString(R.string.readings_logged_text)
         }
-        post(context, NOTIFICATION_LOGGED, title, text, if (unseen == 1) entryId else null, day)
+        post(
+            context, NOTIFICATION_LOGGED, title, text, if (unseen == 1) entryId else null, day,
+            lookRightLabel = context.getString(if (unseen == 1) R.string.reading_looks_right else R.string.readings_all_look_right),
+        )
+    }
+
+    /**
+     * "Looks right" on the Logged notification: every meal it is about is
+     * marked as checked, as saving it unchanged in Bitey would, and the
+     * notification goes. Nothing opens -- it is handled by a broadcast
+     * receiver, so the notification shade stays where it was.
+     */
+    fun confirmUnseen(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val ids = runCatching { JSONArray(prefs.getString(KEY_UNSEEN_IDS, "[]")) }.getOrDefault(JSONArray())
+        val entries = PlateDatabase.get(context).entries()
+        synchronized(lock) {
+            for (i in 0 until ids.length()) {
+                val id = ids.optString(i).takeIf(String::isNotBlank) ?: continue
+                val entry = entries.entryJson(id)?.let { runCatching { JSONObject(it) }.getOrNull() } ?: continue
+                if (entry.optBoolean("checked", true)) continue
+                entry.put("checked", true)
+                entries.save(DiaryEntryEntity(id, entry.optString("day"), entry.optLong("sortKey"), entry.toString(), System.currentTimeMillis()))
+            }
+        }
+        clearNotifications(context)
+        onChanged?.invoke()
     }
 
     private fun notifyNeedsYou(context: Context, state: String) {
@@ -426,7 +456,10 @@ object PendingReadings {
         )
     }
 
-    private fun post(context: Context, id: Int, title: String, text: String, entryId: String?, day: String?) {
+    private fun post(
+        context: Context, id: Int, title: String, text: String, entryId: String?, day: String?,
+        lookRightLabel: String? = null,
+    ) {
         val open = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             .apply {
@@ -449,15 +482,46 @@ object PendingReadings {
             .setAutoCancel(true)
             .setVisibility(android.app.Notification.VISIBILITY_PRIVATE)
             .setPublicVersion(public)
+            .apply {
+                if (lookRightLabel != null) {
+                    val confirm = PendingIntent.getBroadcast(
+                        context, id,
+                        Intent(context, ReadingActionReceiver::class.java).setAction(ACTION_LOOKS_RIGHT),
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                    )
+                    addAction(android.app.Notification.Action.Builder(
+                        android.graphics.drawable.Icon.createWithResource(context, R.drawable.ic_tile_bitey),
+                        lookRightLabel, confirm,
+                    ).build())
+                }
+            }
             .build()
         runCatching { context.getSystemService(NotificationManager::class.java).notify(id, notification) }
     }
 
     /** Bitey is open: the logged meals have been seen. */
     fun clearNotifications(context: Context) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putInt(KEY_UNSEEN, 0).apply()
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+            .putInt(KEY_UNSEEN, 0).remove(KEY_UNSEEN_IDS).apply()
         runCatching { context.getSystemService(NotificationManager::class.java).cancel(NOTIFICATION_LOGGED) }
         runCatching { context.getSystemService(NotificationManager::class.java).cancel(NOTIFICATION_NEEDS_YOU) }
+    }
+}
+
+/** The Logged notification's "Looks right". Off the main thread: it writes
+ * to Room. Not exported; only the notification's own intent reaches it. */
+class ReadingActionReceiver : android.content.BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action != PendingReadings.ACTION_LOOKS_RIGHT) return
+        val app = context.applicationContext
+        val result = goAsync()
+        Thread {
+            try {
+                PendingReadings.confirmUnseen(app)
+            } finally {
+                result.finish()
+            }
+        }.start()
     }
 }
 

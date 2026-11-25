@@ -25,4 +25,8 @@
     <string name="reading_failed_title">Не вдалося прочитати страву</string>
     <string name="reading_needs_you_title">Аналіз страви потребує вашої уваги</string>
     <string name="reading_needs_you_text">Торкніться, щоб побачити, що сталося.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">Усе правильно</string>
+    <string name="readings_all_look_right">Усі правильні</string>
 </resources>

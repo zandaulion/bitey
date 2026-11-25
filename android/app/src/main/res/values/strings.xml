@@ -26,4 +26,8 @@
     <string name="reading_failed_title">A meal could not be read</string>
     <string name="reading_needs_you_title">A meal reading needs you</string>
     <string name="reading_needs_you_text">Tap to see what happened.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">Looks right</string>
+    <string name="readings_all_look_right">All look right</string>
 </resources>

@@ -24,4 +24,8 @@
     <string name="reading_failed_title">Un repas n’a pas pu être lu</string>
     <string name="reading_needs_you_title">Une analyse de repas a besoin de vous</string>
     <string name="reading_needs_you_text">Touchez pour voir ce qui s’est passé.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">C’est bon</string>
+    <string name="readings_all_look_right">Tout est bon</string>
 </resources>

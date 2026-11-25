@@ -27,4 +27,8 @@
     <string name="reading_failed_title">تعذّرت قراءة وجبة</string>
     <string name="reading_needs_you_title">قراءة وجبة تحتاج إليك</string>
     <string name="reading_needs_you_text">اضغط لمعرفة ما حدث.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">يبدو صحيحًا</string>
+    <string name="readings_all_look_right">تبدو كلها صحيحة</string>
 </resources>

@@ -22,4 +22,8 @@
     <string name="reading_failed_title">食事を読み取れませんでした</string>
     <string name="reading_needs_you_title">食事の解析で確認が必要です</string>
     <string name="reading_needs_you_text">タップして詳細を確認してください。</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">これでOK</string>
+    <string name="readings_all_look_right">すべてOK</string>
 </resources>

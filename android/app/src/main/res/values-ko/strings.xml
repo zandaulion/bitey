@@ -22,4 +22,8 @@
     <string name="reading_failed_title">식사를 읽지 못했어요</string>
     <string name="reading_needs_you_title">식사 분석에 확인이 필요해요</string>
     <string name="reading_needs_you_text">탭해서 무슨 일인지 확인하세요.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">맞아요</string>
+    <string name="readings_all_look_right">모두 맞아요</string>
 </resources>

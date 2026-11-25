@@ -23,4 +23,8 @@
     <string name="reading_failed_title">एक भोजन पढ़ा नहीं जा सका</string>
     <string name="reading_needs_you_title">एक भोजन विश्लेषण को आपकी ज़रूरत है</string>
     <string name="reading_needs_you_text">क्या हुआ यह देखने के लिए टैप करें।</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">सही है</string>
+    <string name="readings_all_look_right">सब सही है</string>
 </resources>

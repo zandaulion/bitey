@@ -24,4 +24,8 @@
     <string name="reading_failed_title">O masă nu a putut fi citită</string>
     <string name="reading_needs_you_title">O analiză de masă are nevoie de tine</string>
     <string name="reading_needs_you_text">Atinge ca să vezi ce s-a întâmplat.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">Arată bine</string>
+    <string name="readings_all_look_right">Toate arată bine</string>
 </resources>

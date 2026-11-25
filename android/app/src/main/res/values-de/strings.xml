@@ -23,4 +23,8 @@
     <string name="reading_failed_title">Eine Mahlzeit konnte nicht gelesen werden</string>
     <string name="reading_needs_you_title">Eine Mahlzeitanalyse braucht dich</string>
     <string name="reading_needs_you_text">Tippe, um zu sehen, was passiert ist.</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">Passt so</string>
+    <string name="readings_all_look_right">Passt alles</string>
 </resources>

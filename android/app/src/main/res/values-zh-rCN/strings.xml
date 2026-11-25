@@ -22,4 +22,8 @@
     <string name="reading_failed_title">无法读取一份餐食</string>
     <string name="reading_needs_you_title">一份餐食分析需要你处理</string>
     <string name="reading_needs_you_text">点按查看详情。</string>
+    <!-- The Logged notification's button: confirms the meal (or all of
+         them) as checked without opening Bitey. -->
+    <string name="reading_looks_right">没问题</string>
+    <string name="readings_all_look_right">全部没问题</string>
 </resources>
