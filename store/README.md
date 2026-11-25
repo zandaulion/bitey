@@ -23,23 +23,30 @@ Google Play.
 
 ## Upload artifacts
 
-Next on the watch: **1.0.4** (`versionCode` 1000005), replacing 1.0.3 on the
-Wear OS track. Play rejected 1.0.3 on watch shapes again (17 November 2026,
-enforced the same day), with two screens as evidence: the "Open Bitey on your
-phone" message ran past both edges at the top of the screen, and a quick-bite
-row at the bottom was still cut by the circle mid-scroll. The message is now
-centred. On round watches the list's buttons are narrower (about a tenth of
-the screen in from each side) and shrink along the curve, as if on a round
-track, and rows fade out completely before the round edge (the Material
-transition alone only faded them to half). Checked on the 192 dp and
-227 dp round emulators at every scroll position. The Portuguese watch strings
-are now Brazilian. The watch has never been live, so it keeps the 1.1.9 notes
-("Bitey on Wear OS").
+Next on the watch: **1.0.5** (`versionCode` 1000006), replacing 1.0.4 on the
+Wear OS track. Play rejected 1.0.4 on watch shapes a third time (late
+November 2026). Every reviewer screenshot, all three times, is the home list
+scrolled to its end: the last button rested in the narrow bottom curve, cut,
+because the list only had the scaffold's 10% bottom padding. The list items
+now ask for Material's own minimum room at the list's ends (23% of the
+screen under a button, 13% above a header), as Google's samples do. The
+1.0.4 edge mask and round-track shrinking are gone; the narrower pills stay.
+`RoundScreensTest` (Robolectric) renders the list scrolled to its end on the
+192 dp and 227 dp round screens, default and largest font; it fails on the
+1.0.3 code and passes now, and CI runs it. The watch has never been live, so
+it keeps the 1.1.9 notes ("Bitey on Wear OS").
 
-- Watch 1.0.4 file SHA-256:
-  `618220D57C29AA6E4520498F3DB0C92565572D701271E4909BA9DB49D47EEF4C` (built
-  17 November 2026, 21:53, on the Lenovo from d91d792; signed with the Play
+- Watch 1.0.5 file SHA-256:
+  `CD2449F3CB86D0A8FBF5908CA1231B03C3BBC2BB5E8587B8C0FF034711495334` (built
+  25 November 2026, 10:31, on the Lenovo from 4659448; signed with the Play
   upload key).
+
+Watch 1.0.4 (`versionCode` 1000005, rejected): centred waiting message,
+edge fade and round-track shrinking, narrower pills, Brazilian Portuguese.
+File SHA-256
+`618220D57C29AA6E4520498F3DB0C92565572D701271E4909BA9DB49D47EEF4C` (built
+17 November 2026, 21:53, on the Lenovo from d91d792; signed with the Play
+upload key).
 
 Watch 1.0.3 (`versionCode` 1000004, rejected): splash icon at 48 dp on black,
 morphing lists, fragment 1.9.1 pinned. File SHA-256
@@ -343,9 +350,9 @@ carries, pull its APK (`adb shell pm path com.zandaulion.bitey`) and run
 - Android package and namespace: `com.zandaulion.bitey`
 - Launcher label: **Bitey**
 - First release version: **1.0.0** (`versionCode` 1)
-- Current source version: **1.1.10** (`versionCode` 27); watch bundle 1.0.4
-  (`versionCode` 1000005), after Play rejected 1.0.2 (`versionCode` 1000003)
-  and 1.0.3 (`versionCode` 1000004)
+- Current source version: **1.1.10** (`versionCode` 27); watch bundle 1.0.5
+  (`versionCode` 1000006), after Play rejected 1.0.2, 1.0.3 and 1.0.4
+  (`versionCode` 1000003 to 1000005)
 - Production: **1.1.9** (`versionCode` 26); the watch 1.0.2 is in Wear OS review
 - Next upload artifact: `bitey-private-food-log-1.1.10.aab`
 - Last upload artifact: `bitey-private-food-log-1.1.9.aab`, and the watch bundle

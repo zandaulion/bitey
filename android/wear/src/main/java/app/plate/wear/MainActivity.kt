@@ -16,18 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -43,15 +37,14 @@ import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.lazy.ResponsiveTransformationSpec
-import androidx.wear.compose.material3.lazy.TransformationSpec
-import androidx.wear.compose.material3.lazy.TransformationVariableSpec
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
@@ -61,12 +54,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import androidx.compose.ui.graphics.GraphicsLayerScope
-import androidx.compose.ui.platform.LocalDensity
-import androidx.wear.compose.foundation.LocalReduceMotion
-import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScrollProgress
-import kotlin.math.ceil
-import kotlin.math.sqrt
 
 /** Where a tap on the watch has got to. */
 sealed interface Status {
@@ -213,27 +200,37 @@ private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
         }
         return
     }
-    // A transforming list, not a scaling one: rows narrow and round off as
-    // they reach the curved top and bottom. That alone still left a row half
-    // past the edge mid-scroll, so the list also fades out before the edge.
+    // Material's transforming list, set up as Google's samples do: rows
+    // narrow and fade as they scroll towards the curve, and each item asks
+    // for Material's room at the ends of the list (a button 23% of the
+    // screen, a header 13%), so the first and last ones come to rest inside
+    // the circle. Play's watch shapes review looks at the list scrolled to
+    // its end: with only the scaffold's 10% there, the last button sat in
+    // the narrow bottom curve, cut off, three reviews running.
     // It starts at the top: centred, the ring runs into the time.
     val listState = rememberTransformingLazyColumnState()
-    val spec = rememberEdgeSpec()
+    val spec = rememberTransformationSpec()
     ScreenScaffold(scrollState = listState) { padding ->
         TransformingLazyColumn(
             state = listState,
             contentPadding = padding,
-            modifier = Modifier.fillMaxSize().fadeBeforeRoundEdge(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             // Not transformed: it is no surface to morph, and shrinking its
             // height alone lets the header below ride over the macros line.
             item { Summary(today) }
             if (today.bites.isNotEmpty()) {
-                item { Header(today.word("bites"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec)) }
+                item {
+                    Header(today.word("bites"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec).minimumVerticalContentPadding(
+                        top = ListHeaderDefaults.minimumTopListContentPadding,
+                        bottom = ListHeaderDefaults.minimumBottomListContentPadding,
+                    ))
+                }
                 items(today.bites) { bite ->
                     Button(
                         onClick = { onChoose(bite) },
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec)
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                         transformation = SurfaceTransformation(spec),
                     ) {
                         ChoiceLabel(bite, today)
@@ -241,11 +238,17 @@ private fun Home(today: Today?, onChoose: (Choice) -> Unit) {
                 }
             }
             if (today.meals.isNotEmpty()) {
-                item { Header(today.word("meals"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec)) }
+                item {
+                    Header(today.word("meals"), SurfaceTransformation(spec), Modifier.transformedHeight(this, spec).minimumVerticalContentPadding(
+                        top = ListHeaderDefaults.minimumTopListContentPadding,
+                        bottom = ListHeaderDefaults.minimumBottomListContentPadding,
+                    ))
+                }
                 items(today.meals) { meal ->
                     FilledTonalButton(
                         onClick = { onChoose(meal) },
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec)
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                         transformation = SurfaceTransformation(spec),
                     ) {
                         ChoiceLabel(meal, today)
@@ -336,13 +339,13 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
     // lines and two buttons do not fit inside the circle, and this keeps every
     // part inside the round screen's safe area and reachable by scrolling.
     val listState = rememberTransformingLazyColumnState()
-    val spec = rememberEdgeSpec()
+    val spec = rememberTransformationSpec()
     ScreenScaffold(scrollState = listState) { padding ->
         TransformingLazyColumn(
             state = listState,
             contentPadding = padding,
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-            modifier = Modifier.fillMaxSize().fadeBeforeRoundEdge(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             when (status) {
                 is Status.Working -> item { Message("${status.label}…") }
@@ -351,18 +354,19 @@ private fun StatusScreen(today: Today?, status: Status, onUndo: (String) -> Unit
                     item {
                         FilledTonalButton(
                             onClick = { onUndo(status.id) },
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec),
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = pillInset()).transformedHeight(this, spec)
+                            .minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding),
                             transformation = SurfaceTransformation(spec),
                         ) {
                             Text(words.word("undo"), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
                         }
                     }
-                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec), SurfaceTransformation(spec)) }
+                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec).minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding), SurfaceTransformation(spec)) }
                 }
                 Status.Undone -> item { Message(words.word("undone")) }
                 is Status.Failed -> {
                     item { Message(stringResource(status.message)) }
-                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec), SurfaceTransformation(spec)) }
+                    item { BackButton(words, onDone, Modifier.transformedHeight(this, spec).minimumVerticalContentPadding(ButtonDefaults.minimumVerticalListContentPadding), SurfaceTransformation(spec)) }
                 }
                 Status.Idle -> Unit
             }
@@ -379,95 +383,6 @@ private fun Message(text: String) {
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier.fillMaxWidth().padding(horizontal = roundInset()),
     )
-}
-
-/**
- * The list's own edge transition, with two changes. Rows fade out
- * completely as they reach the top or bottom instead of stopping at half:
- * a half-faded row still showed cut by the circle in Play's review. And
- * on a round screen each row also shrinks just enough for its rounded
- * ends to stay inside the circle at the height it has scrolled to, so the
- * list runs as if on a round track. "Reduce motion" turns both off, as it
- * does the list's own transition; the edge fade still covers that case.
- */
-@Composable
-private fun rememberEdgeSpec(): TransformationSpec {
-    val specs = remember {
-        val gone = TransformationVariableSpec(topValue = 0f)
-        arrayOf(
-            ResponsiveTransformationSpec.smallScreen(containerAlpha = gone, contentAlpha = gone),
-            ResponsiveTransformationSpec.largeScreen(containerAlpha = gone, contentAlpha = gone),
-        )
-    }
-    val material = rememberTransformationSpec(*specs)
-    val configuration = LocalConfiguration.current
-    if (!configuration.isScreenRound || LocalReduceMotion.current) return material
-    val density = LocalDensity.current.density
-    val width = configuration.screenWidthDp * density
-    val height = configuration.screenHeightDp * density
-    // The scaffold's side padding is 5.2% of the width (Material's list default).
-    val pill = width * (1f - 2 * 0.052f) - 2 * with(LocalDensity.current) { pillInset().toPx() }
-    return remember(material, width, height, pill) { RoundTrackSpec(material, width, height, pill) }
-}
-
-/**
- * [material], with each row scaled down further where the circle is
- * narrower than the row. A row is taken as a pill [pill] px wide with
- * half-round ends; it scales from its centre and keeps its top, as the
- * list's own scaling does. All sizes in px.
- */
-private class RoundTrackSpec(
-    private val material: TransformationSpec,
-    width: Float,
-    private val height: Float,
-    private val pill: Float,
-) : TransformationSpec by material {
-    // A hair inside the edge, so antialiasing never touches it.
-    private val radius = minOf(width, height) / 2f * 0.97f
-
-    /** The largest scale, down to [MIN], at which the row fits the circle. */
-    private fun fit(progress: TransformingLazyColumnItemScrollProgress): Float {
-        val top = progress.topOffsetFraction * height
-        val rowHeight = (progress.bottomOffsetFraction - progress.topOffsetFraction) * height
-        val end = rowHeight / 2f
-        val reach = (pill / 2f - end).coerceAtLeast(0f)
-        fun fits(scale: Float): Boolean {
-            val dy = top + scale * rowHeight / 2f - height / 2f
-            return sqrt((scale * reach).let { it * it } + dy * dy) + scale * end <= radius
-        }
-        if (fits(1f)) return 1f
-        var low = MIN
-        var high = 1f
-        repeat(12) {
-            val mid = (low + high) / 2f
-            if (fits(mid)) low = mid else high = mid
-        }
-        return low
-    }
-
-    override fun getTransformedHeight(
-        measuredHeight: Int,
-        scrollProgress: TransformingLazyColumnItemScrollProgress,
-    ): Int {
-        val own = material.getTransformedHeight(measuredHeight, scrollProgress)
-        if (scrollProgress.isUnspecified) return own
-        return minOf(own, ceil(fit(scrollProgress) * measuredHeight).toInt())
-    }
-
-    override fun GraphicsLayerScope.applyContainerTransformation(
-        scrollProgress: TransformingLazyColumnItemScrollProgress
-    ) {
-        with(material) { applyContainerTransformation(scrollProgress) }
-        if (scrollProgress.isUnspecified) return
-        val scale = minOf(scaleX, fit(scrollProgress))
-        translationY = -1f * size.height * (1f - scale) / 2f
-        scaleX = scale
-        scaleY = scale
-    }
-
-    private companion object {
-        const val MIN = 0.3f
-    }
 }
 
 /**
@@ -488,37 +403,6 @@ private fun pillInset() = with(LocalConfiguration.current) {
 @Composable
 private fun roundInset() = with(LocalConfiguration.current) {
     if (isScreenRound) (screenWidthDp * 0.1f).dp else 0.dp
-}
-
-/**
- * On a round screen, fades whatever scrolls towards the edge out before it
- * gets there, so nothing is ever shown cut by the circle, whatever the
- * scroll position, and also when "reduce motion" turns the list's own
- * transition off. A ring just inside the circle takes the corners of a row
- * crossing the curve; the round ends of a row resting in the middle stay
- * inside it. A short fade at the bottom and an even shorter one under the
- * time take what scrolls off there.
- */
-@Composable
-private fun Modifier.fadeBeforeRoundEdge(): Modifier {
-    if (!LocalConfiguration.current.isScreenRound) return this
-    return graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-        .drawWithContent {
-            drawContent()
-            drawRect(
-                Brush.radialGradient(0.88f to Color.Black, 1f to Color.Transparent, radius = size.minDimension / 2f),
-                blendMode = BlendMode.DstIn,
-            )
-            drawRect(
-                Brush.verticalGradient(
-                    0.02f to Color.Transparent,
-                    0.09f to Color.Black,
-                    0.85f to Color.Black,
-                    0.98f to Color.Transparent,
-                ),
-                blendMode = BlendMode.DstIn,
-            )
-        }
 }
 
 @Composable
