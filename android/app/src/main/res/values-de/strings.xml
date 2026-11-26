@@ -27,4 +27,10 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">Passt so</string>
     <string name="readings_all_look_right">Passt alles</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">Noch %d kostenlose Analyse heute</item>
+        <item quantity="other">Noch %d kostenlose Analysen heute</item>
+    </plurals>
 </resources>

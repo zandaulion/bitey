@@ -28,4 +28,11 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">Está bien</string>
     <string name="readings_all_look_right">Todo está bien</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">Te queda %d análisis gratuito hoy</item>
+        <item quantity="many">Te quedan %d análisis gratuitos hoy</item>
+        <item quantity="other">Te quedan %d análisis gratuitos hoy</item>
+    </plurals>
 </resources>

@@ -27,4 +27,10 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">सही है</string>
     <string name="readings_all_look_right">सब सही है</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">आज %d मुफ़्त विश्लेषण बाकी है</item>
+        <item quantity="other">आज %d मुफ़्त विश्लेषण बाकी हैं</item>
+    </plurals>
 </resources>

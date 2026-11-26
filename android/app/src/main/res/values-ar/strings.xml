@@ -31,4 +31,14 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">يبدو صحيحًا</string>
     <string name="readings_all_look_right">تبدو كلها صحيحة</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="zero">لا قراءات مجانية متبقية اليوم</item>
+        <item quantity="one">تبقّت قراءة مجانية واحدة اليوم</item>
+        <item quantity="two">تبقّت قراءتان مجانيتان اليوم</item>
+        <item quantity="few">تبقّت %d قراءات مجانية اليوم</item>
+        <item quantity="many">تبقّت %d قراءة مجانية اليوم</item>
+        <item quantity="other">تبقّت %d قراءة مجانية اليوم</item>
+    </plurals>
 </resources>

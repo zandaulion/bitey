@@ -26,4 +26,9 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">맞아요</string>
     <string name="readings_all_look_right">모두 맞아요</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="other">오늘 무료 분석 %d회 남음</item>
+    </plurals>
 </resources>

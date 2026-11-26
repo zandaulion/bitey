@@ -70,7 +70,10 @@ export function decideFreeQuota({ readingsUsed = 0, correctionsUsed = 0, poolUse
   const counter = correction ? 'corrections' : 'readings';
   const remainingReadings = Math.max(0, c.readings - readingsUsed);
   const remainingCorrections = Math.max(0, c.corrections - correctionsUsed);
-  const left = { remaining: remainingReadings, correctionsRemaining: remainingCorrections, limit: c.readings };
+  const left = {
+    remaining: remainingReadings, correctionsRemaining: remainingCorrections,
+    limit: c.readings, correctionsLimit: c.corrections
+  };
   if (poolUsed >= c.poolLimit) return { allowed: false, reason: 'free_pool_exhausted', counter, ...left };
   if (correction && remainingCorrections <= 0) return { allowed: false, reason: 'free_correction_used', counter, ...left };
   if (!correction && remainingReadings <= 0) return { allowed: false, reason: 'free_daily_limit', counter, ...left };
@@ -79,7 +82,8 @@ export function decideFreeQuota({ readingsUsed = 0, correctionsUsed = 0, poolUse
     counter,
     remaining: correction ? remainingReadings : remainingReadings - 1,
     correctionsRemaining: correction ? remainingCorrections - 1 : remainingCorrections,
-    limit: c.readings
+    limit: c.readings,
+    correctionsLimit: c.corrections
   };
 }
 
@@ -162,9 +166,13 @@ export function validateAnalyseRequest(body) {
     ? body.requestId : null;
   const who = { purchaseToken: purchaseToken || null, idToken: idToken || null, requestId };
 
-  if (body?.mode != null && !['analyse', 'leftovers', 'text'].includes(body.mode)) {
+  if (body?.mode != null && !['analyse', 'leftovers', 'text', 'allowance'].includes(body.mode)) {
     return { ok: false, error: 'bad_mode' };
   }
+  // "How many readings do I have left?": no photograph, no model call, no
+  // charge. The app asks when it opens, so the counter on its buttons is right
+  // from the first launch and after the daily reset.
+  if (body?.mode === 'allowance') return { ok: true, mode: 'allowance', ...who };
   if (body?.mode === 'text') {
     const description = validateDescription(body.description);
     if (!description.ok) return description;

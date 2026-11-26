@@ -89,7 +89,6 @@
   "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI가 이 앱이 Google Play의 Bitey 앱인지 확인하지 못했어요. 다시 시도하거나 Google Play에서 다시 설치하세요.",
   "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI가 이 식사를 추정하지 못했어요: {0} ({1})",
   "Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.": "Bitey AI가 입력한 내용으로 아직 사진을 다시 읽지 않았어요. 지금 저장하면 보이는 결과가 그대로 저장돼요.",
-  "Bitey AI is a paid feature. Purchases are managed by Google Play.": "Bitey AI는 유료 기능이에요. 구매는 Google Play에서 관리돼요.",
   "Bitey AI is active on this device.": "이 기기에서 Bitey AI가 활성화되어 있어요.",
   "Bitey AI is not available to buy yet.": "Bitey AI는 아직 구매할 수 없어요.",
   "Bitey AI reads the plate. You fix the portion if you know better.": "Bitey AI가 접시를 읽어요. 양은 더 잘 알면 직접 고치세요.",
@@ -606,7 +605,6 @@
   "You have used today’s free correction. It comes back tomorrow.": "오늘의 무료 수정을 사용했어요. 내일 다시 쓸 수 있어요.",
   "Free readings are used up for today. Try again tomorrow.": "오늘 무료 분석이 모두 소진됐어요. 내일 다시 시도하세요.",
   "Bitey could not verify the app. Try again.": "Bitey가 앱을 확인하지 못했어요. 다시 시도하세요.",
-  "{0} free readings left today": "오늘 무료 분석 {0}회 남음",
   "Read again. That was today’s free correction.": "다시 읽었어요. 오늘의 무료 수정을 사용했어요.",
   "Not checked": "확인 안 함",
   "Reading your meal… Bitey will log it and let you know.": "식사를 읽는 중… Bitey가 기록하고 알려 드릴게요.",
@@ -620,5 +618,11 @@
   "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "자리를 비운 사이 Bitey AI가 기록했어요. 음식과 양을 확인한 뒤 확정하세요.",
   "Looks right": "맞아요",
   "Checked": "확인했어요",
-  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI가 이미 보고 있던 날짜에 기록했어요."
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI가 이미 보고 있던 날짜에 기록했어요.",
+  "Free readings left today: {0} of {1}": "오늘 남은 무료 분석: {1}회 중 {0}회",
+  "Free corrections left today: {0} of {1}": "오늘 남은 무료 수정: {1}회 중 {0}회",
+  "Resets at {0}": "{0}에 초기화",
+  "{0} free corrections left today": "오늘 무료 수정 {0}회 남음",
+  "No free corrections left today": "오늘 남은 무료 수정이 없어요",
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI는 매일 몇 번의 무료 분석을 제공합니다. 더 필요하면 구독하세요. 결제는 Google Play에서 관리됩니다."
 }

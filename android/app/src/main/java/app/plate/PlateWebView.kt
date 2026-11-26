@@ -134,6 +134,7 @@ private class PlateNativeBridge(
     private val betaTesterModeStatus: () -> String,
     private val onBetaTesterModeToggled: () -> Unit,
     private val readingsHandler: (String, String, String) -> String,
+    private val freeAllowanceJson: () -> String,
     private val onPrivacyNoticeRequested: () -> Unit,
     private val quickTileSupported: () -> Boolean,
     private val onQuickTileRequested: () -> Unit,
@@ -286,6 +287,13 @@ private class PlateNativeBridge(
         return readingsHandler(operation, first, second)
     }
 
+    /** The free tier's allowance today as JSON (readings and corrections left,
+     * their daily sizes, when they come back), or "" for a subscriber or a
+     * build without the free tier. Read when the page starts; after that
+     * native code pushes changes (window.__plateFreeAllowance). */
+    @JavascriptInterface
+    fun freeAllowance(): String = freeAllowanceJson()
+
     /** Bitey Beta only: "on" or "off" for testing as a subscriber, and empty
      * in every other build, where the page then shows no switch. */
     @JavascriptInterface
@@ -363,6 +371,7 @@ class PlateWebView(
     onAnalysisRequested: (String, String) -> Unit,
     betaTesterMode: () -> String = { "" },
     onBetaTesterModeToggled: () -> Unit = {},
+    freeAllowance: () -> String = { "" },
     onPrivacyNoticeRequested: () -> Unit,
     quickTileSupported: () -> Boolean,
     onQuickTileRequested: () -> Unit,
@@ -472,6 +481,7 @@ class PlateWebView(
                 betaTesterMode,
                 onBetaTesterModeToggled,
                 ::readings,
+                freeAllowance,
                 onPrivacyNoticeRequested,
                 quickTileSupported,
                 onQuickTileRequested,

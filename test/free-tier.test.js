@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {
   FREE_DEFAULTS, normaliseFreeConfig, decideFreeQuota, poolAlerts, resetsAt, validateAnalyseRequest
 } from '../core/ai/gate.js';
-import { claim, refund, claimFree, refundFree, freeConfig, freeIdFor, entitlementIdFor } from '../functions/quota.js';
+import { claim, refund, peek, claimFree, peekFree, refundFree, freeConfig, freeIdFor, entitlementIdFor } from '../functions/quota.js';
 
 /** Just enough of Firestore for quota.js: documents by path, transactions
  * that read and then write. */
@@ -158,4 +158,47 @@ test('the settings document is read, then cached for a minute', async () => {
 
 test('a free user and a subscriber never share a counter', () => {
   assert.notEqual(freeIdFor('abc'), entitlementIdFor('abc'));
+});
+
+test('asking what is left needs a token but no photograph', () => {
+  assert.equal(validateAnalyseRequest({ mode: 'allowance' }).error, 'no_token');
+  const ok = validateAnalyseRequest({ mode: 'allowance', idToken: 'aaa.bbb.ccc', image: 'ignored' });
+  assert.equal(ok.ok, true);
+  assert.equal(ok.mode, 'allowance');
+  assert.equal(ok.idToken, 'aaa.bbb.ccc');
+  assert.equal('image' in ok, false);
+});
+
+test('every free answer says how big the correction allowance is', () => {
+  assert.equal(decideFreeQuota({ readingsUsed: 0, config }).correctionsLimit, 1);
+  assert.equal(decideFreeQuota({ readingsUsed: 5, config }).correctionsLimit, 1, 'refusals too');
+});
+
+test('peeking at a free allowance claims nothing', async () => {
+  const db = fakeFirestore();
+  await free(db);
+  await free(db, { correction: true });
+  const before = JSON.stringify([...db.docs]);
+  const left = await peekFree('u1', { config, now: NOW, db });
+  assert.deepEqual(left, { remaining: 4, correctionsRemaining: 0, limit: 5, correctionsLimit: 1, poolFull: false });
+  assert.equal(JSON.stringify([...db.docs]), before, 'nothing was written');
+  const fresh = await peekFree('nobody', { config, now: NOW, db });
+  assert.equal(fresh.remaining, 5);
+  assert.equal(fresh.correctionsRemaining, 1);
+});
+
+test('a full pool reads as nothing left, to everyone', async () => {
+  const db = fakeFirestore({ 'ai_usage_free_pool/2026-11-22': { count: 1000 } });
+  const left = await peekFree('u1', { config, now: NOW, db });
+  assert.equal(left.remaining, 0);
+  assert.equal(left.correctionsRemaining, 0);
+  assert.equal(left.poolFull, true);
+});
+
+test('peeking at a subscription claims nothing either', async () => {
+  const db = fakeFirestore();
+  await claim('p1', { now: NOW, db });
+  const before = JSON.stringify([...db.docs]);
+  assert.deepEqual(await peek('p1', { now: NOW, db }), { used: 1, remaining: 19, limit: 20 });
+  assert.equal(JSON.stringify([...db.docs]), before);
 });

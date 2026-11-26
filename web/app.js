@@ -2492,7 +2492,6 @@ async function startPhotoEntry(file) {
     idle();
     initWeightSlider();
     renderReview();
-    noteFreeAllowance(data);
   } catch (err) {
     if (!screenIsOpen('review')) return;
     track('analyse_fail', { code: err.code || 'unknown' });
@@ -3029,12 +3028,50 @@ $('text-edit').addEventListener('click', () => setEntryRoute('describe'));
  * purchase, so the padlocks return and the next Bitey AI tap shows the plans
  * -- and this says so.
  */
-/** After a free-tier reading, how many are left today. A subscriber's
- * answers say tier "paid" and get nothing: twenty is plenty to not count. */
-function noteFreeAllowance(data) {
-  if (data?.tier !== 'free' || !Number.isFinite(data.remaining)) return;
-  toast(plural('{0} free readings left today', data.remaining));
+/**
+ * The free tier's allowance today, pushed by Android whenever it changes
+ * (null for a subscriber, and outside the app). It is what the badge on the
+ * Photo and Gallery buttons shows, said again here in words: Settings has all
+ * of it, and the correction note says how many free corrections are left.
+ */
+let freeAllowance = null;
+
+function setFreeAllowance(json) {
+  try { freeAllowance = json ? JSON.parse(json) : null; } catch { freeAllowance = null; }
+  if (freeAllowance?.tier !== 'free') freeAllowance = null;
+  renderFreeAllowance();
 }
+
+function renderFreeAllowance() {
+  const a = freeAllowance;
+  // The correction controls are padlocked by their own allowance, not the
+  // readings' (see .fix-lock in app.css).
+  document.documentElement.dataset.aiFix = a && a.correctionsRemaining > 0 ? 'open' : 'none';
+  const status = $('ai-free-status');
+  if (status) {
+    status.hidden = !a;
+    if (a) {
+      const time = new Date(a.resetsAt).toLocaleTimeString(locale(), { hour: 'numeric', minute: '2-digit' });
+      status.textContent = [
+        t('Free readings left today: {0} of {1}', a.remaining, a.limit),
+        t('Free corrections left today: {0} of {1}', a.correctionsRemaining, a.correctionsLimit),
+        t('Resets at {0}', time)
+      ].join(' · ');
+    }
+  }
+  const fix = $('correct-free-left');
+  if (fix) {
+    fix.hidden = !a;
+    if (a) {
+      fix.textContent = a.correctionsRemaining > 0
+        ? plural('{0} free corrections left today', a.correctionsRemaining)
+        : t('No free corrections left today');
+    }
+  }
+}
+
+window.__plateFreeAllowance = setFreeAllowance;
+setFreeAllowance(typeof window.PlateNative?.freeAllowance === 'function' ? window.PlateNative.freeAllowance() : '');
 
 function aiRefusal(err) {
   switch (err?.code) {
@@ -3124,7 +3161,6 @@ $('estimate-text').addEventListener('click', async () => {
     state.estimate = data.estimate;
     renderReview();
     $('review-body').scrollTop = 0;
-    noteFreeAllowance(data);
   } catch (err) {
     if (!current()) return;
     $('text-error').textContent = textEstimateError(err);

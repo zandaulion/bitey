@@ -163,7 +163,10 @@ Bitey AI feature, Bitey signs in to Firebase, Google's app platform,
 anonymously: there is no account screen, and no name, email address or Google
 account is involved. Firebase creates a random user ID for this installation
 and keeps it with its creation and last sign-in times; Bitey's server uses it
-only to count your free readings. Firebase deletes an anonymous account that
+only to count your free readings. Once you have used a free reading, Bitey also
+asks the server how many are left each time you open it, so the counter on its
+buttons is right; that request carries no photograph or description and counts
+nothing. Firebase deletes an anonymous account that
 has not been used for 30 days. Uninstalling Bitey or clearing its storage
 leaves the old account unused, and Bitey signs in afresh the next time.
 

@@ -104,7 +104,6 @@
   "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI पुष्टि नहीं कर सका कि यह Google Play वाला Bitey ऐप है। फिर कोशिश करें, या Google Play से दोबारा इंस्टॉल करें।",
   "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI इस भोजन का अनुमान नहीं लगा सका: {0} ({1})",
   "Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.": "Bitey AI ने आपके लिखे के हिसाब से फ़ोटो दोबारा नहीं पढ़ी है। अभी सेव करने पर दिख रहा नतीजा ही रहेगा।",
-  "Bitey AI is a paid feature. Purchases are managed by Google Play.": "Bitey AI एक पेड सुविधा है। ख़रीद Google Play से होती है।",
   "Bitey AI is active on this device.": "इस डिवाइस पर Bitey AI चालू है।",
   "Bitey AI is not available to buy yet.": "Bitey AI अभी ख़रीदा नहीं जा सकता।",
   "Bitey AI reads the plate. You fix the portion if you know better.": "Bitey AI थाली पढ़ता है। अगर आपको बेहतर पता है, तो हिस्सा आप ठीक कर दें।",
@@ -627,10 +626,6 @@
   "You have used today’s free correction. It comes back tomorrow.": "आज का मुफ़्त सुधार इस्तेमाल हो गया। यह कल फिर मिलेगा।",
   "Free readings are used up for today. Try again tomorrow.": "आज के मुफ़्त विश्लेषण ख़त्म हो गए। कल फिर कोशिश करें।",
   "Bitey could not verify the app. Try again.": "Bitey ऐप की पुष्टि नहीं कर सका। फिर कोशिश करें।",
-  "{0} free readings left today": {
-    "one": "आज {0} मुफ़्त विश्लेषण बाकी है",
-    "other": "आज {0} मुफ़्त विश्लेषण बाकी हैं"
-  },
   "Read again. That was today’s free correction.": "दोबारा पढ़ा। यह आज का मुफ़्त सुधार था।",
   "Not checked": "जाँचा नहीं गया",
   "Reading your meal… Bitey will log it and let you know.": "आपका भोजन पढ़ा जा रहा है… Bitey इसे दर्ज करके आपको बताएगा।",
@@ -644,5 +639,14 @@
   "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "आपकी ग़ैरमौजूदगी में Bitey AI ने इसे दर्ज किया। खाने और मात्रा जाँचें, फिर पुष्टि करें।",
   "Looks right": "सही है",
   "Checked": "जाँच लिया",
-  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI इसे पहले ही देखे जा रहे दिन में दर्ज कर चुका था।"
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI इसे पहले ही देखे जा रहे दिन में दर्ज कर चुका था।",
+  "Free readings left today: {0} of {1}": "आज के बचे मुफ़्त विश्लेषण: {1} में से {0}",
+  "Free corrections left today: {0} of {1}": "आज के बचे मुफ़्त सुधार: {1} में से {0}",
+  "Resets at {0}": "{0} पर रीसेट होगा",
+  "{0} free corrections left today": {
+    "one": "आज {0} मुफ़्त सुधार बाकी है",
+    "other": "आज {0} मुफ़्त सुधार बाकी हैं"
+  },
+  "No free corrections left today": "आज कोई मुफ़्त सुधार बाकी नहीं",
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI से आपको रोज़ कुछ मुफ़्त विश्लेषण मिलते हैं। ज़्यादा के लिए सदस्यता लें; खरीदारी Google Play से प्रबंधित होती है।"
 }

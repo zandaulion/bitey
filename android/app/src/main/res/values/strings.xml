@@ -30,4 +30,10 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">Looks right</string>
     <string name="readings_all_look_right">All look right</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">%d free reading left today</item>
+        <item quantity="other">%d free readings left today</item>
+    </plurals>
 </resources>

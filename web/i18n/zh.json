@@ -89,7 +89,6 @@
   "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI 无法确认这是来自 Google Play 的 Bitey 应用。请重试，或从 Google Play 重新安装。",
   "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI 无法估算这餐：{0}（{1}）",
   "Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.": "Bitey AI 还没有根据你输入的内容重新读取照片。现在保存的话，会保留当前显示的结果。",
-  "Bitey AI is a paid feature. Purchases are managed by Google Play.": "Bitey AI 是付费功能。购买由 Google Play 管理。",
   "Bitey AI is active on this device.": "Bitey AI 已在此设备上启用。",
   "Bitey AI is not available to buy yet.": "Bitey AI 暂时还不能购买。",
   "Bitey AI reads the plate. You fix the portion if you know better.": "Bitey AI 读取餐盘。如果你更清楚，就自己调整分量。",
@@ -606,7 +605,6 @@
   "You have used today’s free correction. It comes back tomorrow.": "今天的免费修正已用过，明天会恢复。",
   "Free readings are used up for today. Try again tomorrow.": "今天的免费分析名额已用完。请明天再试。",
   "Bitey could not verify the app. Try again.": "Bitey 无法验证此应用。请重试。",
-  "{0} free readings left today": "今天还剩 {0} 次免费分析",
   "Read again. That was today’s free correction.": "已重新读取。这是今天的免费修正。",
   "Not checked": "未检查",
   "Reading your meal… Bitey will log it and let you know.": "正在读取你的餐食… Bitey 会记录下来并通知你。",
@@ -620,5 +618,11 @@
   "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "你不在时 Bitey AI 记录了这份餐食。请检查食物和分量，然后确认。",
   "Looks right": "没问题",
   "Checked": "已检查",
-  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI 已经把它记录到你正在查看的那一天了。"
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI 已经把它记录到你正在查看的那一天了。",
+  "Free readings left today: {0} of {1}": "今天剩余的免费分析：{0} / {1}",
+  "Free corrections left today: {0} of {1}": "今天剩余的免费修正：{0} / {1}",
+  "Resets at {0}": "{0} 重置",
+  "{0} free corrections left today": "今天还剩 {0} 次免费修正",
+  "No free corrections left today": "今天没有剩余的免费修正了",
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI 每天提供几次免费分析。想要更多，请订阅；购买由 Google Play 管理。"
 }

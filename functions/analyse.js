@@ -22,7 +22,7 @@ import { parseResponse, parseLeftovers } from './core/analysis/prompt.js';
 import { fromModelResponse, totalsOf, rangesOf } from './core/analysis/estimate.js';
 import { readSubscription, PlayError, AI_SUBSCRIPTION_ID } from './play.js';
 import {
-  COLLECTIONS, entitlementIdFor, freeIdFor, claim, refund, freeConfig, claimFree, refundFree
+  COLLECTIONS, entitlementIdFor, freeIdFor, claim, refund, peek, freeConfig, claimFree, peekFree, refundFree
 } from './quota.js';
 import { analysePhoto, analyseText, readLeftovers, AnalysisError } from './gemini.js';
 
@@ -188,6 +188,24 @@ export function buildAnalyse({
         return fail(res, 403, 'not_entitled', ANALYSE_ERRORS.not_entitled);
       }
 
+      // Only asking what is left: answered from the counters, nothing claimed,
+      // no model called.
+      if (request.mode === 'allowance') {
+        if (tier === 'paid') {
+          const left = await peek(entitlementId, { collection: collections.paid });
+          lap('quota');
+          return res.json({ tier, remaining: left.remaining, limit: left.limit, resetsAt: resetsAt() });
+        }
+        const config = await freeConfig({ path: collections.freeConfig });
+        const left = await peekFree(entitlementId, { config, collections });
+        lap('quota');
+        return res.json({
+          tier, remaining: left.remaining, limit: left.limit,
+          correctionsRemaining: left.correctionsRemaining, correctionsLimit: left.correctionsLimit,
+          resetsAt: resetsAt()
+        });
+      }
+
       const correction = request.mode === 'analyse' && Boolean(request.correction);
       let quota;
       if (tier === 'paid') {
@@ -212,7 +230,7 @@ export function buildAnalyse({
           logger.info('free refused', { reason: quota.reason, entitlementId, correction });
           return fail(res, 429, quota.reason, ANALYSE_ERRORS[quota.reason], {
             tier, remaining: quota.remaining, correctionsRemaining: quota.correctionsRemaining,
-            limit: quota.limit, resetsAt: resetsAt()
+            correctionsLimit: quota.correctionsLimit, limit: quota.limit, resetsAt: resetsAt()
           });
         }
       }
@@ -221,7 +239,9 @@ export function buildAnalyse({
       const allowance = {
         tier,
         remaining: quota.remaining,
-        ...(tier === 'free' ? { correctionsRemaining: quota.correctionsRemaining, limit: quota.limit } : {}),
+        ...(tier === 'free'
+          ? { correctionsRemaining: quota.correctionsRemaining, correctionsLimit: quota.correctionsLimit, limit: quota.limit }
+          : {}),
         resetsAt: resetsAt()
       };
       // A repeated request id was not charged, so there is nothing to give back.

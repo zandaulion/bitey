@@ -26,4 +26,9 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">没问题</string>
     <string name="readings_all_look_right">全部没问题</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="other">今天还剩 %d 次免费分析</item>
+    </plurals>
 </resources>

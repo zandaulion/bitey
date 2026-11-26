@@ -122,6 +122,12 @@ android {
         // The free tier (FreeTier.kt): five free Bitey AI readings a day
         // without a subscription, counted by the server.
         resValue("bool", "free_tier_enabled", "true")
+        // What the free tier gives before the server has said otherwise: a
+        // brand-new install shows this on its buttons without contacting
+        // anything. The same as FREE_DEFAULTS in core/ai/gate.js; the server's
+        // own numbers replace them after the first reading.
+        resValue("integer", "free_tier_default_readings", "2")
+        resValue("integer", "free_tier_default_corrections", "1")
         // Firebase's FirebaseInitProvider reads these by name at start-up.
         firebaseIds?.forEach { (name, value) -> resValue("string", name, value) }
     }

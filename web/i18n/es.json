@@ -110,7 +110,6 @@
   "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "Bitey AI no ha podido confirmar que esta sea la app Bitey de Google Play. Inténtalo de nuevo o reinstálala desde Google Play.",
   "Bitey AI could not estimate this meal: {0} ({1})": "Bitey AI no ha podido estimar esta comida: {0} ({1})",
   "Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.": "Bitey AI todavía no ha vuelto a leer la foto con lo que has escrito. Si guardas ahora, se queda la lectura que ves.",
-  "Bitey AI is a paid feature. Purchases are managed by Google Play.": "Bitey AI es una función de pago. Las compras se gestionan en Google Play.",
   "Bitey AI is active on this device.": "Bitey AI está activo en este dispositivo.",
   "Bitey AI is not available to buy yet.": "Bitey AI todavía no se puede comprar.",
   "Bitey AI reads the plate. You fix the portion if you know better.": "Bitey AI lee el plato. Tú corriges la porción si lo sabes mejor.",
@@ -636,11 +635,6 @@
   "You have used today’s free correction. It comes back tomorrow.": "Ya has usado la corrección gratuita de hoy. Mañana tendrás otra.",
   "Free readings are used up for today. Try again tomorrow.": "Los análisis gratuitos de hoy se han agotado. Vuelve a intentarlo mañana.",
   "Bitey could not verify the app. Try again.": "Bitey no ha podido verificar la app. Inténtalo de nuevo.",
-  "{0} free readings left today": {
-    "one": "Te queda {0} análisis gratuito hoy",
-    "many": "Te quedan {0} análisis gratuitos hoy",
-    "other": "Te quedan {0} análisis gratuitos hoy"
-  },
   "Read again. That was today’s free correction.": "Leída de nuevo. Era la corrección gratuita de hoy.",
   "Not checked": "Sin revisar",
   "Reading your meal… Bitey will log it and let you know.": "Leyendo tu comida… Bitey la registrará y te avisará.",
@@ -654,5 +648,15 @@
   "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "Bitey AI registró esto mientras no estabas. Revisa los alimentos y las cantidades y confirma.",
   "Looks right": "Está bien",
   "Checked": "Revisada",
-  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI ya la había registrado en el día que estabas viendo."
+  "Bitey AI had already logged it to the day you were viewing.": "Bitey AI ya la había registrado en el día que estabas viendo.",
+  "Free readings left today: {0} of {1}": "Análisis gratuitos que quedan hoy: {0} de {1}",
+  "Free corrections left today: {0} of {1}": "Correcciones gratuitas que quedan hoy: {0} de {1}",
+  "Resets at {0}": "Se renueva a las {0}",
+  "{0} free corrections left today": {
+    "one": "Te queda {0} corrección gratuita hoy",
+    "many": "Te quedan {0} correcciones gratuitas hoy",
+    "other": "Te quedan {0} correcciones gratuitas hoy"
+  },
+  "No free corrections left today": "Hoy no quedan correcciones gratuitas",
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI te da unos cuantos análisis gratis al día. Para más, suscríbete; las compras las gestiona Google Play."
 }

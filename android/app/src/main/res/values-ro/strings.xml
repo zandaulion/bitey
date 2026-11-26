@@ -28,4 +28,11 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">Arată bine</string>
     <string name="readings_all_look_right">Toate arată bine</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">Îți mai rămâne o analiză gratuită azi</item>
+        <item quantity="few">Îți mai rămân %d analize gratuite azi</item>
+        <item quantity="other">Îți mai rămân %d de analize gratuite azi</item>
+    </plurals>
 </resources>

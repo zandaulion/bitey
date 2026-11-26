@@ -29,4 +29,12 @@
          them) as checked without opening Bitey. -->
     <string name="reading_looks_right">Усе правильно</string>
     <string name="readings_all_look_right">Усі правильні</string>
+    <!-- Read out with the Photo and Gallery buttons while the free readings
+         badge is showing (BadgeButton). -->
+    <plurals name="free_readings_left">
+        <item quantity="one">Сьогодні лишився %d безкоштовний аналіз</item>
+        <item quantity="few">Сьогодні лишилося %d безкоштовні аналізи</item>
+        <item quantity="many">Сьогодні лишилося %d безкоштовних аналізів</item>
+        <item quantity="other">Сьогодні лишилося %d безкоштовного аналізу</item>
+    </plurals>
 </resources>

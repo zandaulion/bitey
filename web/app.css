@@ -1184,6 +1184,43 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   transform: translateY(-8px);
 }
 
+/* The correction controls ("Not what you ate?", "Read it again") have their
+   own allowance on the free tier, apart from the readings: they are padlocked
+   when no correction is left, and open when one is even though the readings
+   have run out. Android sets data-ai-fix="open" while the free tier has a
+   correction left; a subscriber is data-ai="active"; everywhere else (the
+   PWA, no allowance) they stay locked as before. Same padlock as above. */
+.fix-lock { position: relative; }
+:root:not([data-ai="active"]):not([data-ai-fix="open"]) .fix-lock {
+  padding-right: 26px;
+}
+:root:not([data-ai="active"]):not([data-ai-fix="open"]) .fix-lock::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 9px;
+  border-radius: 2.5px;
+  background: currentColor;
+  pointer-events: none;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-1px);
+}
+:root:not([data-ai="active"]):not([data-ai-fix="open"]) .fix-lock::before {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  pointer-events: none;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-8px);
+}
+
 /* ---------------------------------------------------------------- sheet */
 
 .sheet {

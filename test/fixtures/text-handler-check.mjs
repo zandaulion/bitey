@@ -31,7 +31,7 @@ const deps = {
   './core/analysis/prompt.js': prompt,
   './core/analysis/estimate.js': estimate,
   './play.js': { readSubscription: async () => { calls.push(['play']); return subscription; }, PlayError: class extends Error {}, AI_SUBSCRIPTION_ID: 'synthetic-ai-product' },
-  './quota.js': { COLLECTIONS: {}, freeIdFor: () => 'synthetic-free-hash', freeConfig: async () => ({}), claimFree: async () => ({ allowed: false, reason: 'free_daily_limit', alerts: [] }), refundFree: async () => {}, entitlementIdFor: () => 'synthetic-hash', claim: async () => { calls.push(['quota']); return { allowed, remaining: allowed ? 19 : 0, used: allowed ? 1 : 20, limit: 20 }; }, refund: async () => { calls.push(['refund']); } },
+  './quota.js': { COLLECTIONS: {}, peek: async () => ({ remaining: 20, limit: 20 }), peekFree: async () => ({ remaining: 2, limit: 2, correctionsRemaining: 1, correctionsLimit: 1 }), freeIdFor: () => 'synthetic-free-hash', freeConfig: async () => ({}), claimFree: async () => ({ allowed: false, reason: 'free_daily_limit', alerts: [] }), refundFree: async () => {}, entitlementIdFor: () => 'synthetic-hash', claim: async () => { calls.push(['quota']); return { allowed, remaining: allowed ? 19 : 0, used: allowed ? 1 : 20, limit: 20 }; }, refund: async () => { calls.push(['refund']); } },
   './gemini.js': { analysePhoto: model, analyseText: model, readLeftovers: model, AnalysisError }
 };
 const module = new vm.SourceTextModule(fs.readFileSync(new URL('../../functions/analyse.js', import.meta.url), 'utf8'), { context });

@@ -138,7 +138,6 @@
   "Bitey AI could not confirm this is the Bitey app from Google Play. Try again, or reinstall from Google Play.": "تعذّر على Bitey AI التأكد من أن هذا هو تطبيق Bitey من Google Play. حاول مجددًا، أو أعد تثبيته من Google Play.",
   "Bitey AI could not estimate this meal: {0} ({1})": "تعذّر على Bitey AI تقدير هذه الوجبة: {0} ({1})",
   "Bitey AI has not read the photo again with what you typed. Saving now keeps the reading you see.": "لم يُعِد Bitey AI قراءة الصورة بما كتبته بعد. إذا حفظت الآن فستبقى القراءة المعروضة.",
-  "Bitey AI is a paid feature. Purchases are managed by Google Play.": "Bitey AI ميزة مدفوعة. تتم إدارة المشتريات عبر Google Play.",
   "Bitey AI is active on this device.": "Bitey AI مفعّل على هذا الجهاز.",
   "Bitey AI is not available to buy yet.": "Bitey AI غير متاح للشراء بعد.",
   "Bitey AI reads the plate. You fix the portion if you know better.": "Bitey AI يقرأ الطبق. وأنت تصحّح الكمية إن كنت تعرف أفضل.",
@@ -676,14 +675,6 @@
   "You have used today’s free correction. It comes back tomorrow.": "استخدمت تصحيح اليوم المجاني. يعود غدًا.",
   "Free readings are used up for today. Try again tomorrow.": "نفدت القراءات المجانية لهذا اليوم. حاول غدًا.",
   "Bitey could not verify the app. Try again.": "تعذّر على Bitey التحقق من التطبيق. حاول مجددًا.",
-  "{0} free readings left today": {
-    "zero": "لم تتبقَّ قراءات مجانية اليوم",
-    "one": "تبقّت قراءة مجانية واحدة اليوم",
-    "two": "تبقّت قراءتان مجانيتان اليوم",
-    "few": "تبقّت {0} قراءات مجانية اليوم",
-    "many": "تبقّت {0} قراءة مجانية اليوم",
-    "other": "تبقّت {0} قراءة مجانية اليوم"
-  },
   "Read again. That was today’s free correction.": "تمت إعادة القراءة. كان هذا تصحيح اليوم المجاني.",
   "Not checked": "لم تتم مراجعتها",
   "Reading your meal… Bitey will log it and let you know.": "جارٍ قراءة وجبتك… سيسجّلها Bitey ويُعلمك.",
@@ -697,5 +688,18 @@
   "Bitey AI logged this while you were away. Check the foods and amounts, then confirm.": "سجّل Bitey AI هذه الوجبة أثناء غيابك. تحقّق من الأطعمة والكميات ثم أكّد.",
   "Looks right": "يبدو صحيحًا",
   "Checked": "تم التحقق",
-  "Bitey AI had already logged it to the day you were viewing.": "كان Bitey AI قد سجّلها بالفعل في اليوم الذي كنت تعرضه."
+  "Bitey AI had already logged it to the day you were viewing.": "كان Bitey AI قد سجّلها بالفعل في اليوم الذي كنت تعرضه.",
+  "Free readings left today: {0} of {1}": "القراءات المجانية المتبقية اليوم: {0} من {1}",
+  "Free corrections left today: {0} of {1}": "التصحيحات المجانية المتبقية اليوم: {0} من {1}",
+  "Resets at {0}": "يتجدد عند {0}",
+  "{0} free corrections left today": {
+    "zero": "لا تصحيحات مجانية متبقية اليوم",
+    "one": "تبقّى تصحيح مجاني واحد اليوم",
+    "two": "تبقّى تصحيحان مجانيان اليوم",
+    "few": "تبقّت {0} تصحيحات مجانية اليوم",
+    "many": "تبقّى {0} تصحيحًا مجانيًا اليوم",
+    "other": "تبقّى {0} تصحيح مجاني اليوم"
+  },
+  "No free corrections left today": "لا تصحيحات مجانية متبقية اليوم",
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "يمنحك Bitey AI بضع قراءات مجانية كل يوم. وللمزيد، اشترك؛ تتم إدارة المشتريات عبر Google Play."
 }

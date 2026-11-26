@@ -182,7 +182,8 @@ export async function claimFree(freeId, {
         allowed: true, repeat: true, counter: correction ? 'corrections' : 'readings', alerts: [],
         remaining: Math.max(0, c.readings - readingsUsed),
         correctionsRemaining: Math.max(0, c.corrections - correctionsUsed),
-        limit: c.readings
+        limit: c.readings,
+        correctionsLimit: c.corrections
       };
     }
 
@@ -206,6 +207,43 @@ export async function claimFree(freeId, {
 
     return { ...verdict, alerts, poolUsed: poolUsed + 1 };
   });
+}
+
+/**
+ * What is left of a subscription's day, without claiming anything.
+ */
+export async function peek(entitlementId, {
+  collection = COLLECTIONS.paid, now = new Date(), db = getFirestore()
+} = {}) {
+  const snapshot = await db.collection(collection).doc(`${entitlementId}_${dayKey(now)}`).get();
+  const used = snapshot.exists ? Number(snapshot.data()?.count) || 0 : 0;
+  return { used, remaining: Math.max(0, DAILY_LIMIT - used), limit: DAILY_LIMIT };
+}
+
+/**
+ * What is left of a free user's day, without claiming anything. A full pool
+ * reads as nothing left: the next reading would be refused for it, so the
+ * counter should say so rather than promise one.
+ */
+export async function peekFree(freeId, {
+  config, collections = COLLECTIONS, now = new Date(), db = getFirestore()
+} = {}) {
+  const day = dayKey(now);
+  const [userSnap, poolSnap] = await Promise.all([
+    db.collection(collections.free).doc(`${freeId}_${day}`).get(),
+    db.collection(collections.pool).doc(day).get()
+  ]);
+  const user = userSnap.exists ? userSnap.data() ?? {} : {};
+  const poolUsed = poolSnap.exists ? Number(poolSnap.data()?.count) || 0 : 0;
+  const c = normaliseFreeConfig(config);
+  const poolFull = poolUsed >= c.poolLimit;
+  return {
+    remaining: poolFull ? 0 : Math.max(0, c.readings - (Number(user.readings) || 0)),
+    correctionsRemaining: poolFull ? 0 : Math.max(0, c.corrections - (Number(user.corrections) || 0)),
+    limit: c.readings,
+    correctionsLimit: c.corrections,
+    poolFull
+  };
 }
 
 /** Gives back a free reading or correction that never reached the model,

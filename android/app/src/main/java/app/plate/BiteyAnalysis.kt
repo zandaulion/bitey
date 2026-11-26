@@ -68,6 +68,8 @@ class BiteyAnalysis(
             ?: return answer(400, "no_image", "No photo was received.")
 
         val textMode = request.optString("mode") == "text"
+        // Only asking what is left today: no photograph, nothing charged.
+        val allowanceOnly = request.optString("mode") == "allowance"
         val description = request.opt("description") as? String ?: ""
         if (textMode && description.isBlank()) {
             return answer(400, "no_description", "Describe what you ate first.")
@@ -76,8 +78,8 @@ class BiteyAnalysis(
             return answer(400, "description_too_long", "Keep the meal description to 1,000 characters.")
         }
         val image = request.optString("image")
-        if (!textMode && image.length < 100) return answer(400, "no_image", "No photo was received.")
-        if (!textMode && image.length > MAX_IMAGE_CHARS) {
+        if (!textMode && !allowanceOnly && image.length < 100) return answer(400, "no_image", "No photo was received.")
+        if (!textMode && !allowanceOnly && image.length > MAX_IMAGE_CHARS) {
             return answer(400, "image_too_large", "That photo is too large to read.")
         }
 
@@ -94,6 +96,8 @@ class BiteyAnalysis(
                 if (textMode) {
                     put("mode", "text")
                     put("description", description.trim())
+                } else if (allowanceOnly) {
+                    put("mode", "allowance")
                 } else {
                     put("image", image)
                     put("mimeType", if (request.optString("mimeType") == "image/png") "image/png" else "image/jpeg")

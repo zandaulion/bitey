@@ -83,8 +83,8 @@ class MainActivity : ComponentActivity() {
     private val freeTier by lazy { FreeTier(applicationContext) }
     private lateinit var manualAction: Button
     private lateinit var barcodeAction: Button
-    private lateinit var galleryAction: Button
-    private lateinit var photoAction: Button
+    private lateinit var galleryAction: BadgeButton
+    private lateinit var photoAction: BadgeButton
 
     /** The Manual / Barcode / Photo bar. Hidden while the page has a sheet
      * open, which the page reports through the bridge. */
@@ -407,6 +407,7 @@ class MainActivity : ComponentActivity() {
             betaTesterMode = {
                 if (!BetaTester.available(applicationContext)) "" else if (BetaTester.on(applicationContext)) "on" else "off"
             },
+            freeAllowance = { freeAllowanceJson() },
             onBetaTesterModeToggled = {
                 if (BetaTester.available(applicationContext)) runOnUiThread {
                     BetaTester.toggle(applicationContext)
@@ -574,8 +575,13 @@ class MainActivity : ComponentActivity() {
         // meals it logged have now been seen.
         PendingReadings.sweep(applicationContext)
         PendingReadings.clearNotifications(applicationContext)
-        // The free readings may have come back while Bitey was away.
+        // The free readings may have come back while Bitey was away; and for
+        // an install that has used one, ask the server what is left (nothing
+        // is charged) so the counter is exact.
         refreshAiEntitlement()
+        if (playBilling.status() != PlayBilling.Status.ACTIVE) {
+            freeTier.refreshAsync { refreshAiEntitlement() }
+        }
     }
 
     /** Ids and days are generated here, but checked anyway before they are
@@ -761,6 +767,32 @@ class MainActivity : ComponentActivity() {
             galleryAction.placeIcon(galleryIcon(locked))
         }
         if (::plateWebView.isInitialized) plateWebView.deliverAiEntitlement(wire)
+        applyFreeAllowance()
+    }
+
+    /** The allowance to show: a free user's, never a subscriber's. */
+    private fun shownAllowance(): JSONObject? =
+        if (::playBilling.isInitialized && playBilling.status() != PlayBilling.Status.ACTIVE) freeTier.allowanceForDisplay() else null
+
+    private fun freeAllowanceJson(): String = shownAllowance()?.toString().orEmpty()
+
+    /**
+     * Today's free readings on the Photo and Gallery buttons, and to the page
+     * for Settings and the correction note. No badge at nought: the padlock
+     * says that.
+     */
+    private fun applyFreeAllowance() {
+        val shown = shownAllowance()
+        val left = shown?.optInt("remaining", 0) ?: 0
+        if (::photoAction.isInitialized) {
+            val text = if (left > 0) (if (left > 9) "9+" else left.toString()) else null
+            val description = if (left > 0) resources.getQuantityString(R.plurals.free_readings_left, left, left) else null
+            photoAction.setBadge(text, description)
+            galleryAction.setBadge(text, description)
+        }
+        if (::plateWebView.isInitialized) {
+            plateWebView.evaluateJavascript("window.__plateFreeAllowance?.(${JSONObject.quote(freeAllowanceJson())})", null)
+        }
     }
 
     /**
@@ -811,7 +843,7 @@ class MainActivity : ComponentActivity() {
         setBounds(0, 0, size, size)
     }
 
-    private fun actionButton(label: String, icon: Int, primary: Boolean, action: String, locked: Boolean = false): Button = Button(this).apply {
+    private fun actionButton(label: String, icon: Int, primary: Boolean, action: String, locked: Boolean = false): BadgeButton = BadgeButton(this).apply {
         text = label
         textSize = if (isTablet) 14f else 12f
         isAllCaps = false
