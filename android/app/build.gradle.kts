@@ -66,6 +66,22 @@ val betaProperties = Properties().apply {
 val betaTesterToken: String = betaProperties.getProperty("testerToken").orEmpty().trim()
 val betaAppCheckDebugSecret: String = betaProperties.getProperty("appCheckDebugSecret").orEmpty().trim()
 
+// Bitey Beta is only worth installing with its credentials: without the tester
+// token it has no subscriber mode, and without the secret no App Check token.
+// A beta built without them looks fine and hides its own mode switch, so the
+// build stops instead (it once went unnoticed for several builds).
+tasks.configureEach {
+    if (name == "preBetaBuild") {
+        doFirst {
+            check(betaTesterToken.isNotBlank() && betaAppCheckDebugSecret.isNotBlank()) {
+                "Bitey Beta needs testerToken and appCheckDebugSecret in " +
+                    "${betaPropertiesFile.absolutePath} (git-ignored; on the Lenovo a link to " +
+                    "~/keystores/bitey-beta.properties, copied from ~/.config/plate on the A1)."
+            }
+        }
+    }
+}
+
 val PRODUCTION_ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyse"
 val BETA_ANALYSE_URL = "https://europe-west1-plate-cc703.cloudfunctions.net/analyseBeta"
 
