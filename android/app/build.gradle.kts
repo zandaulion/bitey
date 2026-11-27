@@ -243,7 +243,7 @@ dependencies {
 
     // Bundled scanning works as soon as the app is installed. It does not
     // download a barcode model or send camera frames to a service.
-    val cameraXVersion = "1.6.2"
+    val cameraXVersion = "1.7.0"
     implementation("androidx.camera:camera-camera2:$cameraXVersion")
     implementation("androidx.camera:camera-core:$cameraXVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
