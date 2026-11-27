@@ -701,5 +701,9 @@
     "other": "تبقّى {0} تصحيح مجاني اليوم"
   },
   "No free corrections left today": "لا تصحيحات مجانية متبقية اليوم",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "يمنحك Bitey AI بضع قراءات مجانية كل يوم. وللمزيد، اشترك؛ تتم إدارة المشتريات عبر Google Play."
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "يمنحك Bitey AI بضع قراءات مجانية كل يوم. وللمزيد، اشترك؛ تتم إدارة المشتريات عبر Google Play.",
+  "Started before the photo?": "هل بدأت الأكل قبل الصورة؟",
+  "About a quarter eaten before the photo": "أُكل نحو الربع قبل الصورة",
+  "About half eaten before the photo": "أُكل نحو النصف قبل الصورة",
+  "Includes what you had eaten before the photo.": "يشمل ما أكلته قبل الصورة."
 }

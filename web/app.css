@@ -2026,6 +2026,33 @@ input[type="range"]::-moz-range-thumb {
 
 .ate-row button:active { transform: translateY(1px); }
 
+/* "Started before the photo?": a quiet line under the fractions, its two
+   chips smaller than theirs and off until tapped. */
+.before-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: .92rem;
+}
+.before-row { display: flex; gap: 6px; flex: none; }
+.before-row button {
+  min-width: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.before-row button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ate-row button:active { transform: none; }
 }

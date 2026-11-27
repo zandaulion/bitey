@@ -648,5 +648,9 @@
     "other": "आज {0} मुफ़्त सुधार बाकी हैं"
   },
   "No free corrections left today": "आज कोई मुफ़्त सुधार बाकी नहीं",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI से आपको रोज़ कुछ मुफ़्त विश्लेषण मिलते हैं। ज़्यादा के लिए सदस्यता लें; खरीदारी Google Play से प्रबंधित होती है।"
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI से आपको रोज़ कुछ मुफ़्त विश्लेषण मिलते हैं। ज़्यादा के लिए सदस्यता लें; खरीदारी Google Play से प्रबंधित होती है।",
+  "Started before the photo?": "फ़ोटो से पहले खाना शुरू कर दिया था?",
+  "About a quarter eaten before the photo": "फ़ोटो से पहले लगभग एक चौथाई खा लिया था",
+  "About half eaten before the photo": "फ़ोटो से पहले लगभग आधा खा लिया था",
+  "Includes what you had eaten before the photo.": "इसमें वह भी शामिल है जो आपने फ़ोटो से पहले खाया था।"
 }

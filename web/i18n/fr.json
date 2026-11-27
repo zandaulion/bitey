@@ -657,5 +657,9 @@
     "other": "{0} corrections gratuites restantes aujourd’hui"
   },
   "No free corrections left today": "Plus de correction gratuite aujourd’hui",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI vous offre quelques analyses gratuites par jour. Pour plus, abonnez-vous ; les achats sont gérés par Google Play."
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI vous offre quelques analyses gratuites par jour. Pour plus, abonnez-vous ; les achats sont gérés par Google Play.",
+  "Started before the photo?": "Commencé avant la photo ?",
+  "About a quarter eaten before the photo": "Environ un quart mangé avant la photo",
+  "About half eaten before the photo": "Environ la moitié mangée avant la photo",
+  "Includes what you had eaten before the photo.": "Inclut ce que vous aviez mangé avant la photo."
 }

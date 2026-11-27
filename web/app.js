@@ -6,7 +6,8 @@
 
 import {
   totalsOf, rangesOf, setTotalGrams, setItemGrams, removeItem, itemMacros,
-  addManualItem, hasPhotoItems, hasTextItems, markWeighed, portionSourceOf, markEaten, ateFraction
+  addManualItem, hasPhotoItems, hasTextItems, markWeighed, portionSourceOf, markEaten, ateFraction,
+  markStartedBefore, hasStartedBefore, beforeShare
 } from '/core/analysis/estimate.js';
 import {
   fromOpenFoodFacts, offProductLabel, toItem, isPlausible, QUICK_BITES, createQuickBiteItem, getGrazingSuggestions,
@@ -3212,7 +3213,7 @@ function snapshotEstimate() {
   return JSON.stringify({
     meal: state.meal,
     items: state.estimate.items.map((i) => ({
-      id: i.id, name: i.name, grams: i.grams, ate: ateFraction(i)
+      id: i.id, name: i.name, grams: i.grams, ate: ateFraction(i), before: beforeShare(i)
     })),
     portionSource: portionSourceOf(state.estimate)
   });
@@ -3452,9 +3453,23 @@ function renderAte(est) {
   const canShoot = Boolean(state.editingId && state.existingPhotoId);
   $('leftovers-shoot').hidden = !canShoot;
 
-  $('ate-hint').textContent = uniform === 1
-    ? ''
-    : 'Counted as this much of the plate. What was served stays as it was, so you can change this later.';
+  // Started before the photo: photo entries only, and read from the items
+  // like the fractions above, so a saved entry reopens as it was saved.
+  const beforeBlock = $('before-block');
+  const photoItems = items.filter((i) => i.source === 'photo');
+  if (beforeBlock) {
+    beforeBlock.hidden = photoItems.length === 0;
+    const before = photoItems.length ? beforeShare(photoItems[0]) : 0;
+    for (const btn of $('before-row').querySelectorAll('button')) {
+      btn.setAttribute('aria-pressed', String(Number(btn.dataset.before) === before));
+    }
+  }
+
+  $('ate-hint').textContent = hasStartedBefore(est)
+    ? t('Includes what you had eaten before the photo.')
+    : uniform === 1
+      ? ''
+      : 'Counted as this much of the plate. What was served stays as it was, so you can change this later.';
 }
 
 const ATE_WORDS = new Map([[0, 'none of it'], [0.25, 'a quarter'], [0.5, 'half'],
@@ -3493,6 +3508,16 @@ function nextAte(current) {
   const below = ATE_STEPS.find((v) => v < current - 1e-9);
   return below === undefined ? 1 : below;
 }
+
+// Tapping the chip that is on turns it off: back to the meal the photo shows.
+$('before-row')?.addEventListener('click', (ev) => {
+  const btn = ev.target.closest('button[data-before]');
+  if (!btn || !state.estimate) return;
+  const share = Number(btn.dataset.before);
+  const on = btn.getAttribute('aria-pressed') === 'true';
+  state.estimate = markStartedBefore(state.estimate, on ? 0 : share);
+  renderReview();
+});
 
 $('ate-row')?.addEventListener('click', (ev) => {
   const btn = ev.target.closest('button[data-ate]');

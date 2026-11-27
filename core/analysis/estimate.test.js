@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {
   fromModelResponse, totalsOf, rangesOf, setItemGrams, setTotalGrams,
   removeItem, addManualItem, itemMacros, ERROR_BANDS, hasPhotoItems,
-  markWeighed, portionSourceOf, markEaten, ateFraction, hasLeftovers
+  markWeighed, portionSourceOf, markEaten, ateFraction, hasLeftovers,
+  markStartedBefore, hasStartedBefore, beforeShare, eatenShare
 } from './estimate.js';
 
 const RESPONSE = {
@@ -320,4 +321,63 @@ test('an implausible count is ignored rather than trusted', () => {
     assert.equal(e.items[0].grams, 300);
     assert.equal(e.items[0].modelCount, undefined);
   }
+});
+
+// ------------------------------------------------- started before the photo
+
+const startedPlate = () => ({
+  portionSource: 'model',
+  items: [
+    { id: 'p1', name: 'pasta', grams: 300, source: 'photo', per: { calories: 1.5, protein: 0.05, fat: 0.02, carbs: 0.3, fiber: 0.02 } },
+    { id: 'b1', name: 'yoghurt', grams: 150, source: 'barcode', per: { calories: 1, protein: 0.04, fat: 0.03, carbs: 0.1, fiber: 0 } }
+  ]
+});
+
+test('a quarter eaten before the photo is a third more than the photo shows', () => {
+  const est = markStartedBefore(startedPlate(), 0.25);
+  const pasta = est.items[0];
+  assert.equal(beforeShare(pasta), 0.25);
+  assert.ok(Math.abs(eatenShare(pasta) - 4 / 3) < 1e-9);
+  assert.equal(totalsOf(est).calories, Math.round(300 * 1.5 * 4 / 3 + 150));
+});
+
+test('half eaten before the photo is twice what the photo shows', () => {
+  const est = markStartedBefore(startedPlate(), 0.5);
+  assert.equal(eatenShare(est.items[0]), 2);
+  assert.equal(totalsOf(est).calories, 300 * 1.5 * 2 + 150);
+});
+
+test('what was eaten before and what was left add up, not multiply', () => {
+  // Half eaten first, then half of what the photo shows left: one and a half
+  // photos' worth, where multiplying would have said one.
+  const est = markEaten(markStartedBefore(startedPlate(), 0.5), { p1: 0.5 });
+  assert.equal(eatenShare(est.items[0]), 1.5);
+});
+
+test('only photographed items were there before the photo', () => {
+  const est = markStartedBefore(startedPlate(), 0.5);
+  assert.equal(beforeShare(est.items[1]), 0, 'a barcode item is not scaled');
+  assert.equal(est.items[1].before, undefined);
+  assert.equal(hasStartedBefore(est), true);
+});
+
+test('switching it off removes it, and the meal is as the photo showed', () => {
+  const est = markStartedBefore(markStartedBefore(startedPlate(), 0.25), 0);
+  assert.equal(est.items[0].before, undefined);
+  assert.equal(hasStartedBefore(est), false);
+  assert.deepEqual(totalsOf(est), totalsOf(startedPlate()));
+});
+
+test('nonsense is read as nothing, and an almost empty plate is capped', () => {
+  assert.equal(beforeShare({ before: 'lots' }), 0);
+  assert.equal(beforeShare({ before: -1 }), 0);
+  assert.equal(beforeShare({ before: 5 }), 0.9);
+});
+
+test('a guess about what went before widens the range', () => {
+  const plain = rangesOf(startedPlate()).calories;
+  const before = rangesOf(markStartedBefore(startedPlate(), 0.25)).calories;
+  const plainSpread = (plain.high - plain.low) / plain.value;
+  const beforeSpread = (before.high - before.low) / before.value;
+  assert.ok(beforeSpread > plainSpread);
 });

@@ -179,6 +179,32 @@ export function ateFraction(item) {
 }
 
 /**
+ * How much of a photographed item had already been eaten before the photo was
+ * taken, as a share of what was first served: "I'd eaten about a quarter".
+ * Absent means none. Capped below 1, since a photo of an empty plate says
+ * nothing about what was on it.
+ */
+export function beforeShare(item) {
+  const v = Number(item?.before);
+  if (!Number.isFinite(v) || v <= 0) return 0;
+  return Math.min(0.9, v);
+}
+
+/**
+ * How much was eaten, in multiples of what the photo shows.
+ *
+ * The share of the photo eaten, plus what had gone before it. If a quarter of
+ * the plate was eaten first, the photo shows the other three quarters, so the
+ * part already eaten is a third of the photo again: before / (1 - before).
+ * The two add rather than multiply -- half eaten before the photo and half of
+ * the photo left is one and a half photos, not one.
+ */
+export function eatenShare(item) {
+  const before = beforeShare(item);
+  return ateFraction(item) + before / (1 - before);
+}
+
+/**
  * Macros for one item, at the weight served and the share of it eaten.
  *
  * The served weight is kept rather than reduced. What the model read off the
@@ -188,7 +214,7 @@ export function ateFraction(item) {
  * much you left and the original is still there to apply it to.
  */
 export function itemMacros(item) {
-  const eaten = (item?.grams || 0) * ateFraction(item);
+  const eaten = (item?.grams || 0) * eatenShare(item);
   const out = {};
   for (const n of NUTRIENTS) out[n] = (item?.per?.[n] || 0) * eaten;
   return out;
@@ -199,7 +225,7 @@ export function totalsOf(estimate) {
   for (const item of estimate?.items || []) {
     const m = itemMacros(item);
     for (const n of NUTRIENTS) t[n] += m[n] || 0;
-    t.grams += (item.grams || 0) * ateFraction(item);
+    t.grams += (item.grams || 0) * eatenShare(item);
   }
   for (const k of Object.keys(t)) t[k] = round(t[k], k === 'calories' || k === 'grams' ? 0 : 1);
   return t;
@@ -237,9 +263,13 @@ export function rangesOf(estimate) {
   // failure is silent -- an entry someone has just interacted with looks more
   // trustworthy, and reporting an unchanged band after two estimates would
   // claim exactly the accuracy the three-level ERROR_BANDS exist to deny.
-  const band = hasLeftovers(estimate)
+  //
+  // "Started before the photo" is another such guess, about a part nobody
+  // photographed, and widens it the same way, once more.
+  const guesses = (hasLeftovers(estimate) ? 1 : 0) + (hasStartedBefore(estimate) ? 1 : 0);
+  const band = guesses
     ? Object.fromEntries(Object.entries(base)
-        .map(([k, v]) => [k, Math.sqrt(v * v + EATEN_BAND * EATEN_BAND)]))
+        .map(([k, v]) => [k, Math.sqrt(v * v + guesses * EATEN_BAND * EATEN_BAND)]))
     : base;
 
   const photo = { calories: 0, protein: 0, fat: 0, carbs: 0, fiber: 0 };
@@ -308,6 +338,30 @@ export function markEaten(estimate, share) {
       ate: Math.min(1, Math.max(0, Number(forItem(item)) || 0))
     }))
   };
+}
+
+/**
+ * Record that some of the meal had been eaten before the photo was taken.
+ *
+ * Only photographed items carry it: something added afterwards from a barcode
+ * or typed in was not in the photo, so there is no "before" to scale it by.
+ * 0 removes it.
+ */
+export function markStartedBefore(estimate, share) {
+  const v = Math.min(0.9, Math.max(0, Number(share) || 0));
+  return {
+    ...estimate,
+    items: (estimate?.items || []).map((item) => {
+      if (item.source !== 'photo') return item;
+      const { before, ...rest } = item;
+      return v > 0 ? { ...rest, before: v } : rest;
+    })
+  };
+}
+
+/** True when part of the meal was eaten before the photo. */
+export function hasStartedBefore(estimate) {
+  return (estimate?.items || []).some((i) => beforeShare(i) > 0);
 }
 
 /** True when any of this was left uneaten. */

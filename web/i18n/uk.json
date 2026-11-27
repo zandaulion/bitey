@@ -676,5 +676,9 @@
     "other": "Сьогодні лишилося {0} безкоштовного виправлення"
   },
   "No free corrections left today": "Безкоштовних виправлень на сьогодні не лишилось",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI дає кілька безкоштовних аналізів на день. Щоб отримати більше, оформіть підписку; покупками керує Google Play."
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI дає кілька безкоштовних аналізів на день. Щоб отримати більше, оформіть підписку; покупками керує Google Play.",
+  "Started before the photo?": "Почали їсти ще до фото?",
+  "About a quarter eaten before the photo": "Близько чверті з’їдено до фото",
+  "About half eaten before the photo": "Близько половини з’їдено до фото",
+  "Includes what you had eaten before the photo.": "Включає те, що ви з’їли до фото."
 }

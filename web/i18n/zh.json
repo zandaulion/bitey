@@ -624,5 +624,9 @@
   "Resets at {0}": "{0} 重置",
   "{0} free corrections left today": "今天还剩 {0} 次免费修正",
   "No free corrections left today": "今天没有剩余的免费修正了",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI 每天提供几次免费分析。想要更多，请订阅；购买由 Google Play 管理。"
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI 每天提供几次免费分析。想要更多，请订阅；购买由 Google Play 管理。",
+  "Started before the photo?": "拍照前就开始吃了吗？",
+  "About a quarter eaten before the photo": "拍照前约吃了四分之一",
+  "About half eaten before the photo": "拍照前约吃了一半",
+  "Includes what you had eaten before the photo.": "包括拍照前已经吃掉的部分。"
 }

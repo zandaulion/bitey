@@ -624,5 +624,9 @@
   "Resets at {0}": "{0} にリセット",
   "{0} free corrections left today": "今日の無料の修正は残り{0}回",
   "No free corrections left today": "今日の無料の修正は残っていません",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI は毎日数回まで無料で使えます。それ以上はサブスクリプションをご利用ください。購入は Google Play で管理されます。"
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI は毎日数回まで無料で使えます。それ以上はサブスクリプションをご利用ください。購入は Google Play で管理されます。",
+  "Started before the photo?": "写真の前に食べ始めていましたか？",
+  "About a quarter eaten before the photo": "写真の前に約4分の1を食べていた",
+  "About half eaten before the photo": "写真の前に約半分を食べていた",
+  "Includes what you had eaten before the photo.": "写真の前に食べた分も含みます。"
 }

@@ -305,6 +305,18 @@
             <button type="button" data-ate="0.75">&frac34;</button>
             <button type="button" data-ate="1" class="is-on" data-i18n="all">all</button>
           </div>
+          <!-- Logging halfway through a meal: the photo shows only what was
+               left, so this says how much had gone before it. Photo entries
+               only; a typed meal already says what was eaten. -->
+          <div class="before-block" id="before-block" hidden>
+            <span id="before-label" data-i18n="Started before the photo?">Started before the photo?</span>
+            <div class="before-row" id="before-row" role="group" aria-labelledby="before-label">
+              <button type="button" data-before="0.25" aria-pressed="false"
+                      aria-label="About a quarter eaten before the photo" data-i18n-label="About a quarter eaten before the photo">&frac14;</button>
+              <button type="button" data-before="0.5" aria-pressed="false"
+                      aria-label="About half eaten before the photo" data-i18n-label="About half eaten before the photo">&frac12;</button>
+            </div>
+          </div>
           <button id="leftovers-shoot" class="link-btn ai-locked" type="button" data-i18n="Ate some things and not others? Photograph what&#x27;s left">Ate some things and not others? Photograph what&#x27;s left</button>
           <p class="hint" id="ate-hint"></p>
         </section>

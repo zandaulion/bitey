@@ -624,5 +624,9 @@
   "Resets at {0}": "{0}에 초기화",
   "{0} free corrections left today": "오늘 무료 수정 {0}회 남음",
   "No free corrections left today": "오늘 남은 무료 수정이 없어요",
-  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI는 매일 몇 번의 무료 분석을 제공합니다. 더 필요하면 구독하세요. 결제는 Google Play에서 관리됩니다."
+  "Bitey AI gives you a few free readings a day. For more, subscribe; purchases are managed by Google Play.": "Bitey AI는 매일 몇 번의 무료 분석을 제공합니다. 더 필요하면 구독하세요. 결제는 Google Play에서 관리됩니다.",
+  "Started before the photo?": "사진 찍기 전에 먹기 시작했나요?",
+  "About a quarter eaten before the photo": "사진 전에 약 4분의 1을 먹음",
+  "About half eaten before the photo": "사진 전에 약 절반을 먹음",
+  "Includes what you had eaten before the photo.": "사진 찍기 전에 먹은 양도 포함해요."
 }
