@@ -499,6 +499,9 @@ function publicEntry(row) {
     portionConfirmed: row.portionSource !== 'model',
     portionSource: row.portionSource || 'model',
     corrections: row.corrections || 0,
+    // The day the photo was taken, when it is not the entry's own: a meal
+    // repeated from an earlier day carries that day's picture, and says so.
+    photoDay: row.photoId && row.photoDay && row.photoDay !== row.day ? row.photoDay : null,
     // False only for a meal Bitey AI saved in the background that nobody
     // has looked at yet; every other entry was checked as it was saved.
     checked: row.checked !== false,
@@ -651,6 +654,7 @@ async function saveEntry(body, { copyPhotoFrom = null } = {}) {
   }
   const id = crypto.randomUUID();
   const { meal, photoMimeType, note, portionSource, items, totals } = entryTemplate(body);
+  const photoDay = localDay(body.photoDay);
   const row = {
     id,
     day,
@@ -667,6 +671,7 @@ async function saveEntry(body, { copyPhotoFrom = null } = {}) {
     items,
     totals
   };
+  if (row.photoId && photoDay && photoDay !== day) row.photoDay = photoDay;
   if (window.__PLATE_NATIVE__) {
     if (copyPhotoFrom) await nativePhoto('copy', row.photoId, copyPhotoFrom);
     await writeNativeEntry(row);
@@ -818,6 +823,7 @@ async function duplicateEntry(id, body) {
 }
 
 function duplicateBody(original, body, copyPhotoFrom = null) {
+  const photoCopied = Boolean(copyPhotoFrom || (body.copyPhoto !== false && original.photoData));
   return {
     ...original,
     ...body,
@@ -827,15 +833,18 @@ function duplicateBody(original, body, copyPhotoFrom = null) {
     image: copyPhotoFrom || body.copyPhoto === false ? null : original.photoData,
     mimeType: original.photoMimeType,
     note: typeof body.note === 'string' ? body.note : original.note,
-    portionSource: body.portionSource || original.portionSource
+    portionSource: body.portionSource || original.portionSource,
+    // Where the picture really comes from, carried through copies of copies.
+    photoDay: photoCopied ? (original.photoDay || original.day) : null
   };
 }
 
 /**
  * The meals the watch offers to log again: the Repeat sheet's list, but
  * counting the day itself, since "another coffee" is the commonest repeat on
- * a wrist. Each carries the entry the Repeat sheet would save, without the
- * photo, which the sheet does not copy either.
+ * a wrist. Each carries the entry the Repeat sheet would save. The photo is
+ * named rather than carried (photoFrom): the phone copies it when the watch
+ * logs the meal (WatchSync.kt), and photoDay keeps it marked as a repeat.
  */
 async function watchMeals(url) {
   const day = localDay(url.searchParams.get('day'));
@@ -849,9 +858,20 @@ async function watchMeals(url) {
     id: meal.id,
     foods: meal.foods,
     calories: meal.calories,
-    entry: entryTemplate(duplicateBody(byId.get(meal.id), { day, copyPhoto: false }))
+    entry: watchEntry(byId.get(meal.id), day)
   }));
   return { meals };
+}
+
+function watchEntry(original, day) {
+  const entry = entryTemplate(duplicateBody(original, { day, copyPhoto: false }));
+  if (!original?.photoId) return entry;
+  return {
+    ...entry,
+    photoFrom: original.photoId,
+    photoMimeType: original.photoMimeType || 'image/jpeg',
+    photoDay: original.photoDay || original.day
+  };
 }
 
 async function saveProfile(body) {

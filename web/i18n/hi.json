@@ -652,5 +652,7 @@
   "Started before the photo?": "फ़ोटो से पहले खाना शुरू कर दिया था?",
   "About a quarter eaten before the photo": "फ़ोटो से पहले लगभग एक चौथाई खा लिया था",
   "About half eaten before the photo": "फ़ोटो से पहले लगभग आधा खा लिया था",
-  "Includes what you had eaten before the photo.": "इसमें वह भी शामिल है जो आपने फ़ोटो से पहले खाया था।"
+  "Includes what you had eaten before the photo.": "इसमें वह भी शामिल है जो आपने फ़ोटो से पहले खाया था।",
+  "Photo from {0}": "{0} की फ़ोटो",
+  "Repeated meal. The photo is from {0}.": "दोहराया गया भोजन। फ़ोटो {0} की है।"
 }

@@ -660,5 +660,7 @@
   "Started before the photo?": "Schon vor dem Foto angefangen?",
   "About a quarter eaten before the photo": "Etwa ein Viertel vor dem Foto gegessen",
   "About half eaten before the photo": "Etwa die Hälfte vor dem Foto gegessen",
-  "Includes what you had eaten before the photo.": "Enthält, was du vor dem Foto schon gegessen hattest."
+  "Includes what you had eaten before the photo.": "Enthält, was du vor dem Foto schon gegessen hattest.",
+  "Photo from {0}": "Foto vom {0}",
+  "Repeated meal. The photo is from {0}.": "Wiederholte Mahlzeit. Das Foto ist vom {0}."
 }

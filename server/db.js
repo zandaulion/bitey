@@ -321,6 +321,8 @@ addColumnIfMissing('accounts', 'tracking_enabled', 'INTEGER NOT NULL DEFAULT 0')
 // a model that has twice failed to place the dish with the eater's own words
 // in front of it will not place it on the third attempt either.
 addColumnIfMissing('entries', 'corrections', 'INTEGER NOT NULL DEFAULT 0');
+// The day a copied photo was taken, when a meal was repeated onto another day.
+addColumnIfMissing('entries', 'photo_day', 'TEXT');
 
 db.exec(`
   -- Interaction events, for usability testing on a consenting account.

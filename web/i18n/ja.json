@@ -628,5 +628,7 @@
   "Started before the photo?": "写真の前に食べ始めていましたか？",
   "About a quarter eaten before the photo": "写真の前に約4分の1を食べていた",
   "About half eaten before the photo": "写真の前に約半分を食べていた",
-  "Includes what you had eaten before the photo.": "写真の前に食べた分も含みます。"
+  "Includes what you had eaten before the photo.": "写真の前に食べた分も含みます。",
+  "Photo from {0}": "{0}の写真",
+  "Repeated meal. The photo is from {0}.": "繰り返した食事です。写真は{0}のものです。"
 }

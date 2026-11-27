@@ -661,5 +661,7 @@
   "Started before the photo?": "Commencé avant la photo ?",
   "About a quarter eaten before the photo": "Environ un quart mangé avant la photo",
   "About half eaten before the photo": "Environ la moitié mangée avant la photo",
-  "Includes what you had eaten before the photo.": "Inclut ce que vous aviez mangé avant la photo."
+  "Includes what you had eaten before the photo.": "Inclut ce que vous aviez mangé avant la photo.",
+  "Photo from {0}": "Photo du {0}",
+  "Repeated meal. The photo is from {0}.": "Repas répété. La photo date du {0}."
 }

@@ -705,5 +705,7 @@
   "Started before the photo?": "هل بدأت الأكل قبل الصورة؟",
   "About a quarter eaten before the photo": "أُكل نحو الربع قبل الصورة",
   "About half eaten before the photo": "أُكل نحو النصف قبل الصورة",
-  "Includes what you had eaten before the photo.": "يشمل ما أكلته قبل الصورة."
+  "Includes what you had eaten before the photo.": "يشمل ما أكلته قبل الصورة.",
+  "Photo from {0}": "صورة من {0}",
+  "Repeated meal. The photo is from {0}.": "وجبة مكررة. الصورة من {0}."
 }

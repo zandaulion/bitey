@@ -963,6 +963,17 @@ input[type="range"] { padding: 0; border: 0; background: none; }
   width: 56px; height: 56px; border-radius: 10px; object-fit: cover;
   background: var(--sunken); display: grid; place-items: center; color: var(--ink-3);
 }
+/* A repeated meal's photo, from the day it was taken: a small round mark in
+   its corner says so. */
+.entry .thumb-repeat { position: relative; display: block; flex: none; line-height: 0; }
+.entry .photo-day-mark {
+  position: absolute; right: -4px; bottom: -4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--ink-2);
+  border: 1px solid var(--line);
+  font-size: .8rem; line-height: 1;
+}
 .entry .noimg.food-emoji {
   font-size: 1.65rem;
   line-height: 1;

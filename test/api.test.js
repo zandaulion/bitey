@@ -253,6 +253,41 @@ test('an entry can be duplicated, producing an independent row and copying the p
   assert.equal(photoRes.status, 200, 'duplicated photo survives deletion of original');
 });
 
+test('a meal repeated onto a later day keeps its photo, marked with the day it was taken', async () => {
+  const { auth } = await registerDevice();
+  const image = Buffer.alloc(200, 0xFF).toString('base64');
+  const items = [
+    { name: 'Nougat', grams: 50, per: { calories: 5.2, protein: 0.1, fat: 0.2, carbs: 0.75, fiber: 0.04 } }
+  ];
+  const original = await (await api('/api/entries', {
+    method: 'POST', headers: auth,
+    body: JSON.stringify({ day: '2026-09-10', meal: 'snack', items, image, mimeType: 'image/png' })
+  })).json();
+
+  const entriesOn = async (day) => (await (await api(`/api/entries?day=${day}`, { headers: auth })).json()).entries;
+  assert.equal((await entriesOn('2026-09-10'))[0].photoDay, null, 'a photo taken that day carries no mark');
+
+  // Repeat onto a later day: the photo comes too, marked as the 10th's.
+  const repeat = await (await api(`/api/entries/${original.id}/duplicate`, {
+    method: 'POST', headers: auth, body: JSON.stringify({ day: '2026-09-12' })
+  })).json();
+  assert.ok(repeat.photoId);
+  const [later] = await entriesOn('2026-09-12');
+  assert.equal(later.photoDay, '2026-09-10');
+
+  // A copy of the repeat still shows the 10th's photo, and says so.
+  await api(`/api/entries/${repeat.id}/duplicate`, {
+    method: 'POST', headers: auth, body: JSON.stringify({ day: '2026-09-14' })
+  });
+  assert.equal((await entriesOn('2026-09-14'))[0].photoDay, '2026-09-10');
+
+  // Duplicated the same day: same day as the photo, so no mark.
+  await api(`/api/entries/${original.id}/duplicate`, {
+    method: 'POST', headers: auth, body: JSON.stringify({ day: '2026-09-10' })
+  });
+  assert.ok((await entriesOn('2026-09-10')).every((e) => e.photoDay === null));
+});
+
 test('duplicating an entry accepts portion and meal overrides from review sheet', async () => {
   const { auth } = await registerDevice();
   const items = [

@@ -628,5 +628,7 @@
   "Started before the photo?": "拍照前就开始吃了吗？",
   "About a quarter eaten before the photo": "拍照前约吃了四分之一",
   "About half eaten before the photo": "拍照前约吃了一半",
-  "Includes what you had eaten before the photo.": "包括拍照前已经吃掉的部分。"
+  "Includes what you had eaten before the photo.": "包括拍照前已经吃掉的部分。",
+  "Photo from {0}": "{0} 的照片",
+  "Repeated meal. The photo is from {0}.": "重复的餐食。照片拍摄于 {0}。"
 }

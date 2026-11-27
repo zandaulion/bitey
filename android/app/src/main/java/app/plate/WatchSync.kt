@@ -95,6 +95,22 @@ object WatchSync {
                 .put("sortKey", sortKey)
                 .put("photoId", JSONObject.NULL)
                 .put("photoData", JSONObject.NULL)
+            // A meal repeated from an earlier day names that day's photo
+            // (photoFrom, watchEntry in web/local-api.js): copied here under
+            // the new entry's id, as the Repeat sheet copies it. Without the
+            // original any more, the meal is logged without a photo -- and
+            // without the mark that would claim one.
+            val photoFrom = entry.optString("photoFrom").takeIf { PHOTO_ID.matches(it) }
+            entry.remove("photoFrom")
+            val copied = photoFrom != null && runCatching {
+                LocalPhotoStore(context, PlateDatabase.get(context).photos()).copy(photoFrom, id)
+            }.isSuccess
+            if (copied) {
+                entry.put("photoId", id)
+            } else {
+                entry.put("photoMimeType", JSONObject.NULL)
+                entry.remove("photoDay")
+            }
             if (entry.toString().length > 64_000) return error("too_large")
             // entries.write in PlateWebView never stores photoData; nor does this.
             entry.remove("photoData")
@@ -127,6 +143,10 @@ object WatchSync {
                 ?: return error("not_found")
             if (entries.delete(id) == 0) return error("not_found")
             forget(context, id)
+            // A repeated meal's copied photo goes with it.
+            entry.optString("photoId").takeIf { it == id }?.let { photoId ->
+                runCatching { LocalPhotoStore(context, PlateDatabase.get(context).photos()).delete(photoId) }
+            }
             val totals = entry.optJSONObject("totals") ?: JSONObject()
             val day = entry.optString("day")
             stored(context)?.let { store(context, moved(it, totals, -1, day)) }

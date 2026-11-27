@@ -532,6 +532,7 @@ function rowToEntry(row) {
   return {
     id: row.id, day: row.day, meal: row.meal, createdAt: row.created_at,
     photoId: row.photo_id, note: row.note,
+    photoDay: row.photo_id && row.photo_day && row.photo_day !== row.day ? row.photo_day : null,
     portionConfirmed: Boolean(row.portion_confirmed),
     // So the app can retire the correction offer rather than let it be tapped
     // into a refusal.
@@ -711,10 +712,10 @@ app.post('/api/entries/:id/duplicate', requireDevice, (req, res) => {
   const meal = b.meal && MEALS.includes(b.meal) ? b.meal : row.meal;
   const note = typeof b.note === 'string' ? b.note.slice(0, 500) : row.note;
 
-  // Copying the photograph is right for "I had two of these": one plate was
-  // photographed and eaten twice over. It is wrong for repeating a meal onto a
-  // later day, where the picture would show food cooked on a different
-  // afternoon and the entry would look photographed when nobody took one.
+  // The photograph is copied for "I had two of these" and for repeating a meal
+  // onto a later day alike. The copy remembers the day it was taken
+  // (photo_day), so a repeat shows its picture marked as from that day rather
+  // than looking photographed when nobody took one.
   const copyPhoto = b.copyPhoto !== false;
 
   let photoId = null;
@@ -728,15 +729,17 @@ app.post('/api/entries/:id/duplicate', requireDevice, (req, res) => {
     }
   }
 
+  const photoDay = photoId ? (row.photo_day || row.day) : null;
+
   db.prepare(`
     INSERT INTO entries (id, account_id, device_id, day, meal, created_at, photo_id, note,
-                         portion_confirmed, portion_source, items_json, totals_json)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         portion_confirmed, portion_source, items_json, totals_json, photo_day)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     id, req.device.account_id, req.device.id, day,
     meal, nowIso(), photoId, note,
     portionSource === 'model' ? 0 : 1, portionSource,
-    JSON.stringify(items), JSON.stringify(totals)
+    JSON.stringify(items), JSON.stringify(totals), photoDay
   );
 
   res.status(201).json({ id, day, totals, photoId });

@@ -628,5 +628,7 @@
   "Started before the photo?": "사진 찍기 전에 먹기 시작했나요?",
   "About a quarter eaten before the photo": "사진 전에 약 4분의 1을 먹음",
   "About half eaten before the photo": "사진 전에 약 절반을 먹음",
-  "Includes what you had eaten before the photo.": "사진 찍기 전에 먹은 양도 포함해요."
+  "Includes what you had eaten before the photo.": "사진 찍기 전에 먹은 양도 포함해요.",
+  "Photo from {0}": "{0}의 사진",
+  "Repeated meal. The photo is from {0}.": "반복한 식사예요. 사진은 {0}에 찍은 거예요."
 }

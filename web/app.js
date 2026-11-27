@@ -529,7 +529,12 @@ function renderEntries(entries) {
 
     let thumb;
     const photo = photoSource(e);
-    if (photo) {
+    if (photo && e.photoDay) {
+      // A meal repeated from an earlier day, with that day's picture.
+      const from = esc(t('Photo from {0}', dayTitle(e.photoDay)));
+      thumb = `<span class="thumb-repeat"><img src="${esc(photo)}" alt="" loading="lazy">`
+        + `<span class="photo-day-mark" role="img" aria-label="${from}" title="${from}">\u21bb</span></span>`;
+    } else if (photo) {
       thumb = `<img src="${esc(photo)}" alt="" loading="lazy">`;
     } else if (firstBarcode) {
       thumb = `<img src="/api/barcode/${encodeURIComponent(firstBarcode)}/image" alt="" loading="lazy" onerror="this.outerHTML='<div class=\\'noimg food-emoji\\' aria-hidden=\\'true\\'>${getFoodEmoji(foods)}</div>'">`;
@@ -1924,7 +1929,9 @@ $('repeat-list').addEventListener('click', async (ev) => {
   try {
     await api(`/api/entries/${encodeURIComponent(btn.dataset.repeat)}/duplicate`, {
       method: 'POST',
-      body: JSON.stringify({ day: state.day, copyPhoto: false })
+      // With its photo, marked as from the day it was taken (photoDay):
+      // recognisable at a glance, and still not passed off as a new picture.
+      body: JSON.stringify({ day: state.day })
     });
     track('entry_duplicated', { source: 'repeat' });
     closeRepeat();
@@ -2922,6 +2929,11 @@ function openReview(mode, entry = null) {
   // A meal Bitey AI saved in the background: the sheet says so, and its
   // button confirms it as it is until something is changed.
   state.unchecked = mode === 'edit' && entry?.checked === false;
+  const repeatedNote = $('review-photo-day');
+  if (repeatedNote) {
+    repeatedNote.hidden = !(mode === 'edit' && entry?.photoDay);
+    if (entry?.photoDay) repeatedNote.textContent = t('Repeated meal. The photo is from {0}.', dayTitle(entry.photoDay));
+  }
   $('review-unchecked').hidden = !state.unchecked;
   syncSaveLabel();
   const dupBtn = $('dup-entry');

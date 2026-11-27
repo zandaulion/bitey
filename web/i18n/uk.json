@@ -680,5 +680,7 @@
   "Started before the photo?": "Почали їсти ще до фото?",
   "About a quarter eaten before the photo": "Близько чверті з’їдено до фото",
   "About half eaten before the photo": "Близько половини з’їдено до фото",
-  "Includes what you had eaten before the photo.": "Включає те, що ви з’їли до фото."
+  "Includes what you had eaten before the photo.": "Включає те, що ви з’їли до фото.",
+  "Photo from {0}": "Фото від {0}",
+  "Repeated meal. The photo is from {0}.": "Повторена страва. Фото від {0}."
 }
